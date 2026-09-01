@@ -41,8 +41,7 @@ background:white
 }
 
 textarea{
-min-height:120px;
-resize:vertical
+min-height:120px
 }
 
 header{
@@ -179,11 +178,6 @@ background:#e5e7eb;
 color:#111827
 }
 
-.warning{
-background:#f59e0b;
-color:white
-}
-
 .full{
 width:100%
 }
@@ -286,35 +280,6 @@ padding:18px;
 margin-bottom:18px
 }
 
-.admin-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px
-}
-
-.admin-service{
-border:1px solid #e5e7eb;
-border-radius:14px;
-padding:16px;
-margin-bottom:12px
-}
-
-.admin-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-top:12px
-}
-
-.edit-box{
-background:#f8fafc;
-border:1px solid #e2e8f0;
-border-radius:14px;
-padding:15px;
-margin-top:12px
-}
-
 .support-button{
 position:fixed;
 right:18px;
@@ -378,8 +343,21 @@ text-align:center;
 z-index:10001
 }
 
-@media(max-width:600px){
+.admin-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
+}
 
+.admin-service{
+border:1px solid #e5e7eb;
+border-radius:14px;
+padding:16px;
+margin-bottom:12px
+}
+
+@media(max-width:600px){
 .hero h1{
 font-size:32px
 }
@@ -391,11 +369,6 @@ grid-template-columns:1fr
 .account-number{
 font-size:22px
 }
-
-.admin-actions{
-grid-template-columns:1fr
-}
-
 }
 </style>
 </head>
@@ -422,16 +395,13 @@ AUTH
 <section id="authSection">
 
 <div class="hero">
-
 <h1>Benjo-SMS</h1>
-
 <p>Simple • Fast • Secure</p>
-
 </div>
 
 <div id="verificationSuccess" class="success-box hidden">
 
-<strong>Email verification successful! 🎉</strong>
+Email verification successful! 🎉
 
 <p>
 Your email has been verified successfully.
@@ -439,7 +409,8 @@ Your email has been verified successfully.
 
 <button
 class="primary"
-onclick="showLogin()">
+onclick="showLogin()"
+>
 Continue to Login
 </button>
 
@@ -456,16 +427,21 @@ Continue to Login
 <input
 id="loginEmail"
 type="email"
-placeholder="Email">
+placeholder="Email"
+autocomplete="email"
+>
 
 <input
 id="loginPassword"
 type="password"
-placeholder="Password">
+placeholder="Password"
+autocomplete="current-password"
+>
 
 <button
 class="primary full"
-onclick="login()">
+onclick="login()"
+>
 Login
 </button>
 
@@ -473,7 +449,8 @@ Login
 
 <button
 class="secondary full"
-onclick="showRegister()">
+onclick="showRegister()"
+>
 Create Account
 </button>
 
@@ -481,7 +458,8 @@ Create Account
 
 <button
 class="secondary full"
-onclick="showForgot()">
+onclick="showForgot()"
+>
 Forgot Password?
 </button>
 
@@ -496,16 +474,21 @@ Forgot Password?
 <input
 id="registerEmail"
 type="email"
-placeholder="Email">
+placeholder="Email"
+autocomplete="email"
+>
 
 <input
 id="registerPassword"
 type="password"
-placeholder="Password">
+placeholder="Password"
+autocomplete="new-password"
+>
 
 <button
 class="success full"
-onclick="register()">
+onclick="register()"
+>
 Create Account
 </button>
 
@@ -513,13 +496,14 @@ Create Account
 
 <button
 class="secondary full"
-onclick="showLogin()">
+onclick="showLogin()"
+>
 Back to Login
 </button>
 
 </div>
 
-<!-- FORGOT -->
+<!-- FORGOT PASSWORD -->
 
 <div id="forgotBox" class="card auth-card hidden">
 
@@ -532,11 +516,13 @@ Enter your email and we'll send you a reset link.
 <input
 id="forgotEmail"
 type="email"
-placeholder="Email">
+placeholder="Email"
+>
 
 <button
 class="primary full"
-onclick="sendResetEmail()">
+onclick="sendResetEmail()"
+>
 Send Reset Link
 </button>
 
@@ -544,13 +530,14 @@ Send Reset Link
 
 <button
 class="secondary full"
-onclick="showLogin()">
+onclick="showLogin()"
+>
 Back to Login
 </button>
 
 </div>
 
-<!-- RESET -->
+<!-- RESET PASSWORD -->
 
 <div id="resetBox" class="card auth-card hidden">
 
@@ -559,16 +546,19 @@ Back to Login
 <input
 id="newPassword"
 type="password"
-placeholder="New password">
+placeholder="New password"
+>
 
 <input
 id="confirmPassword"
 type="password"
-placeholder="Confirm password">
+placeholder="Confirm password"
+>
 
 <button
 class="success full"
-onclick="updatePassword()">
+onclick="updatePassword()"
+>
 Update Password
 </button>
 
@@ -586,25 +576,29 @@ USER APP
 
 <button
 class="secondary"
-onclick="userPage('home')">
+onclick="userPage('home')"
+>
 Home
 </button>
 
 <button
 class="secondary"
-onclick="userPage('services')">
+onclick="userPage('services')"
+>
 Services
 </button>
 
 <button
 class="secondary"
-onclick="userPage('wallet')">
+onclick="userPage('wallet')"
+>
 Wallet
 </button>
 
 <button
 class="secondary"
-onclick="userPage('orders')">
+onclick="userPage('orders')"
+>
 Orders
 </button>
 
@@ -624,7 +618,8 @@ Buy social media accounts or contact admin for boosting and number verification.
 
 <button
 class="primary"
-onclick="userPage('services')">
+onclick="userPage('services')"
+>
 Browse Services
 </button>
 
@@ -642,7 +637,8 @@ Facebook, Instagram, TikTok and Twitter/X accounts.
 
 <button
 class="primary full"
-onclick="openCategory('accounts')">
+onclick="openCategory('accounts')"
+>
 View Accounts
 </button>
 
@@ -658,7 +654,8 @@ Need followers, likes, views or other boosting services?
 
 <button
 class="primary full"
-onclick="chatAdmin('boosting')">
+onclick="openCategory('boosting')"
+>
 Chat Admin
 </button>
 
@@ -674,7 +671,8 @@ Contact admin directly for number verification.
 
 <button
 class="success full"
-onclick="chatAdmin('verification')">
+onclick="openCategory('verification')"
+>
 Chat Admin
 </button>
 
@@ -688,7 +686,8 @@ Chat Admin
 
 <div
 id="homeBalance"
-class="balance">
+class="balance"
+>
 ₦0.00
 </div>
 
@@ -709,49 +708,57 @@ class="balance">
 <button
 id="catAll"
 class="active"
-onclick="filterServices('all')">
+onclick="filterServices('all')"
+>
 All
 </button>
 
 <button
 id="catAccounts"
-onclick="filterServices('accounts')">
+onclick="filterServices('accounts')"
+>
 📱 Accounts
 </button>
 
 <button
 id="catFacebook"
-onclick="filterServices('facebook')">
+onclick="filterServices('facebook')"
+>
 📘 Facebook
 </button>
 
 <button
 id="catInstagram"
-onclick="filterServices('instagram')">
+onclick="filterServices('instagram')"
+>
 📸 Instagram
 </button>
 
 <button
 id="catTikTok"
-onclick="filterServices('tiktok')">
+onclick="filterServices('tiktok')"
+>
 🎵 TikTok
 </button>
 
 <button
 id="catTwitter"
-onclick="filterServices('twitter')">
+onclick="filterServices('twitter')"
+>
 𝕏 Twitter
 </button>
 
 <button
 id="catBoosting"
-onclick="filterServices('boosting')">
+onclick="filterServices('boosting')"
+>
 🚀 Boosting
 </button>
 
 <button
 id="catVerification"
-onclick="filterServices('verification')">
+onclick="filterServices('verification')"
+>
 📱 Verification
 </button>
 
@@ -759,7 +766,8 @@ onclick="filterServices('verification')">
 
 <div
 id="servicesList"
-class="grid">
+class="grid"
+>
 Loading...
 </div>
 
@@ -781,11 +789,14 @@ Available Balance
 
 <div
 id="walletBalance"
-class="balance">
+class="balance"
+>
 ₦0.00
 </div>
 
 </div>
+
+<!-- OPAY -->
 
 <div class="card">
 
@@ -813,7 +824,8 @@ Toluwani Awe / BenjoSMS
 
 <span
 id="accountNumber"
-class="account-number">
+class="account-number"
+>
 6550518571
 </span>
 
@@ -821,13 +833,16 @@ class="account-number">
 
 <button
 class="primary full"
-onclick="copyAccountNumber()">
+onclick="copyAccountNumber()"
+>
 📋 Copy Account Number
 </button>
 
 </div>
 
 </div>
+
+<!-- DEPOSIT -->
 
 <div class="card">
 
@@ -841,7 +856,8 @@ Amount Paid
 id="depositAmount"
 type="number"
 min="1"
-placeholder="Enter amount">
+placeholder="Enter amount"
+>
 
 <label>
 Payment Screenshot
@@ -850,7 +866,8 @@ Payment Screenshot
 <input
 id="depositProof"
 type="file"
-accept="image/jpeg,image/png,image/webp">
+accept="image/jpeg,image/png,image/webp"
+>
 
 <p class="small">
 Upload a clear screenshot of your payment receipt.
@@ -858,11 +875,14 @@ Upload a clear screenshot of your payment receipt.
 
 <button
 class="success full"
-onclick="submitDeposit()">
+onclick="submitDeposit()"
+>
 📤 Submit Deposit
 </button>
 
 </div>
+
+<!-- MY DEPOSITS -->
 
 <div class="card">
 
@@ -883,6 +903,10 @@ Loading...
 <div class="card">
 
 <h2>My Orders</h2>
+
+<p class="small">
+Your purchased account login information will appear here immediately after successful payment.
+</p>
 
 <div id="ordersList">
 Loading...
@@ -916,19 +940,22 @@ ADMIN
 
 <button
 class="secondary"
-onclick="adminPage('services')">
+onclick="adminPage('services')"
+>
 Services
 </button>
 
 <button
 class="secondary"
-onclick="adminPage('deposits')">
+onclick="adminPage('deposits')"
+>
 Deposits
 </button>
 
 <button
 class="secondary"
-onclick="adminPage('orders')">
+onclick="adminPage('orders')"
+>
 Orders
 </button>
 
@@ -942,7 +969,11 @@ Orders
 
 <div class="card">
 
-<h2>➕ Add New Service</h2>
+<h2>Add Service</h2>
+
+<p class="small">
+For account listings, enter the account login information in the delivery field. For boosting and verification, users will be directed to chat with admin.
+</p>
 
 <label>
 Service Name
@@ -951,55 +982,8 @@ Service Name
 <input
 id="serviceName"
 type="text"
-placeholder="Example: Facebook Account">
-
-<label>
-Service Category
-</label>
-
-<select id="serviceCategory">
-
-<option value="account">
-Social Media Account
-</option>
-
-<option value="boosting">
-Boosting
-</option>
-
-<option value="verification">
-Number Verification
-</option>
-
-</select>
-
-<label>
-Platform
-</label>
-
-<select id="servicePlatform">
-
-<option value="facebook">
-Facebook
-</option>
-
-<option value="instagram">
-Instagram
-</option>
-
-<option value="tiktok">
-TikTok
-</option>
-
-<option value="twitter">
-Twitter/X
-</option>
-
-<option value="other">
-Other
-</option>
-
-</select>
+placeholder="Example: Facebook Account"
+>
 
 <label>
 Price
@@ -1009,16 +993,18 @@ Price
 id="servicePrice"
 type="number"
 min="0"
-placeholder="Example: 5000">
+step="0.01"
+placeholder="Example: 5000"
+>
 
 <label>
-Description
+Service Description
 </label>
 
 <textarea
 id="serviceDescription"
-placeholder="Describe the service">
-</textarea>
+placeholder="Example: Facebook account with login details"
+></textarea>
 
 <label>
 Login / Delivery Information
@@ -1026,26 +1012,13 @@ Login / Delivery Information
 
 <textarea
 id="serviceDelivery"
-placeholder="For account sales, enter the login information here. For boosting/verification, you can enter instructions.">
-</textarea>
-
-<div class="info-card">
-
-<strong>⚠️ Important</strong>
-
-<p class="small">
-
-Account services are purchased using the user's wallet.
-
-Boosting and Number Verification services send the user directly to admin and are not wallet purchases.
-
-</p>
-
-</div>
+placeholder="Example: Email: example@email.com&#10;Password: Example123&#10;&#10;For boosting/verification, you can enter admin instructions."
+></textarea>
 
 <button
 class="success full"
-onclick="addService()">
+onclick="addService()"
+>
 ➕ Add Service
 </button>
 
@@ -1053,7 +1026,7 @@ onclick="addService()">
 
 <div class="card">
 
-<h2>📦 Manage Services</h2>
+<h2>Services</h2>
 
 <div id="adminServices">
 Loading...
@@ -1067,11 +1040,12 @@ Loading...
 
 <div
 id="adminDepositsPage"
-class="hidden">
+class="hidden"
+>
 
 <div class="card">
 
-<h2>💰 Deposit Requests</h2>
+<h2>Deposit Requests</h2>
 
 <div id="adminDeposits">
 Loading...
@@ -1085,11 +1059,12 @@ Loading...
 
 <div
 id="adminOrdersPage"
-class="hidden">
+class="hidden"
+>
 
 <div class="card">
 
-<h2>🛒 Orders</h2>
+<h2>Orders</h2>
 
 <div id="adminOrders">
 Loading...
@@ -1109,12 +1084,14 @@ SUPPORT
 
 <div
 id="supportMenu"
-class="support-menu hidden">
+class="support-menu hidden"
+>
 
 <a
 href="https://t.me/benjosms"
 target="_blank"
-rel="noopener">
+rel="noopener noreferrer"
+>
 
 <button class="telegram">
 Telegram Support
@@ -1125,7 +1102,8 @@ Telegram Support
 <a
 href="https://wa.me/2347019999529"
 target="_blank"
-rel="noopener">
+rel="noopener noreferrer"
+>
 
 <button class="whatsapp">
 WhatsApp Support
@@ -1138,7 +1116,8 @@ WhatsApp Support
 <div
 class="support-button"
 onclick="toggleSupport()"
-title="Support">
+title="Support"
+>
 💬
 </div>
 
@@ -1202,13 +1181,11 @@ function toast(message){
 
 $("toast").textContent = message;
 
-$("toast").style.display =
-"block";
+$("toast").style.display = "block";
 
 setTimeout(() => {
 
-$("toast").style.display =
-"none";
+$("toast").style.display = "none";
 
 },4000);
 
@@ -1220,15 +1197,13 @@ type = "error"
 ){
 
 $("authMessage").innerHTML =
-`
-<div class="${
+`<div class="${
 type === "success"
 ? "success-box"
 : "error-box"
 }">
 ${safe(message)}
-</div>
-`;
+</div>`;
 
 }
 
@@ -1244,24 +1219,7 @@ SERVICE TYPE
 
 function getServiceType(service){
 
-const explicit =
-String(service.category || "")
-.toLowerCase();
-
-if(
-explicit === "boosting" ||
-explicit === "verification" ||
-explicit === "account"
-){
-
-return explicit === "account"
-? "accounts"
-: explicit;
-
-}
-
-const text =
-(
+const text = (
 (service.name || "") +
 " " +
 (service.description || "")
@@ -1294,7 +1252,7 @@ text.includes("facebook") ||
 text.includes("instagram") ||
 text.includes("tiktok") ||
 text.includes("twitter") ||
-text.includes("account")
+text.includes("x account")
 ){
 
 return "accounts";
@@ -1305,31 +1263,9 @@ return "other";
 
 }
 
-/* =====================================================
-PLATFORM
-===================================================== */
-
 function getPlatform(service){
 
-const explicit =
-String(service.platform || "")
-.toLowerCase();
-
-if(
-[
-"facebook",
-"instagram",
-"tiktok",
-"twitter"
-].includes(explicit)
-){
-
-return explicit;
-
-}
-
-const text =
-(
+const text = (
 (service.name || "") +
 " " +
 (service.description || "")
@@ -1354,10 +1290,6 @@ return "twitter";
 return "";
 
 }
-
-/* =====================================================
-ICON
-===================================================== */
 
 function getIcon(service){
 
@@ -1402,8 +1334,7 @@ $("supportMenu")
 
 function copyAccountNumber(){
 
-const number =
-"6550518571";
+const number = "6550518571";
 
 if(
 navigator.clipboard &&
@@ -1539,13 +1470,10 @@ REGISTER
 async function register(){
 
 const email =
-$("registerEmail")
-.value
-.trim();
+$("registerEmail").value.trim();
 
 const password =
-$("registerPassword")
-.value;
+$("registerPassword").value;
 
 if(!email || !password){
 
@@ -1573,7 +1501,6 @@ error
 await supabaseClient.auth.signUp({
 
 email,
-
 password,
 
 options:{
@@ -1607,13 +1534,10 @@ LOGIN
 async function login(){
 
 const email =
-$("loginEmail")
-.value
-.trim();
+$("loginEmail").value.trim();
 
 const password =
-$("loginPassword")
-.value;
+$("loginPassword").value;
 
 if(!email || !password){
 
@@ -1632,10 +1556,8 @@ error
 await supabaseClient
 .auth
 .signInWithPassword({
-
 email,
 password
-
 });
 
 if(error){
@@ -1662,9 +1584,7 @@ FORGOT PASSWORD
 async function sendResetEmail(){
 
 const email =
-$("forgotEmail")
-.value
-.trim();
+$("forgotEmail").value.trim();
 
 if(!email){
 
@@ -1714,12 +1634,10 @@ UPDATE PASSWORD
 async function updatePassword(){
 
 const password =
-$("newPassword")
-.value;
+$("newPassword").value;
 
 const confirm =
-$("confirmPassword")
-.value;
+$("confirmPassword").value;
 
 if(password.length < 6){
 
@@ -1779,20 +1697,16 @@ $("userApp")
 .classList.remove("hidden");
 
 $("headerButtons").innerHTML =
-`
-<button
+`<button
 class="secondary"
-onclick="logout()">
+onclick="logout()"
+>
 Logout
-</button>
-`;
+</button>`;
 
 await loadProfile();
-
 await loadServices();
-
 await loadBalance();
-
 await loadOrders();
 
 if(
@@ -1804,9 +1718,7 @@ $("adminApp")
 .classList.remove("hidden");
 
 await loadAdminServices();
-
 await loadAdminDeposits();
-
 await loadAdminOrders();
 
 }
@@ -1868,8 +1780,7 @@ function userPage(page){
 "ordersPage"
 ].forEach(id => {
 
-$(id)
-.classList.add("hidden");
+$(id).classList.add("hidden");
 
 });
 
@@ -1892,7 +1803,7 @@ loadOrders();
 }
 
 /* =====================================================
-LOAD SERVICES
+SERVICES
 ===================================================== */
 
 async function loadServices(){
@@ -1921,18 +1832,13 @@ ascending:false
 if(error){
 
 box.innerHTML =
-`
-<div class="error-box">
-${safe(error.message)}
-</div>
-`;
+`<p>${safe(error.message)}</p>`;
 
 return;
 
 }
 
-allServices =
-data || [];
+allServices = data || [];
 
 renderServices();
 
@@ -2023,8 +1929,8 @@ getIcon(service);
 
 if(type === "boosting"){
 
-div.innerHTML =
-`
+div.innerHTML = `
+
 <div class="service-icon">
 ${icon}
 </div>
@@ -2049,19 +1955,21 @@ Boosting orders are handled directly by admin.
 
 <button
 class="primary full"
-onclick="chatAdmin('boosting')">
+onclick="chatAdmin('boosting')"
+>
 💬 Chat Admin
 </button>
 
 </div>
+
 `;
 
 }
 
 else if(type === "verification"){
 
-div.innerHTML =
-`
+div.innerHTML = `
+
 <div class="service-icon">
 ${icon}
 </div>
@@ -2086,19 +1994,21 @@ Contact admin directly to arrange verification.
 
 <button
 class="success full"
-onclick="chatAdmin('verification')">
+onclick="chatAdmin('verification')"
+>
 💬 Chat Admin
 </button>
 
 </div>
+
 `;
 
 }
 
 else{
 
-div.innerHTML =
-`
+div.innerHTML = `
+
 <div class="service-icon">
 ${icon}
 </div>
@@ -2117,9 +2027,11 @@ ${money(service.price)}
 
 <button
 class="success full"
-onclick="buyService('${service.id}')">
+onclick="buyService('${service.id}')"
+>
 Buy Now
 </button>
+
 `;
 
 }
@@ -2131,7 +2043,7 @@ box.appendChild(div);
 }
 
 /* =====================================================
-FILTER
+SERVICE FILTER
 ===================================================== */
 
 function filterServices(category){
@@ -2140,7 +2052,6 @@ currentFilter =
 category;
 
 const buttons = [
-
 "catAll",
 "catAccounts",
 "catFacebook",
@@ -2149,32 +2060,23 @@ const buttons = [
 "catTwitter",
 "catBoosting",
 "catVerification"
-
 ];
 
 buttons.forEach(id => {
 
-$(id)
-.classList.remove("active");
+$(id).classList.remove("active");
 
 });
 
 const map = {
 
 all:"catAll",
-
 accounts:"catAccounts",
-
 facebook:"catFacebook",
-
 instagram:"catInstagram",
-
 tiktok:"catTikTok",
-
 twitter:"catTwitter",
-
 boosting:"catBoosting",
-
 verification:"catVerification"
 
 };
@@ -2198,8 +2100,7 @@ async function buyService(serviceId){
 
 const service =
 allServices.find(
-item =>
-item.id === serviceId
+item => item.id === serviceId
 );
 
 if(!service){
@@ -2233,7 +2134,7 @@ return;
 
 if(
 !confirm(
-"Are you sure you want to purchase this account?"
+`Purchase ${service.name} for ${money(service.price)}?`
 )
 ){
 
@@ -2244,6 +2145,17 @@ return;
 toast(
 "Processing payment..."
 );
+
+/*
+The purchase_service RPC should:
+
+1. Check the user's wallet balance.
+2. Check that the service is available.
+3. Deduct the service price.
+4. Create an order.
+5. Copy the service delivery_information
+   into the order's login_information.
+*/
 
 const {
 data,
@@ -2277,7 +2189,6 @@ toast(
 );
 
 await loadBalance();
-
 await loadOrders();
 
 userPage("orders");
@@ -2322,7 +2233,7 @@ balance;
 }
 
 /* =====================================================
-DEPOSIT
+SUBMIT DEPOSIT
 ===================================================== */
 
 async function submitDeposit(){
@@ -2333,8 +2244,7 @@ $("depositAmount").value
 );
 
 const file =
-$("depositProof")
-.files[0];
+$("depositProof").files[0];
 
 if(!amount || amount <= 0){
 
@@ -2369,8 +2279,7 @@ return;
 }
 
 if(
-file.size >
-8 * 1024 * 1024
+file.size > 8 * 1024 * 1024
 ){
 
 toast(
@@ -2504,10 +2413,7 @@ error
 await supabaseClient
 .from("deposits")
 .select("*")
-.eq(
-"user_id",
-currentUser.id
-)
+.eq("user_id",currentUser.id)
 .order(
 "created_at",
 {
@@ -2518,11 +2424,7 @@ ascending:false
 if(error){
 
 box.innerHTML =
-`
-<div class="error-box">
-${safe(error.message)}
-</div>
-`;
+`<p>${safe(error.message)}</p>`;
 
 return;
 
@@ -2547,8 +2449,8 @@ document.createElement("div");
 div.className =
 "order";
 
-div.innerHTML =
-`
+div.innerHTML = `
+
 <strong>
 ${money(deposit.amount)}
 </strong>
@@ -2559,6 +2461,7 @@ Status:
 ${safe(deposit.status)}
 </span>
 </p>
+
 `;
 
 box.appendChild(div);
@@ -2586,10 +2489,7 @@ error
 await supabaseClient
 .from("orders")
 .select("*")
-.eq(
-"user_id",
-currentUser.id
-)
+.eq("user_id",currentUser.id)
 .order(
 "created_at",
 {
@@ -2600,11 +2500,7 @@ ascending:false
 if(error){
 
 box.innerHTML =
-`
-<div class="error-box">
-${safe(error.message)}
-</div>
-`;
+`<p>${safe(error.message)}</p>`;
 
 return;
 
@@ -2629,8 +2525,12 @@ document.createElement("div");
 div.className =
 "order";
 
-div.innerHTML =
-`
+const delivery =
+order.login_information ||
+"Login information has not been added yet.";
+
+div.innerHTML = `
+
 <h3>
 ${safe(order.product_name)}
 </h3>
@@ -2657,9 +2557,10 @@ ${safe(order.status)}
 
 <br><br>
 
-${safe(order.login_information)}
+${safe(delivery)}
 
 </div>
+
 `;
 
 box.appendChild(div);
@@ -2680,8 +2581,7 @@ function adminPage(page){
 "adminOrdersPage"
 ].forEach(id => {
 
-$(id)
-.classList.add("hidden");
+$(id).classList.add("hidden");
 
 });
 
@@ -2706,39 +2606,24 @@ loadAdminOrders();
 }
 
 /* =====================================================
-ADD SERVICE
+ADMIN ADD SERVICE
 ===================================================== */
 
 async function addService(){
 
 const name =
-$("serviceName")
-.value
-.trim();
-
-const category =
-$("serviceCategory")
-.value;
-
-const platform =
-$("servicePlatform")
-.value;
+$("serviceName").value.trim();
 
 const description =
-$("serviceDescription")
-.value
-.trim();
+$("serviceDescription").value.trim();
 
 const price =
 Number(
-$("servicePrice")
-.value
+$("servicePrice").value
 );
 
 const delivery =
-$("serviceDelivery")
-.value
-.trim();
+$("serviceDelivery").value.trim();
 
 if(!name){
 
@@ -2751,34 +2636,15 @@ return;
 }
 
 if(
-category === "account" &&
-(
 Number.isNaN(price) ||
-price <= 0
-)
+price < 0
 ){
-
-toast(
-"Enter a valid account price."
-);
-
-return;
-
-}
-
-if(
-category !== "account"
-){
-
-if(Number.isNaN(price) || price < 0){
 
 toast(
 "Enter a valid price."
 );
 
 return;
-
-}
 
 }
 
@@ -2802,10 +2668,6 @@ return;
 
 }
 
-toast(
-"Adding service..."
-);
-
 const {
 error
 } =
@@ -2813,33 +2675,16 @@ await supabaseClient
 .from("services")
 .insert({
 
-name:
-
 name,
-
-category:
-
-category,
-
-platform:
-
-platform,
-
-description:
 
 description,
 
-price:
-
-price || 0,
+price,
 
 delivery_information:
-
 delivery,
 
-available:
-
-true
+available:true
 
 });
 
@@ -2854,24 +2699,19 @@ return;
 
 }
 
-$("serviceName")
-.value = "";
+$("serviceName").value = "";
 
-$("servicePrice")
-.value = "";
+$("serviceDescription").value = "";
 
-$("serviceDescription")
-.value = "";
+$("servicePrice").value = "";
 
-$("serviceDelivery")
-.value = "";
+$("serviceDelivery").value = "";
 
 toast(
 "Service added successfully. ✅"
 );
 
 await loadAdminServices();
-
 await loadServices();
 
 }
@@ -2905,11 +2745,7 @@ ascending:false
 if(error){
 
 box.innerHTML =
-`
-<div class="error-box">
-${safe(error.message)}
-</div>
-`;
+`<p>${safe(error.message)}</p>`;
 
 return;
 
@@ -2940,47 +2776,34 @@ getServiceType(service);
 const icon =
 getIcon(service);
 
-const purchaseText =
-type === "boosting" ||
-type === "verification"
-?
-"💬 Direct Admin Chat"
-:
-"💰 Wallet Purchase";
+let purchaseText =
+"Wallet Purchase";
 
-div.innerHTML =
-`
+if(type === "boosting")
+purchaseText =
+"Direct Admin Chat";
 
-<div id="view-${service.id}">
+if(type === "verification")
+purchaseText =
+"Direct Admin Chat";
+
+div.innerHTML = `
 
 <h3>
 ${icon} ${safe(service.name)}
 </h3>
 
 <p>
-
 <span class="badge">
 ${safe(type)}
 </span>
-
 </p>
 
 <p>
-
-Platform:
-<strong>
-${safe(service.platform || "Other")}
-</strong>
-
-</p>
-
-<p>
-
 Price:
 <strong>
 ${money(service.price)}
 </strong>
-
 </p>
 
 <p>
@@ -2988,399 +2811,27 @@ ${safe(service.description)}
 </p>
 
 <div class="delivery">
-
-<strong>
-Delivery Information
-</strong>
-
-<br><br>
-
 ${safe(service.delivery_information)}
-
 </div>
 
 <p class="small">
 ${purchaseText}
 </p>
 
-<p>
-
-Status:
-
-<span class="badge">
-
-${
-service.available
-?
-"Available"
-:
-"Hidden"
-}
-
-</span>
-
-</p>
-
-<div class="admin-actions">
+<br>
 
 <button
-class="primary"
-onclick="showEditService('${service.id}')">
-✏️ Edit
+class="danger"
+onclick="deleteService('${service.id}')"
+>
+Delete
 </button>
-
-<button
-class="${
-service.available
-?
-"warning"
-:
-"success"
-}"
-onclick="toggleService('${service.id}',${service.available})">
-
-${
-service.available
-?
-"👁️ Hide"
-:
-"👁️ Show"
-}
-
-</button>
-
-</div>
-
-<button
-class="danger full"
-style="margin-top:8px"
-onclick="deleteService('${service.id}')">
-🗑️ Delete
-</button>
-
-</div>
-
-<div
-id="edit-${service.id}"
-class="edit-box hidden">
-
-<h3>
-Edit Service
-</h3>
-
-<input
-id="edit-name-${service.id}"
-value="${safe(service.name)}"
-placeholder="Service name">
-
-<select
-id="edit-category-${service.id}">
-
-<option
-value="account"
-${service.category === "account" ? "selected" : ""}>
-Social Media Account
-</option>
-
-<option
-value="boosting"
-${service.category === "boosting" ? "selected" : ""}>
-Boosting
-</option>
-
-<option
-value="verification"
-${service.category === "verification" ? "selected" : ""}>
-Number Verification
-</option>
-
-</select>
-
-<select
-id="edit-platform-${service.id}">
-
-<option
-value="facebook"
-${service.platform === "facebook" ? "selected" : ""}>
-Facebook
-</option>
-
-<option
-value="instagram"
-${service.platform === "instagram" ? "selected" : ""}>
-Instagram
-</option>
-
-<option
-value="tiktok"
-${service.platform === "tiktok" ? "selected" : ""}>
-TikTok
-</option>
-
-<option
-value="twitter"
-${service.platform === "twitter" ? "selected" : ""}>
-Twitter/X
-</option>
-
-<option
-value="other"
-${!["facebook","instagram","tiktok","twitter"].includes(service.platform) ? "selected" : ""}>
-Other
-</option>
-
-</select>
-
-<input
-id="edit-price-${service.id}"
-type="number"
-min="0"
-value="${Number(service.price || 0)}"
-placeholder="Price">
-
-<textarea
-id="edit-description-${service.id}"
-placeholder="Description">${safe(service.description)}</textarea>
-
-<textarea
-id="edit-delivery-${service.id}"
-placeholder="Delivery information">${safe(service.delivery_information)}</textarea>
-
-<button
-class="success full"
-onclick="saveServiceEdit('${service.id}')">
-💾 Save Changes
-</button>
-
-<br><br>
-
-<button
-class="secondary full"
-onclick="hideEditService('${service.id}')">
-Cancel
-</button>
-
-</div>
 
 `;
 
 box.appendChild(div);
 
 });
-
-}
-
-/* =====================================================
-SHOW EDIT
-===================================================== */
-
-function showEditService(id){
-
-$("view-" + id)
-.classList.add("hidden");
-
-$("edit-" + id)
-.classList.remove("hidden");
-
-}
-
-/* =====================================================
-HIDE EDIT
-===================================================== */
-
-function hideEditService(id){
-
-$("edit-" + id)
-.classList.add("hidden");
-
-$("view-" + id)
-.classList.remove("hidden");
-
-}
-
-/* =====================================================
-SAVE EDIT
-===================================================== */
-
-async function saveServiceEdit(id){
-
-const name =
-$("edit-name-" + id)
-.value
-.trim();
-
-const category =
-$("edit-category-" + id)
-.value;
-
-const platform =
-$("edit-platform-" + id)
-.value;
-
-const price =
-Number(
-$("edit-price-" + id)
-.value
-);
-
-const description =
-$("edit-description-" + id)
-.value
-.trim();
-
-const delivery =
-$("edit-delivery-" + id)
-.value
-.trim();
-
-if(!name){
-
-toast(
-"Enter a service name."
-);
-
-return;
-
-}
-
-if(
-Number.isNaN(price) ||
-price < 0
-){
-
-toast(
-"Enter a valid price."
-);
-
-return;
-
-}
-
-if(!description){
-
-toast(
-"Enter a description."
-);
-
-return;
-
-}
-
-if(!delivery){
-
-toast(
-"Enter delivery information."
-);
-
-return;
-
-}
-
-const {
-error
-} =
-await supabaseClient
-.from("services")
-.update({
-
-name:
-
-name,
-
-category:
-
-category,
-
-platform:
-
-platform,
-
-price:
-
-price,
-
-description:
-
-description,
-
-delivery_information:
-
-delivery
-
-})
-.eq(
-"id",
-id
-);
-
-if(error){
-
-toast(
-"Could not update service: " +
-error.message
-);
-
-return;
-
-}
-
-toast(
-"Service updated successfully. ✅"
-);
-
-await loadAdminServices();
-
-await loadServices();
-
-}
-
-/* =====================================================
-TOGGLE SERVICE
-===================================================== */
-
-async function toggleService(
-id,
-currentStatus
-){
-
-const {
-error
-} =
-await supabaseClient
-.from("services")
-.update({
-
-available:
-!currentStatus
-
-})
-.eq(
-"id",
-id
-);
-
-if(error){
-
-toast(
-"Could not change service status: " +
-error.message
-);
-
-return;
-
-}
-
-toast(
-currentStatus
-?
-"Service hidden."
-:
-"Service is now available."
-);
-
-await loadAdminServices();
-
-await loadServices();
 
 }
 
@@ -3406,15 +2857,11 @@ error
 await supabaseClient
 .from("services")
 .delete()
-.eq(
-"id",
-id
-);
+.eq("id",id);
 
 if(error){
 
 toast(
-"Could not delete service: " +
 error.message
 );
 
@@ -3427,7 +2874,6 @@ toast(
 );
 
 await loadAdminServices();
-
 await loadServices();
 
 }
@@ -3460,11 +2906,12 @@ ascending:false
 
 if(error){
 
-box.innerHTML =
-`
+box.innerHTML = `
+
 <div class="error-box">
 ${safe(error.message)}
 </div>
+
 `;
 
 return;
@@ -3494,8 +2941,7 @@ let screenshot = "";
 
 if(deposit.proof_url){
 
-screenshot =
-`
+screenshot = `
 
 <div
 style="
@@ -3503,7 +2949,8 @@ margin-top:15px;
 background:#f3f4f6;
 padding:14px;
 border-radius:14px;
-">
+"
+>
 
 <strong>
 🖼️ Payment Screenshot
@@ -3515,13 +2962,15 @@ src="${safe(deposit.proof_url)}"
 alt="Payment proof screenshot"
 loading="lazy"
 onclick="openProof('${safe(deposit.proof_url)}')"
-style="cursor:pointer">
+style="cursor:pointer"
+>
 
 <br>
 
 <button
 class="primary full"
-onclick="openProof('${safe(deposit.proof_url)}')">
+onclick="openProof('${safe(deposit.proof_url)}')"
+>
 🖼️ Open Full Screenshot
 </button>
 
@@ -3531,11 +2980,12 @@ onclick="openProof('${safe(deposit.proof_url)}')">
 
 }else{
 
-screenshot =
-`
+screenshot = `
+
 <div class="error-box">
 No payment screenshot uploaded.
 </div>
+
 `;
 
 }
@@ -3546,27 +2996,29 @@ if(
 deposit.status === "pending"
 ){
 
-actions =
-`
+actions = `
 
 <div
 style="
 display:flex;
 gap:8px;
 margin-top:15px;
-">
+"
+>
 
 <button
 class="success"
 style="flex:1"
-onclick="approveDeposit('${deposit.id}')">
+onclick="approveDeposit('${deposit.id}')"
+>
 ✅ Approve
 </button>
 
 <button
 class="danger"
 style="flex:1"
-onclick="rejectDeposit('${deposit.id}')">
+onclick="rejectDeposit('${deposit.id}')"
+>
 ❌ Reject
 </button>
 
@@ -3576,43 +3028,32 @@ onclick="rejectDeposit('${deposit.id}')">
 
 }
 
-div.innerHTML =
-`
+div.innerHTML = `
 
 <h3>
 Deposit Request
 </h3>
 
 <p>
-
 <strong>
 Amount
 </strong>
-
 <br>
-
 ${money(deposit.amount)}
-
 </p>
 
 <p>
-
 <strong>
 User ID
 </strong>
-
 <br>
-
 ${safe(deposit.user_id)}
-
 </p>
 
 <p>
-
 <strong>
 Status
 </strong>
-
 <br>
 
 <span class="badge">
@@ -3622,7 +3063,6 @@ ${safe(deposit.status)}
 </p>
 
 <p class="small">
-
 ${
 deposit.created_at
 ?
@@ -3632,7 +3072,6 @@ deposit.created_at
 :
 ""
 }
-
 </p>
 
 ${screenshot}
@@ -3648,7 +3087,7 @@ box.appendChild(div);
 }
 
 /* =====================================================
-OPEN PROOF
+OPEN SCREENSHOT
 ===================================================== */
 
 function openProof(url){
@@ -3699,8 +3138,7 @@ await supabaseClient
 .rpc(
 "approve_deposit",
 {
-p_deposit_id:
-id
+p_deposit_id:id
 }
 );
 
@@ -3745,19 +3183,10 @@ error
 await supabaseClient
 .from("deposits")
 .update({
-
-status:
-"rejected"
-
+status:"rejected"
 })
-.eq(
-"id",
-id
-)
-.eq(
-"status",
-"pending"
-);
+.eq("id",id)
+.eq("status","pending");
 
 if(error){
 
@@ -3807,11 +3236,7 @@ ascending:false
 if(error){
 
 box.innerHTML =
-`
-<div class="error-box">
-${safe(error.message)}
-</div>
-`;
+`<p>${safe(error.message)}</p>`;
 
 return;
 
@@ -3836,8 +3261,7 @@ document.createElement("div");
 div.className =
 "order";
 
-div.innerHTML =
-`
+div.innerHTML = `
 
 <h3>
 ${safe(order.product_name)}
@@ -3871,7 +3295,10 @@ Login / Delivery Information
 
 <br><br>
 
-${safe(order.login_information)}
+${safe(
+order.login_information ||
+"Not supplied"
+)}
 
 </div>
 
