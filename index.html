@@ -1,1260 +1,1778 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Benjo-SMS | Digital Services</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background: #0b0b0f;
-      color: #fff;
-    }
-    header {
-      background: #111116;
-      border-bottom: 1px solid #25252d;
-      padding: 15px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo {
-      font-size: 23px;
-      font-weight: bold;
-    }
-    .logo span {
-      color: #7c5cff;
-    }
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    nav a,
-    nav button {
-      color: #ccc;
-      text-decoration: none;
-      border: 0;
-      background: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    nav a:hover,
-    nav button:hover {
-      color: #fff;
-    }
-    .login-btn {
-      background: #7c5cff !important;
-      color: #fff !important;
-      padding: 10px 15px;
-      border-radius: 8px;
-    }
-    .hero {
-      padding: 75px 5%;
-      text-align: center;
-      background:
-        radial-gradient(circle at top, #21194b 0%, #0b0b0f 58%);
-    }
-    .hero h1 {
-      font-size: clamp(38px, 7vw, 68px);
-      margin-bottom: 18px;
-    }
-    .hero h1 span {
-      color: #7c5cff;
-    }
-    .hero p {
-      max-width: 680px;
-      margin: auto;
-      color: #aaa;
-      line-height: 1.7;
-      font-size: 16px;
-    }
-    .hero-buttons {
-      margin-top: 28px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .primary-btn,
-    .secondary-btn {
-      padding: 13px 21px;
-      border-radius: 9px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .primary-btn {
-      background: #7c5cff;
-      color: #fff;
-      border: 0;
-    }
-    .secondary-btn {
-      background: transparent;
-      color: #fff;
-      border: 1px solid #363640;
-    }
-    .section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 55px 5%;
-    }
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-    .section-title h2 {
-      font-size: 28px;
-    }
-    .search {
-      width: 250px;
-      padding: 12px 14px;
-      background: #15151b;
-      color: #fff;
-      border: 1px solid #2b2b34;
-      border-radius: 8px;
-      outline: none;
-    }
-    .filters {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin-bottom: 20px;
-      padding-bottom: 5px;
-    }
-    .filter-btn {
-      white-space: nowrap;
-      padding: 9px 13px;
-      border-radius: 8px;
-      border: 1px solid #30303a;
-      background: #15151b;
-      color: #bbb;
-      cursor: pointer;
-    }
-    .filter-btn.active,
-    .filter-btn:hover {
-      background: #7c5cff;
-      color: #fff;
-      border-color: #7c5cff;
-    }
-    .products {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    .card {
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 14px;
-      padding: 20px;
-      transition: .2s;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: #7c5cff;
-    }
-    .service-icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #211b40;
-      border-radius: 12px;
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-    .badge {
-      display: inline-block;
-      padding: 5px 8px;
-      border-radius: 6px;
-      background: #211b40;
-      color: #a995ff;
-      font-size: 11px;
-      margin-bottom: 10px;
-    }
-    .card h3 {
-      margin-bottom: 8px;
-    }
-    .card p {
-      color: #999;
-      font-size: 14px;
-      line-height: 1.5;
-      min-height: 42px;
-      margin-bottom: 15px;
-    }
-    .price {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 13px;
-    }
-    .buy-btn {
-      width: 100%;
-      padding: 12px;
-      border: 0;
-      border-radius: 8px;
-      background: #7c5cff;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .buy-btn:hover {
-      opacity: .9;
-    }
-    .account-box,
-    .wallet-box {
-      display: none;
-      max-width: 650px;
-      margin: 25px auto 0;
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 14px;
-      padding: 22px;
-      text-align: left;
-    }
-    .account-box h2,
-    .wallet-box h2 {
-      margin-bottom: 15px;
-    }
-    .account-row {
-      padding: 12px 0;
-      border-bottom: 1px solid #25252e;
-      color: #bbb;
-    }
-    .account-row:last-child {
-      border-bottom: 0;
-    }
-    .balance {
-      font-size: 30px;
-      font-weight: bold;
-      color: #fff;
-      margin: 8px 0 15px;
-    }
-    .account-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-    .small-btn {
-      padding: 10px 14px;
-      border: 0;
-      border-radius: 8px;
-      background: #25252e;
-      color: #fff;
-      cursor: pointer;
-    }
-    .small-btn.primary {
-      background: #7c5cff;
-    }
-    .features {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    .feature {
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 13px;
-      padding: 22px;
-    }
-    .feature-icon {
-      font-size: 25px;
-    }
-    .feature h3 {
-      margin: 12px 0 8px;
-    }
-    .feature p {
-      color: #999;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-    footer {
-      border-top: 1px solid #25252d;
-      background: #0e0e12;
-      color: #777;
-      text-align: center;
-      padding: 30px 5%;
-      margin-top: 30px;
-    }
-    .cart {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 57px;
-      height: 57px;
-      border-radius: 50%;
-      background: #7c5cff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 22px;
-      cursor: pointer;
-      z-index: 200;
-      box-shadow: 0 8px 25px rgba(0,0,0,.4);
-    }
-    #cartCount {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      width: 21px;
-      height: 21px;
-      border-radius: 50%;
-      background: #ff3b6b;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 11px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.78);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .modal-box {
-      width: 100%;
-      max-width: 430px;
-      background: #15151b;
-      border: 1px solid #2b2b34;
-      border-radius: 16px;
-      padding: 25px;
-      position: relative;
-    }
-    .modal-box h2 {
-      margin-bottom: 18px;
-    }
-    .close {
-      position: absolute;
-      right: 17px;
-      top: 12px;
-      border: 0;
-      background: none;
-      color: #aaa;
-      font-size: 26px;
-      cursor: pointer;
-    }
-    .input {
-      width: 100%;
-      padding: 13px;
-      margin-bottom: 12px;
-      background: #0d0d12;
-      color: #fff;
-      border: 1px solid #30303a;
-      border-radius: 8px;
-      outline: none;
-    }
-    .auth-btn {
-      width: 100%;
-      padding: 13px;
-      border: 0;
-      border-radius: 8px;
-      background: #7c5cff;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .message {
-      min-height: 20px;
-      color: #aaa;
-      font-size: 14px;
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-    .switch {
-      text-align: center;
-      color: #999;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-    .switch span:last-child {
-      color: #9a82ff;
-      cursor: pointer;
-    }
-    .empty {
-      text-align: center;
-      color: #888;
-      padding: 30px;
-      grid-column: 1 / -1;
-    }
-    @media (max-width: 650px) {
-      nav a:not(.login-btn) {
-        display: none;
-      }
-      .hero {
-        padding: 60px 5%;
-      }
-      .search {
-        width: 100%;
-      }
-      .section {
-        padding: 45px 5%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Benjo-SMS | Digital Marketplace</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:#05070d;
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* FUTURISTIC BACKGROUND */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(83,55,255,.25),transparent 28%),
+    radial-gradient(circle at 85% 25%,rgba(0,170,255,.18),transparent 28%),
+    radial-gradient(circle at 50% 90%,rgba(120,40,255,.14),transparent 30%),
+    linear-gradient(135deg,#05070d,#0a0d18 45%,#05070d);
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(124,92,255,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,92,255,.12) 1px,transparent 1px);
+  background-size:45px 45px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+
+header{
+  background:rgba(8,10,17,.88);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800;
+}
+
+.logo span{color:#8b6cff}
+
+nav{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+nav a{
+  color:#bbb;
+  text-decoration:none;
+  font-size:14px;
+}
+
+nav a:hover{color:#fff}
+
+.login-btn{
+  background:#7c5cff;
+  color:#fff!important;
+  padding:10px 16px;
+  border-radius:8px;
+}
+
+.hero{
+  padding:90px 5% 65px;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:clamp(40px,8vw,76px);
+  line-height:1.05;
+  margin-bottom:20px;
+}
+
+.hero h1 span{
+  color:#8b6cff;
+  text-shadow:0 0 35px rgba(124,92,255,.5);
+}
+
+.hero p{
+  color:#aaa;
+  max-width:680px;
+  margin:auto;
+  line-height:1.7;
+  font-size:17px;
+}
+
+.hero-buttons{
+  margin-top:30px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+  padding:14px 22px;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.primary-btn{
+  background:#7c5cff;
+  color:#fff;
+  border:none;
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,.03);
+  border:1px solid #343442;
+  color:#fff;
+}
+
+.section{
+  padding:55px 5%;
+  max-width:1200px;
+  margin:auto;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.section-title h2{font-size:28px}
+
+.search{
+  background:#10131d;
+  border:1px solid #292d3b;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:8px;
+  width:240px;
+  outline:none;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:rgba(14,17,27,.82);
+  border:1px solid #252a39;
+  border-radius:15px;
+  padding:20px;
+  transition:.2s;
+  backdrop-filter:blur(8px);
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#7c5cff;
+  box-shadow:0 10px 35px rgba(76,48,200,.16);
+}
+
+.card-icon{
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  background:#211b40;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin-bottom:18px;
+}
+
+.card h3{margin-bottom:8px}
+
+.card p{
+  color:#999;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+.price{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.buy-btn,
+.whatsapp-btn,
+.auth-btn{
+  width:100%;
+  border:none;
+  color:#fff;
+  padding:12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.buy-btn,
+.auth-btn{background:#7c5cff}
+
+.whatsapp-btn{
+  background:#168c45;
+  margin-top:10px;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.feature{
+  background:rgba(14,17,27,.82);
+  border:1px solid #252a39;
+  border-radius:12px;
+  padding:22px;
+}
+
+.feature h3{margin:10px 0}
+
+.feature p{
+  color:#999;
+  line-height:1.5;
+  font-size:14px;
+}
+
+footer{
+  border-top:1px solid #252a39;
+  background:#070910;
+  padding:30px 5%;
+  text-align:center;
+  color:#777;
+  margin-top:40px;
+}
+
+/* ACCOUNT */
+.account-box{
+  display:none;
+  max-width:500px;
+  margin:30px auto 0;
+  background:rgba(14,17,27,.9);
+  border:1px solid #303448;
+  border-radius:15px;
+  padding:22px;
+  text-align:left;
+}
+
+.account-box p{
+  color:#aaa;
+  margin:8px 0;
+}
+
+.logout-btn{
+  margin-top:15px;
+  padding:10px 15px;
+  background:#252a39;
+  border:none;
+  color:#fff;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  z-index:999;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  width:100%;
+  max-width:440px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:#11141e;
+  border:1px solid #303448;
+  border-radius:16px;
+  padding:25px;
+  position:relative;
+}
+
+.modal-box h2{margin-bottom:20px}
+
+.close{
+  position:absolute;
+  right:18px;
+  top:15px;
+  background:none;
+  border:none;
+  color:#aaa;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  background:#080b12;
+  color:#fff;
+  border:1px solid #303448;
+  border-radius:8px;
+  outline:none;
+}
+
+.message{
+  margin-bottom:12px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.switch{
+  text-align:center;
+  margin-top:15px;
+  color:#999;
+  font-size:14px;
+}
+
+.switch span{
+  color:#9a82ff;
+  cursor:pointer;
+}
+
+.forgot{
+  display:block;
+  text-align:right;
+  color:#9a82ff;
+  font-size:13px;
+  margin:-3px 0 12px;
+  cursor:pointer;
+}
+
+.option-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.option-btn{
+  background:#151a27;
+  color:#fff;
+  border:1px solid #303448;
+  border-radius:10px;
+  padding:15px 10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.option-btn:hover{
+  border-color:#7c5cff;
+  background:#1c1930;
+}
+
+.service-note{
+  color:#999;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+.chat-admin{
+  width:100%;
+  background:#168c45;
+  color:#fff;
+  border:none;
+  padding:13px;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
+}
+
+.back-btn{
+  background:none;
+  border:none;
+  color:#aaa;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.cart{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#7c5cff;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+  z-index:50;
+}
+
+#cartCount{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:#ff3b6b;
+  width:21px;
+  height:21px;
+  border-radius:50%;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+@media(max-width:650px){
+  nav a:not(.login-btn){display:none}
+  .hero{padding:65px 5% 50px}
+  .search{width:100%}
+  .option-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
+
 <body>
+
 <header>
   <div class="logo">Benjo<span>-SMS</span></div>
+
   <nav>
     <a href="#home">Home</a>
-    <a href="#products">Services</a>
+    <a href="#services">Services</a>
     <a href="#features">Features</a>
-    <a href="#account" id="accountNav"
-       style="display:none;">Account</a>
-    <button class="login-btn" id="loginNav"
-            onclick="openAuth('login')">
-      Login
-    </button>
+
+    <a href="#"
+       id="accountNav"
+       style="display:none;"
+       onclick="scrollToAccount(event)">
+       Account
+    </a>
+
+    <a href="#"
+       class="login-btn"
+       id="loginNav"
+       onclick="openAuth('login');return false;">
+       Login
+    </a>
   </nav>
 </header>
+
+
 <section class="hero" id="home">
-  <h1>Welcome to <span>Benjo-SMS</span></h1>
+
+  <h1>
+    Welcome to <span>Benjo-SMS</span>
+  </h1>
+
   <p>
-    Fast and simple digital services for social platforms.
-    Create your account, fund your wallet and place your
-    service order from one place.
+    Your digital marketplace for social media services,
+    boosting services and verification solutions.
   </p>
+
   <div class="hero-buttons">
-    <a href="#products" class="primary-btn">
+    <a href="#services" class="primary-btn">
       Browse Services
     </a>
-<button class="secondary-btn"
-        onclick="openAuth('register')">
-  Create Account
-</button>
+
+    <button
+      class="secondary-btn"
+      id="createAccountBtn"
+      onclick="openAuth('register')">
+      Create Account
+    </button>
   </div>
+
+
   <div class="account-box" id="accountBox">
-<h2>My Account</h2>
-<div class="account-row" id="accountName">
-  Name: —
-</div>
-<div class="account-row" id="accountEmail">
-  Email: —
-</div>
-<div class="wallet-box"
-     id="walletBox"
-     style="display:block;margin:18px 0 0;">
-  <div>Wallet Balance</div>
-  <div class="balance"
-       id="walletBalance">
-    ₦0
-  </div>
-  <div class="account-actions">
-    <button class="small-btn primary"
-            onclick="fundWallet()">
-      Fund Wallet
-    </button>
-    <button class="small-btn"
-            onclick="loadOrders()">
-      My Orders
-    </button>
-    <button class="small-btn"
-            onclick="logout()">
+
+    <h2>My Account</h2>
+
+    <p id="accountName"></p>
+
+    <p id="accountEmail"></p>
+
+    <button
+      class="logout-btn"
+      onclick="logout()">
       Logout
     </button>
+
   </div>
-</div>
-  </div>
+
 </section>
-<section class="section" id="products">
+
+
+<!-- SERVICES -->
+
+<section class="section" id="services">
+
   <div class="section-title">
-<h2>Services</h2>
-<input
-  type="text"
-  class="search"
-  id="search"
-  placeholder="Search services..."
-  oninput="renderServices()"
->
+    <h2>Services</h2>
+
+    <input
+      type="text"
+      class="search"
+      id="search"
+      placeholder="Search services..."
+      onkeyup="searchServices()">
   </div>
-  <div class="filters">
-<button class="filter-btn active"
-        onclick="setFilter('All', this)">
-  All
-</button>
-<button class="filter-btn"
-        onclick="setFilter('Facebook', this)">
-  Facebook
-</button>
-<button class="filter-btn"
-        onclick="setFilter('Instagram', this)">
-  Instagram
-</button>
-<button class="filter-btn"
-        onclick="setFilter('TikTok', this)">
-  TikTok
-</button>
-<button class="filter-btn"
-        onclick="setFilter('Twitter', this)">
-  Twitter/X
-</button>
+
+
+  <div class="products" id="serviceList">
+
+    <!-- FACEBOOK -->
+    <div class="card service-card" data-name="Facebook Service">
+      <div class="card-icon">📘</div>
+      <h3>Facebook</h3>
+      <p>Facebook digital services.</p>
+
+      <button
+        class="buy-btn"
+        onclick="openServiceChat('Facebook Service')">
+        Select Service
+      </button>
+    </div>
+
+
+    <!-- INSTAGRAM -->
+    <div class="card service-card" data-name="Instagram Service">
+      <div class="card-icon">📸</div>
+      <h3>Instagram</h3>
+      <p>Instagram digital services.</p>
+
+      <button
+        class="buy-btn"
+        onclick="openServiceChat('Instagram Service')">
+        Select Service
+      </button>
+    </div>
+
+
+    <!-- TIKTOK -->
+    <div class="card service-card" data-name="TikTok Service">
+      <div class="card-icon">🎵</div>
+      <h3>TikTok</h3>
+      <p>TikTok digital services.</p>
+
+      <button
+        class="buy-btn"
+        onclick="openServiceChat('TikTok Service')">
+        Select Service
+      </button>
+    </div>
+
+
+    <!-- TWITTER X -->
+    <div class="card service-card" data-name="Twitter X Service">
+      <div class="card-icon">𝕏</div>
+      <h3>Twitter X</h3>
+      <p>Twitter X digital services.</p>
+
+      <button
+        class="buy-btn"
+        onclick="openServiceChat('Twitter X Service')">
+        Select Service
+      </button>
+    </div>
+
+
+    <!-- YOUTUBE -->
+    <div class="card service-card" data-name="YouTube Service">
+      <div class="card-icon">▶️</div>
+      <h3>YouTube</h3>
+      <p>YouTube digital services.</p>
+
+      <button
+        class="buy-btn"
+        onclick="openServiceChat('YouTube Service')">
+        Select Service
+      </button>
+    </div>
+
+
+    <!-- BOOSTING -->
+    <div
+      class="card service-card"
+      data-name="Boosting Service">
+
+      <div class="card-icon">🚀</div>
+
+      <h3>🚀 Boosting Service</h3>
+
+      <p>
+        Select the social media platform
+        you want to boost.
+      </p>
+
+      <button
+        class="buy-btn"
+        onclick="openBoosting()">
+        Choose Platform
+      </button>
+
+    </div>
+
+
+    <!-- VERIFICATION -->
+    <div
+      class="card service-card"
+      data-name="Verification Number">
+
+      <div class="card-icon">📲</div>
+
+      <h3>Verification Number</h3>
+
+      <p>
+        Need a verification number?
+        Contact our admin directly.
+      </p>
+
+      <button
+        class="whatsapp-btn"
+        onclick="chatWhatsApp('Verification Number')">
+        Chat Admin on WhatsApp
+      </button>
+
+    </div>
+
   </div>
-  <div class="products" id="productsGrid"></div>
+
 </section>
+
+
 <section class="section" id="features">
+
   <div class="section-title">
     <h2>Why Benjo-SMS?</h2>
   </div>
+
   <div class="features">
-<div class="feature">
-  <div class="feature-icon">🔐</div>
-  <h3>Secure Account</h3>
-  <p>
-    Customer accounts are handled through Supabase
-    authentication.
-  </p>
-</div>
-<div class="feature">
-  <div class="feature-icon">💳</div>
-  <h3>Wallet Payments</h3>
-  <p>
-    Customers can fund their wallet and use their
-    available balance for eligible orders.
-  </p>
-</div>
-<div class="feature">
-  <div class="feature-icon">📦</div>
-  <h3>Order Tracking</h3>
-  <p>
-    Orders can be linked to the customer's account
-    for easier tracking.
-  </p>
-</div>
-<div class="feature">
-  <div class="feature-icon">⚙️</div>
-  <h3>Admin Control</h3>
-  <p>
-    Services and order management can be connected
-    to the Benjo-SMS admin system.
-  </p>
-</div>
+
+    <div class="feature">
+      <div>🔐</div>
+      <h3>Secure</h3>
+      <p>
+        Customer authentication and protected
+        profile information.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div>⚡</div>
+      <h3>Fast</h3>
+      <p>
+        Simple service selection and direct
+        communication with admin.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div>🚀</div>
+      <h3>Boosting</h3>
+      <p>
+        Choose your social media platform and
+        contact admin directly.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div>📲</div>
+      <h3>Verification</h3>
+      <p>
+        Contact Benjo-SMS support directly
+        for verification-number requests.
+      </p>
+    </div>
+
   </div>
+
 </section>
+
+
 <footer>
   <p>© 2026 Benjo-SMS. All rights reserved.</p>
-  <p style="margin-top:8px;">
-    Telegram Support: @benjosms
-  </p>
 </footer>
+
+
 <div class="cart" onclick="viewCart()">
   🛒
   <span id="cartCount">0</span>
 </div>
+
+
 <!-- AUTH MODAL -->
+
 <div class="modal" id="authModal">
+
   <div class="modal-box">
-<button class="close"
-        onclick="closeAuth()">
-  ×
-</button>
-<h2 id="authTitle">Login</h2>
-<div class="message"
-     id="authMessage"></div>
-<form id="authForm">
-  <input
-    class="input"
-    id="fullName"
-    type="text"
-    placeholder="Full name"
-    style="display:none;"
-  >
-  <input
-    class="input"
-    id="email"
-    type="email"
-    placeholder="Email address"
-    required
-  >
-  <input
-    class="input"
-    id="password"
-    type="password"
-    placeholder="Password"
-    minlength="6"
-    required
-  >
-  <button class="auth-btn"
-          type="submit"
-          id="authSubmit">
-    Login
-  </button>
-</form>
-<div class="switch">
-  <span id="switchText">
-    Don't have an account?
-  </span>
-  <span id="switchAction"
+
+    <button class="close" onclick="closeAuth()">×</button>
+
+    <h2 id="authTitle">Login</h2>
+
+    <div
+      class="message"
+      id="authMessage">
+    </div>
+
+    <form id="authForm">
+
+      <input
+        class="input"
+        id="fullName"
+        type="text"
+        placeholder="Full name"
+        style="display:none;">
+
+      <input
+        class="input"
+        id="email"
+        type="email"
+        placeholder="Email address"
+        required>
+
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Password"
+        minlength="6"
+        required>
+
+      <div
+        class="forgot"
+        id="forgotPassword"
+        onclick="forgotPassword()">
+        Forgot password?
+      </div>
+
+      <button
+        class="auth-btn"
+        type="submit"
+        id="authSubmit">
+        Login
+      </button>
+
+    </form>
+
+    <div class="switch">
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <span
+        id="switchAction"
         onclick="switchAuth()">
-    Register
-  </span>
-</div>
+        Register
+      </span>
+
+    </div>
+
   </div>
+
 </div>
+
+
+<!-- BOOSTING MODAL -->
+
+<div class="modal" id="boostModal">
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      onclick="closeBoosting()">
+      ×
+    </button>
+
+    <h2>🚀 Boosting Service</h2>
+
+    <p class="service-note">
+      Select the platform you want to boost.
+      You will then be able to contact the
+      Benjo-SMS admin directly on WhatsApp.
+    </p>
+
+    <div class="option-grid">
+
+      <button
+        class="option-btn"
+        onclick="boostPlatform('Facebook')">
+        📘 Facebook
+      </button>
+
+      <button
+        class="option-btn"
+        onclick="boostPlatform('Instagram')">
+        📸 Instagram
+      </button>
+
+      <button
+        class="option-btn"
+        onclick="boostPlatform('TikTok')">
+        🎵 TikTok
+      </button>
+
+      <button
+        class="option-btn"
+        onclick="boostPlatform('Twitter X')">
+        𝕏 Twitter X
+      </button>
+
+      <button
+        class="option-btn"
+        onclick="boostPlatform('YouTube')">
+        ▶️ YouTube
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- SERVICE CHAT MODAL -->
+
+<div class="modal" id="serviceModal">
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      onclick="closeServiceChat()">
+      ×
+    </button>
+
+    <h2 id="serviceTitle">
+      Service
+    </h2>
+
+    <p class="service-note">
+      Contact the Benjo-SMS admin directly
+      on WhatsApp to discuss this service.
+    </p>
+
+    <button
+      class="chat-admin"
+      id="serviceWhatsAppBtn">
+      💬 Chat Admin on WhatsApp
+    </button>
+
+  </div>
+
+</div>
+
+
 <script>
-  /* =========================================================
-     SUPABASE
-  ========================================================= */
-  const SUPABASE_URL =
-    "https://zwefikwlxgphufilgcyc.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-  const {
-    createClient
-  } = window.supabase;
-  const supabaseClient =
-    createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
+
+/* ============================================================
+   SUPABASE
+============================================================ */
+
+const SUPABASE_URL =
+  "https://zwefikwlxgphufilgcyc.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
+
+const { createClient } =
+  window.supabase;
+
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* ============================================================
+   WHATSAPP ADMIN
+============================================================ */
+
+const ADMIN_WHATSAPP =
+  "2348165405921";
+
+
+/* ============================================================
+   STATE
+============================================================ */
+
+let authMode = "login";
+
+let cart = [];
+
+
+/* ============================================================
+   WHATSAPP
+============================================================ */
+
+function chatWhatsApp(service){
+
+  const message =
+    `Hello Benjo-SMS Admin. I am interested in ${service}.`;
+
+  const url =
+    "https://wa.me/" +
+    ADMIN_WHATSAPP +
+    "?text=" +
+    encodeURIComponent(message);
+
+  window.open(url,"_blank");
+
+}
+
+
+function boostPlatform(platform){
+
+  const message =
+    `Hello Benjo-SMS Admin. I want the 🚀 Boosting Service for ${platform}. Please send me the available options and price.`;
+
+  const url =
+    "https://wa.me/" +
+    ADMIN_WHATSAPP +
+    "?text=" +
+    encodeURIComponent(message);
+
+  window.open(url,"_blank");
+
+  closeBoosting();
+
+}
+
+
+/* ============================================================
+   SERVICE CHAT
+============================================================ */
+
+function openServiceChat(service){
+
+  document
+    .getElementById("serviceTitle")
+    .textContent =
+    service;
+
+  const button =
+    document.getElementById(
+      "serviceWhatsAppBtn"
     );
-  /* =========================================================
-     STATE
-  ========================================================= */
-  let authMode = "login";
-  let cart = [];
-  let currentFilter = "All";
-  let services = [
-    {
-      name: "Facebook Boosting",
-      platform: "Facebook",
-      type: "Boosting",
-      description:
-        "Facebook promotional service.",
-      price: 5000,
-      icon: "📘"
-    },
-    {
-      name: "Instagram Boosting",
-      platform: "Instagram",
-      type: "Boosting",
-      description:
-        "Instagram promotional service.",
-      price: 5000,
-      icon: "📸"
-    },
-    {
-      name: "TikTok Boosting",
-      platform: "TikTok",
-      type: "Boosting",
-      description:
-        "TikTok promotional service.",
-      price: 5000,
-      icon: "🎵"
-    },
-    {
-      name: "Twitter/X Boosting",
-      platform: "Twitter",
-      type: "Boosting",
-      description:
-        "Twitter/X promotional service.",
-      price: 5000,
-      icon: "🐦"
-    }
-  ];
-  /* =========================================================
-     AUTH MODAL
-  ========================================================= */
-  function openAuth(mode = "login") {
-    authMode = mode;
-    document.getElementById(
-      "authModal"
-    ).style.display = "flex";
-    updateAuthForm();
-    document.getElementById(
-      "authMessage"
-    ).textContent = "";
-  }
-  function closeAuth() {
-    document.getElementById(
-      "authModal"
-    ).style.display = "none";
-    document.getElementById(
-      "authForm"
-    ).reset();
-    document.getElementById(
-      "authMessage"
-    ).textContent = "";
-  }
-  function switchAuth() {
-    authMode =
-      authMode === "login"
-        ? "register"
-        : "login";
-    updateAuthForm();
-  }
-  function updateAuthForm() {
-    const title =
-      document.getElementById(
-        "authTitle"
-      );
-    const fullName =
-      document.getElementById(
-        "fullName"
-      );
-    const submit =
-      document.getElementById(
-        "authSubmit"
-      );
-    const switchText =
-      document.getElementById(
-        "switchText"
-      );
-    const switchAction =
-      document.getElementById(
-        "switchAction"
-      );
-    if (authMode === "register") {
-      title.textContent =
-        "Create Account";
-      fullName.style.display =
-        "block";
-      fullName.required =
-        true;
-      submit.textContent =
-        "Create Account";
-      switchText.textContent =
-        "Already have an account?";
-      switchAction.textContent =
-        " Login";
-    } else {
-      title.textContent =
-        "Login";
-      fullName.style.display =
-        "none";
-      fullName.required =
-        false;
-      submit.textContent =
-        "Login";
-      switchText.textContent =
-        "Don't have an account?";
-      switchAction.textContent =
-        " Register";
-    }
-  }
-  /* =========================================================
-     REGISTER / LOGIN
-  ========================================================= */
+
+  button.onclick =
+    function(){
+      chatWhatsApp(service);
+    };
+
+  document
+    .getElementById("serviceModal")
+    .style.display =
+    "flex";
+
+}
+
+
+function closeServiceChat(){
+
+  document
+    .getElementById("serviceModal")
+    .style.display =
+    "none";
+
+}
+
+
+/* ============================================================
+   BOOSTING
+============================================================ */
+
+function openBoosting(){
+
+  document
+    .getElementById("boostModal")
+    .style.display =
+    "flex";
+
+}
+
+
+function closeBoosting(){
+
+  document
+    .getElementById("boostModal")
+    .style.display =
+    "none";
+
+}
+
+
+/* ============================================================
+   AUTH
+============================================================ */
+
+function openAuth(mode="login"){
+
+  authMode = mode;
+
+  document
+    .getElementById("authModal")
+    .style.display =
+    "flex";
+
+  updateAuthForm();
+
+  document
+    .getElementById("authMessage")
+    .textContent =
+    "";
+
+}
+
+
+function closeAuth(){
+
+  document
+    .getElementById("authModal")
+    .style.display =
+    "none";
+
   document
     .getElementById("authForm")
-    .addEventListener(
-      "submit",
-      async function(event) {
-        event.preventDefault();
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
-        const password =
-          document
-            .getElementById("password")
-            .value;
-        const fullName =
-          document
-            .getElementById("fullName")
-            .value
-            .trim();
-        const message =
-          document.getElementById(
-            "authMessage"
-          );
-        const button =
-          document.getElementById(
-            "authSubmit"
-          );
-        message.textContent = "";
-        button.disabled = true;
-        button.textContent =
-          "Please wait...";
-        try {
-          if (authMode === "register") {
-            if (!fullName) {
-              throw new Error(
-                "Please enter your full name."
-              );
-            }
-            const {
-              data,
-              error
-            } =
-              await supabaseClient
-                .auth
-                .signUp({
-                  email,
-                  password,
-                  options: {
-                    data: {
-                      full_name:
-                        fullName
-                    }
-                  }
-                });
-            if (error) {
-              throw error;
-            }
-            if (
-              data.user &&
-              !data.session
-            ) {
-              message.textContent =
-                "Account created. Please check your email to confirm your account.";
-              return;
-            }
-            if (data.user) {
-              await createProfile(
-                data.user,
-                fullName
-              );
-              closeAuth();
-              await loadAccount();
-              alert(
-                "Account created successfully!"
-              );
-            }
-          } else {
-            const {
-              data,
-              error
-            } =
-              await supabaseClient
-                .auth
-                .signInWithPassword({
-                  email,
-                  password
-                });
-            if (error) {
-              throw error;
-            }
-            if (data.user) {
-              closeAuth();
-              await loadAccount();
-              alert(
-                "Login successful!"
-              );
-            }
-          }
-        } catch (error) {
-          message.textContent =
-            error.message ||
-            "Something went wrong.";
-        } finally {
-          button.disabled = false;
-          button.textContent =
-            authMode === "register"
-              ? "Create Account"
-              : "Login";
-        }
-      }
+    .reset();
+
+  document
+    .getElementById("authMessage")
+    .textContent =
+    "";
+
+}
+
+
+function switchAuth(){
+
+  authMode =
+    authMode === "login"
+      ? "register"
+      : "login";
+
+  updateAuthForm();
+
+}
+
+
+function updateAuthForm(){
+
+  const title =
+    document.getElementById(
+      "authTitle"
     );
-  /* =========================================================
-     PROFILE
-  ========================================================= */
-  async function createProfile(
-    user,
-    fullName
-  ) {
-    const name =
-      fullName ||
-      user.user_metadata?.full_name ||
-      "";
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("profiles")
-        .upsert({
-          id: user.id,
-          full_name: name,
-          email: user.email
-        }, {
-          onConflict: "id"
-        });
-    if (error) {
-      console.error(
-        "Profile error:",
-        error
-      );
-    }
-  }
-  /* =========================================================
-     ACCOUNT
-  ========================================================= */
-  async function loadAccount() {
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient
-        .auth
-        .getUser();
-    const loginNav =
-      document.getElementById(
-        "loginNav"
-      );
-    const accountNav =
-      document.getElementById(
-        "accountNav"
-      );
-    const accountBox =
-      document.getElementById(
-        "accountBox"
-      );
-    if (!user) {
-      loginNav.style.display =
-        "block";
-      accountNav.style.display =
-        "none";
-      accountBox.style.display =
-        "none";
-      return;
-    }
-    loginNav.style.display =
+
+  const fullName =
+    document.getElementById(
+      "fullName"
+    );
+
+  const submit =
+    document.getElementById(
+      "authSubmit"
+    );
+
+  const switchText =
+    document.getElementById(
+      "switchText"
+    );
+
+  const switchAction =
+    document.getElementById(
+      "switchAction"
+    );
+
+  const forgot =
+    document.getElementById(
+      "forgotPassword"
+    );
+
+
+  if(authMode === "register"){
+
+    title.textContent =
+      "Create Account";
+
+    fullName.style.display =
+      "block";
+
+    fullName.required =
+      true;
+
+    submit.textContent =
+      "Create Account";
+
+    switchText.textContent =
+      "Already have an account?";
+
+    switchAction.textContent =
+      " Login";
+
+    forgot.style.display =
       "none";
-    accountNav.style.display =
+
+  }else{
+
+    title.textContent =
+      "Login";
+
+    fullName.style.display =
+      "none";
+
+    fullName.required =
+      false;
+
+    submit.textContent =
+      "Login";
+
+    switchText.textContent =
+      "Don't have an account?";
+
+    switchAction.textContent =
+      " Register";
+
+    forgot.style.display =
       "block";
-    accountBox.style.display =
-      "block";
-    document.getElementById(
-      "accountName"
-    ).textContent =
-      "Name: " +
-      (
-        user.user_metadata
-          ?.full_name ||
-        "Customer"
-      );
-    document.getElementById(
-      "accountEmail"
-    ).textContent =
-      "Email: " +
-      (
-        user.email ||
-        ""
-      );
-    await loadWallet();
+
   }
-  /* =========================================================
-     WALLET
-  ========================================================= */
-  async function loadWallet() {
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient
-        .auth
-        .getUser();
-    if (!user) {
-      return;
-    }
-    try {
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select("wallet_balance")
-          .eq("id", user.id)
-          .maybeSingle();
-      if (error) {
-        console.error(
-          "Wallet error:",
-          error
-        );
-        return;
-      }
-      const balance =
-        Number(
-          data?.wallet_balance || 0
-        );
-      document.getElementById(
-        "walletBalance"
-      ).textContent =
-        formatNaira(balance);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  function formatNaira(amount) {
-    return "₦" +
-      Number(amount || 0)
-        .toLocaleString("en-NG");
-  }
-  function fundWallet() {
-    alert(
-      "Wallet funding will be connected to the payment gateway in the next step."
-    );
-  }
-  /* =========================================================
-     LOGOUT
-  ========================================================= */
-  async function logout() {
-    const {
-      error
-    } =
-      await supabaseClient
-        .auth
-        .signOut();
-    if (error) {
-      alert(error.message);
-      return;
-    }
-    await loadAccount();
-    alert(
-      "You have been logged out."
-    );
-  }
-  /* =========================================================
-     SERVICES
-  ========================================================= */
-  function setFilter(
-    filter,
-    button
-  ) {
-    currentFilter =
-      filter;
-    document
-      .querySelectorAll(
-        ".filter-btn"
-      )
-      .forEach(
-        btn =>
-          btn.classList.remove(
-            "active"
-          )
-      );
-    button.classList.add(
-      "active"
-    );
-    renderServices();
-  }
-  function renderServices() {
-    const grid =
-      document.getElementById(
-        "productsGrid"
-      );
-    const query =
-      document
-        .getElementById("search")
-        .value
-        .toLowerCase()
-        .trim();
-    const filtered =
-      services.filter(
-        service => {
-          const matchesFilter =
-            currentFilter === "All" ||
-            service.platform ===
-              currentFilter;
-          const matchesSearch =
-            service.name
-              .toLowerCase()
-              .includes(query) ||
-            service.type
-              .toLowerCase()
-              .includes(query) ||
-            service.platform
-              .toLowerCase()
-              .includes(query);
-          return (
-            matchesFilter &&
-            matchesSearch
-          );
+
+}
+
+
+/* ============================================================
+   REGISTER / LOGIN
+============================================================ */
+
+document
+  .getElementById("authForm")
+  .addEventListener(
+    "submit",
+    async function(event){
+
+      event.preventDefault();
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+      const fullName =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
+
+      const message =
+        document
+          .getElementById("authMessage");
+
+      const button =
+        document
+          .getElementById("authSubmit");
+
+
+      message.textContent =
+        "";
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "Please wait...";
+
+
+      try{
+
+        if(authMode === "register"){
+
+          if(!fullName){
+
+            throw new Error(
+              "Please enter your full name."
+            );
+
+          }
+
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient
+              .auth
+              .signUp({
+
+                email:email,
+
+                password:password,
+
+                options:{
+                  data:{
+                    full_name:
+                      fullName
+                  }
+                }
+
+              });
+
+
+          if(error)
+            throw error;
+
+
+          if(
+            data.user &&
+            !data.session
+          ){
+
+            message.textContent =
+              "Account created. Check your email and confirm your email address before logging in.";
+
+            button.disabled =
+              false;
+
+            button.textContent =
+              "Create Account";
+
+            return;
+
+          }
+
+
+          if(data.user){
+
+            await createProfile(
+              data.user,
+              fullName
+            );
+
+            closeAuth();
+
+            await loadAccount();
+
+            alert(
+              "Account created successfully!"
+            );
+
+          }
+
+        }else{
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient
+              .auth
+              .signInWithPassword({
+
+                email:email,
+
+                password:password
+
+              });
+
+
+          if(error)
+            throw error;
+
+
+          if(data.user){
+
+            await loadAccount();
+
+            closeAuth();
+
+            alert(
+              "Login successful!"
+            );
+
+          }
+
         }
-      );
-    if (!filtered.length) {
-      grid.innerHTML =
-        `<div class="empty">
-          No services found.
-        </div>`;
-      return;
-    }
-    grid.innerHTML =
-      filtered
-        .map(
-          service => `
-            <div class="card">
-              <div class="service-icon">
-                ${service.icon}
-              </div>
-              <span class="badge">
-                ${service.platform}
-                •
-                ${service.type}
-              </span>
-              <h3>
-                ${service.name}
-              </h3>
-              <p>
-                ${service.description}
-              </p>
-              <div class="price">
-                ${formatNaira(
-                  service.price
-                )}
-              </div>
-              <button
-                class="buy-btn"
-                onclick="addToCart(
-                  '${escapeText(service.name)}',
-                  ${service.price}
-                )"
-              >
-                Order Service
-              </button>
-            </div>
-          `
-        )
-        .join("");
-  }
-  function escapeText(text) {
-    return String(text)
-      .replace(
-        /'/g,
-        "\\'"
-      );
-  }
-  /* =========================================================
-     CART
-  ========================================================= */
-  function addToCart(
-    name,
-    price
-  ) {
-    cart.push({
-      name,
-      price
-    });
-    updateCartCount();
-    alert(
-      name +
-      " added to cart."
-    );
-  }
-  function updateCartCount() {
-    document.getElementById(
-      "cartCount"
-    ).textContent =
-      cart.length;
-  }
-  function viewCart() {
-    if (!cart.length) {
-      alert(
-        "Your cart is empty."
-      );
-      return;
-    }
-    const summary =
-      cart
-        .map(
-          (item, index) =>
-            `${index + 1}. ${item.name} - ${formatNaira(item.price)}`
-        )
-        .join("\n");
-    const total =
-      cart.reduce(
-        (sum, item) =>
-          sum + Number(item.price),
-        0
-      );
-    const proceed =
-      confirm(
-        "Your Cart:\n\n" +
-        summary +
-        "\n\nTotal: " +
-        formatNaira(total) +
-        "\n\nProceed with this order?"
-      );
-    if (proceed) {
-      checkout(total);
-    }
-  }
-  async function checkout(total) {
-    const {
-      data: {
-        user
+
+      }catch(error){
+
+        message.textContent =
+          error.message ||
+          "Something went wrong.";
+
+      }finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          authMode === "register"
+            ? "Create Account"
+            : "Login";
+
       }
-    } =
-      await supabaseClient
-        .auth
-        .getUser();
-    if (!user) {
-      alert(
-        "Please login before placing an order."
-      );
-      openAuth("login");
-      return;
-    }
-    alert(
-      "Order checkout will be connected to the wallet/order database in the next step.\n\nTotal: " +
-      formatNaira(total)
-    );
-  }
-  /* =========================================================
-     ORDERS
-  ========================================================= */
-  async function loadOrders() {
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient
-        .auth
-        .getUser();
-    if (!user) {
-      openAuth("login");
-      return;
-    }
-    alert(
-      "Your order-history section is ready to be connected to the orders table."
-    );
-  }
-  /* =========================================================
-     AUTH STATE
-  ========================================================= */
-  supabaseClient
-    .auth
-    .onAuthStateChange(
-      () => {
-        setTimeout(
-          () => loadAccount(),
-          0
-        );
-      }
-    );
-  /* =========================================================
-     INITIALIZE
-  ========================================================= */
-  document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-      renderServices();
-      loadAccount();
+
     }
   );
+
+
+/* ============================================================
+   FORGOT PASSWORD
+============================================================ */
+
+async function forgotPassword(){
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const message =
+    document
+      .getElementById("authMessage");
+
+
+  if(!email){
+
+    message.textContent =
+      "Enter your email address first.";
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              window.location.origin +
+              window.location.pathname
+          }
+        );
+
+
+    if(error)
+      throw error;
+
+
+    message.textContent =
+      "Password reset link sent. Check your email.";
+
+  }catch(error){
+
+    message.textContent =
+      error.message ||
+      "Unable to send password reset email.";
+
+  }
+
+}
+
+
+/* ============================================================
+   PROFILE
+============================================================ */
+
+async function createProfile(
+  user,
+  fullName
+){
+
+  const name =
+    fullName ||
+    user.user_metadata?.full_name ||
+    "";
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .upsert({
+
+        id:user.id,
+
+        full_name:name,
+
+        email:user.email
+
+      },{
+        onConflict:"id"
+      });
+
+
+  if(error){
+
+    console.error(
+      "Profile error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   ACCOUNT
+============================================================ */
+
+async function loadAccount(){
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+
+
+  const loginNav =
+    document.getElementById(
+      "loginNav"
+    );
+
+  const accountNav =
+    document.getElementById(
+      "accountNav"
+    );
+
+  const accountBox =
+    document.getElementById(
+      "accountBox"
+    );
+
+  const createAccountBtn =
+    document.getElementById(
+      "createAccountBtn"
+    );
+
+
+  if(!user){
+
+    loginNav.style.display =
+      "block";
+
+    accountNav.style.display =
+      "none";
+
+    accountBox.style.display =
+      "none";
+
+    createAccountBtn.style.display =
+      "inline-block";
+
+    return;
+
+  }
+
+
+  loginNav.style.display =
+    "none";
+
+  accountNav.style.display =
+    "block";
+
+  accountBox.style.display =
+    "block";
+
+  /* CREATE ACCOUNT DISAPPEARS AFTER LOGIN */
+  createAccountBtn.style.display =
+    "none";
+
+
+  document
+    .getElementById("accountName")
+    .textContent =
+    "Name: " +
+    (
+      user.user_metadata?.full_name ||
+      "Customer"
+    );
+
+
+  document
+    .getElementById("accountEmail")
+    .textContent =
+    "Email: " +
+    user.email;
+
+}
+
+
+/* ============================================================
+   ACCOUNT NAV
+============================================================ */
+
+function scrollToAccount(event){
+
+  event.preventDefault();
+
+  document
+    .getElementById("accountBox")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+async function logout(){
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .auth
+      .signOut();
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+
+  }
+
+
+  await loadAccount();
+
+  alert(
+    "You have been logged out."
+  );
+
+}
+
+
+/* ============================================================
+   AUTH STATE
+============================================================ */
+
+supabaseClient
+  .auth
+  .onAuthStateChange(
+    function(){
+
+      setTimeout(
+        loadAccount,
+        0
+      );
+
+    }
+  );
+
+
+/* ============================================================
+   CART
+============================================================ */
+
+function addToCart(
+  name,
+  price
+){
+
+  cart.push({
+    name:name,
+    price:price
+  });
+
+  updateCartCount();
+
+  alert(
+    `${name} added to cart!`
+  );
+
+}
+
+
+function updateCartCount(){
+
+  document
+    .getElementById("cartCount")
+    .textContent =
+    cart.length;
+
+}
+
+
+function viewCart(){
+
+  if(cart.length === 0){
+
+    alert(
+      "Your cart is empty."
+    );
+
+    return;
+
+  }
+
+
+  const summary =
+    cart
+      .map(
+        (item,index) =>
+          `${index + 1}. ${item.name} - ₦${item.price}`
+      )
+      .join("\n");
+
+
+  const total =
+    cart.reduce(
+      (sum,item) =>
+        sum + item.price,
+      0
+    );
+
+
+  alert(
+    `Your Cart:\n\n${summary}\n\nTotal: ₦${total}`
+  );
+
+}
+
+
+/* ============================================================
+   SERVICE SEARCH
+============================================================ */
+
+function searchServices(){
+
+  const query =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const cards =
+    document.querySelectorAll(
+      ".service-card"
+    );
+
+
+  cards.forEach(
+    card => {
+
+      const name =
+        (
+          card.getAttribute(
+            "data-name"
+          ) || ""
+        ).toLowerCase();
+
+
+      card.style.display =
+        name.includes(query)
+          ? ""
+          : "none";
+
+    }
+  );
+
+}
+
+
+/* ============================================================
+   INITIALIZE
+============================================================ */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    loadAccount();
+
+  }
+);
+
+
+/* ============================================================
+   CLOSE MODALS WHEN CLICKING OUTSIDE
+============================================================ */
+
+window.addEventListener(
+  "click",
+  function(event){
+
+    const auth =
+      document.getElementById(
+        "authModal"
+      );
+
+    const boost =
+      document.getElementById(
+        "boostModal"
+      );
+
+    const service =
+      document.getElementById(
+        "serviceModal"
+      );
+
+
+    if(event.target === auth)
+      closeAuth();
+
+    if(event.target === boost)
+      closeBoosting();
+
+    if(event.target === service)
+      closeServiceChat();
+
+  }
+);
+
 </script>
+
 </body>
 </html>
