@@ -13,14 +13,14 @@
   font-family:Arial,sans-serif;
 }
 body{
-  background:#07070b;
+  background:#080b14;
   color:#fff;
   min-height:100vh;
 }
 header{
-  background:rgba(10,10,15,.95);
-  border-bottom:1px solid #25252d;
-  padding:15px 5%;
+  background:rgba(10,12,22,.96);
+  border-bottom:1px solid #252a3a;
+  padding:16px 5%;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -34,52 +34,56 @@ header{
   font-weight:bold;
 }
 .logo span{
-  color:#8b6cff;
+  color:#7c5cff;
 }
 nav{
   display:flex;
-  gap:18px;
+  gap:12px;
   align-items:center;
 }
-nav a{
+nav a,
+nav button{
   color:#ccc;
   text-decoration:none;
+  background:none;
+  border:none;
+  cursor:pointer;
   font-size:14px;
 }
-nav a:hover{
+nav a:hover,
+nav button:hover{
   color:#fff;
 }
 .login-btn{
-  background:#7c5cff;
+  background:#7c5cff!important;
   color:#fff!important;
   padding:10px 16px;
   border-radius:8px;
 }
 .hero{
-  min-height:520px;
-  padding:100px 5%;
+  padding:90px 5%;
   text-align:center;
   background:
-    radial-gradient(circle at 50% 0%,rgba(124,92,255,.30),transparent 35%),
-    radial-gradient(circle at 20% 60%,rgba(43,120,255,.12),transparent 30%),
-    #07070b;
+    radial-gradient(circle at 20% 20%,rgba(124,92,255,.25),transparent 30%),
+    radial-gradient(circle at 80% 10%,rgba(0,180,255,.18),transparent 28%),
+    linear-gradient(135deg,#090d19,#11152a 50%,#080b14);
 }
 .hero h1{
-  font-size:clamp(40px,8vw,76px);
+  font-size:clamp(38px,7vw,70px);
   margin-bottom:20px;
 }
 .hero h1 span{
-  color:#8b6cff;
+  color:#7c5cff;
 }
 .hero p{
-  max-width:680px;
-  margin:auto;
   color:#aaa;
+  max-width:700px;
+  margin:auto;
   line-height:1.7;
   font-size:17px;
 }
 .hero-buttons{
-  margin-top:32px;
+  margin-top:30px;
   display:flex;
   justify-content:center;
   gap:12px;
@@ -87,12 +91,11 @@ nav a:hover{
 }
 .primary-btn,
 .secondary-btn{
-  padding:14px 22px;
+  padding:13px 22px;
   border-radius:9px;
+  text-decoration:none;
   font-weight:bold;
   cursor:pointer;
-  text-decoration:none;
-  display:inline-block;
 }
 .primary-btn{
   background:#7c5cff;
@@ -100,45 +103,45 @@ nav a:hover{
   border:none;
 }
 .secondary-btn{
-  background:#111118;
+  background:transparent;
+  border:1px solid #33394d;
   color:#fff;
-  border:1px solid #30303b;
 }
 .section{
+  padding:55px 5%;
   max-width:1200px;
   margin:auto;
-  padding:60px 5%;
 }
 .section-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  margin-bottom:25px;
   gap:15px;
   flex-wrap:wrap;
-  margin-bottom:25px;
 }
 .section-title h2{
   font-size:28px;
 }
 .search{
-  width:250px;
-  padding:12px 15px;
-  background:#111118;
-  border:1px solid #30303b;
-  border-radius:8px;
+  background:#111522;
+  border:1px solid #2b3042;
   color:#fff;
+  padding:12px 15px;
+  border-radius:8px;
+  width:240px;
   outline:none;
 }
 .products{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px;
 }
 .card{
-  background:linear-gradient(145deg,#14141c,#0e0e14);
-  border:1px solid #25252e;
-  border-radius:15px;
-  padding:22px;
+  background:#10141f;
+  border:1px solid #252b3b;
+  border-radius:14px;
+  padding:20px;
   transition:.2s;
 }
 .card:hover{
@@ -146,14 +149,14 @@ nav a:hover{
   border-color:#7c5cff;
 }
 .card-icon{
-  width:55px;
-  height:55px;
-  border-radius:13px;
+  width:52px;
+  height:52px;
+  border-radius:12px;
   background:#211b40;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:25px;
+  font-size:23px;
   margin-bottom:18px;
 }
 .card h3{
@@ -165,43 +168,29 @@ nav a:hover{
   line-height:1.5;
   margin-bottom:18px;
 }
-.buy-btn,
-.chat-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  color:#fff;
+.price{
+  font-size:20px;
   font-weight:bold;
+  margin-bottom:15px;
+}
+.buy-btn,
+.whatsapp-btn{
+  width:100%;
+  border:none;
+  color:#fff;
+  padding:12px;
+  border-radius:8px;
   cursor:pointer;
+  font-weight:bold;
 }
 .buy-btn{
   background:#7c5cff;
 }
-.chat-btn{
-  background:#168b3c;
+.whatsapp-btn{
+  background:#128c7e;
 }
-.price{
-  font-size:19px;
-  font-weight:bold;
-  margin-bottom:15px;
-}
-.boost-section{
-  background:
-    radial-gradient(circle at 80% 20%,rgba(124,92,255,.15),transparent 35%),
-    #0a0a10;
-  border-top:1px solid #20202a;
-  border-bottom:1px solid #20202a;
-}
-.boost-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:10px;
-}
-.boost-description{
-  color:#999;
-  margin-bottom:25px;
+.whatsapp-btn:hover{
+  background:#0e7569;
 }
 .features{
   display:grid;
@@ -209,8 +198,8 @@ nav a:hover{
   gap:18px;
 }
 .feature{
-  background:#111118;
-  border:1px solid #25252e;
+  background:#10141f;
+  border:1px solid #252b3b;
   border-radius:12px;
   padding:22px;
 }
@@ -222,79 +211,87 @@ nav a:hover{
   line-height:1.5;
   font-size:14px;
 }
-.contact-card{
-  background:linear-gradient(145deg,#171426,#101017);
-  border:1px solid #302a4b;
-  padding:28px;
-  border-radius:15px;
-  text-align:center;
-}
-.contact-card p{
-  color:#aaa;
-  margin:10px 0 20px;
-}
-.whatsapp-btn{
-  display:inline-block;
-  background:#168b3c;
-  color:#fff;
-  text-decoration:none;
-  padding:13px 22px;
-  border-radius:9px;
-  font-weight:bold;
-}
 .account-box{
   display:none;
   max-width:500px;
   margin:30px auto 0;
-  text-align:left;
-  background:#121219;
-  border:1px solid #292933;
+  background:#10141f;
+  border:1px solid #252b3b;
   border-radius:14px;
   padding:22px;
+  text-align:left;
 }
 .account-box p{
   color:#aaa;
   margin:8px 0;
 }
-.logout-btn{
-  margin-top:15px;
-  padding:11px 16px;
-  background:#292933;
-  border:none;
-  color:#fff;
-  border-radius:8px;
-  cursor:pointer;
-}
-.admin-panel{
-  display:none;
-  background:#121219;
-  border:1px solid #292933;
+.wallet-box{
+  background:linear-gradient(135deg,#15122b,#10141f);
+  border:1px solid #30275a;
+  border-radius:16px;
   padding:25px;
-  border-radius:14px;
-  margin-top:25px;
+  text-align:center;
 }
-.admin-panel h3{
-  margin-bottom:15px;
+.wallet-balance{
+  font-size:36px;
+  font-weight:bold;
+  margin:15px 0;
+  color:#9b88ff;
 }
-.admin-panel input,
-.admin-panel select{
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
-  background:#08080c;
-  border:1px solid #30303a;
-  color:#fff;
+.wallet-btn{
+  padding:12px 20px;
+  border:none;
   border-radius:8px;
-}
-.admin-add-btn{
-  width:100%;
-  padding:12px;
   background:#7c5cff;
   color:#fff;
-  border:none;
-  border-radius:8px;
   cursor:pointer;
   font-weight:bold;
+}
+.logout-btn{
+  margin-top:15px;
+  padding:10px 15px;
+  background:#252b3b;
+  border:none;
+  color:#fff;
+  border-radius:8px;
+  cursor:pointer;
+}
+footer{
+  border-top:1px solid #252a3a;
+  background:#090c14;
+  padding:30px 5%;
+  text-align:center;
+  color:#777;
+  margin-top:40px;
+}
+.cart{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#7c5cff;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+  z-index:200;
+}
+#cartCount{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:#ff3b6b;
+  width:21px;
+  height:21px;
+  border-radius:50%;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .modal{
   display:none;
@@ -308,9 +305,9 @@ nav a:hover{
 }
 .modal-box{
   width:100%;
-  max-width:420px;
-  background:#15151d;
-  border:1px solid #30303a;
+  max-width:430px;
+  background:#151a27;
+  border:1px solid #30374b;
   border-radius:16px;
   padding:25px;
   position:relative;
@@ -320,22 +317,22 @@ nav a:hover{
 }
 .close{
   position:absolute;
-  right:17px;
-  top:12px;
+  right:18px;
+  top:15px;
   background:none;
   border:none;
   color:#aaa;
-  font-size:27px;
+  font-size:25px;
   cursor:pointer;
 }
 .input{
   width:100%;
   padding:13px;
   margin-bottom:12px;
-  background:#09090d;
-  border:1px solid #30303a;
-  border-radius:8px;
+  background:#0c101a;
   color:#fff;
+  border:1px solid #30374a;
+  border-radius:8px;
   outline:none;
 }
 .auth-btn{
@@ -345,8 +342,17 @@ nav a:hover{
   color:#fff;
   border:none;
   border-radius:8px;
-  cursor:pointer;
   font-weight:bold;
+  cursor:pointer;
+  margin-top:5px;
+}
+.forgot{
+  display:block;
+  text-align:right;
+  color:#9b88ff;
+  font-size:13px;
+  cursor:pointer;
+  margin:4px 0 15px;
 }
 .switch{
   text-align:center;
@@ -358,56 +364,16 @@ nav a:hover{
   color:#9a82ff;
   cursor:pointer;
 }
-.forgot{
-  display:block;
-  text-align:right;
-  margin:-3px 0 15px;
-  color:#9a82ff;
-  font-size:13px;
-  cursor:pointer;
-}
 .message{
   margin-bottom:12px;
   font-size:14px;
   line-height:1.5;
-  color:#ddd;
 }
-.cart{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  width:56px;
-  height:56px;
-  background:#7c5cff;
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:22px;
-  cursor:pointer;
-  box-shadow:0 8px 30px rgba(0,0,0,.5);
-  z-index:200;
-}
-#cartCount{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  width:21px;
-  height:21px;
-  background:#ff3b6b;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-}
-footer{
-  margin-top:40px;
-  padding:30px 5%;
-  border-top:1px solid #25252d;
-  background:#09090d;
-  text-align:center;
-  color:#777;
+.service-note{
+  color:#888;
+  font-size:14px;
+  margin-top:-15px;
+  margin-bottom:25px;
 }
 .hidden{
   display:none!important;
@@ -417,13 +383,13 @@ footer{
     display:none;
   }
   .hero{
-    padding:75px 5%;
-  }
-  .section{
-    padding:45px 5%;
+    padding:65px 5%;
   }
   .search{
     width:100%;
+  }
+  .hero h1{
+    font-size:42px;
   }
 }
 </style>
@@ -434,17 +400,18 @@ footer{
     Benjo<span>-SMS</span>
   </div>
   <nav>
-<a href="#home">Home</a>
-<a href="#services">Services</a>
-<a href="#boosting">Boosting</a>
-<a href="#verification">Verification</a>
-<a href="#" id="accountNav" class="hidden">
-  Account
-</a>
-<a href="#" id="loginNav" class="login-btn"
-   onclick="openAuth('login');return false;">
-  Login
-</a>
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#boosting">Boosting</a>
+    <a href="#wallet" id="walletNav" class="hidden">
+      Wallet
+    </a>
+    <a href="#" id="accountNav" class="hidden">
+      Account
+    </a>
+    <a href="#" class="login-btn" id="loginNav">
+      Login
+    </a>
   </nav>
 </header>
 <section class="hero" id="home">
@@ -452,129 +419,170 @@ footer{
     Welcome to <span>Benjo-SMS</span>
   </h1>
   <p>
-    Your simple digital marketplace for social media services,
-    boosting services and verification numbers.
+    Your simple and secure digital marketplace.
+    Get social media services, verification numbers,
+    boosting services and more.
   </p>
   <div class="hero-buttons">
-<a href="#services" class="primary-btn">
-  Browse Services
-</a>
-<button
-  class="secondary-btn"
-  onclick="openAuth('register')">
-  Create Account
-</button>
+    <a href="#services" class="primary-btn">
+      Browse Services
+    </a>
+    <button
+      class="secondary-btn"
+      id="heroAccountBtn"
+      onclick="openAuth('register')"
+    >
+      Create Account
+    </button>
   </div>
   <div class="account-box" id="accountBox">
-<h2>My Account</h2>
-<p id="accountName"></p>
-<p id="accountEmail"></p>
-<button
-  class="logout-btn"
-  onclick="logout()">
-  Logout
-</button>
+    <h2>My Account</h2>
+    <p id="accountName"></p>
+    <p id="accountEmail"></p>
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
+      Logout
+    </button>
   </div>
 </section>
 <!-- SERVICES -->
 <section class="section" id="services">
   <div class="section-title">
-<h2>Services</h2>
-<input
-  class="search"
-  id="serviceSearch"
-  placeholder="Search services..."
-  onkeyup="searchServices()">
+    <h2>Services</h2>
+    <input
+      type="text"
+      class="search"
+      id="serviceSearch"
+      placeholder="Search services..."
+      onkeyup="searchServices()"
+    >
   </div>
+  <p class="service-note">
+    Select a service to view the available options.
+  </p>
   <div class="products" id="serviceList">
+    <!-- SERVICES ARE LOADED HERE -->
   </div>
 </section>
 <!-- BOOSTING -->
-<section class="boost-section" id="boosting">
-  <section class="section">
-<div class="boost-title">
-  <h2>🚀 Boosting Service</h2>
-</div>
-<p class="boost-description">
-  Select the platform you want to boost and chat directly
-  with Benjo-SMS admin on WhatsApp.
-</p>
-<div class="products">
-  <div class="card">
-    <div class="card-icon">📘</div>
-    <h3>Facebook Boosting</h3>
-    <p>
-      Boost your Facebook page, post or account.
-    </p>
-    <button class="chat-btn"
-      onclick="boostChat('Facebook')">
-      Chat Admin
-    </button>
+<section class="section" id="boosting">
+  <div class="section-title">
+    <h2>🚀 Boosting Service</h2>
   </div>
-  <div class="card">
-    <div class="card-icon">📸</div>
-    <h3>Instagram Boosting</h3>
-    <p>
-      Boost your Instagram account, post or page.
-    </p>
-    <button class="chat-btn"
-      onclick="boostChat('Instagram')">
-      Chat Admin
-    </button>
+  <p class="service-note">
+    Select the platform you want to boost. You will be connected
+    directly to Benjo-SMS admin on WhatsApp.
+  </p>
+  <div class="products">
+    <div class="card">
+      <div class="card-icon">📘</div>
+      <h3>Facebook</h3>
+      <p>
+        Boost your Facebook account, page or content.
+      </p>
+      <button
+        class="whatsapp-btn"
+        onclick="boostChat('Facebook')"
+      >
+        Chat Admin
+      </button>
+    </div>
+    <div class="card">
+      <div class="card-icon">📸</div>
+      <h3>Instagram</h3>
+      <p>
+        Boost Instagram followers, engagement or content.
+      </p>
+      <button
+        class="whatsapp-btn"
+        onclick="boostChat('Instagram')"
+      >
+        Chat Admin
+      </button>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎵</div>
+      <h3>TikTok</h3>
+      <p>
+        Boost your TikTok account, videos or engagement.
+      </p>
+      <button
+        class="whatsapp-btn"
+        onclick="boostChat('TikTok')"
+      >
+        Chat Admin
+      </button>
+    </div>
+    <div class="card">
+      <div class="card-icon">𝕏</div>
+      <h3>Twitter / X</h3>
+      <p>
+        Boost your Twitter/X account and content.
+      </p>
+      <button
+        class="whatsapp-btn"
+        onclick="boostChat('Twitter / X')"
+      >
+        Chat Admin
+      </button>
+    </div>
+    <div class="card">
+      <div class="card-icon">▶️</div>
+      <h3>YouTube</h3>
+      <p>
+        Boost your YouTube channel, videos or engagement.
+      </p>
+      <button
+        class="whatsapp-btn"
+        onclick="boostChat('YouTube')"
+      >
+        Chat Admin
+      </button>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-icon">🎵</div>
-    <h3>TikTok Boosting</h3>
-    <p>
-      Boost your TikTok account, video or profile.
-    </p>
-    <button class="chat-btn"
-      onclick="boostChat('TikTok')">
-      Chat Admin
-    </button>
-  </div>
-  <div class="card">
-    <div class="card-icon">𝕏</div>
-    <h3>Twitter X Boosting</h3>
-    <p>
-      Boost your Twitter X account, post or profile.
-    </p>
-    <button class="chat-btn"
-      onclick="boostChat('Twitter X')">
-      Chat Admin
-    </button>
-  </div>
-  <div class="card">
-    <div class="card-icon">▶️</div>
-    <h3>YouTube Boosting</h3>
-    <p>
-      Boost your YouTube channel or video.
-    </p>
-    <button class="chat-btn"
-      onclick="boostChat('YouTube')">
-      Chat Admin
-    </button>
-  </div>
-</div>
-  </section>
 </section>
 <!-- VERIFICATION -->
-<section class="section" id="verification">
-  <div class="section-title">
+<section class="section">
+  <div class="wallet-box">
     <h2>📱 Verification Number</h2>
+    <p style="color:#aaa;margin:12px 0 20px;">
+      Need a verification number? Chat directly with Benjo-SMS admin.
+    </p>
+    <button
+      class="whatsapp-btn"
+      style="max-width:350px;"
+      onclick="verificationChat()"
+    >
+      Chat Admin on WhatsApp
+    </button>
   </div>
-  <div class="contact-card">
-<h3>Need a Verification Number?</h3>
-<p>
-  Click the button below to message Benjo-SMS admin
-  directly on WhatsApp.
-</p>
-<a
-  class="whatsapp-btn"
-  href="https://wa.me/2348165405921?text=Hello%20Benjo-SMS%20Admin%2C%20I%20need%20a%20verification%20number."
-  target="_blank">
-  💬 Message Admin on WhatsApp
-</a>
+</section>
+<!-- WALLET -->
+<section class="section hidden" id="wallet">
+  <div class="section-title">
+    <h2>💰 My Wallet</h2>
+  </div>
+  <div class="wallet-box">
+    <p style="color:#aaa;">
+      Wallet Balance
+    </p>
+    <div
+      class="wallet-balance"
+      id="walletBalance"
+    >
+      ₦0
+    </div>
+    <button
+      class="wallet-btn"
+      onclick="fundWallet()"
+    >
+      Fund Wallet
+    </button>
+    <p style="color:#777;margin-top:15px;font-size:13px;">
+      Payment gateway connection will be added in the next step.
+    </p>
   </div>
 </section>
 <!-- FEATURES -->
@@ -583,55 +591,34 @@ footer{
     <h2>Why Benjo-SMS?</h2>
   </div>
   <div class="features">
-<div class="feature">
-  <div>🔐</div>
-  <h3>Secure</h3>
-  <p>
-    Customer authentication and protected profiles.
-  </p>
-</div>
-<div class="feature">
-  <div>⚡</div>
-  <h3>Fast</h3>
-  <p>
-    Simple registration, login and service access.
-  </p>
-</div>
-<div class="feature">
-  <div>🚀</div>
-  <h3>Boosting</h3>
-  <p>
-    Choose your social platform and chat directly with admin.
-  </p>
-</div>
-<div class="feature">
-  <div>💬</div>
-  <h3>Direct Support</h3>
-  <p>
-    Contact Benjo-SMS admin directly through WhatsApp.
-  </p>
-</div>
-  </div>
-</section>
-<!-- ADMIN ADD SERVICE -->
-<section class="section" id="adminSection">
-  <div class="admin-panel" id="adminPanel">
-<h3>⚙️ Add New Service</h3>
-<input
-  id="newServiceName"
-  placeholder="Service name">
-<input
-  id="newServiceDescription"
-  placeholder="Service description">
-<input
-  id="newServicePrice"
-  type="number"
-  placeholder="Price">
-<button
-  class="admin-add-btn"
-  onclick="addNewService()">
-  Add Service
-</button>
+    <div class="feature">
+      <div>🔐</div>
+      <h3>Secure</h3>
+      <p>
+        Customer authentication and protected account access.
+      </p>
+    </div>
+    <div class="feature">
+      <div>⚡</div>
+      <h3>Fast</h3>
+      <p>
+        Easy access to services and direct admin support.
+      </p>
+    </div>
+    <div class="feature">
+      <div>📱</div>
+      <h3>WhatsApp Support</h3>
+      <p>
+        Chat directly with Benjo-SMS admin when you need help.
+      </p>
+    </div>
+    <div class="feature">
+      <div>⚙️</div>
+      <h3>Flexible Services</h3>
+      <p>
+        New services can be added to the marketplace anytime.
+      </p>
+    </div>
   </div>
 </section>
 <footer>
@@ -640,161 +627,174 @@ footer{
   </p>
 </footer>
 <!-- CART -->
-<div class="cart" onclick="viewCart()">
-
-🛒
-
+<div
+  class="cart"
+  onclick="viewCart()"
+>
+  🛒
   <span id="cartCount">
     0
   </span>
 </div>
 <!-- AUTH MODAL -->
-<div class="modal" id="authModal">
-  <div class="modal-box">
-<button
-  class="close"
-  onclick="closeAuth()">
-  ×
-</button>
-<h2 id="authTitle">
-  Login
-</h2>
 <div
-  class="message"
-  id="authMessage">
-</div>
-<form id="authForm">
-  <input
-    class="input"
-    id="fullName"
-    type="text"
-    placeholder="Full name"
-    style="display:none;">
-  <input
-    class="input"
-    id="email"
-    type="email"
-    placeholder="Email address"
-    required>
-  <input
-    class="input"
-    id="password"
-    type="password"
-    placeholder="Password"
-    minlength="6"
-    required>
-  <span
-    class="forgot"
-    id="forgotPassword"
-    onclick="forgotPassword()">
-    Forgot password?
-  </span>
-  <button
-    class="auth-btn"
-    type="submit"
-    id="authSubmit">
-    Login
-  </button>
-</form>
-<div class="switch">
-  <span id="switchText">
-    Don't have an account?
-  </span>
-  <span
-    id="switchAction"
-    onclick="switchAuth()">
-    Register
-  </span>
-</div>
+  class="modal"
+  id="authModal"
+>
+  <div class="modal-box">
+    <button
+      class="close"
+      onclick="closeAuth()"
+    >
+      ×
+    </button>
+    <h2 id="authTitle">
+      Login
+    </h2>
+    <div
+      class="message"
+      id="authMessage"
+    ></div>
+    <form id="authForm">
+      <input
+        class="input"
+        id="fullName"
+        type="text"
+        placeholder="Full name"
+        style="display:none;"
+      >
+      <input
+        class="input"
+        id="email"
+        type="email"
+        placeholder="Email address"
+        required
+      >
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Password"
+        minlength="6"
+        required
+      >
+      <span
+        class="forgot"
+        id="forgotPassword"
+        onclick="forgotPassword()"
+      >
+        Forgot password?
+      </span>
+      <button
+        class="auth-btn"
+        type="submit"
+        id="authSubmit"
+      >
+        Login
+      </button>
+    </form>
+    <div class="switch">
+      <span id="switchText">
+        Don't have an account?
+      </span>
+      <span
+        id="switchAction"
+        onclick="switchAuth()"
+      >
+        Register
+      </span>
+    </div>
   </div>
 </div>
 <script>
 /* ============================================================
-   SUPABASE
+   CONFIGURATION
 ============================================================ */
 const SUPABASE_URL =
-"https://zwefikwlxgphufilgcyc.supabase.co";
+  "https://zwefikwlxgphufilgcyc.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-const { createClient } =
-window.supabase;
-const supabaseClient =
-createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-/* ============================================================
-   SETTINGS
-============================================================ */
+  "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 const ADMIN_WHATSAPP =
-"2348165405921";
+  "2348165405921";
+const { createClient } =
+  window.supabase;
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+/* ============================================================
+   VARIABLES
+============================================================ */
 let authMode = "login";
 let cart = [];
-/* ============================================================
-   DEFAULT SERVICES
-============================================================ */
-const defaultServices = [
+let services = [
   {
     name:"Facebook",
-    description:"Facebook social media service.",
-    price:0,
-    icon:"📘"
+    icon:"📘",
+    description:"Facebook account and related services."
   },
   {
     name:"Instagram",
-    description:"Instagram social media service.",
-    price:0,
-    icon:"📸"
+    icon:"📸",
+    description:"Instagram account and related services."
   },
   {
     name:"TikTok",
-    description:"TikTok social media service.",
-    price:0,
-    icon:"🎵"
+    icon:"🎵",
+    description:"TikTok account and related services."
   },
   {
-    name:"Twitter X",
-    description:"Twitter X social media service.",
-    price:0,
-    icon:"𝕏"
+    name:"Twitter / X",
+    icon:"𝕏",
+    description:"Twitter/X account and related services."
   },
   {
     name:"YouTube",
-    description:"YouTube social media service.",
-    price:0,
-    icon:"▶️"
+    icon:"▶️",
+    description:"YouTube account and related services."
   }
 ];
 /* ============================================================
-   LOAD SERVICES
+   WHATSAPP
 ============================================================ */
-function getServices(){
-  const saved =
-    localStorage.getItem(
-      "benjo_services"
-    );
-  if(saved){
-    try{
-      return JSON.parse(saved);
-    }catch(e){}
-  }
-  return defaultServices;
+function openWhatsApp(message){
+  const url =
+    "https://wa.me/" +
+    ADMIN_WHATSAPP +
+    "?text=" +
+    encodeURIComponent(message);
+  window.open(url,"_blank");
 }
-function saveServices(services){
-  localStorage.setItem(
-    "benjo_services",
-    JSON.stringify(services)
+function boostChat(platform){
+  openWhatsApp(
+    "Hello Benjo-SMS Admin 👋\n\n" +
+    "I want to use the 🚀 Boosting Service.\n" +
+    "Platform: " +
+    platform +
+    "\n\nPlease send me the available boosting options and prices."
   );
 }
-function renderServices(){
-  const services =
-    getServices();
-  const list =
-    document.getElementById(
-      "serviceList"
-    );
-  list.innerHTML = "";
-  services.forEach((service,index)=>{
+function verificationChat(){
+  openWhatsApp(
+    "Hello Benjo-SMS Admin 👋\n\n" +
+    "I need a Verification Number.\n\n" +
+    "Please send me the available options and prices."
+  );
+}
+/* ============================================================
+   SERVICES
+============================================================ */
+function renderServices(list = services){
+  const container =
+    document.getElementById("serviceList");
+  container.innerHTML = "";
+  if(list.length === 0){
+    container.innerHTML =
+      '<p style="color:#888;">No service found.</p>';
+    return;
+  }
+  list.forEach(service => {
     const card =
       document.createElement("div");
     card.className = "card";
@@ -802,174 +802,99 @@ function renderServices(){
       "data-name",
       service.name
     );
-    const price =
-      Number(service.price) > 0
-      ? `₦${Number(service.price).toLocaleString()}`
-      : "Contact Admin";
     card.innerHTML = `
       <div class="card-icon">
         ${service.icon || "📱"}
       </div>
       <h3>
-        ${escapeHTML(service.name)}
+        ${escapeHtml(service.name)}
       </h3>
       <p>
-        ${escapeHTML(service.description || "")}
+        ${escapeHtml(
+          service.description ||
+          "Available Benjo-SMS service."
+        )}
       </p>
-      <div class="price">
-        ${price}
-      </div>
       <button
-        class="buy-btn"
-        onclick="serviceAction(${index})">
-        ${Number(service.price) > 0
-          ? "Add to Cart"
-          : "Chat Admin"}
+        class="whatsapp-btn"
+        onclick="serviceChat('${escapeJs(service.name)}')"
+      >
+        Chat Admin
       </button>
     `;
-    list.appendChild(card);
+    container.appendChild(card);
   });
 }
-function serviceAction(index){
-  const services =
-    getServices();
-  const service =
-    services[index];
-  if(!service) return;
-  if(Number(service.price) > 0){
-    addToCart(
-      service.name,
-      Number(service.price)
-    );
-  }else{
-    chatAdmin(
-      `Hello Benjo-SMS Admin, I am interested in the ${service.name} service.`
-    );
-  }
-}
-/* ============================================================
-   ADD NEW SERVICE
-============================================================ */
-function addNewService(){
-  const name =
-    document
-      .getElementById("newServiceName")
-      .value
-      .trim();
-  const description =
-    document
-      .getElementById("newServiceDescription")
-      .value
-      .trim();
-  const price =
-    document
-      .getElementById("newServicePrice")
-      .value;
-  if(!name){
-    alert("Enter a service name.");
-    return;
-  }
-  const services =
-    getServices();
-  services.push({
-    name:name,
-    description:
-      description ||
-      "Benjo-SMS service.",
-    price:
-      Number(price) || 0,
-    icon:"📱"
-  });
-  saveServices(services);
-  renderServices();
-  document.getElementById(
-    "newServiceName"
-  ).value = "";
-  document.getElementById(
-    "newServiceDescription"
-  ).value = "";
-  document.getElementById(
-    "newServicePrice"
-  ).value = "";
-  alert(
-    "New service added successfully."
+function serviceChat(service){
+  openWhatsApp(
+    "Hello Benjo-SMS Admin 👋\n\n" +
+    "I am interested in this service:\n" +
+    service +
+    "\n\nPlease send me the available options and prices."
   );
 }
 /* ============================================================
-   WHATSAPP
+   SEARCH SERVICES
 ============================================================ */
-function chatAdmin(message){
-  const url =
-    "https://wa.me/" +
-    ADMIN_WHATSAPP +
-    "?text=" +
-    encodeURIComponent(message);
-  window.open(
-    url,
-    "_blank"
-  );
-}
-function boostChat(platform){
-  chatAdmin(
-    `Hello Benjo-SMS Admin, I want ${platform} Boosting Service.`
-  );
+function searchServices(){
+  const query =
+    document
+      .getElementById("serviceSearch")
+      .value
+      .toLowerCase()
+      .trim();
+  const filtered =
+    services.filter(service =>
+      service.name
+        .toLowerCase()
+        .includes(query)
+    );
+  renderServices(filtered);
 }
 /* ============================================================
    AUTH MODAL
 ============================================================ */
-function openAuth(mode="login"){
+function openAuth(mode = "login"){
   authMode = mode;
-  document.getElementById(
-    "authModal"
-  ).style.display = "flex";
+  document
+    .getElementById("authModal")
+    .style.display = "flex";
   updateAuthForm();
-  document.getElementById(
-    "authMessage"
-  ).textContent = "";
+  document
+    .getElementById("authMessage")
+    .textContent = "";
 }
 function closeAuth(){
-  document.getElementById(
-    "authModal"
-  ).style.display = "none";
-  document.getElementById(
-    "authForm"
-  ).reset();
-  document.getElementById(
-    "authMessage"
-  ).textContent = "";
+  document
+    .getElementById("authModal")
+    .style.display = "none";
+  document
+    .getElementById("authForm")
+    .reset();
+  document
+    .getElementById("authMessage")
+    .textContent = "";
 }
 function switchAuth(){
   authMode =
     authMode === "login"
-    ? "register"
-    : "login";
+      ? "register"
+      : "login";
   updateAuthForm();
 }
 function updateAuthForm(){
   const title =
-    document.getElementById(
-      "authTitle"
-    );
+    document.getElementById("authTitle");
   const fullName =
-    document.getElementById(
-      "fullName"
-    );
+    document.getElementById("fullName");
   const submit =
-    document.getElementById(
-      "authSubmit"
-    );
+    document.getElementById("authSubmit");
   const switchText =
-    document.getElementById(
-      "switchText"
-    );
+    document.getElementById("switchText");
   const switchAction =
-    document.getElementById(
-      "switchAction"
-    );
+    document.getElementById("switchAction");
   const forgot =
-    document.getElementById(
-      "forgotPassword"
-    );
+    document.getElementById("forgotPassword");
   if(authMode === "register"){
     title.textContent =
       "Create Account";
@@ -1003,139 +928,150 @@ function updateAuthForm(){
   }
 }
 /* ============================================================
-   REGISTER / LOGIN
+   LOGIN / REGISTER
 ============================================================ */
 document
-.getElementById("authForm")
-.addEventListener(
-  "submit",
-  async function(event){
-    event.preventDefault();
-    const email =
-      document
-      .getElementById("email")
-      .value
-      .trim();
-    const password =
-      document
-      .getElementById("password")
-      .value;
-    const fullName =
-      document
-      .getElementById("fullName")
-      .value
-      .trim();
-    const message =
-      document
-      .getElementById("authMessage");
-    const button =
-      document
-      .getElementById("authSubmit");
-    message.textContent = "";
-    button.disabled = true;
-    button.textContent =
-      "Please wait...";
-    try{
-      if(authMode === "register"){
-        if(!fullName){
-          throw new Error(
-            "Please enter your full name."
-          );
-        }
-        const {data,error} =
-          await supabaseClient
-          .auth
-          .signUp({
-            email:email,
-            password:password,
-            options:{
-              data:{
-                full_name:fullName
-              }
-            }
-          });
-        if(error)
-          throw error;
-        if(data.user && !data.session){
-          message.textContent =
-            "Account created. Check your email to confirm your account.";
-          return;
-        }
-        if(data.user){
-          await createProfile(
-            data.user,
-            fullName
-          );
-          closeAuth();
-          await loadAccount();
-          alert(
-            "Account created successfully!"
-          );
-        }
-      }else{
-        const {data,error} =
-          await supabaseClient
-          .auth
-          .signInWithPassword({
-            email:email,
-            password:password
-          });
-        if(error)
-          throw error;
-        if(data.user){
-          closeAuth();
-          await loadAccount();
-          alert(
-            "Login successful!"
-          );
-        }
-      }
-    }catch(error){
-      message.textContent =
-        error.message ||
-        "Something went wrong.";
-    }finally{
-      button.disabled = false;
+  .getElementById("authForm")
+  .addEventListener(
+    "submit",
+    async function(event){
+      event.preventDefault();
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+      const password =
+        document
+          .getElementById("password")
+          .value;
+      const fullName =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
+      const message =
+        document
+          .getElementById("authMessage");
+      const button =
+        document
+          .getElementById("authSubmit");
+      message.textContent = "";
+      button.disabled = true;
       button.textContent =
-        authMode === "register"
-        ? "Create Account"
-        : "Login";
+        "Please wait...";
+      try{
+        if(authMode === "register"){
+          if(!fullName){
+            throw new Error(
+              "Please enter your full name."
+            );
+          }
+          const {
+            data,
+            error
+          } =
+            await supabaseClient
+              .auth
+              .signUp({
+                email:email,
+                password:password,
+                options:{
+                  data:{
+                    full_name:fullName
+                  }
+                }
+              });
+          if(error)
+            throw error;
+          if(data.user && !data.session){
+            message.textContent =
+              "Account created. Check your email and confirm your email address before logging in.";
+            button.disabled = false;
+            button.textContent =
+              "Create Account";
+            return;
+          }
+          if(data.user){
+            await createProfile(
+              data.user,
+              fullName
+            );
+            closeAuth();
+            await loadAccount();
+            alert(
+              "Account created successfully!"
+            );
+          }
+        }else{
+          const {
+            data,
+            error
+          } =
+            await supabaseClient
+              .auth
+              .signInWithPassword({
+                email:email,
+                password:password
+              });
+          if(error)
+            throw error;
+          if(data.user){
+            await loadAccount();
+            closeAuth();
+            alert(
+              "Login successful!"
+            );
+          }
+        }
+      }catch(error){
+        message.textContent =
+          error.message ||
+          "Something went wrong.";
+      }finally{
+        button.disabled = false;
+        button.textContent =
+          authMode === "register"
+            ? "Create Account"
+            : "Login";
+      }
     }
-  }
-);
+  );
 /* ============================================================
    FORGOT PASSWORD
 ============================================================ */
 async function forgotPassword(){
   const email =
     document
-    .getElementById("email")
-    .value
-    .trim();
+      .getElementById("email")
+      .value
+      .trim();
   const message =
     document
-    .getElementById("authMessage");
+      .getElementById("authMessage");
   if(!email){
     message.textContent =
       "Enter your email address first.";
     return;
   }
   try{
-    const {error} =
+    const {
+      error
+    } =
       await supabaseClient
-      .auth
-      .resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-            window.location.origin +
-            window.location.pathname
-        }
-      );
+        .auth
+        .resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              window.location.origin +
+              window.location.pathname
+          }
+        );
     if(error)
       throw error;
     message.textContent =
-      "Password reset email sent. Check your inbox.";
+      "Password reset link sent. Check your email.";
   }catch(error){
     message.textContent =
       error.message ||
@@ -1153,33 +1089,36 @@ async function createProfile(
     fullName ||
     user.user_metadata?.full_name ||
     "";
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
-    .from("profiles")
-    .upsert({
-      id:user.id,
-      full_name:name,
-      email:user.email
-    },{
-      onConflict:"id"
-    });
-  if(error){
+      .from("profiles")
+      .upsert({
+        id:user.id,
+        full_name:name,
+        email:user.email
+      },{
+        onConflict:"id"
+      });
+  if(error)
     console.error(
       "Profile error:",
       error
     );
-  }
 }
 /* ============================================================
    ACCOUNT
 ============================================================ */
 async function loadAccount(){
   const {
-    data:{user}
+    data:{
+      user
+    }
   } =
     await supabaseClient
-    .auth
-    .getUser();
+      .auth
+      .getUser();
   const loginNav =
     document.getElementById(
       "loginNav"
@@ -1188,68 +1127,73 @@ async function loadAccount(){
     document.getElementById(
       "accountNav"
     );
+  const walletNav =
+    document.getElementById(
+      "walletNav"
+    );
   const accountBox =
     document.getElementById(
       "accountBox"
     );
+  const heroAccountBtn =
+    document.getElementById(
+      "heroAccountBtn"
+    );
   if(!user){
-    loginNav.classList.remove(
+    loginNav.style.display =
+      "block";
+    accountNav.classList.add(
       "hidden"
     );
-    accountNav.classList.add(
+    walletNav.classList.add(
       "hidden"
     );
     accountBox.style.display =
       "none";
+    heroAccountBtn.style.display =
+      "inline-block";
     return;
   }
-  /*
-    After login the Create Account
-    button is no longer shown in the
-    navigation. The account is available
-    through Account.
-  */
-  loginNav.classList.add(
+  loginNav.style.display =
+    "none";
+  accountNav.classList.remove(
     "hidden"
   );
-  accountNav.classList.remove(
+  walletNav.classList.remove(
     "hidden"
   );
   accountBox.style.display =
     "block";
-  document.getElementById(
-    "accountName"
-  ).textContent =
+  /*
+    Create Account button disappears
+    after successful login.
+  */
+  heroAccountBtn.style.display =
+    "none";
+  document
+    .getElementById("accountName")
+    .textContent =
     "Name: " +
     (
       user.user_metadata?.full_name ||
       "Customer"
     );
-  document.getElementById(
-    "accountEmail"
-  ).textContent =
+  document
+    .getElementById("accountEmail")
+    .textContent =
     "Email: " +
     user.email;
-  accountNav.onclick =
-    function(){
-      document
-        .getElementById(
-          "accountBox"
-        )
-        .scrollIntoView({
-          behavior:"smooth"
-        });
-      return false;
-    };
 }
 /* ============================================================
    LOGOUT
 ============================================================ */
 async function logout(){
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
-    .auth
-    .signOut();
+      .auth
+      .signOut();
   if(error){
     alert(error.message);
     return;
@@ -1260,18 +1204,35 @@ async function logout(){
   );
 }
 /* ============================================================
-   AUTH LISTENER
+   AUTH STATE
 ============================================================ */
 supabaseClient
-.auth
-.onAuthStateChange(
-  function(){
-    setTimeout(
-      loadAccount,
-      0
-    );
+  .auth
+  .onAuthStateChange(
+    () => {
+      loadAccount();
+    }
+  );
+/* ============================================================
+   WALLET
+============================================================ */
+async function fundWallet(){
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+  if(!user){
+    openAuth("login");
+    return;
   }
-);
+  alert(
+    "Wallet funding will be connected to the payment gateway in the next step."
+  );
+}
 /* ============================================================
    CART
 ============================================================ */
@@ -1280,18 +1241,15 @@ function addToCart(
   price
 ){
   cart.push({
-    name:name,
-    price:Number(price)
+    name,
+    price
   });
   updateCartCount();
-  alert(
-    `${name} added to cart!`
-  );
 }
 function updateCartCount(){
-  document.getElementById(
-    "cartCount"
-  ).textContent =
+  document
+    .getElementById("cartCount")
+    .textContent =
     cart.length;
 }
 function viewCart(){
@@ -1303,74 +1261,94 @@ function viewCart(){
   }
   const summary =
     cart
-    .map(
-      (item,index)=>
-        `${index+1}. ${item.name} - ₦${item.price.toLocaleString()}`
-    )
-    .join("\n");
+      .map(
+        (item,index) =>
+          `${index + 1}. ${item.name} - ₦${item.price.toLocaleString()}`
+      )
+      .join("\n");
   const total =
     cart.reduce(
-      (sum,item)=>
+      (sum,item) =>
         sum + item.price,
       0
     );
-  const message =
-    `Hello Benjo-SMS Admin, I want to order:\n\n${summary}\n\nTotal: ₦${total.toLocaleString()}`;
-  if(confirm(
-    `Your Cart:\n\n${summary}\n\nTotal: ₦${total.toLocaleString()}\n\nClick OK to chat with admin on WhatsApp.`
-  )){
-    chatAdmin(message);
-  }
+  alert(
+    "Your Cart:\n\n" +
+    summary +
+    "\n\nTotal: ₦" +
+    total.toLocaleString()
+  );
 }
 /* ============================================================
-   SEARCH
+   SECURITY / HTML HELPERS
 ============================================================ */
-function searchServices(){
-  const query =
-    document
-    .getElementById(
-      "serviceSearch"
-    )
-    .value
-    .toLowerCase();
-  document
-  .querySelectorAll(
-    "#serviceList .card"
-  )
-  .forEach(card=>{
-    const name =
-      card
-      .getAttribute(
-        "data-name"
-      )
-      .toLowerCase();
-    card.style.display =
-      name.includes(query)
-      ? "block"
-      : "none";
-  });
+function escapeHtml(text){
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+function escapeJs(text){
+  return String(text)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,"&quot;")
+    .replace(/\n/g," ");
 }
 /* ============================================================
-   SECURITY HELPER
+   NAVIGATION
 ============================================================ */
-function escapeHTML(value){
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+document
+  .getElementById("loginNav")
+  .addEventListener(
+    "click",
+    function(event){
+      event.preventDefault();
+      openAuth("login");
+    }
+  );
+document
+  .getElementById("accountNav")
+  .addEventListener(
+    "click",
+    function(event){
+      event.preventDefault();
+      document
+        .getElementById("home")
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+    }
+  );
+document
+  .getElementById("walletNav")
+  .addEventListener(
+    "click",
+    function(event){
+      event.preventDefault();
+      document
+        .getElementById("wallet")
+        .classList.remove("hidden");
+      document
+        .getElementById("wallet")
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+    }
+  );
 /* ============================================================
    INITIALIZE
 ============================================================ */
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
+  async function(){
     renderServices();
-    loadAccount();
+    await loadAccount();
   }
 );
 </script>
 </body>
-</htm
+</html>
+`
