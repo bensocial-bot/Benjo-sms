@@ -8,152 +8,144 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 
 body{
-  background:#0b0b0f;
-  color:#fff
+  background:#08080c;
+  color:#fff;
 }
 
 header{
   background:#111116;
   border-bottom:1px solid #292933;
-  padding:16px 5%;
+  padding:15px 5%;
   display:flex;
   justify-content:space-between;
   align-items:center;
   position:sticky;
   top:0;
-  z-index:100
+  z-index:100;
 }
 
 .logo{
   font-size:24px;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .logo span{
-  color:#7c5cff
+  color:#7c5cff;
 }
 
 nav{
   display:flex;
   align-items:center;
-  gap:12px
+  gap:8px;
 }
 
-nav a,nav button{
-  color:#ccc;
-  background:none;
-  border:0;
+nav button{
   cursor:pointer;
-  text-decoration:none
 }
 
 .btn{
-  padding:12px 18px;
+  padding:11px 16px;
   border:0;
   border-radius:8px;
   cursor:pointer;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .primary{
   background:#7c5cff;
-  color:#fff
+  color:white;
 }
 
 .secondary{
-  background:#17171e;
-  color:#fff;
-  border:1px solid #33333d
+  background:#19191f;
+  color:white;
+  border:1px solid #33333d;
 }
 
-.delete{
-  background:#a72f4b!important;
-  color:#fff
+.danger{
+  background:#a82f49;
+  color:white;
 }
 
 .hero{
-  padding:75px 5%;
   text-align:center;
-  background:radial-gradient(circle at top,#241951,#0b0b0f 60%)
+  padding:70px 5%;
+  background:radial-gradient(circle at top,#251957,#08080c 65%);
 }
 
 .hero h1{
-  font-size:clamp(38px,7vw,70px);
-  margin-bottom:20px
+  font-size:clamp(38px,8vw,70px);
+  margin-bottom:18px;
 }
 
 .hero h1 span{
-  color:#7c5cff
+  color:#7c5cff;
 }
 
 .hero p{
   color:#aaa;
-  line-height:1.7;
   max-width:650px;
-  margin:auto
+  margin:auto;
+  line-height:1.7;
 }
 
 .buttons{
   display:flex;
   justify-content:center;
-  gap:12px;
+  gap:10px;
   flex-wrap:wrap;
-  margin-top:30px
+  margin-top:28px;
 }
 
 .section{
   max-width:1150px;
   margin:auto;
-  padding:50px 5%
+  padding:45px 5%;
 }
 
 .section h2{
-  margin-bottom:25px
+  margin-bottom:25px;
 }
 
 .products,
-.admin-services{
+.admin-grid,
+.orders-grid,
+.deposits-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:18px
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
 }
 
 .card,
 .admin-card,
-.wallet{
+.order-card,
+.deposit-card,
+.wallet-card{
   background:#131318;
   border:1px solid #292933;
   border-radius:14px;
-  padding:20px
-}
-
-.card h3,
-.admin-card h3{
-  margin-bottom:10px
+  padding:20px;
 }
 
 .card p,
 .admin-card p,
-.wallet p{
-  color:#999;
+.order-card p,
+.deposit-card p,
+.wallet-card p{
+  color:#aaa;
   line-height:1.5;
-  margin:8px 0
+  margin:8px 0;
 }
 
 .price,
 .balance{
-  font-size:22px;
+  color:#a28aff;
+  font-size:23px;
   font-weight:bold;
-  color:#9a82ff;
-  margin:15px 0
+  margin:15px 0;
 }
 
 .buy{
@@ -162,136 +154,154 @@ nav a,nav button{
   border:0;
   border-radius:8px;
   background:#7c5cff;
-  color:#fff;
+  color:white;
+  font-weight:bold;
   cursor:pointer;
-  font-weight:bold
 }
 
-.wallet{
-  max-width:700px;
-  margin:20px auto
+.wallet-card{
+  max-width:750px;
+  margin:auto;
 }
 
-.opay{
+.deposit-box{
   margin-top:20px;
-  padding:18px;
-  background:#0e0e13;
-  border-radius:10px
+  padding:20px;
+  background:#0d0d12;
+  border-radius:10px;
 }
 
 .input{
   width:100%;
   padding:13px;
-  margin-bottom:12px;
-  background:#0c0c11;
-  border:1px solid #33333d;
+  margin:7px 0;
+  background:#0b0b10;
   color:#fff;
+  border:1px solid #363640;
   border-radius:8px;
-  outline:none
-}
-
-textarea.input{
-  resize:vertical
+  outline:none;
 }
 
 .form{
   display:grid;
-  gap:12px;
-  margin:15px 0 30px
+  gap:8px;
 }
 
 .modal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.8);
+  background:rgba(0,0,0,.82);
   z-index:1000;
   align-items:center;
   justify-content:center;
-  padding:20px
+  padding:20px;
 }
 
 .modal-box{
-  width:100%;
-  max-width:430px;
   background:#15151b;
   border:1px solid #33333d;
   border-radius:15px;
+  width:100%;
+  max-width:430px;
   padding:25px;
-  position:relative
+  position:relative;
 }
 
 .close{
   position:absolute;
-  top:10px;
-  right:15px;
+  right:14px;
+  top:9px;
   background:none;
-  border:0;
   color:#aaa;
-  font-size:26px;
-  cursor:pointer
+  border:0;
+  font-size:27px;
+  cursor:pointer;
+}
+
+.auth-message,
+.message{
+  color:#aaa;
+  margin:10px 0;
+  line-height:1.5;
 }
 
 .auth-submit{
   width:100%;
   padding:13px;
+  background:#7c5cff;
+  color:white;
   border:0;
   border-radius:8px;
-  background:#7c5cff;
-  color:#fff;
+  cursor:pointer;
   font-weight:bold;
-  cursor:pointer
+  margin-top:7px;
 }
 
 .switch{
   text-align:center;
   color:#999;
   margin-top:15px;
-  font-size:14px
+  font-size:14px;
 }
 
 .switch span:last-child{
-  color:#9a82ff;
-  cursor:pointer
+  color:#a28aff;
+  cursor:pointer;
 }
 
-.account{
-  display:none;
-  max-width:700px;
-  margin:30px auto 0;
-  background:#131318;
-  border:1px solid #292933;
-  border-radius:14px;
-  padding:22px;
-  text-align:left
+.hidden{
+  display:none!important;
 }
 
 .admin{
   display:none;
   max-width:1150px;
   margin:30px auto;
-  padding:25px;
-  background:#131318;
+  padding:25px 5%;
   border:1px solid #7c5cff;
-  border-radius:16px
+  border-radius:15px;
+  background:#111116;
 }
 
 .admin hr{
-  margin:35px 0;
   border:0;
-  border-top:1px solid #292933
+  border-top:1px solid #292933;
+  margin:35px 0;
 }
 
 .actions{
   display:flex;
   gap:8px;
-  margin-top:15px
+  flex-wrap:wrap;
+  margin-top:15px;
 }
 
-.message{
-  color:#aaa;
-  line-height:1.5;
-  margin:10px 0
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:6px;
+  background:#202027;
+  font-size:13px;
+}
+
+.proof{
+  width:100%;
+  max-height:300px;
+  object-fit:contain;
+  border-radius:8px;
+  margin-top:10px;
+  border:1px solid #33333d;
+}
+
+.login-info{
+  margin-top:15px;
+  padding:15px;
+  background:#0c0c11;
+  border:1px solid #34343e;
+  border-radius:9px;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
 footer{
@@ -299,13 +309,13 @@ footer{
   color:#777;
   border-top:1px solid #292933;
   padding:30px;
-  margin-top:40px
+  margin-top:40px;
 }
 
 @media(max-width:650px){
-  nav a:not(.always){
-    display:none
-  }
+  nav a{display:none}
+  nav{gap:4px}
+  header{padding:13px 3%}
 }
 </style>
 </head>
@@ -314,2065 +324,2480 @@ footer{
 
 <header>
 
-  <div class="logo">
-    Benjo<span>-SMS</span>
-  </div>
+<div class="logo">
+Benjo<span>-SMS</span>
+</div>
 
-  <nav>
+<nav>
 
-    <a href="#home">
-      Home
-    </a>
+<a href="#home" style="color:#aaa;text-decoration:none">
+Home
+</a>
 
-    <a href="#services">
-      Services
-    </a>
+<a
+href="#services"
+id="servicesNav"
+style="color:#aaa;text-decoration:none;display:none"
+>
+Services
+</a>
 
-    <a
-      href="#account"
-      id="accountLink"
-      class="always"
-      style="display:none"
-    >
-      Account
-    </a>
+<button
+id="loginBtn"
+class="btn primary"
+onclick="openAuth('login')"
+>
+Login
+</button>
 
-    <button
-      id="loginButton"
-      class="btn primary"
-      onclick="openAuth('login')"
-    >
-      Login
-    </button>
+<button
+id="registerBtn"
+class="btn secondary"
+onclick="openAuth('register')"
+>
+Create Account
+</button>
 
-    <button
-      id="createButton"
-      class="btn secondary"
-      onclick="openAuth('register')"
-    >
-      Create Account
-    </button>
+<button
+id="logoutBtn"
+class="btn secondary hidden"
+onclick="logout()"
+>
+Logout
+</button>
 
-    <button
-      id="logoutButton"
-      class="btn secondary"
-      onclick="logout()"
-      style="display:none"
-    >
-      Logout
-    </button>
-
-  </nav>
+</nav>
 
 </header>
 
 
+<!-- HOME -->
+
 <section class="hero" id="home">
 
-  <h1>
-    Welcome to
-    <span>Benjo-SMS</span>
-  </h1>
+<h1>
+Welcome to <span>Benjo-SMS</span>
+</h1>
 
-  <p>
-    Your digital marketplace for simple and convenient
-    online services.
-  </p>
+<p>
+Buy available services securely using your Benjo-SMS wallet.
+Create an account or login to access the marketplace.
+</p>
 
-  <div class="buttons">
+<div class="buttons">
 
-    <a
-      href="#services"
-      class="btn primary"
-    >
-      Browse Services
-    </a>
+<button
+id="heroRegisterBtn"
+class="btn primary"
+onclick="openAuth('register')"
+>
+Create Account
+</button>
 
-    <button
-      id="heroCreateButton"
-      class="btn secondary"
-      onclick="openAuth('register')"
-    >
-      Create Account
-    </button>
+<button
+id="heroLoginBtn"
+class="btn secondary"
+onclick="openAuth('login')"
+>
+Login
+</button>
 
-  </div>
-
-
-  <div
-    class="account"
-    id="account"
-  >
-
-    <h2>My Account</h2>
-
-    <p id="accountName"></p>
-
-    <p id="accountEmail"></p>
-
-  </div>
+</div>
 
 </section>
 
 
+<!-- USER WALLET -->
+
 <section
-  class="section"
-  id="walletSection"
-  style="display:none"
+class="section hidden"
+id="walletSection"
 >
 
-  <div class="wallet">
+<div class="wallet-card">
 
-    <h2>💰 My Wallet</h2>
+<h2>💰 My Wallet</h2>
 
-    <p>
-      Current balance
-    </p>
+<p>Available balance</p>
 
-    <div
-      class="balance"
-      id="walletBalance"
-    >
-      ₦0.00
-    </div>
+<div
+class="balance"
+id="walletBalance"
+>
+₦0.00
+</div>
 
 
-    <div class="opay">
+<div class="deposit-box">
 
-      <h3>Manual OPay Deposit</h3>
+<h3>OPay Deposit</h3>
 
-      <p>
-        Send your payment to:
-      </p>
+<p>
+Send your payment to:
+</p>
 
-      <p>
-        <strong>
-          Account Name:
-        </strong>
-        Toluwani Benjamin / benjosms
-      </p>
+<p>
+<strong>Account Name:</strong>
+Toluwani Benjamin / benjosms
+</p>
 
-      <p>
-        <strong>
-          OPay Number:
-        </strong>
-        6550518571
-      </p>
+<p>
+<strong>OPay Number:</strong>
+6550518571
+</p>
 
+<br>
 
-      <form
-        class="form"
-        id="depositForm"
-      >
+<form
+id="depositForm"
+class="form"
+>
 
-        <input
-          class="input"
-          id="depositAmount"
-          type="number"
-          min="100"
-          placeholder="Amount sent (₦)"
-          required
-        >
+<input
+id="depositAmount"
+class="input"
+type="number"
+min="100"
+placeholder="Amount sent (₦)"
+required
+>
 
-        <input
-          class="input"
-          id="depositReference"
-          type="text"
-          placeholder="OPay transaction reference"
-          required
-        >
+<label>
+Payment screenshot
+</label>
 
-        <button
-          class="btn primary"
-          type="submit"
-        >
-          Submit Deposit
-        </button>
+<input
+id="depositScreenshot"
+class="input"
+type="file"
+accept="image/*"
+required
+>
 
-      </form>
+<button
+class="btn primary"
+type="submit"
+>
+Submit Deposit
+</button>
 
-      <div
-        class="message"
-        id="depositMessage"
-      ></div>
+</form>
 
-    </div>
+<div
+id="depositMessage"
+class="message"
+></div>
 
-  </div>
+</div>
+
+</div>
 
 </section>
 
 
+<!-- SERVICES -->
+
 <section
-  class="section"
-  id="services"
+class="section hidden"
+id="services"
 >
 
-  <h2>
-    Services
-  </h2>
+<h2>🛍️ Services</h2>
 
-  <div
-    class="products"
-    id="servicesList"
-  >
-    <p>Loading services...</p>
-  </div>
+<div
+id="servicesList"
+class="products"
+>
+</div>
 
 </section>
 
 
-<!-- ======================================================
-     ADMIN DASHBOARD
-====================================================== -->
+<!-- CART -->
 
 <section
-  class="admin"
-  id="adminPanel"
+class="section hidden"
+id="cartSection"
 >
 
-  <h2>
-    👑 Benjo-SMS Admin Dashboard
-  </h2>
+<h2>🛒 My Cart</h2>
 
-  <div
-    class="message"
-    id="adminMessage"
-  ></div>
+<div
+id="cartList"
+class="products"
+>
+</div>
 
+<div
+class="wallet-card"
+style="margin-top:20px"
+>
 
-  <h3>
-    ➕ Add Service
-  </h3>
+<p>Total</p>
 
-  <form
-    class="form"
-    id="addServiceForm"
-  >
+<div
+id="cartTotal"
+class="balance"
+>
+₦0.00
+</div>
 
-    <input
-      class="input"
-      id="serviceName"
-      type="text"
-      placeholder="Service name"
-      required
-    >
+<button
+class="btn primary"
+onclick="checkout()"
+>
+Pay With Wallet
+</button>
 
-    <textarea
-      class="input"
-      id="serviceDescription"
-      rows="4"
-      placeholder="Service description"
-    ></textarea>
+</div>
 
-    <input
-      class="input"
-      id="servicePrice"
-      type="number"
-      min="0"
-      step="0.01"
-      placeholder="Price in ₦"
-      required
-    >
-
-    <button
-      class="btn primary"
-      type="submit"
-    >
-      Add Service
-    </button>
-
-  </form>
+</section>
 
 
-  <h3>
-    📦 Manage Services
-  </h3>
+<!-- ORDERS -->
 
-  <br>
+<section
+class="section hidden"
+id="ordersSection"
+>
 
-  <div
-    class="admin-services"
-    id="adminServices"
-  ></div>
+<h2>📦 My Orders</h2>
+
+<div
+id="ordersList"
+class="orders-grid"
+>
+</div>
+
+</section>
 
 
-  <hr>
+<!-- ADMIN -->
+
+<section
+class="admin"
+id="adminPanel"
+>
+
+<h2>👑 Admin Dashboard</h2>
+
+<div
+id="adminMessage"
+class="message"
+></div>
 
 
-  <h3>
-    💳 Customer Deposits
-  </h3>
+<hr>
 
-  <br>
 
-  <div
-    class="admin-services"
-    id="adminDeposits"
-  >
-    <p>
-      Loading deposits...
-    </p>
-  </div>
+<h3>➕ Add Service</h3>
+
+<form
+id="addServiceForm"
+class="form"
+style="margin-top:15px"
+>
+
+<input
+id="serviceName"
+class="input"
+placeholder="Service name"
+required
+>
+
+<textarea
+id="serviceDescription"
+class="input"
+rows="3"
+placeholder="Description"
+></textarea>
+
+<input
+id="servicePrice"
+class="input"
+type="number"
+min="0"
+step="0.01"
+placeholder="Price"
+required
+>
+
+<button
+class="btn primary"
+type="submit"
+>
+Add Service
+</button>
+
+</form>
+
+
+<hr>
+
+
+<h3>🛍️ Manage Services</h3>
+
+<br>
+
+<div
+id="adminServices"
+class="admin-grid"
+>
+</div>
+
+
+<hr>
+
+
+<h3>💳 Customer Deposits</h3>
+
+<br>
+
+<div
+id="adminDeposits"
+class="deposits-grid"
+>
+</div>
+
+
+<hr>
+
+
+<h3>📦 Orders</h3>
+
+<br>
+
+<div
+id="adminOrders"
+class="orders-grid"
+>
+</div>
 
 </section>
 
 
 <footer>
-  © 2026 Benjo-SMS
+© 2026 Benjo-SMS
 </footer>
 
 
-<!-- ======================================================
-     AUTH MODAL
-====================================================== -->
+<!-- AUTH MODAL -->
 
 <div
-  class="modal"
-  id="authModal"
+class="modal"
+id="authModal"
 >
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <button
-      class="close"
-      onclick="closeAuth()"
-    >
-      ×
-    </button>
+<button
+class="close"
+onclick="closeAuth()"
+>
+×
+</button>
 
-    <h2 id="authTitle">
-      Login
-    </h2>
+<h2 id="authTitle">
+Login
+</h2>
 
-    <div
-      class="message"
-      id="authMessage"
-    ></div>
+<div
+id="authMessage"
+class="auth-message"
+></div>
 
-    <form id="authForm">
+<form id="authForm">
 
-      <input
-        class="input"
-        id="fullName"
-        type="text"
-        placeholder="Full name"
-        style="display:none"
-      >
+<input
+id="fullName"
+class="input"
+placeholder="Full name"
+style="display:none"
+>
 
-      <input
-        class="input"
-        id="email"
-        type="email"
-        placeholder="Email address"
-        required
-      >
+<input
+id="authEmail"
+class="input"
+type="email"
+placeholder="Email"
+required
+>
 
-      <input
-        class="input"
-        id="password"
-        type="password"
-        placeholder="Password"
-        minlength="6"
-        required
-      >
+<input
+id="authPassword"
+class="input"
+type="password"
+placeholder="Password"
+required
+>
 
-      <button
-        class="auth-submit"
-        id="authSubmit"
-        type="submit"
-      >
-        Login
-      </button>
+<button
+id="authSubmit"
+class="auth-submit"
+type="submit"
+>
+Login
+</button>
 
-    </form>
+</form>
 
+<div class="switch">
 
-    <div class="switch">
+<span id="switchText">
+Don't have an account?
+</span>
 
-      <span id="switchText">
-        Don't have an account?
-      </span>
+<span
+id="switchAction"
+onclick="switchAuth()"
+>
+Register
+</span>
 
-      <span
-        id="switchAction"
-        onclick="switchAuth()"
-      >
-        Register
-      </span>
+</div>
 
-    </div>
-
-  </div>
+</div>
 
 </div>
 
 
 <script>
 
-/* ======================================================
-   SUPABASE
-====================================================== */
+/* =====================================================
+SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
-  "https://zwefikwlxgphufilgcyc.supabase.co";
+"https://zwefikwlxgphufilgcyc.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
+const SUPABASE_KEY =
+"sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 
-/* ======================================================
-   AUTH MODE
-====================================================== */
+/* =====================================================
+STATE
+===================================================== */
 
 let authMode = "login";
-
-
-function openAuth(mode){
-
-  authMode = mode;
-
-  updateAuthForm();
-
-  document
-    .getElementById("authModal")
-    .style.display = "flex";
-
-}
-
-
-function closeAuth(){
-
-  document
-    .getElementById("authModal")
-    .style.display = "none";
-
-  document
-    .getElementById("authMessage")
-    .textContent = "";
-
-}
-
-
-function switchAuth(){
-
-  authMode =
-    authMode === "login"
-      ? "register"
-      : "login";
-
-  updateAuthForm();
-
-}
-
-
-function updateAuthForm(){
-
-  const title =
-    document.getElementById(
-      "authTitle"
-    );
-
-  const fullName =
-    document.getElementById(
-      "fullName"
-    );
-
-  const submit =
-    document.getElementById(
-      "authSubmit"
-    );
-
-  const switchText =
-    document.getElementById(
-      "switchText"
-    );
-
-  const switchAction =
-    document.getElementById(
-      "switchAction"
-    );
-
-
-  if(authMode === "register"){
-
-    title.textContent =
-      "Create Account";
-
-    fullName.style.display =
-      "block";
-
-    fullName.required =
-      true;
-
-    submit.textContent =
-      "Create Account";
-
-    switchText.textContent =
-      "Already have an account?";
-
-    switchAction.textContent =
-      " Login";
-
-  }else{
-
-    title.textContent =
-      "Login";
-
-    fullName.style.display =
-      "none";
-
-    fullName.required =
-      false;
-
-    submit.textContent =
-      "Login";
-
-    switchText.textContent =
-      "Don't have an account?";
-
-    switchAction.textContent =
-      " Register";
-
-  }
-
-}
-
-
-/* ======================================================
-   REGISTER / LOGIN
-====================================================== */
-
-document
-  .getElementById("authForm")
-  .addEventListener(
-    "submit",
-    async function(e){
-
-      e.preventDefault();
-
-
-      const email =
-        document
-          .getElementById("email")
-          .value
-          .trim();
-
-      const password =
-        document
-          .getElementById("password")
-          .value;
-
-      const fullName =
-        document
-          .getElementById("fullName")
-          .value
-          .trim();
-
-      const message =
-        document
-          .getElementById("authMessage");
-
-      const button =
-        document
-          .getElementById("authSubmit");
-
-
-      message.textContent =
-        "Please wait...";
-
-      button.disabled =
-        true;
-
-
-      try{
-
-        if(authMode === "register"){
-
-          if(!fullName){
-
-            throw new Error(
-              "Enter your full name."
-            );
-
-          }
-
-
-          const {
-            data,
-            error
-          } =
-            await supabaseClient.auth
-              .signUp({
-
-                email,
-
-                password,
-
-                options:{
-                  data:{
-                    full_name:
-                      fullName
-                  }
-                }
-
-              });
-
-
-          if(error)
-            throw error;
-
-
-          if(data.user){
-
-            /*
-              Create profile.
-
-              If the account already has
-              an admin profile, upsert
-              will not remove admin status.
-            */
-
-            const {
-              error:profileError
-            } =
-              await supabaseClient
-                .from("Benjosms")
-                .upsert({
-
-                  id:data.user.id,
-
-                  full_name:fullName,
-
-                  email:data.user.email
-
-                },{
-                  onConflict:"id"
-                });
-
-
-            if(profileError){
-
-              console.error(
-                profileError
-              );
-
-            }
-
-
-            if(data.session){
-
-              closeAuth();
-
-              await refreshEverything();
-
-            }else{
-
-              message.textContent =
-                "Account created. Check your email to verify your account.";
-
-            }
-
-          }
-
-        }else{
-
-          const {
-            data,
-            error
-          } =
-            await supabaseClient.auth
-              .signInWithPassword({
-
-                email,
-
-                password
-
-              });
-
-
-          if(error)
-            throw error;
-
-
-          closeAuth();
-
-          await refreshEverything();
-
-          alert(
-            "Login successful!"
-          );
-
-        }
-
-      }catch(error){
-
-        console.error(error);
-
-        message.textContent =
-          error.message ||
-          "Something went wrong.";
-
-      }finally{
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          authMode === "register"
-            ? "Create Account"
-            : "Login";
-
-      }
-
-    }
-  );
-
-
-/* ======================================================
-   ACCOUNT UI
-====================================================== */
-
-async function loadAccount(){
-
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth
-      .getUser();
-
-
-  const loginButton =
-    document.getElementById(
-      "loginButton"
-    );
-
-  const createButton =
-    document.getElementById(
-      "createButton"
-    );
-
-  const heroCreateButton =
-    document.getElementById(
-      "heroCreateButton"
-    );
-
-  const logoutButton =
-    document.getElementById(
-      "logoutButton"
-    );
-
-  const accountLink =
-    document.getElementById(
-      "accountLink"
-    );
-
-  const accountBox =
-    document.getElementById(
-      "account"
-    );
-
-  const walletSection =
-    document.getElementById(
-      "walletSection"
-    );
-
-
-  if(!user){
-
-    /*
-      LOGGED OUT:
-      Login visible
-      Create Account visible
-      Logout hidden
-    */
-
-    loginButton.style.display =
-      "block";
-
-    createButton.style.display =
-      "inline-block";
-
-    heroCreateButton.style.display =
-      "inline-block";
-
-    logoutButton.style.display =
-      "none";
-
-    accountLink.style.display =
-      "none";
-
-    accountBox.style.display =
-      "none";
-
-    walletSection.style.display =
-      "none";
-
-    return null;
-
-  }
-
-
-  /*
-    LOGGED IN:
-    Login hidden
-    Create Account hidden
-    Logout visible
-  */
-
-  loginButton.style.display =
-    "none";
-
-  createButton.style.display =
-    "none";
-
-  heroCreateButton.style.display =
-    "none";
-
-  logoutButton.style.display =
-    "inline-block";
-
-  accountLink.style.display =
-    "inline-block";
-
-  accountBox.style.display =
-    "block";
-
-  walletSection.style.display =
-    "block";
-
-
-  document.getElementById(
-    "accountName"
-  ).textContent =
-    "Name: " +
-    (
-      user.user_metadata?.full_name ||
-      "Customer"
-    );
-
-
-  document.getElementById(
-    "accountEmail"
-  ).textContent =
-    "Email: " +
-    user.email;
-
-
-  return user;
-
-}
-
-
-/* ======================================================
-   ADMIN CHECK
-====================================================== */
-
-async function checkAdmin(){
-
-  const user =
-    await loadAccount();
-
-
-  const panel =
-    document.getElementById(
-      "adminPanel"
-    );
-
-
-  if(!user){
-
-    panel.style.display =
-      "none";
-
-    return false;
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("Benjosms")
-      .select("is_admin")
-      .eq("id",user.id)
-      .maybeSingle();
-
-
-  console.log(
-    "Admin check:",
-    data,
-    error
-  );
-
-
-  if(error){
-
-    console.error(
-      "Admin check failed:",
-      error
-    );
-
-    panel.style.display =
-      "none";
-
-    return false;
-
-  }
-
-
-  if(data?.is_admin === true){
-
-    panel.style.display =
-      "block";
-
-    await loadAdminServices();
-
-    await loadAdminDeposits();
-
-    return true;
-
-  }
-
-
-  panel.style.display =
-    "none";
-
-  return false;
-
-}
-
-
-/* ======================================================
-   SERVICES
-====================================================== */
-
-async function loadServices(){
-
-  const container =
-    document.getElementById(
-      "servicesList"
-    );
-
-
-  container.innerHTML =
-    "<p>Loading services...</p>";
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("services")
-      .select("*")
-      .eq("available",true)
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    container.innerHTML =
-      "<p>Unable to load services.</p>";
-
-    return;
-
-  }
-
-
-  if(!data?.length){
-
-    container.innerHTML =
-      "<p>No services available yet.</p>";
-
-    return;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  data.forEach(service => {
-
-    const card =
-      document.createElement(
-        "div"
-      );
-
-    card.className =
-      "card";
-
-
-    card.innerHTML = `
-
-      <h3>
-        ${escapeHTML(
-          service.name
-        )}
-      </h3>
-
-      <p>
-        ${escapeHTML(
-          service.description || ""
-        )}
-      </p>
-
-      <div class="price">
-        ₦${Number(
-          service.price
-        ).toLocaleString()}
-      </div>
-
-      <button
-        class="buy"
-        onclick="addToCart(
-          '${service.id}'
-        )"
-      >
-        Add to Cart
-      </button>
-
-    `;
-
-
-    container.appendChild(
-      card
-    );
-
-  });
-
-}
-
-
-/* ======================================================
-   ADMIN SERVICES
-====================================================== */
-
-async function loadAdminServices(){
-
-  const container =
-    document.getElementById(
-      "adminServices"
-    );
-
-
-  container.innerHTML =
-    "<p>Loading services...</p>";
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("services")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    container.innerHTML =
-      "<p>" +
-      escapeHTML(
-        error.message
-      ) +
-      "</p>";
-
-    return;
-
-  }
-
-
-  if(!data?.length){
-
-    container.innerHTML =
-      "<p>No services yet.</p>";
-
-    return;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  data.forEach(service => {
-
-    const card =
-      document.createElement(
-        "div"
-      );
-
-    card.className =
-      "admin-card";
-
-
-    card.innerHTML = `
-
-      <h3>
-        ${escapeHTML(
-          service.name
-        )}
-      </h3>
-
-      <p>
-        ${escapeHTML(
-          service.description || ""
-        )}
-      </p>
-
-      <p>
-        Price:
-        ₦${Number(
-          service.price
-        ).toLocaleString()}
-      </p>
-
-      <p>
-        Status:
-        ${
-          service.available
-            ? "Available"
-            : "Hidden"
-        }
-      </p>
-
-      <div class="actions">
-
-        <button
-          class="btn primary"
-          onclick="editService(
-            '${service.id}'
-          )"
-        >
-          ✏️ Edit
-        </button>
-
-        <button
-          class="btn delete"
-          onclick="deleteService(
-            '${service.id}'
-          )"
-        >
-          🗑️ Delete
-        </button>
-
-      </div>
-
-    `;
-
-
-    container.appendChild(
-      card
-    );
-
-  });
-
-}
-
-
-/* ======================================================
-   ADD SERVICE
-====================================================== */
-
-document
-  .getElementById(
-    "addServiceForm"
-  )
-  .addEventListener(
-    "submit",
-    async function(e){
-
-      e.preventDefault();
-
-
-      const name =
-        document
-          .getElementById(
-            "serviceName"
-          )
-          .value
-          .trim();
-
-
-      const description =
-        document
-          .getElementById(
-            "serviceDescription"
-          )
-          .value
-          .trim();
-
-
-      const price =
-        Number(
-          document
-            .getElementById(
-              "servicePrice"
-            )
-            .value
-        );
-
-
-      const message =
-        document.getElementById(
-          "adminMessage"
-        );
-
-
-      if(!name){
-
-        message.textContent =
-          "Enter a service name.";
-
-        return;
-
-      }
-
-
-      if(!Number.isFinite(price)){
-
-        message.textContent =
-          "Enter a valid price.";
-
-        return;
-
-      }
-
-
-      const {
-        error
-      } =
-        await supabaseClient
-          .from("services")
-          .insert({
-
-            name,
-
-            description,
-
-            price,
-
-            available:true
-
-          });
-
-
-      if(error){
-
-        console.error(error);
-
-        message.textContent =
-          error.message;
-
-        return;
-
-      }
-
-
-      message.textContent =
-        "Service added successfully.";
-
-
-      document
-        .getElementById(
-          "addServiceForm"
-        )
-        .reset();
-
-
-      await loadAdminServices();
-
-      await loadServices();
-
-    }
-  );
-
-
-/* ======================================================
-   EDIT SERVICE
-====================================================== */
-
-async function editService(id){
-
-  const {
-    data:service,
-    error
-  } =
-    await supabaseClient
-      .from("services")
-      .select("*")
-      .eq("id",id)
-      .single();
-
-
-  if(error){
-
-    alert(error.message);
-
-    return;
-
-  }
-
-
-  const name =
-    prompt(
-      "Service name:",
-      service.name
-    );
-
-
-  if(name === null)
-    return;
-
-
-  const description =
-    prompt(
-      "Description:",
-      service.description || ""
-    );
-
-
-  if(description === null)
-    return;
-
-
-  const priceInput =
-    prompt(
-      "Price:",
-      service.price
-    );
-
-
-  if(priceInput === null)
-    return;
-
-
-  const price =
-    Number(priceInput);
-
-
-  if(!Number.isFinite(price)){
-
-    alert("Invalid price.");
-
-    return;
-
-  }
-
-
-  const {
-    error:updateError
-  } =
-    await supabaseClient
-      .from("services")
-      .update({
-
-        name:name.trim(),
-
-        description:
-          description.trim(),
-
-        price
-
-      })
-      .eq("id",id);
-
-
-  if(updateError){
-
-    alert(
-      updateError.message
-    );
-
-    return;
-
-  }
-
-
-  alert(
-    "Service updated."
-  );
-
-
-  await loadAdminServices();
-
-  await loadServices();
-
-}
-
-
-/* ======================================================
-   DELETE SERVICE
-====================================================== */
-
-async function deleteService(id){
-
-  if(
-    !confirm(
-      "Delete this service?"
-    )
-  )
-    return;
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("services")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    alert(error.message);
-
-    return;
-
-  }
-
-
-  alert(
-    "Service deleted."
-  );
-
-
-  await loadAdminServices();
-
-  await loadServices();
-
-}
-
-
-/* ======================================================
-   WALLET
-====================================================== */
-
-async function loadWallet(){
-
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth
-      .getUser();
-
-
-  if(!user)
-    return;
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("wallets")
-      .select("balance")
-      .eq(
-        "user_id",
-        user.id
-      )
-      .maybeSingle();
-
-
-  if(error){
-
-    console.error(
-      "Wallet error:",
-      error
-    );
-
-    return;
-
-  }
-
-
-  document.getElementById(
-    "walletBalance"
-  ).textContent =
-    "₦" +
-    Number(
-      data?.balance || 0
-    ).toLocaleString(
-      undefined,
-      {
-        minimumFractionDigits:2
-      }
-    );
-
-}
-
-
-/* ======================================================
-   CUSTOMER DEPOSIT
-====================================================== */
-
-document
-  .getElementById(
-    "depositForm"
-  )
-  .addEventListener(
-    "submit",
-    async function(e){
-
-      e.preventDefault();
-
-
-      const {
-        data:{
-          user
-        }
-      } =
-        await supabaseClient.auth
-          .getUser();
-
-
-      if(!user){
-
-        alert(
-          "Please login first."
-        );
-
-        return;
-
-      }
-
-
-      const amount =
-        Number(
-          document
-            .getElementById(
-              "depositAmount"
-            )
-            .value
-        );
-
-
-      const reference =
-        document
-          .getElementById(
-            "depositReference"
-          )
-          .value
-          .trim();
-
-
-      const message =
-        document.getElementById(
-          "depositMessage"
-        );
-
-
-      if(
-        !Number.isFinite(amount) ||
-        amount <= 0
-      ){
-
-        message.textContent =
-          "Enter a valid amount.";
-
-        return;
-
-      }
-
-
-      if(!reference){
-
-        message.textContent =
-          "Enter your transaction reference.";
-
-        return;
-
-      }
-
-
-      const {
-        error
-      } =
-        await supabaseClient
-          .from("deposits")
-          .insert({
-
-            user_id:user.id,
-
-            amount,
-
-            reference,
-
-            status:"pending"
-
-          });
-
-
-      if(error){
-
-        console.error(error);
-
-        message.textContent =
-          error.message;
-
-        return;
-
-      }
-
-
-      message.textContent =
-        "Deposit submitted and is waiting for admin approval.";
-
-
-      document
-        .getElementById(
-          "depositForm"
-        )
-        .reset();
-
-    }
-  );
-
-
-/* ======================================================
-   ADMIN DEPOSITS
-====================================================== */
-
-async function loadAdminDeposits(){
-
-  const container =
-    document.getElementById(
-      "adminDeposits"
-    );
-
-
-  container.innerHTML =
-    "<p>Loading deposits...</p>";
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("deposits")
-      .select(
-        "id,user_id,amount,reference,status,created_at"
-      )
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    container.innerHTML =
-      "<p>" +
-      escapeHTML(
-        error.message
-      ) +
-      "</p>";
-
-    return;
-
-  }
-
-
-  if(!data?.length){
-
-    container.innerHTML =
-      "<p>No deposits yet.</p>";
-
-    return;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  data.forEach(deposit => {
-
-    const card =
-      document.createElement(
-        "div"
-      );
-
-    card.className =
-      "admin-card";
-
-
-    const date =
-      new Date(
-        deposit.created_at
-      ).toLocaleString();
-
-
-    let actions = "";
-
-
-    if(
-      deposit.status ===
-      "pending"
-    ){
-
-      actions = `
-
-        <div class="actions">
-
-          <button
-            class="btn primary"
-            onclick="approveDeposit(
-              '${deposit.id}'
-            )"
-          >
-            ✅ Approve
-          </button>
-
-          <button
-            class="btn delete"
-            onclick="rejectDeposit(
-              '${deposit.id}'
-            )"
-          >
-            ❌ Reject
-          </button>
-
-        </div>
-
-      `;
-
-    }
-
-
-    card.innerHTML = `
-
-      <h3>
-        ₦${Number(
-          deposit.amount
-        ).toLocaleString()}
-      </h3>
-
-      <p>
-        Reference:
-        ${escapeHTML(
-          deposit.reference
-        )}
-      </p>
-
-      <p>
-        User:
-        ${escapeHTML(
-          deposit.user_id
-        )}
-      </p>
-
-      <p>
-        Date:
-        ${escapeHTML(date)}
-      </p>
-
-      <p>
-        Status:
-        <strong>
-          ${escapeHTML(
-            deposit.status
-          )}
-        </strong>
-      </p>
-
-      ${actions}
-
-    `;
-
-
-    container.appendChild(
-      card
-    );
-
-  });
-
-}
-
-
-/* ======================================================
-   APPROVE DEPOSIT
-====================================================== */
-
-async function approveDeposit(
-  depositId
-){
-
-  if(
-    !confirm(
-      "Approve this deposit and credit the customer's wallet?"
-    )
-  )
-    return;
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .rpc(
-        "approve_deposit",
-        {
-          deposit_id:
-            depositId
-        }
-      );
-
-
-  if(error){
-
-    alert(
-      "Approval failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  if(data === true){
-
-    alert(
-      "Deposit approved and wallet credited."
-    );
-
-  }
-
-
-  await loadAdminDeposits();
-
-}
-
-
-/* ======================================================
-   REJECT DEPOSIT
-====================================================== */
-
-async function rejectDeposit(
-  depositId
-){
-
-  if(
-    !confirm(
-      "Reject this deposit?"
-    )
-  )
-    return;
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("deposits")
-      .update({
-        status:"rejected"
-      })
-      .eq(
-        "id",
-        depositId
-      )
-      .eq(
-        "status",
-        "pending"
-      );
-
-
-  if(error){
-
-    alert(
-      "Rejection failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  alert(
-    "Deposit rejected."
-  );
-
-
-  await loadAdminDeposits();
-
-}
-
-
-/* ======================================================
-   CART
-====================================================== */
-
 let cart = [];
 
 
-async function addToCart(id){
+/* =====================================================
+HELPERS
+===================================================== */
 
-  const {
-    data:service,
-    error
-  } =
-    await supabaseClient
-      .from("services")
-      .select("*")
-      .eq("id",id)
-      .single();
+function $(id){
+return document.getElementById(id);
+}
+
+function money(value){
+return "₦" + Number(value || 0).toLocaleString(
+undefined,
+{
+minimumFractionDigits:2
+}
+);
+}
+
+function escapeHTML(value){
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
 
 
-  if(error){
+/* =====================================================
+AUTH MODAL
+===================================================== */
 
-    alert(error.message);
+function openAuth(mode){
 
-    return;
+authMode = mode;
 
-  }
+updateAuthForm();
 
+$("authModal").style.display = "flex";
 
-  cart.push(service);
+}
 
+function closeAuth(){
 
-  alert(
-    service.name +
-    " added to cart."
-  );
+$("authModal").style.display = "none";
+
+$("authMessage").textContent = "";
+
+}
+
+function switchAuth(){
+
+authMode =
+authMode === "login"
+? "register"
+: "login";
+
+updateAuthForm();
+
+}
+
+function updateAuthForm(){
+
+if(authMode === "register"){
+
+$("authTitle").textContent =
+"Create Account";
+
+$("fullName").style.display =
+"block";
+
+$("fullName").required =
+true;
+
+$("authSubmit").textContent =
+"Create Account";
+
+$("switchText").textContent =
+"Already have an account?";
+
+$("switchAction").textContent =
+" Login";
+
+}else{
+
+$("authTitle").textContent =
+"Login";
+
+$("fullName").style.display =
+"none";
+
+$("fullName").required =
+false;
+
+$("authSubmit").textContent =
+"Login";
+
+$("switchText").textContent =
+"Don't have an account?";
+
+$("switchAction").textContent =
+" Register";
+
+}
 
 }
 
 
-/* ======================================================
-   LOGOUT
-====================================================== */
+/* =====================================================
+REGISTER / LOGIN
+===================================================== */
+
+$("authForm").addEventListener(
+"submit",
+async function(e){
+
+e.preventDefault();
+
+const email =
+$("authEmail").value.trim();
+
+const password =
+$("authPassword").value;
+
+const fullName =
+$("fullName").value.trim();
+
+$("authMessage").textContent =
+"Please wait...";
+
+try{
+
+if(authMode === "register"){
+
+if(!fullName){
+
+throw new Error(
+"Please enter your full name."
+);
+
+}
+
+
+const {
+data,
+error
+} =
+await supabaseClient.auth.signUp({
+
+email,
+password,
+
+options:{
+data:{
+full_name:fullName
+}
+}
+
+});
+
+
+if(error)
+throw error;
+
+
+if(data.user){
+
+/*
+Create profile if possible.
+*/
+
+const {
+error:profileError
+} =
+await supabaseClient
+.from("Benjosms")
+.upsert({
+
+id:data.user.id,
+full_name:fullName,
+email:data.user.email
+
+},{
+onConflict:"id"
+});
+
+
+if(profileError){
+
+console.warn(
+"Profile creation:",
+profileError
+);
+
+}
+
+
+/*
+Create wallet if it doesn't exist.
+*/
+
+await supabaseClient
+.from("wallets")
+.upsert({
+
+user_id:data.user.id,
+balance:0
+
+},{
+onConflict:"user_id"
+});
+
+
+if(data.session){
+
+closeAuth();
+
+await refresh();
+
+}else{
+
+$("authMessage").textContent =
+"Account created. Please verify your email, then login.";
+
+}
+
+}
+
+}else{
+
+const {
+error
+} =
+await supabaseClient.auth
+.signInWithPassword({
+
+email,
+password
+
+});
+
+
+if(error)
+throw error;
+
+
+closeAuth();
+
+await refresh();
+
+}
+
+}catch(error){
+
+console.error(error);
+
+$("authMessage").textContent =
+error.message ||
+"Something went wrong.";
+
+}
+
+}
+);
+
+
+/* =====================================================
+LOGOUT
+===================================================== */
 
 async function logout(){
 
-  const {
-    error
-  } =
-    await supabaseClient.auth
-      .signOut();
+const {
+error
+} =
+await supabaseClient.auth.signOut();
 
+if(error){
 
-  if(error){
+alert(error.message);
 
-    alert(error.message);
+return;
 
-    return;
+}
 
-  }
+cart = [];
 
-
-  cart = [];
-
-  await refreshEverything();
+await refresh();
 
 }
 
 
-/* ======================================================
-   AUTH STATE
-====================================================== */
+/* =====================================================
+USER UI
+===================================================== */
+
+async function getUser(){
+
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
+
+return user;
+
+}
+
+
+async function updateUserUI(){
+
+const user =
+await getUser();
+
+
+if(!user){
+
+$("loginBtn").style.display =
+"inline-block";
+
+$("registerBtn").style.display =
+"inline-block";
+
+$("heroLoginBtn").style.display =
+"inline-block";
+
+$("heroRegisterBtn").style.display =
+"inline-block";
+
+$("logoutBtn").classList.add("hidden");
+
+$("walletSection").classList.add("hidden");
+
+$("services").classList.add("hidden");
+
+$("cartSection").classList.add("hidden");
+
+$("ordersSection").classList.add("hidden");
+
+$("servicesNav").style.display =
+"none";
+
+$("adminPanel").style.display =
+"none";
+
+return null;
+
+}
+
+
+/*
+LOGGED IN
+*/
+
+$("loginBtn").style.display =
+"none";
+
+$("registerBtn").style.display =
+"none";
+
+$("heroLoginBtn").style.display =
+"none";
+
+$("heroRegisterBtn").style.display =
+"none";
+
+$("logoutBtn").classList.remove("hidden");
+
+$("walletSection").classList.remove("hidden");
+
+$("services").classList.remove("hidden");
+
+$("cartSection").classList.remove("hidden");
+
+$("ordersSection").classList.remove("hidden");
+
+$("servicesNav").style.display =
+"inline";
+
+return user;
+
+}
+
+
+/* =====================================================
+WALLET
+===================================================== */
+
+async function ensureWallet(userId){
+
+const {
+data
+} =
+await supabaseClient
+.from("wallets")
+.select("id,balance")
+.eq(
+"user_id",
+userId
+)
+.maybeSingle();
+
+
+if(!data){
+
+await supabaseClient
+.from("wallets")
+.insert({
+
+user_id:userId,
+balance:0
+
+});
+
+}
+
+}
+
+
+async function loadWallet(){
+
+const user =
+await getUser();
+
+if(!user)
+return;
+
+
+await ensureWallet(
+user.id
+);
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("wallets")
+.select("balance")
+.eq(
+"user_id",
+user.id
+)
+.maybeSingle();
+
+
+if(error){
+
+console.error(error);
+
+return;
+
+}
+
+
+$("walletBalance").textContent =
+money(
+data?.balance || 0
+);
+
+}
+
+
+/* =====================================================
+DEPOSIT SCREENSHOT
+===================================================== */
+
+$("depositForm").addEventListener(
+"submit",
+async function(e){
+
+e.preventDefault();
+
+const user =
+await getUser();
+
+if(!user){
+
+alert(
+"Please login first."
+);
+
+return;
+
+}
+
+
+const amount =
+Number(
+$("depositAmount").value
+);
+
+const file =
+$("depositScreenshot").files[0];
+
+
+if(
+!Number.isFinite(amount) ||
+amount <= 0
+){
+
+$("depositMessage").textContent =
+"Enter a valid amount.";
+
+return;
+
+}
+
+
+if(!file){
+
+$("depositMessage").textContent =
+"Please upload your OPay screenshot.";
+
+return;
+
+}
+
+
+if(file.size > 5 * 1024 * 1024){
+
+$("depositMessage").textContent =
+"Screenshot must be 5MB or smaller.";
+
+return;
+
+}
+
+
+$("depositMessage").textContent =
+"Uploading screenshot...";
+
+
+try{
+
+const extension =
+file.name
+.split(".")
+.pop()
+.toLowerCase();
+
+const fileName =
+user.id +
+"/" +
+crypto.randomUUID() +
+"." +
+extension;
+
+
+const {
+error:uploadError
+} =
+await supabaseClient.storage
+.from("deposit-proofs")
+.upload(
+fileName,
+file,
+{
+contentType:file.type,
+upsert:false
+}
+);
+
+
+if(uploadError)
+throw uploadError;
+
+
+/*
+For a private bucket we store the
+file path, not a public URL.
+*/
+
+const {
+error:depositError
+} =
+await supabaseClient
+.from("deposits")
+.insert({
+
+user_id:user.id,
+amount:amount,
+reference:
+"SCREENSHOT-" +
+Date.now(),
+status:"pending",
+screenshot_url:fileName
+
+});
+
+
+if(depositError)
+throw depositError;
+
+
+$("depositMessage").textContent =
+"Deposit submitted successfully. Waiting for admin approval.";
+
+$("depositForm").reset();
+
+}catch(error){
+
+console.error(error);
+
+$("depositMessage").textContent =
+error.message;
+
+}
+
+}
+);
+
+
+/* =====================================================
+LOAD SERVICES
+===================================================== */
+
+async function loadServices(){
+
+const user =
+await getUser();
+
+if(!user)
+return;
+
+
+const container =
+$("servicesList");
+
+container.innerHTML =
+"<p>Loading...</p>";
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("services")
+.select("*")
+.eq(
+"available",
+true
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+container.innerHTML =
+"<p>" +
+escapeHTML(error.message) +
+"</p>";
+
+return;
+
+}
+
+
+if(!data?.length){
+
+container.innerHTML =
+"<p>No services available.</p>";
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+data.forEach(service => {
+
+const card =
+document.createElement("div");
+
+card.className =
+"card";
+
+card.innerHTML = `
+
+<h3>
+${escapeHTML(service.name)}
+</h3>
+
+<p>
+${escapeHTML(service.description || "")}
+</p>
+
+<div class="price">
+${money(service.price)}
+</div>
+
+<button
+class="buy"
+onclick="addToCart('${service.id}')"
+>
+Add to Cart
+</button>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* =====================================================
+CART
+===================================================== */
+
+async function addToCart(id){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("services")
+.select("*")
+.eq("id",id)
+.single();
+
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+
+cart.push(data);
+
+renderCart();
+
+alert(
+data.name +
+" added to cart."
+);
+
+}
+
+
+function renderCart(){
+
+const container =
+$("cartList");
+
+if(!cart.length){
+
+container.innerHTML =
+"<p>Your cart is empty.</p>";
+
+$("cartTotal").textContent =
+"₦0.00";
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+let total = 0;
+
+
+cart.forEach(
+(service,index) => {
+
+total += Number(
+service.price
+);
+
+
+const card =
+document.createElement("div");
+
+card.className =
+"card";
+
+card.innerHTML = `
+
+<h3>
+${escapeHTML(service.name)}
+</h3>
+
+<div class="price">
+${money(service.price)}
+</div>
+
+<button
+class="btn danger"
+onclick="removeFromCart(${index})"
+>
+Remove
+</button>
+
+`;
+
+container.appendChild(card);
+
+});
+
+
+$("cartTotal").textContent =
+money(total);
+
+}
+
+
+function removeFromCart(index){
+
+cart.splice(
+index,
+1
+);
+
+renderCart();
+
+}
+
+
+/* =====================================================
+CHECKOUT
+===================================================== */
+
+async function checkout(){
+
+const user =
+await getUser();
+
+if(!user){
+
+alert(
+"Please login first."
+);
+
+return;
+
+}
+
+
+if(!cart.length){
+
+alert(
+"Your cart is empty."
+);
+
+return;
+
+}
+
+
+const total =
+cart.reduce(
+(sum,item) =>
+sum + Number(item.price),
+0
+);
+
+
+if(
+!confirm(
+"Pay " +
+money(total) +
+" from your wallet?"
+)
+){
+
+return;
+
+}
+
+
+for(
+const service of cart
+){
+
+const {
+data,
+error
+} =
+await supabaseClient.rpc(
+"pay_for_order",
+{
+p_service_id:service.id,
+p_product_name:service.name,
+p_amount:Number(
+service.price
+)
+}
+);
+
+
+if(error){
+
+alert(
+"Payment failed: " +
+error.message
+);
+
+await loadWallet();
+
+return;
+
+}
+
+}
+
+
+cart = [];
+
+renderCart();
+
+await loadWallet();
+
+await loadOrders();
+
+alert(
+"Payment successful. Your order has been created."
+);
+
+}
+
+
+/* =====================================================
+CUSTOMER ORDERS
+===================================================== */
+
+async function loadOrders(){
+
+const user =
+await getUser();
+
+if(!user)
+return;
+
+
+const container =
+$("ordersList");
+
+container.innerHTML =
+"<p>Loading orders...</p>";
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("orders")
+.select("*")
+.eq(
+"user_id",
+user.id
+)
+.order(
+"Created at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+container.innerHTML =
+"<p>" +
+escapeHTML(error.message) +
+"</p>";
+
+return;
+
+}
+
+
+if(!data?.length){
+
+container.innerHTML =
+"<p>No orders yet.</p>";
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+data.forEach(order => {
+
+const card =
+document.createElement("div");
+
+card.className =
+"order-card";
+
+
+let loginSection =
+"<p>🔒 Login information will appear here after admin provides it.</p>";
+
+
+if(
+order.login_information &&
+String(
+order.login_information
+).trim()
+){
+
+loginSection = `
+
+<div class="login-info">
+
+<strong>
+🔐 Login Information
+</strong>
+
+<br><br>
+
+${escapeHTML(
+order.login_information
+)}
+
+</div>
+
+`;
+
+}
+
+
+card.innerHTML = `
+
+<h3>
+${escapeHTML(
+order["Product name"]
+)}
+</h3>
+
+<p>
+Amount:
+${money(order["Amount"])}
+</p>
+
+<p>
+Payment:
+${escapeHTML(
+order["Payment method"]
+)}
+</p>
+
+<p>
+Status:
+<span class="status">
+${escapeHTML(
+order["Status"]
+)}
+</span>
+</p>
+
+${loginSection}
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* =====================================================
+ADMIN CHECK
+===================================================== */
+
+async function isAdmin(){
+
+const user =
+await getUser();
+
+if(!user)
+return false;
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("Benjosms")
+.select("is_admin")
+.eq(
+"id",
+user.id
+)
+.maybeSingle();
+
+
+console.log(
+"ADMIN PROFILE:",
+data,
+error
+);
+
+
+if(error)
+return false;
+
+
+return data?.is_admin === true;
+
+}
+
+
+/* =====================================================
+ADMIN DASHBOARD
+===================================================== */
+
+async function loadAdmin(){
+
+const admin =
+await isAdmin();
+
+
+if(!admin){
+
+$("adminPanel").style.display =
+"none";
+
+return;
+
+}
+
+
+$("adminPanel").style.display =
+"block";
+
+
+await loadAdminServices();
+
+await loadAdminDeposits();
+
+await loadAdminOrders();
+
+}
+
+
+/* =====================================================
+ADMIN SERVICES
+===================================================== */
+
+async function loadAdminServices(){
+
+const container =
+$("adminServices");
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("services")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+container.innerHTML =
+"<p>" +
+escapeHTML(error.message) +
+"</p>";
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+if(!data?.length){
+
+container.innerHTML =
+"<p>No services.</p>";
+
+return;
+
+}
+
+
+data.forEach(service => {
+
+const card =
+document.createElement("div");
+
+card.className =
+"admin-card";
+
+card.innerHTML = `
+
+<h3>
+${escapeHTML(service.name)}
+</h3>
+
+<p>
+${escapeHTML(
+service.description || ""
+)}
+</p>
+
+<p>
+Price:
+${money(service.price)}
+</p>
+
+<p>
+Status:
+${service.available
+? "Available"
+: "Hidden"}
+</p>
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="editService('${service.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn danger"
+onclick="deleteService('${service.id}')"
+>
+Delete
+</button>
+
+</div>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* =====================================================
+ADD SERVICE
+===================================================== */
+
+$("addServiceForm").addEventListener(
+"submit",
+async function(e){
+
+e.preventDefault();
+
+
+const {
+error
+} =
+await supabaseClient
+.from("services")
+.insert({
+
+name:
+$("serviceName").value.trim(),
+
+description:
+$("serviceDescription").value.trim(),
+
+price:
+Number(
+$("servicePrice").value
+),
+
+available:true
+
+});
+
+
+if(error){
+
+$("adminMessage").textContent =
+error.message;
+
+return;
+
+}
+
+
+$("adminMessage").textContent =
+"Service added successfully.";
+
+$("addServiceForm").reset();
+
+await loadAdminServices();
+
+await loadServices();
+
+}
+);
+
+
+/* =====================================================
+EDIT SERVICE
+===================================================== */
+
+async function editService(id){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("services")
+.select("*")
+.eq("id",id)
+.single();
+
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+
+const name =
+prompt(
+"Service name:",
+data.name
+);
+
+if(name === null)
+return;
+
+
+const description =
+prompt(
+"Description:",
+data.description || ""
+);
+
+if(description === null)
+return;
+
+
+const price =
+Number(
+prompt(
+"Price:",
+data.price
+)
+);
+
+
+if(!Number.isFinite(price)){
+
+alert(
+"Invalid price."
+);
+
+return;
+
+}
+
+
+const {
+error:updateError
+} =
+await supabaseClient
+.from("services")
+.update({
+
+name:name.trim(),
+description:description.trim(),
+price
+
+})
+.eq(
+"id",
+id
+);
+
+
+if(updateError){
+
+alert(
+updateError.message
+);
+
+return;
+
+}
+
+
+await loadAdminServices();
+
+await loadServices();
+
+}
+
+
+/* =====================================================
+DELETE SERVICE
+===================================================== */
+
+async function deleteService(id){
+
+if(
+!confirm(
+"Delete this service?"
+)
+)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("services")
+.delete()
+.eq(
+"id",
+id
+);
+
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+
+await loadAdminServices();
+
+await loadServices();
+
+}
+
+
+/* =====================================================
+ADMIN DEPOSITS
+===================================================== */
+
+async function loadAdminDeposits(){
+
+const container =
+$("adminDeposits");
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("deposits")
+.select(
+"id,user_id,amount,reference,status,screenshot_url,created_at"
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+container.innerHTML =
+"<p>" +
+escapeHTML(error.message) +
+"</p>";
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+if(!data?.length){
+
+container.innerHTML =
+"<p>No deposits yet.</p>";
+
+return;
+
+}
+
+
+data.forEach(deposit => {
+
+const card =
+document.createElement("div");
+
+card.className =
+"deposit-card";
+
+
+card.innerHTML = `
+
+<h3>
+${money(deposit.amount)}
+</h3>
+
+<p>
+User ID:
+${escapeHTML(deposit.user_id)}
+</p>
+
+<p>
+Status:
+<span class="status">
+${escapeHTML(deposit.status)}
+</span>
+</p>
+
+<p>
+Date:
+${escapeHTML(
+new Date(
+deposit.created_at
+).toLocaleString()
+)}
+</p>
+
+<div id="proof-${deposit.id}">
+Loading screenshot...
+</div>
+
+`;
+
+container.appendChild(card);
+
+
+loadDepositProof(
+deposit,
+card
+);
+
+});
+
+}
+
+
+/* =====================================================
+ADMIN VIEW PRIVATE SCREENSHOT
+===================================================== */
+
+async function loadDepositProof(
+deposit,
+card
+){
+
+if(!deposit.screenshot_url){
+
+const div =
+card.querySelector(
+`#proof-${deposit.id}`
+);
+
+if(div)
+div.innerHTML =
+"<p>No screenshot.</p>";
+
+return;
+
+}
+
+
+const {
+data,
+error
+} =
+await supabaseClient.storage
+.from("deposit-proofs")
+.createSignedUrl(
+deposit.screenshot_url,
+3600
+);
+
+
+const div =
+card.querySelector(
+`#proof-${deposit.id}`
+);
+
+
+if(error){
+
+if(div)
+div.innerHTML =
+"<p>Unable to load screenshot.</p>";
+
+return;
+
+}
+
+
+if(div){
+
+div.innerHTML = `
+
+<img
+class="proof"
+src="${data.signedUrl}"
+alt="Deposit screenshot"
+>
+
+`;
+
+}
+
+
+if(
+deposit.status === "pending"
+){
+
+const actions =
+document.createElement("div");
+
+actions.className =
+"actions";
+
+actions.innerHTML = `
+
+<button
+class="btn primary"
+onclick="approveDeposit('${deposit.id}')"
+>
+✅ Approve
+</button>
+
+<button
+class="btn danger"
+onclick="rejectDeposit('${deposit.id}')"
+>
+❌ Reject
+</button>
+
+`;
+
+card.appendChild(actions);
+
+}
+
+}
+
+
+/* =====================================================
+APPROVE DEPOSIT
+===================================================== */
+
+async function approveDeposit(
+depositId
+){
+
+if(
+!confirm(
+"Approve this deposit and credit the customer's wallet?"
+)
+)
+return;
+
+
+const {
+data,
+error
+} =
+await supabaseClient.rpc(
+"approve_deposit",
+{
+deposit_id:depositId
+}
+);
+
+
+if(error){
+
+alert(
+"Approval failed: " +
+error.message
+);
+
+return;
+
+}
+
+
+if(data === true){
+
+alert(
+"Deposit approved. Wallet credited."
+);
+
+}
+
+
+await loadAdminDeposits();
+
+}
+
+
+/* =====================================================
+REJECT DEPOSIT
+===================================================== */
+
+async function rejectDeposit(
+depositId
+){
+
+if(
+!confirm(
+"Reject this deposit?"
+)
+)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("deposits")
+.update({
+status:"rejected"
+})
+.eq(
+"id",
+depositId
+)
+.eq(
+"status",
+"pending"
+);
+
+
+if(error){
+
+alert(
+"Rejection failed: " +
+error.message
+);
+
+return;
+
+}
+
+
+await loadAdminDeposits();
+
+}
+
+
+/* =====================================================
+ADMIN ORDERS
+===================================================== */
+
+async function loadAdminOrders(){
+
+const container =
+$("adminOrders");
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("orders")
+.select("*")
+.order(
+"Created at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+container.innerHTML =
+"<p>" +
+escapeHTML(error.message) +
+"</p>";
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+if(!data?.length){
+
+container.innerHTML =
+"<p>No orders yet.</p>";
+
+return;
+
+}
+
+
+data.forEach(order => {
+
+const card =
+document.createElement("div");
+
+card.className =
+"order-card";
+
+
+card.innerHTML = `
+
+<h3>
+${escapeHTML(
+order["Product name"]
+)}
+</h3>
+
+<p>
+User:
+${escapeHTML(order.user_id)}
+</p>
+
+<p>
+Amount:
+${money(order["Amount"])}
+</p>
+
+<p>
+Status:
+${escapeHTML(order["Status"])}
+</p>
+
+<p>
+Current login information:
+</p>
+
+<div class="login-info">
+${
+order.login_information
+? escapeHTML(
+order.login_information
+)
+: "Not added yet."
+}
+</div>
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="addLoginInformation(
+'${order.id}'
+)"
+>
+🔐 Add/Edit Login Information
+</button>
+
+</div>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* =====================================================
+ADD LOGIN INFORMATION
+===================================================== */
+
+async function addLoginInformation(
+orderId
+){
+
+const information =
+prompt(
+"Enter the login information the customer purchased:"
+);
+
+
+if(information === null)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("orders")
+.update({
+
+login_information:
+information
+
+})
+.eq(
+"id",
+orderId
+);
+
+
+if(error){
+
+alert(
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"Login information saved."
+);
+
+
+await loadAdminOrders();
+
+}
+
+
+/* =====================================================
+REFRESH EVERYTHING
+===================================================== */
+
+async function refresh(){
+
+await updateUserUI();
+
+const user =
+await getUser();
+
+if(!user)
+return;
+
+await ensureWallet(
+user.id
+);
+
+await loadWallet();
+
+await loadServices();
+
+await loadOrders();
+
+renderCart();
+
+await loadAdmin();
+
+}
+
+
+/* =====================================================
+AUTH STATE
+===================================================== */
 
 supabaseClient.auth
-  .onAuthStateChange(
-    function(){
+.onAuthStateChange(
+function(){
 
-      setTimeout(
-        refreshEverything,
-        0
-      );
-
-    }
-  );
-
-
-/* ======================================================
-   ESCAPE HTML
-====================================================== */
-
-function escapeHTML(value){
-
-  return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+setTimeout(
+refresh,
+0
+);
 
 }
+);
 
 
-/* ======================================================
-   REFRESH
-====================================================== */
+/* =====================================================
+START
+===================================================== */
 
-async function refreshEverything(){
-
-  await loadAccount();
-
-  await loadWallet();
-
-  await checkAdmin();
-
-  await loadServices();
-
-}
-
-
-/* ======================================================
-   START
-====================================================== */
-
-refreshEverything();
+refresh();
 
 </script>
 
