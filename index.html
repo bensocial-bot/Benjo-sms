@@ -2,320 +2,149 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Benjo-SMS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+*{box-sizing:border-box}
 
 body{
-  background:#08080c;
-  color:#fff;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#111827
 }
 
 header{
-  background:#111116;
-  border-bottom:1px solid #292933;
-  padding:15px 5%;
+  background:#111827;
+  color:white;
+  padding:15px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   position:sticky;
   top:0;
-  z-index:100;
+  z-index:10
 }
 
 .logo{
-  font-size:24px;
-  font-weight:bold;
+  font-size:22px;
+  font-weight:bold
 }
 
-.logo span{
-  color:#7c5cff;
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px
 }
 
-nav{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:15px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06)
 }
 
-nav button{
-  cursor:pointer;
-}
+.hidden{display:none!important}
 
-.btn{
-  padding:11px 16px;
+button{
   border:0;
   border-radius:8px;
+  padding:11px 15px;
   cursor:pointer;
   font-weight:bold;
+  margin:3px
 }
 
-.primary{
-  background:#7c5cff;
-  color:white;
-}
+.primary{background:#111827;color:white}
+.success{background:#16a34a;color:white}
+.danger{background:#dc2626;color:white}
+.secondary{background:#e5e7eb;color:#111827}
 
-.secondary{
-  background:#19191f;
-  color:white;
-  border:1px solid #33333d;
-}
-
-.danger{
-  background:#a82f49;
-  color:white;
-}
-
-.hero{
-  text-align:center;
-  padding:70px 5%;
-  background:radial-gradient(circle at top,#251957,#08080c 65%);
-}
-
-.hero h1{
-  font-size:clamp(38px,8vw,70px);
-  margin-bottom:18px;
-}
-
-.hero h1 span{
-  color:#7c5cff;
-}
-
-.hero p{
-  color:#aaa;
-  max-width:650px;
-  margin:auto;
-  line-height:1.7;
-}
-
-.buttons{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:28px;
-}
-
-.section{
-  max-width:1150px;
-  margin:auto;
-  padding:45px 5%;
-}
-
-.section h2{
-  margin-bottom:25px;
-}
-
-.products,
-.admin-grid,
-.orders-grid,
-.deposits-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:18px;
-}
-
-.card,
-.admin-card,
-.order-card,
-.deposit-card,
-.wallet-card{
-  background:#131318;
-  border:1px solid #292933;
-  border-radius:14px;
-  padding:20px;
-}
-
-.card p,
-.admin-card p,
-.order-card p,
-.deposit-card p,
-.wallet-card p{
-  color:#aaa;
-  line-height:1.5;
-  margin:8px 0;
-}
-
-.price,
-.balance{
-  color:#a28aff;
-  font-size:23px;
-  font-weight:bold;
-  margin:15px 0;
-}
-
-.buy{
+input,textarea{
   width:100%;
   padding:12px;
-  border:0;
+  margin:7px 0 12px;
+  border:1px solid #d1d5db;
   border-radius:8px;
-  background:#7c5cff;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
+  font-size:15px
 }
 
-.wallet-card{
-  max-width:750px;
-  margin:auto;
+textarea{
+  min-height:110px;
+  resize:vertical
 }
 
-.deposit-box{
-  margin-top:20px;
-  padding:20px;
-  background:#0d0d12;
-  border-radius:10px;
-}
-
-.input{
-  width:100%;
-  padding:13px;
-  margin:7px 0;
-  background:#0b0b10;
-  color:#fff;
-  border:1px solid #363640;
-  border-radius:8px;
-  outline:none;
-}
-
-.form{
-  display:grid;
-  gap:8px;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.82);
-  z-index:1000;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.modal-box{
-  background:#15151b;
-  border:1px solid #33333d;
-  border-radius:15px;
-  width:100%;
-  max-width:430px;
-  padding:25px;
-  position:relative;
-}
-
-.close{
-  position:absolute;
-  right:14px;
-  top:9px;
-  background:none;
-  color:#aaa;
-  border:0;
-  font-size:27px;
-  cursor:pointer;
-}
-
-.auth-message,
-.message{
-  color:#aaa;
-  margin:10px 0;
-  line-height:1.5;
-}
-
-.auth-submit{
-  width:100%;
-  padding:13px;
-  background:#7c5cff;
-  color:white;
-  border:0;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-  margin-top:7px;
-}
-
-.switch{
-  text-align:center;
-  color:#999;
-  margin-top:15px;
-  font-size:14px;
-}
-
-.switch span:last-child{
-  color:#a28aff;
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.admin{
-  display:none;
-  max-width:1150px;
-  margin:30px auto;
-  padding:25px 5%;
-  border:1px solid #7c5cff;
-  border-radius:15px;
-  background:#111116;
-}
-
-.admin hr{
-  border:0;
-  border-top:1px solid #292933;
-  margin:35px 0;
-}
-
-.actions{
+.nav{
   display:flex;
-  gap:8px;
   flex-wrap:wrap;
-  margin-top:15px;
+  gap:8px;
+  margin-bottom:20px
+}
+
+.nav button{
+  background:#e5e7eb
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:15px
+}
+
+.product{
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:15px
+}
+
+.price{
+  font-size:20px;
+  font-weight:bold;
+  margin:10px 0
+}
+
+.balance{
+  font-size:30px;
+  font-weight:bold
 }
 
 .status{
   display:inline-block;
   padding:5px 9px;
-  border-radius:6px;
-  background:#202027;
-  font-size:13px;
+  border-radius:20px;
+  background:#e5e7eb;
+  font-size:12px
 }
 
-.proof{
-  width:100%;
-  max-height:300px;
-  object-fit:contain;
-  border-radius:8px;
-  margin-top:10px;
-  border:1px solid #33333d;
-}
-
-.login-info{
-  margin-top:15px;
+.delivery{
+  background:#ecfdf5;
+  border:1px solid #86efac;
   padding:15px;
-  background:#0c0c11;
-  border:1px solid #34343e;
-  border-radius:9px;
+  border-radius:8px;
   white-space:pre-wrap;
-  word-break:break-word;
+  word-break:break-word
 }
 
-footer{
-  text-align:center;
-  color:#777;
-  border-top:1px solid #292933;
-  padding:30px;
-  margin-top:40px;
+.small{
+  font-size:13px;
+  color:#6b7280
 }
 
-@media(max-width:650px){
-  nav a{display:none}
-  nav{gap:4px}
-  header{padding:13px 3%}
+#toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#111827;
+  color:white;
+  padding:13px 18px;
+  border-radius:8px;
+  display:none;
+  z-index:100
 }
 </style>
 </head>
@@ -323,449 +152,373 @@ footer{
 <body>
 
 <header>
+  <div class="logo">Benjo-SMS</div>
+  <div id="headerButtons"></div>
+</header>
 
-<div class="logo">
-Benjo<span>-SMS</span>
-</div>
+<div class="container">
 
-<nav>
+<!-- ================= AUTH ================= -->
 
-<a href="#home" style="color:#aaa;text-decoration:none">
-Home
-</a>
+<section id="authSection">
 
-<a
-href="#services"
-id="servicesNav"
-style="color:#aaa;text-decoration:none;display:none"
->
-Services
-</a>
+<div class="card">
+
+<h2>Welcome to Benjo-SMS</h2>
+
+<p>Login or create an account to continue.</p>
+
+<div class="nav">
 
 <button
-id="loginBtn"
-class="btn primary"
-onclick="openAuth('login')"
->
+id="loginTab"
+class="primary"
+onclick="showAuth('login')">
 Login
 </button>
 
 <button
-id="registerBtn"
-class="btn secondary"
-onclick="openAuth('register')"
->
+id="registerTab"
+class="secondary"
+onclick="showAuth('register')">
 Create Account
 </button>
 
+</div>
+
+<div id="loginForm">
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
 <button
-id="logoutBtn"
-class="btn secondary hidden"
-onclick="logout()"
->
-Logout
+class="primary"
+onclick="login()">
+Login
 </button>
 
-</nav>
+</div>
 
-</header>
+<div id="registerForm" class="hidden">
+
+<input
+id="registerEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="registerPassword"
+type="password"
+placeholder="Password">
+
+<button
+class="success"
+onclick="register()">
+Create Account
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= USER APP ================= -->
+
+<section id="userApp" class="hidden">
+
+<div class="nav">
+
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('services')">Services</button>
+<button onclick="showPage('wallet')">Wallet</button>
+<button onclick="showPage('cart')">Cart</button>
+<button onclick="showPage('orders')">My Orders</button>
+
+</div>
 
 
 <!-- HOME -->
 
-<section class="hero" id="home">
+<div id="page-home">
 
-<h1>
-Welcome to <span>Benjo-SMS</span>
-</h1>
+<div class="card">
 
-<p>
-Buy available services securely using your Benjo-SMS wallet.
-Create an account or login to access the marketplace.
-</p>
-
-<div class="buttons">
-
-<button
-id="heroRegisterBtn"
-class="btn primary"
-onclick="openAuth('register')"
->
-Create Account
-</button>
-
-<button
-id="heroLoginBtn"
-class="btn secondary"
-onclick="openAuth('login')"
->
-Login
-</button>
-
-</div>
-
-</section>
-
-
-<!-- USER WALLET -->
-
-<section
-class="section hidden"
-id="walletSection"
->
-
-<div class="wallet-card">
-
-<h2>💰 My Wallet</h2>
-
-<p>Available balance</p>
-
-<div
-class="balance"
-id="walletBalance"
->
-₦0.00
-</div>
-
-
-<div class="deposit-box">
-
-<h3>OPay Deposit</h3>
+<h2>Welcome to Benjo-SMS</h2>
 
 <p>
-Send your payment to:
+Your account is ready. Select a product from Services.
 </p>
-
-<p>
-<strong>Account Name:</strong>
-Toluwani Benjamin / benjosms
-</p>
-
-<p>
-<strong>OPay Number:</strong>
-6550518571
-</p>
-
-<br>
-
-<form
-id="depositForm"
-class="form"
->
-
-<input
-id="depositAmount"
-class="input"
-type="number"
-min="100"
-placeholder="Amount sent (₦)"
-required
->
-
-<label>
-Payment screenshot
-</label>
-
-<input
-id="depositScreenshot"
-class="input"
-type="file"
-accept="image/*"
-required
->
-
-<button
-class="btn primary"
-type="submit"
->
-Submit Deposit
-</button>
-
-</form>
-
-<div
-id="depositMessage"
-class="message"
-></div>
 
 </div>
 
 </div>
-
-</section>
 
 
 <!-- SERVICES -->
 
-<section
-class="section hidden"
-id="services"
->
+<div id="page-services" class="hidden">
 
-<h2>🛍️ Services</h2>
+<div class="card">
+
+<h2>Available Products</h2>
 
 <div
 id="servicesList"
-class="products"
->
+class="grid">
 </div>
 
-</section>
+</div>
+
+</div>
+
+
+<!-- WALLET -->
+
+<div id="page-wallet" class="hidden">
+
+<div class="card">
+
+<h2>My Wallet</h2>
+
+<p>Balance:</p>
+
+<div
+id="walletBalance"
+class="balance">
+₦0.00
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Deposit</h2>
+
+<p>
+Make your OPay payment, then upload the payment screenshot.
+</p>
+
+<input
+id="depositAmount"
+type="number"
+placeholder="Amount">
+
+<input
+id="depositScreenshot"
+type="file"
+accept="image/*">
+
+<button
+class="success"
+onclick="submitDeposit()">
+Submit Deposit
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>My Deposits</h2>
+
+<div id="myDeposits"></div>
+
+</div>
+
+</div>
 
 
 <!-- CART -->
 
-<section
-class="section hidden"
-id="cartSection"
->
+<div id="page-cart" class="hidden">
 
-<h2>🛒 My Cart</h2>
+<div class="card">
 
-<div
-id="cartList"
-class="products"
->
-</div>
+<h2>My Cart</h2>
 
-<div
-class="wallet-card"
-style="margin-top:20px"
->
-
-<p>Total</p>
-
-<div
-id="cartTotal"
-class="balance"
->
-₦0.00
-</div>
-
-<button
-class="btn primary"
-onclick="checkout()"
->
-Pay With Wallet
-</button>
+<div id="cartList"></div>
 
 </div>
 
-</section>
+</div>
 
 
 <!-- ORDERS -->
 
-<section
-class="section hidden"
-id="ordersSection"
->
+<div id="page-orders" class="hidden">
 
-<h2>📦 My Orders</h2>
+<div class="card">
 
-<div
-id="ordersList"
-class="orders-grid"
->
+<h2>My Orders</h2>
+
+<div id="ordersList"></div>
+
+</div>
+
 </div>
 
 </section>
 
 
-<!-- ADMIN -->
+<!-- ================= ADMIN ================= -->
 
-<section
-class="admin"
-id="adminPanel"
->
+<section id="adminApp" class="hidden">
 
-<h2>👑 Admin Dashboard</h2>
+<div class="nav">
+
+<button onclick="showAdminPage('dashboard')">
+Dashboard
+</button>
+
+<button onclick="showAdminPage('products')">
+Products
+</button>
+
+<button onclick="showAdminPage('deposits')">
+Deposits
+</button>
+
+<button onclick="showAdminPage('orders')">
+Orders
+</button>
+
+</div>
+
+
+<!-- ADMIN DASHBOARD -->
+
+<div id="admin-dashboard">
+
+<div class="card">
+
+<h2>Admin Dashboard</h2>
+
+<p>
+Manage products, deposits and customer orders.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ADMIN PRODUCTS -->
 
 <div
-id="adminMessage"
-class="message"
-></div>
+id="admin-products"
+class="hidden">
 
+<div class="card">
 
-<hr>
+<h2>Add Product</h2>
 
-
-<h3>➕ Add Service</h3>
-
-<form
-id="addServiceForm"
-class="form"
-style="margin-top:15px"
->
+<label>Product Name</label>
 
 <input
-id="serviceName"
-class="input"
-placeholder="Service name"
-required
->
+id="productName"
+placeholder="Product name">
+
+
+<label>Description</label>
 
 <textarea
-id="serviceDescription"
-class="input"
-rows="3"
-placeholder="Description"
-></textarea>
+id="productDescription"
+placeholder="Product description">
+</textarea>
+
+
+<label>Price</label>
 
 <input
-id="servicePrice"
-class="input"
+id="productPrice"
 type="number"
-min="0"
-step="0.01"
-placeholder="Price"
-required
->
+placeholder="Price">
+
+
+<label>Delivery Information</label>
+
+<textarea
+id="productDelivery"
+placeholder="Enter authorized delivery/access information">
+</textarea>
+
 
 <button
-class="btn primary"
-type="submit"
->
-Add Service
+class="success"
+onclick="createProduct()">
+Add Product
 </button>
 
-</form>
-
-
-<hr>
-
-
-<h3>🛍️ Manage Services</h3>
-
-<br>
-
-<div
-id="adminServices"
-class="admin-grid"
->
 </div>
 
 
-<hr>
+<div class="card">
 
+<h2>Products</h2>
 
-<h3>💳 Customer Deposits</h3>
+<div id="adminProducts"></div>
 
-<br>
+</div>
 
-<div
-id="adminDeposits"
-class="deposits-grid"
->
 </div>
 
 
-<hr>
-
-
-<h3>📦 Orders</h3>
-
-<br>
+<!-- ADMIN DEPOSITS -->
 
 <div
-id="adminOrders"
-class="orders-grid"
->
+id="admin-deposits"
+class="hidden">
+
+<div class="card">
+
+<h2>Customer Deposits</h2>
+
+<div id="adminDeposits"></div>
+
+</div>
+
+</div>
+
+
+<!-- ADMIN ORDERS -->
+
+<div
+id="admin-orders"
+class="hidden">
+
+<div class="card">
+
+<h2>Customer Orders</h2>
+
+<div id="adminOrders"></div>
+
+</div>
+
 </div>
 
 </section>
 
-
-<footer>
-© 2026 Benjo-SMS
-</footer>
-
-
-<!-- AUTH MODAL -->
-
-<div
-class="modal"
-id="authModal"
->
-
-<div class="modal-box">
-
-<button
-class="close"
-onclick="closeAuth()"
->
-×
-</button>
-
-<h2 id="authTitle">
-Login
-</h2>
-
-<div
-id="authMessage"
-class="auth-message"
-></div>
-
-<form id="authForm">
-
-<input
-id="fullName"
-class="input"
-placeholder="Full name"
-style="display:none"
->
-
-<input
-id="authEmail"
-class="input"
-type="email"
-placeholder="Email"
-required
->
-
-<input
-id="authPassword"
-class="input"
-type="password"
-placeholder="Password"
-required
->
-
-<button
-id="authSubmit"
-class="auth-submit"
-type="submit"
->
-Login
-</button>
-
-</form>
-
-<div class="switch">
-
-<span id="switchText">
-Don't have an account?
-</span>
-
-<span
-id="switchAction"
-onclick="switchAuth()"
->
-Register
-</span>
-
 </div>
 
-</div>
 
-</div>
+<div id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-SUPABASE
-===================================================== */
+/* =========================================================
+   SUPABASE CONFIG
+========================================================= */
 
 const SUPABASE_URL =
 "https://zwefikwlxgphufilgcyc.supabase.co";
@@ -774,2033 +527,1470 @@ const SUPABASE_KEY =
 "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 
 const supabaseClient =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
-/* =====================================================
-STATE
-===================================================== */
+/* =========================================================
+   STATE
+========================================================= */
 
-let authMode = "login";
-let cart = [];
+let currentUser = null;
+let currentProfile = null;
+
+let cart =
+JSON.parse(
+localStorage.getItem("benjo_cart") || "[]"
+);
 
 
-/* =====================================================
-HELPERS
-===================================================== */
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function $(id){
-return document.getElementById(id);
+  return document.getElementById(id);
 }
 
-function money(value){
-return "₦" + Number(value || 0).toLocaleString(
-undefined,
-{
-minimumFractionDigits:2
-}
-);
-}
 
 function escapeHTML(value){
-return String(value ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+
+  if(value === null || value === undefined)
+    return "";
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 
-/* =====================================================
-AUTH MODAL
-===================================================== */
+function money(value){
 
-function openAuth(mode){
-
-authMode = mode;
-
-updateAuthForm();
-
-$("authModal").style.display = "flex";
-
+  return "₦" +
+  Number(value || 0)
+  .toLocaleString("en-NG",{
+    minimumFractionDigits:2
+  });
 }
 
-function closeAuth(){
 
-$("authModal").style.display = "none";
+function toast(message){
 
-$("authMessage").textContent = "";
+  const box = $("toast");
 
+  box.textContent = message;
+  box.style.display = "block";
+
+  setTimeout(()=>{
+    box.style.display = "none";
+  },3000);
 }
 
-function switchAuth(){
 
-authMode =
-authMode === "login"
-? "register"
-: "login";
+/* =========================================================
+   AUTH
+========================================================= */
 
-updateAuthForm();
+function showAuth(type){
 
-}
+  if(type === "login"){
 
-function updateAuthForm(){
+    $("loginForm").classList.remove("hidden");
+    $("registerForm").classList.add("hidden");
 
-if(authMode === "register"){
+    $("loginTab").className = "primary";
+    $("registerTab").className = "secondary";
 
-$("authTitle").textContent =
-"Create Account";
+  }else{
 
-$("fullName").style.display =
-"block";
+    $("loginForm").classList.add("hidden");
+    $("registerForm").classList.remove("hidden");
 
-$("fullName").required =
-true;
+    $("loginTab").className = "secondary";
+    $("registerTab").className = "primary";
 
-$("authSubmit").textContent =
-"Create Account";
-
-$("switchText").textContent =
-"Already have an account?";
-
-$("switchAction").textContent =
-" Login";
-
-}else{
-
-$("authTitle").textContent =
-"Login";
-
-$("fullName").style.display =
-"none";
-
-$("fullName").required =
-false;
-
-$("authSubmit").textContent =
-"Login";
-
-$("switchText").textContent =
-"Don't have an account?";
-
-$("switchAction").textContent =
-" Register";
-
-}
+  }
 
 }
 
 
-/* =====================================================
-REGISTER / LOGIN
-===================================================== */
+async function register(){
 
-$("authForm").addEventListener(
-"submit",
-async function(e){
+  const email =
+  $("registerEmail").value.trim();
 
-e.preventDefault();
+  const password =
+  $("registerPassword").value;
 
-const email =
-$("authEmail").value.trim();
+  if(!email || !password){
 
-const password =
-$("authPassword").value;
+    toast("Enter email and password.");
+    return;
 
-const fullName =
-$("fullName").value.trim();
+  }
 
-$("authMessage").textContent =
-"Please wait...";
+  const {data,error} =
+  await supabaseClient.auth.signUp({
+    email,
+    password
+  });
 
-try{
+  if(error){
 
-if(authMode === "register"){
+    toast(error.message);
+    return;
 
-if(!fullName){
+  }
 
-throw new Error(
-"Please enter your full name."
-);
-
-}
-
-
-const {
-data,
-error
-} =
-await supabaseClient.auth.signUp({
-
-email,
-password,
-
-options:{
-data:{
-full_name:fullName
-}
-}
-
-});
-
-
-if(error)
-throw error;
-
-
-if(data.user){
-
-/*
-Create profile if possible.
-*/
-
-const {
-error:profileError
-} =
-await supabaseClient
-.from("Benjosms")
-.upsert({
-
-id:data.user.id,
-full_name:fullName,
-email:data.user.email
-
-},{
-onConflict:"id"
-});
-
-
-if(profileError){
-
-console.warn(
-"Profile creation:",
-profileError
-);
+  toast(
+    "Account created. Check your email if confirmation is required."
+  );
 
 }
 
 
-/*
-Create wallet if it doesn't exist.
-*/
+async function login(){
 
-await supabaseClient
-.from("wallets")
-.upsert({
+  const email =
+  $("loginEmail").value.trim();
 
-user_id:data.user.id,
-balance:0
+  const password =
+  $("loginPassword").value;
 
-},{
-onConflict:"user_id"
-});
+  const {data,error} =
+  await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
 
+  if(error){
 
-if(data.session){
+    toast(error.message);
+    return;
 
-closeAuth();
+  }
 
-await refresh();
+  currentUser = data.user;
 
-}else{
-
-$("authMessage").textContent =
-"Account created. Please verify your email, then login.";
+  await loadUser();
 
 }
 
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+  if(!currentUser)
+    return;
+
+
+  const {data,error} =
+  await supabaseClient
+  .from("Benjosms")
+  .select("*")
+  .eq("id",currentUser.id)
+  .single();
+
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+
+  currentProfile = data;
+
+
+  $("authSection")
+  .classList.add("hidden");
+
+
+  $("userApp")
+  .classList.remove("hidden");
+
+
+  $("headerButtons").innerHTML = `
+    <button
+      class="secondary"
+      onclick="logout()">
+      Logout
+    </button>
+  `;
+
+
+  await loadServices();
+  await loadWallet();
+  await loadOrders();
+
+
+  if(currentProfile.is_admin){
+
+    $("adminApp")
+    .classList.remove("hidden");
+
+    await loadAdminProducts();
+    await loadAdminDeposits();
+    await loadAdminOrders();
+
+  }
+
+
+  showPage("home");
+
 }
 
-}else{
-
-const {
-error
-} =
-await supabaseClient.auth
-.signInWithPassword({
-
-email,
-password
-
-});
-
-
-if(error)
-throw error;
-
-
-closeAuth();
-
-await refresh();
-
-}
-
-}catch(error){
-
-console.error(error);
-
-$("authMessage").textContent =
-error.message ||
-"Something went wrong.";
-
-}
-
-}
-);
-
-
-/* =====================================================
-LOGOUT
-===================================================== */
 
 async function logout(){
 
-const {
-error
-} =
-await supabaseClient.auth.signOut();
+  await supabaseClient.auth.signOut();
 
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-cart = [];
-
-await refresh();
+  location.reload();
 
 }
 
 
-/* =====================================================
-USER UI
-===================================================== */
+async function checkSession(){
 
-async function getUser(){
+  const {data} =
+  await supabaseClient.auth.getSession();
 
-const {
-data:{
-user
-}
-} =
-await supabaseClient.auth.getUser();
+  if(data.session){
 
-return user;
+    currentUser =
+    data.session.user;
 
-}
+    await loadUser();
 
-
-async function updateUserUI(){
-
-const user =
-await getUser();
-
-
-if(!user){
-
-$("loginBtn").style.display =
-"inline-block";
-
-$("registerBtn").style.display =
-"inline-block";
-
-$("heroLoginBtn").style.display =
-"inline-block";
-
-$("heroRegisterBtn").style.display =
-"inline-block";
-
-$("logoutBtn").classList.add("hidden");
-
-$("walletSection").classList.add("hidden");
-
-$("services").classList.add("hidden");
-
-$("cartSection").classList.add("hidden");
-
-$("ordersSection").classList.add("hidden");
-
-$("servicesNav").style.display =
-"none";
-
-$("adminPanel").style.display =
-"none";
-
-return null;
+  }
 
 }
 
+checkSession();
 
-/*
-LOGGED IN
-*/
 
-$("loginBtn").style.display =
-"none";
+/* =========================================================
+   USER NAVIGATION
+========================================================= */
 
-$("registerBtn").style.display =
-"none";
+function showPage(page){
 
-$("heroLoginBtn").style.display =
-"none";
+  [
+    "home",
+    "services",
+    "wallet",
+    "cart",
+    "orders"
+  ].forEach(name=>{
 
-$("heroRegisterBtn").style.display =
-"none";
+    $("page-" + name)
+    .classList.add("hidden");
 
-$("logoutBtn").classList.remove("hidden");
+  });
 
-$("walletSection").classList.remove("hidden");
 
-$("services").classList.remove("hidden");
+  $("page-" + page)
+  .classList.remove("hidden");
 
-$("cartSection").classList.remove("hidden");
 
-$("ordersSection").classList.remove("hidden");
+  if(page === "services")
+    loadServices();
 
-$("servicesNav").style.display =
-"inline";
+  if(page === "wallet"){
 
-return user;
+    loadWallet();
+    loadDeposits();
+
+  }
+
+  if(page === "cart")
+    renderCart();
+
+  if(page === "orders")
+    loadOrders();
 
 }
 
 
-/* =====================================================
-WALLET
-===================================================== */
-
-async function ensureWallet(userId){
-
-const {
-data
-} =
-await supabaseClient
-.from("wallets")
-.select("id,balance")
-.eq(
-"user_id",
-userId
-)
-.maybeSingle();
-
-
-if(!data){
-
-await supabaseClient
-.from("wallets")
-.insert({
-
-user_id:userId,
-balance:0
-
-});
-
-}
-
-}
-
-
-async function loadWallet(){
-
-const user =
-await getUser();
-
-if(!user)
-return;
-
-
-await ensureWallet(
-user.id
-);
-
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("wallets")
-.select("balance")
-.eq(
-"user_id",
-user.id
-)
-.maybeSingle();
-
-
-if(error){
-
-console.error(error);
-
-return;
-
-}
-
-
-$("walletBalance").textContent =
-money(
-data?.balance || 0
-);
-
-}
-
-
-/* =====================================================
-DEPOSIT SCREENSHOT
-===================================================== */
-
-$("depositForm").addEventListener(
-"submit",
-async function(e){
-
-e.preventDefault();
-
-const user =
-await getUser();
-
-if(!user){
-
-alert(
-"Please login first."
-);
-
-return;
-
-}
-
-
-const amount =
-Number(
-$("depositAmount").value
-);
-
-const file =
-$("depositScreenshot").files[0];
-
-
-if(
-!Number.isFinite(amount) ||
-amount <= 0
-){
-
-$("depositMessage").textContent =
-"Enter a valid amount.";
-
-return;
-
-}
-
-
-if(!file){
-
-$("depositMessage").textContent =
-"Please upload your OPay screenshot.";
-
-return;
-
-}
-
-
-if(file.size > 5 * 1024 * 1024){
-
-$("depositMessage").textContent =
-"Screenshot must be 5MB or smaller.";
-
-return;
-
-}
-
-
-$("depositMessage").textContent =
-"Uploading screenshot...";
-
-
-try{
-
-const extension =
-file.name
-.split(".")
-.pop()
-.toLowerCase();
-
-const fileName =
-user.id +
-"/" +
-crypto.randomUUID() +
-"." +
-extension;
-
-
-const {
-error:uploadError
-} =
-await supabaseClient.storage
-.from("deposit-proofs")
-.upload(
-fileName,
-file,
-{
-contentType:file.type,
-upsert:false
-}
-);
-
-
-if(uploadError)
-throw uploadError;
-
-
-/*
-For a private bucket we store the
-file path, not a public URL.
-*/
-
-const {
-error:depositError
-} =
-await supabaseClient
-.from("deposits")
-.insert({
-
-user_id:user.id,
-amount:amount,
-reference:
-"SCREENSHOT-" +
-Date.now(),
-status:"pending",
-screenshot_url:fileName
-
-});
-
-
-if(depositError)
-throw depositError;
-
-
-$("depositMessage").textContent =
-"Deposit submitted successfully. Waiting for admin approval.";
-
-$("depositForm").reset();
-
-}catch(error){
-
-console.error(error);
-
-$("depositMessage").textContent =
-error.message;
-
-}
-
-}
-);
-
-
-/* =====================================================
-LOAD SERVICES
-===================================================== */
+/* =========================================================
+   SERVICES
+========================================================= */
 
 async function loadServices(){
 
-const user =
-await getUser();
-
-if(!user)
-return;
+  if(!currentUser)
+    return;
 
 
-const container =
-$("servicesList");
+  const box =
+  $("servicesList");
 
-container.innerHTML =
-"<p>Loading...</p>";
-
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("services")
-.select("*")
-.eq(
-"available",
-true
-)
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+  box.innerHTML =
+  "<p>Loading products...</p>";
 
 
-if(error){
-
-container.innerHTML =
-"<p>" +
-escapeHTML(error.message) +
-"</p>";
-
-return;
-
-}
+  const {data,error} =
+  await supabaseClient
+  .from("services")
+  .select("*")
+  .eq("available",true)
+  .order("name");
 
 
-if(!data?.length){
+  if(error){
 
-container.innerHTML =
-"<p>No services available.</p>";
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
 
-return;
+    return;
 
-}
-
-
-container.innerHTML = "";
+  }
 
 
-data.forEach(service => {
+  if(!data || !data.length){
 
-const card =
-document.createElement("div");
+    box.innerHTML =
+    "<p>No products available.</p>";
 
-card.className =
-"card";
+    return;
 
-card.innerHTML = `
+  }
 
-<h3>
-${escapeHTML(service.name)}
-</h3>
 
-<p>
-${escapeHTML(service.description || "")}
-</p>
+  box.innerHTML = "";
 
-<div class="price">
-${money(service.price)}
-</div>
 
-<button
-class="buy"
-onclick="addToCart('${service.id}')"
->
-Add to Cart
-</button>
+  data.forEach(product=>{
 
-`;
+    const card =
+    document.createElement("div");
 
-container.appendChild(card);
+    card.className = "product";
 
-});
+
+    card.innerHTML = `
+
+      <h3>
+        ${escapeHTML(product.name)}
+      </h3>
+
+      <p>
+        ${escapeHTML(product.description || "")}
+      </p>
+
+      <div class="price">
+        ${money(product.price)}
+      </div>
+
+      <button
+        class="primary"
+        onclick='addToCart("${product.id}")'>
+        Add to Cart
+      </button>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
 
 }
 
 
-/* =====================================================
-CART
-===================================================== */
+/* =========================================================
+   CART
+========================================================= */
 
-async function addToCart(id){
+function addToCart(id){
 
-const {
-data,
-error
-} =
-await supabaseClient
-.from("services")
-.select("*")
-.eq("id",id)
-.single();
+  if(!cart.includes(id))
+    cart.push(id);
 
+  localStorage.setItem(
+    "benjo_cart",
+    JSON.stringify(cart)
+  );
 
-if(error){
+  toast("Added to cart.");
 
-alert(error.message);
-
-return;
+  renderCart();
 
 }
 
 
-cart.push(data);
+async function renderCart(){
 
-renderCart();
-
-alert(
-data.name +
-" added to cart."
-);
-
-}
+  const box =
+  $("cartList");
 
 
-function renderCart(){
+  if(!cart.length){
 
-const container =
-$("cartList");
+    box.innerHTML =
+    "<p>Your cart is empty.</p>";
 
-if(!cart.length){
+    return;
 
-container.innerHTML =
-"<p>Your cart is empty.</p>";
-
-$("cartTotal").textContent =
-"₦0.00";
-
-return;
-
-}
+  }
 
 
-container.innerHTML = "";
-
-let total = 0;
-
-
-cart.forEach(
-(service,index) => {
-
-total += Number(
-service.price
-);
+  const {data,error} =
+  await supabaseClient
+  .from("services")
+  .select("*")
+  .in("id",cart);
 
 
-const card =
-document.createElement("div");
+  if(error){
 
-card.className =
-"card";
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
 
-card.innerHTML = `
+    return;
 
-<h3>
-${escapeHTML(service.name)}
-</h3>
-
-<div class="price">
-${money(service.price)}
-</div>
-
-<button
-class="btn danger"
-onclick="removeFromCart(${index})"
->
-Remove
-</button>
-
-`;
-
-container.appendChild(card);
-
-});
+  }
 
 
-$("cartTotal").textContent =
-money(total);
+  box.innerHTML = "";
+
+
+  data.forEach(product=>{
+
+    const card =
+    document.createElement("div");
+
+    card.className = "card";
+
+
+    card.innerHTML = `
+
+      <h3>
+        ${escapeHTML(product.name)}
+      </h3>
+
+      <p>
+        ${money(product.price)}
+      </p>
+
+      <button
+        class="success"
+        onclick='payForProduct("${product.id}")'>
+        Pay With Wallet
+      </button>
+
+      <button
+        class="danger"
+        onclick='removeFromCart("${product.id}")'>
+        Remove
+      </button>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
 
 }
 
 
-function removeFromCart(index){
+function removeFromCart(id){
 
-cart.splice(
-index,
-1
-);
+  cart =
+  cart.filter(x=>x !== id);
 
-renderCart();
+  localStorage.setItem(
+    "benjo_cart",
+    JSON.stringify(cart)
+  );
 
-}
-
-
-/* =====================================================
-CHECKOUT
-===================================================== */
-
-async function checkout(){
-
-const user =
-await getUser();
-
-if(!user){
-
-alert(
-"Please login first."
-);
-
-return;
+  renderCart();
 
 }
 
 
-if(!cart.length){
+/* =========================================================
+   PAYMENT
+========================================================= */
 
-alert(
-"Your cart is empty."
-);
+async function payForProduct(productId){
 
-return;
+  if(!currentUser){
 
-}
+    toast("Please login.");
+    return;
 
-
-const total =
-cart.reduce(
-(sum,item) =>
-sum + Number(item.price),
-0
-);
+  }
 
 
-if(
-!confirm(
-"Pay " +
-money(total) +
-" from your wallet?"
-)
-){
-
-return;
-
-}
+  if(!confirm(
+    "Pay for this product using your wallet?"
+  ))
+    return;
 
 
-for(
-const service of cart
-){
-
-const {
-data,
-error
-} =
-await supabaseClient.rpc(
-"pay_for_order",
-{
-p_service_id:service.id,
-p_product_name:service.name,
-p_amount:Number(
-service.price
-)
-}
-);
+  const {data,error} =
+  await supabaseClient.rpc(
+    "pay_for_order",
+    {
+      p_service_id:productId
+    }
+  );
 
 
-if(error){
+  if(error){
 
-alert(
-"Payment failed: " +
-error.message
-);
+    toast(
+      "Payment failed: " +
+      error.message
+    );
 
-await loadWallet();
+    return;
 
-return;
+  }
 
-}
+
+  cart =
+  cart.filter(id=>id !== productId);
+
+
+  localStorage.setItem(
+    "benjo_cart",
+    JSON.stringify(cart)
+  );
+
+
+  toast(
+    "Payment successful. Delivery information is available."
+  );
+
+
+  await loadWallet();
+  await loadOrders();
+
+  showPage("orders");
 
 }
 
 
-cart = [];
+/* =========================================================
+   WALLET
+========================================================= */
 
-renderCart();
+async function loadWallet(){
 
-await loadWallet();
+  if(!currentUser)
+    return;
 
-await loadOrders();
 
-alert(
-"Payment successful. Your order has been created."
-);
+  const {data,error} =
+  await supabaseClient
+  .from("wallets")
+  .select("balance")
+  .eq("user_id",currentUser.id)
+  .maybeSingle();
+
+
+  if(error){
+
+    $("walletBalance")
+    .textContent = "₦0.00";
+
+    return;
+
+  }
+
+
+  $("walletBalance")
+  .textContent =
+  money(data?.balance || 0);
 
 }
 
 
-/* =====================================================
-CUSTOMER ORDERS
-===================================================== */
+/* =========================================================
+   DEPOSIT
+========================================================= */
+
+async function submitDeposit(){
+
+  const amount =
+  Number(
+    $("depositAmount").value
+  );
+
+  const file =
+  $("depositScreenshot").files[0];
+
+
+  if(!amount || amount <= 0){
+
+    toast("Enter a valid amount.");
+    return;
+
+  }
+
+
+  if(!file){
+
+    toast("Upload your payment screenshot.");
+    return;
+
+  }
+
+
+  const extension =
+  file.name.split(".").pop();
+
+
+  const path =
+  currentUser.id +
+  "/" +
+  crypto.randomUUID() +
+  "." +
+  extension;
+
+
+  const {error:uploadError} =
+  await supabaseClient.storage
+  .from("deposit-proofs")
+  .upload(
+    path,
+    file
+  );
+
+
+  if(uploadError){
+
+    toast(
+      "Upload failed: " +
+      uploadError.message
+    );
+
+    return;
+
+  }
+
+
+  const {error} =
+  await supabaseClient
+  .from("deposits")
+  .insert({
+
+    user_id:
+    currentUser.id,
+
+    amount:
+    amount,
+
+    screenshot_url:
+    path,
+
+    status:
+    "pending"
+
+  });
+
+
+  if(error){
+
+    toast(error.message);
+    return;
+
+  }
+
+
+  $("depositAmount").value = "";
+  $("depositScreenshot").value = "";
+
+  toast(
+    "Deposit submitted for approval."
+  );
+
+  loadDeposits();
+
+}
+
+
+/* =========================================================
+   USER DEPOSITS
+========================================================= */
+
+async function loadDeposits(){
+
+  const box =
+  $("myDeposits");
+
+
+  const {data,error} =
+  await supabaseClient
+  .from("deposits")
+  .select("*")
+  .eq("user_id",currentUser.id)
+  .order("created_at",{
+    ascending:false
+  });
+
+
+  if(error){
+
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
+
+    return;
+
+  }
+
+
+  if(!data.length){
+
+    box.innerHTML =
+    "<p>No deposits yet.</p>";
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  data.forEach(deposit=>{
+
+    const div =
+    document.createElement("div");
+
+    div.className = "card";
+
+
+    div.innerHTML = `
+
+      <strong>
+        ${money(deposit.amount)}
+      </strong>
+
+      <p>
+        Status:
+        <span class="status">
+          ${escapeHTML(deposit.status)}
+        </span>
+      </p>
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================================================
+   ORDERS
+========================================================= */
 
 async function loadOrders(){
 
-const user =
-await getUser();
-
-if(!user)
-return;
+  const box =
+  $("ordersList");
 
 
-const container =
-$("ordersList");
-
-container.innerHTML =
-"<p>Loading orders...</p>";
-
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("orders")
-.select("*")
-.eq(
-"user_id",
-user.id
-)
-.order(
-"Created at",
-{
-ascending:false
-}
-);
+  const {data,error} =
+  await supabaseClient
+  .from("orders")
+  .select("*")
+  .eq("user_id",currentUser.id)
+  .order("created_at",{
+    ascending:false
+  });
 
 
-if(error){
+  if(error){
 
-container.innerHTML =
-"<p>" +
-escapeHTML(error.message) +
-"</p>";
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
 
-return;
+    return;
 
-}
+  }
 
 
-if(!data?.length){
+  if(!data.length){
 
-container.innerHTML =
-"<p>No orders yet.</p>";
+    box.innerHTML =
+    "<p>No orders yet.</p>";
 
-return;
+    return;
 
-}
-
-
-container.innerHTML = "";
+  }
 
 
-data.forEach(order => {
-
-const card =
-document.createElement("div");
-
-card.className =
-"order-card";
+  box.innerHTML = "";
 
 
-let loginSection =
-"<p>🔒 Login information will appear here after admin provides it.</p>";
+  data.forEach(order=>{
+
+    const div =
+    document.createElement("div");
+
+    div.className = "card";
 
 
-if(
-order.login_information &&
-String(
-order.login_information
-).trim()
-){
+    div.innerHTML = `
 
-loginSection = `
+      <h3>
+        ${escapeHTML(order.product_name)}
+      </h3>
 
-<div class="login-info">
+      <p>
+        Amount:
+        ${money(order.amount)}
+      </p>
 
-<strong>
-🔐 Login Information
-</strong>
+      <p>
+        Payment:
+        ${escapeHTML(order.payment_method)}
+      </p>
 
-<br><br>
+      <p>
+        Status:
+        <span class="status">
+          ${escapeHTML(order.status)}
+        </span>
+      </p>
 
-${escapeHTML(
-order.login_information
-)}
+      ${
+        order.login_information
+        ?
+        `
+        <div class="delivery">
 
-</div>
+          <strong>
+            Delivery Information
+          </strong>
 
-`;
+          <br><br>
 
-}
+          ${escapeHTML(order.login_information)}
+
+        </div>
+        `
+        :
+        `
+        <p class="small">
+          Delivery information is not available.
+        </p>
+        `
+      }
+
+    `;
 
 
-card.innerHTML = `
+    box.appendChild(div);
 
-<h3>
-${escapeHTML(
-order["Product name"]
-)}
-</h3>
-
-<p>
-Amount:
-${money(order["Amount"])}
-</p>
-
-<p>
-Payment:
-${escapeHTML(
-order["Payment method"]
-)}
-</p>
-
-<p>
-Status:
-<span class="status">
-${escapeHTML(
-order["Status"]
-)}
-</span>
-</p>
-
-${loginSection}
-
-`;
-
-container.appendChild(card);
-
-});
+  });
 
 }
 
 
-/* =====================================================
-ADMIN CHECK
-===================================================== */
+/* =========================================================
+   ADMIN NAVIGATION
+========================================================= */
 
-async function isAdmin(){
+function showAdminPage(page){
 
-const user =
-await getUser();
+  [
+    "dashboard",
+    "products",
+    "deposits",
+    "orders"
+  ].forEach(name=>{
 
-if(!user)
-return false;
+    $("admin-"+name)
+    .classList.add("hidden");
 
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("Benjosms")
-.select("is_admin")
-.eq(
-"id",
-user.id
-)
-.maybeSingle();
+  });
 
 
-console.log(
-"ADMIN PROFILE:",
-data,
-error
-);
+  $("admin-"+page)
+  .classList.remove("hidden");
 
 
-if(error)
-return false;
+  if(page === "products")
+    loadAdminProducts();
 
+  if(page === "deposits")
+    loadAdminDeposits();
 
-return data?.is_admin === true;
+  if(page === "orders")
+    loadAdminOrders();
 
 }
 
 
-/* =====================================================
-ADMIN DASHBOARD
-===================================================== */
+/* =========================================================
+   ADMIN CREATE PRODUCT
+========================================================= */
 
-async function loadAdmin(){
+async function createProduct(){
 
-const admin =
-await isAdmin();
+  const name =
+  $("productName").value.trim();
 
+  const description =
+  $("productDescription").value.trim();
 
-if(!admin){
+  const price =
+  Number(
+    $("productPrice").value
+  );
 
-$("adminPanel").style.display =
-"none";
-
-return;
-
-}
-
-
-$("adminPanel").style.display =
-"block";
+  const delivery =
+  $("productDelivery").value.trim();
 
 
-await loadAdminServices();
+  if(!name){
 
-await loadAdminDeposits();
+    toast("Enter product name.");
+    return;
 
-await loadAdminOrders();
-
-}
-
-
-/* =====================================================
-ADMIN SERVICES
-===================================================== */
-
-async function loadAdminServices(){
-
-const container =
-$("adminServices");
+  }
 
 
-const {
-data,
-error
-} =
-await supabaseClient
-.from("services")
-.select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+  if(!price || price <= 0){
+
+    toast("Enter a valid price.");
+    return;
+
+  }
 
 
-if(error){
+  if(!delivery){
 
-container.innerHTML =
-"<p>" +
-escapeHTML(error.message) +
-"</p>";
+    toast(
+      "Enter the authorized delivery information."
+    );
 
-return;
+    return;
 
-}
-
-
-container.innerHTML = "";
+  }
 
 
-if(!data?.length){
+  const {error} =
+  await supabaseClient
+  .from("services")
+  .insert({
 
-container.innerHTML =
-"<p>No services.</p>";
+    name:name,
 
-return;
+    description:description,
 
-}
+    price:price,
+
+    delivery_information:delivery,
+
+    available:true
+
+  });
 
 
-data.forEach(service => {
+  if(error){
 
-const card =
-document.createElement("div");
+    toast(error.message);
+    return;
 
-card.className =
-"admin-card";
+  }
 
-card.innerHTML = `
 
-<h3>
-${escapeHTML(service.name)}
-</h3>
+  $("productName").value = "";
+  $("productDescription").value = "";
+  $("productPrice").value = "";
+  $("productDelivery").value = "";
 
-<p>
-${escapeHTML(
-service.description || ""
-)}
-</p>
 
-<p>
-Price:
-${money(service.price)}
-</p>
+  toast("Product added successfully.");
 
-<p>
-Status:
-${service.available
-? "Available"
-: "Hidden"}
-</p>
-
-<div class="actions">
-
-<button
-class="btn primary"
-onclick="editService('${service.id}')"
->
-Edit
-</button>
-
-<button
-class="btn danger"
-onclick="deleteService('${service.id}')"
->
-Delete
-</button>
-
-</div>
-
-`;
-
-container.appendChild(card);
-
-});
+  loadAdminProducts();
 
 }
 
 
-/* =====================================================
-ADD SERVICE
-===================================================== */
+/* =========================================================
+   ADMIN PRODUCTS
+========================================================= */
 
-$("addServiceForm").addEventListener(
-"submit",
-async function(e){
+async function loadAdminProducts(){
 
-e.preventDefault();
-
-
-const {
-error
-} =
-await supabaseClient
-.from("services")
-.insert({
-
-name:
-$("serviceName").value.trim(),
-
-description:
-$("serviceDescription").value.trim(),
-
-price:
-Number(
-$("servicePrice").value
-),
-
-available:true
-
-});
+  const box =
+  $("adminProducts");
 
 
-if(error){
-
-$("adminMessage").textContent =
-error.message;
-
-return;
-
-}
+  const {data,error} =
+  await supabaseClient
+  .from("services")
+  .select("*")
+  .order("name");
 
 
-$("adminMessage").textContent =
-"Service added successfully.";
+  if(error){
 
-$("addServiceForm").reset();
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
 
-await loadAdminServices();
+    return;
 
-await loadServices();
-
-}
-);
+  }
 
 
-/* =====================================================
-EDIT SERVICE
-===================================================== */
-
-async function editService(id){
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("services")
-.select("*")
-.eq("id",id)
-.single();
+  box.innerHTML = "";
 
 
-if(error){
+  data.forEach(product=>{
 
-alert(error.message);
+    const div =
+    document.createElement("div");
 
-return;
-
-}
-
-
-const name =
-prompt(
-"Service name:",
-data.name
-);
-
-if(name === null)
-return;
+    div.className =
+    "card";
 
 
-const description =
-prompt(
-"Description:",
-data.description || ""
-);
+    div.innerHTML = `
 
-if(description === null)
-return;
+      <h3>
+        ${escapeHTML(product.name)}
+      </h3>
+
+      <p>
+        Price:
+        ${money(product.price)}
+      </p>
+
+      <p>
+        ${escapeHTML(product.description || "")}
+      </p>
+
+      <div class="delivery">
+
+        <strong>
+          Delivery Information
+        </strong>
+
+        <br><br>
+
+        ${escapeHTML(
+          product.delivery_information || ""
+        )}
+
+      </div>
+
+      <br>
+
+      <button
+        class="secondary"
+        onclick='editProduct("${product.id}")'>
+        Edit
+      </button>
+
+      <button
+        class="danger"
+        onclick='deleteProduct("${product.id}")'>
+        Delete
+      </button>
+
+    `;
 
 
-const price =
-Number(
-prompt(
-"Price:",
-data.price
-)
-);
+    box.appendChild(div);
 
-
-if(!Number.isFinite(price)){
-
-alert(
-"Invalid price."
-);
-
-return;
+  });
 
 }
 
 
-const {
-error:updateError
-} =
-await supabaseClient
-.from("services")
-.update({
+/* =========================================================
+   EDIT PRODUCT
+========================================================= */
 
-name:name.trim(),
-description:description.trim(),
-price
+async function editProduct(id){
 
-})
-.eq(
-"id",
-id
-);
+  const {data,error} =
+  await supabaseClient
+  .from("services")
+  .select("*")
+  .eq("id",id)
+  .single();
 
 
-if(updateError){
+  if(error){
 
-alert(
-updateError.message
-);
+    toast(error.message);
+    return;
 
-return;
+  }
+
+
+  const name =
+  prompt(
+    "Product name:",
+    data.name
+  );
+
+
+  if(name === null)
+    return;
+
+
+  const price =
+  Number(
+    prompt(
+      "Price:",
+      data.price
+    )
+  );
+
+
+  if(!price || price <= 0){
+
+    toast("Invalid price.");
+    return;
+
+  }
+
+
+  const delivery =
+  prompt(
+    "Delivery information:",
+    data.delivery_information || ""
+  );
+
+
+  if(delivery === null)
+    return;
+
+
+  const {error:updateError} =
+  await supabaseClient
+  .from("services")
+  .update({
+
+    name:name.trim(),
+
+    price:price,
+
+    delivery_information:
+    delivery.trim()
+
+  })
+  .eq("id",id);
+
+
+  if(updateError){
+
+    toast(updateError.message);
+    return;
+
+  }
+
+
+  toast("Product updated.");
+
+  loadAdminProducts();
 
 }
 
 
-await loadAdminServices();
+/* =========================================================
+   DELETE PRODUCT
+========================================================= */
 
-await loadServices();
+async function deleteProduct(id){
 
-}
-
-
-/* =====================================================
-DELETE SERVICE
-===================================================== */
-
-async function deleteService(id){
-
-if(
-!confirm(
-"Delete this service?"
-)
-)
-return;
+  if(!confirm(
+    "Delete this product?"
+  ))
+    return;
 
 
-const {
-error
-} =
-await supabaseClient
-.from("services")
-.delete()
-.eq(
-"id",
-id
-);
+  const {error} =
+  await supabaseClient
+  .from("services")
+  .delete()
+  .eq("id",id);
 
 
-if(error){
+  if(error){
 
-alert(error.message);
+    toast(error.message);
+    return;
 
-return;
+  }
+
+
+  toast("Product deleted.");
+
+  loadAdminProducts();
 
 }
 
 
-await loadAdminServices();
-
-await loadServices();
-
-}
-
-
-/* =====================================================
-ADMIN DEPOSITS
-===================================================== */
+/* =========================================================
+   ADMIN DEPOSITS
+========================================================= */
 
 async function loadAdminDeposits(){
 
-const container =
-$("adminDeposits");
+  const box =
+  $("adminDeposits");
 
 
-const {
-data,
-error
-} =
-await supabaseClient
-.from("deposits")
-.select(
-"id,user_id,amount,reference,status,screenshot_url,created_at"
-)
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+  const {data,error} =
+  await supabaseClient
+  .from("deposits")
+  .select("*")
+  .order("created_at",{
+    ascending:false
+  });
 
 
-if(error){
+  if(error){
 
-container.innerHTML =
-"<p>" +
-escapeHTML(error.message) +
-"</p>";
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
 
-return;
+    return;
 
-}
+  }
 
 
-container.innerHTML = "";
+  if(!data.length){
+
+    box.innerHTML =
+    "<p>No deposits.</p>";
+
+    return;
+
+  }
 
 
-if(!data?.length){
-
-container.innerHTML =
-"<p>No deposits yet.</p>";
-
-return;
-
-}
+  box.innerHTML = "";
 
 
-data.forEach(deposit => {
+  data.forEach(deposit=>{
 
-const card =
-document.createElement("div");
+    const div =
+    document.createElement("div");
 
-card.className =
-"deposit-card";
-
-
-card.innerHTML = `
-
-<h3>
-${money(deposit.amount)}
-</h3>
-
-<p>
-User ID:
-${escapeHTML(deposit.user_id)}
-</p>
-
-<p>
-Status:
-<span class="status">
-${escapeHTML(deposit.status)}
-</span>
-</p>
-
-<p>
-Date:
-${escapeHTML(
-new Date(
-deposit.created_at
-).toLocaleString()
-)}
-</p>
-
-<div id="proof-${deposit.id}">
-Loading screenshot...
-</div>
-
-`;
-
-container.appendChild(card);
+    div.className =
+    "card";
 
 
-loadDepositProof(
-deposit,
-card
-);
+    div.innerHTML = `
 
-});
+      <p>
+        User:
+        ${escapeHTML(deposit.user_id)}
+      </p>
+
+      <h3>
+        ${money(deposit.amount)}
+      </h3>
+
+      <p>
+        Status:
+        ${escapeHTML(deposit.status)}
+      </p>
+
+      ${
+        deposit.screenshot_url
+        ?
+        `
+        <p>
+          Payment screenshot uploaded.
+        </p>
+        `
+        :
+        ""
+      }
+
+      ${
+        deposit.status === "pending"
+        ?
+        `
+        <button
+          class="success"
+          onclick='approveDeposit("${deposit.id}")'>
+          Approve Deposit
+        </button>
+        `
+        :
+        ""
+      }
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
 
 }
 
 
-/* =====================================================
-ADMIN VIEW PRIVATE SCREENSHOT
-===================================================== */
+/* =========================================================
+   APPROVE DEPOSIT
+========================================================= */
 
-async function loadDepositProof(
-deposit,
-card
-){
+async function approveDeposit(id){
 
-if(!deposit.screenshot_url){
-
-const div =
-card.querySelector(
-`#proof-${deposit.id}`
-);
-
-if(div)
-div.innerHTML =
-"<p>No screenshot.</p>";
-
-return;
-
-}
+  if(!confirm(
+    "Approve this deposit and credit the wallet?"
+  ))
+    return;
 
 
-const {
-data,
-error
-} =
-await supabaseClient.storage
-.from("deposit-proofs")
-.createSignedUrl(
-deposit.screenshot_url,
-3600
-);
+  const {error} =
+  await supabaseClient.rpc(
+    "approve_deposit",
+    {
+      deposit_id:id
+    }
+  );
 
 
-const div =
-card.querySelector(
-`#proof-${deposit.id}`
-);
+  if(error){
+
+    toast(
+      "Approval failed: " +
+      error.message
+    );
+
+    return;
+
+  }
 
 
-if(error){
+  toast(
+    "Deposit approved and wallet credited."
+  );
 
-if(div)
-div.innerHTML =
-"<p>Unable to load screenshot.</p>";
 
-return;
+  loadAdminDeposits();
 
 }
 
 
-if(div){
-
-div.innerHTML = `
-
-<img
-class="proof"
-src="${data.signedUrl}"
-alt="Deposit screenshot"
->
-
-`;
-
-}
-
-
-if(
-deposit.status === "pending"
-){
-
-const actions =
-document.createElement("div");
-
-actions.className =
-"actions";
-
-actions.innerHTML = `
-
-<button
-class="btn primary"
-onclick="approveDeposit('${deposit.id}')"
->
-✅ Approve
-</button>
-
-<button
-class="btn danger"
-onclick="rejectDeposit('${deposit.id}')"
->
-❌ Reject
-</button>
-
-`;
-
-card.appendChild(actions);
-
-}
-
-}
-
-
-/* =====================================================
-APPROVE DEPOSIT
-===================================================== */
-
-async function approveDeposit(
-depositId
-){
-
-if(
-!confirm(
-"Approve this deposit and credit the customer's wallet?"
-)
-)
-return;
-
-
-const {
-data,
-error
-} =
-await supabaseClient.rpc(
-"approve_deposit",
-{
-deposit_id:depositId
-}
-);
-
-
-if(error){
-
-alert(
-"Approval failed: " +
-error.message
-);
-
-return;
-
-}
-
-
-if(data === true){
-
-alert(
-"Deposit approved. Wallet credited."
-);
-
-}
-
-
-await loadAdminDeposits();
-
-}
-
-
-/* =====================================================
-REJECT DEPOSIT
-===================================================== */
-
-async function rejectDeposit(
-depositId
-){
-
-if(
-!confirm(
-"Reject this deposit?"
-)
-)
-return;
-
-
-const {
-error
-} =
-await supabaseClient
-.from("deposits")
-.update({
-status:"rejected"
-})
-.eq(
-"id",
-depositId
-)
-.eq(
-"status",
-"pending"
-);
-
-
-if(error){
-
-alert(
-"Rejection failed: " +
-error.message
-);
-
-return;
-
-}
-
-
-await loadAdminDeposits();
-
-}
-
-
-/* =====================================================
-ADMIN ORDERS
-===================================================== */
+/* =========================================================
+   ADMIN ORDERS
+========================================================= */
 
 async function loadAdminOrders(){
 
-const container =
-$("adminOrders");
+  const box =
+  $("adminOrders");
 
 
-const {
-data,
-error
-} =
-await supabaseClient
-.from("orders")
-.select("*")
-.order(
-"Created at",
-{
-ascending:false
-}
-);
+  const {data,error} =
+  await supabaseClient
+  .from("orders")
+  .select("*")
+  .order("created_at",{
+    ascending:false
+  });
 
 
-if(error){
+  if(error){
 
-container.innerHTML =
-"<p>" +
-escapeHTML(error.message) +
-"</p>";
+    box.innerHTML =
+    `<p>${escapeHTML(error.message)}</p>`;
 
-return;
+    return;
 
-}
+  }
 
 
-container.innerHTML = "";
+  if(!data.length){
+
+    box.innerHTML =
+    "<p>No orders yet.</p>";
+
+    return;
+
+  }
 
 
-if(!data?.length){
-
-container.innerHTML =
-"<p>No orders yet.</p>";
-
-return;
-
-}
+  box.innerHTML = "";
 
 
-data.forEach(order => {
+  data.forEach(order=>{
 
-const card =
-document.createElement("div");
+    const div =
+    document.createElement("div");
 
-card.className =
-"order-card";
+    div.className =
+    "card";
 
 
-card.innerHTML = `
+    div.innerHTML = `
 
-<h3>
-${escapeHTML(
-order["Product name"]
-)}
-</h3>
+      <h3>
+        ${escapeHTML(order.product_name)}
+      </h3>
 
-<p>
-User:
-${escapeHTML(order.user_id)}
-</p>
+      <p>
+        User:
+        ${escapeHTML(order.user_id)}
+      </p>
 
-<p>
-Amount:
-${money(order["Amount"])}
-</p>
+      <p>
+        Amount:
+        ${money(order.amount)}
+      </p>
 
-<p>
-Status:
-${escapeHTML(order["Status"])}
-</p>
+      <p>
+        Payment:
+        ${escapeHTML(order.payment_method)}
+      </p>
 
-<p>
-Current login information:
-</p>
+      <p>
+        Status:
+        ${escapeHTML(order.status)}
+      </p>
 
-<div class="login-info">
-${
-order.login_information
-? escapeHTML(
-order.login_information
-)
-: "Not added yet."
-}
-</div>
+      <div class="delivery">
 
-<div class="actions">
+        <strong>
+          Delivered Information
+        </strong>
 
-<button
-class="btn primary"
-onclick="addLoginInformation(
-'${order.id}'
-)"
->
-🔐 Add/Edit Login Information
-</button>
+        <br><br>
 
-</div>
+        ${escapeHTML(
+          order.login_information || ""
+        )}
 
-`;
+      </div>
 
-container.appendChild(card);
+    `;
 
-});
+
+    box.appendChild(div);
+
+  });
 
 }
-
-
-/* =====================================================
-ADD LOGIN INFORMATION
-===================================================== */
-
-async function addLoginInformation(
-orderId
-){
-
-const information =
-prompt(
-"Enter the login information the customer purchased:"
-);
-
-
-if(information === null)
-return;
-
-
-const {
-error
-} =
-await supabaseClient
-.from("orders")
-.update({
-
-login_information:
-information
-
-})
-.eq(
-"id",
-orderId
-);
-
-
-if(error){
-
-alert(
-error.message
-);
-
-return;
-
-}
-
-
-alert(
-"Login information saved."
-);
-
-
-await loadAdminOrders();
-
-}
-
-
-/* =====================================================
-REFRESH EVERYTHING
-===================================================== */
-
-async function refresh(){
-
-await updateUserUI();
-
-const user =
-await getUser();
-
-if(!user)
-return;
-
-await ensureWallet(
-user.id
-);
-
-await loadWallet();
-
-await loadServices();
-
-await loadOrders();
-
-renderCart();
-
-await loadAdmin();
-
-}
-
-
-/* =====================================================
-AUTH STATE
-===================================================== */
-
-supabaseClient.auth
-.onAuthStateChange(
-function(){
-
-setTimeout(
-refresh,
-0
-);
-
-}
-);
-
-
-/* =====================================================
-START
-===================================================== */
-
-refresh();
 
 </script>
 
 </body>
 </html>
-``
