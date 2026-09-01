@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Benjo-SMS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,186 +12,171 @@
   box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial,sans-serif
 }
 
 body{
   background:#0b0b0f;
-  color:#fff;
+  color:#fff
 }
 
 header{
   background:#111116;
-  border-bottom:1px solid #282832;
+  border-bottom:1px solid #292933;
   padding:16px 5%;
   display:flex;
   justify-content:space-between;
   align-items:center;
   position:sticky;
   top:0;
-  z-index:100;
+  z-index:100
 }
 
 .logo{
   font-size:24px;
-  font-weight:bold;
+  font-weight:bold
 }
 
 .logo span{
-  color:#7c5cff;
+  color:#7c5cff
 }
 
 nav{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:12px
 }
 
 nav a,nav button{
   color:#ccc;
   background:none;
   border:0;
-  text-decoration:none;
   cursor:pointer;
+  text-decoration:none
 }
 
-.login-btn{
-  background:#7c5cff!important;
-  color:#fff!important;
-  padding:10px 16px;
+.btn{
+  padding:12px 18px;
+  border:0;
   border-radius:8px;
+  cursor:pointer;
+  font-weight:bold
+}
+
+.primary{
+  background:#7c5cff;
+  color:#fff
+}
+
+.secondary{
+  background:#17171e;
+  color:#fff;
+  border:1px solid #33333d
+}
+
+.delete{
+  background:#a72f4b!important;
+  color:#fff
 }
 
 .hero{
   padding:75px 5%;
   text-align:center;
-  background:radial-gradient(circle at top,#241951,#0b0b0f 60%);
+  background:radial-gradient(circle at top,#241951,#0b0b0f 60%)
 }
 
 .hero h1{
   font-size:clamp(38px,7vw,70px);
-  margin-bottom:20px;
+  margin-bottom:20px
 }
 
 .hero h1 span{
-  color:#7c5cff;
+  color:#7c5cff
 }
 
 .hero p{
-  max-width:650px;
-  margin:auto;
   color:#aaa;
   line-height:1.7;
+  max-width:650px;
+  margin:auto
 }
 
 .buttons{
-  margin-top:30px;
   display:flex;
   justify-content:center;
   gap:12px;
   flex-wrap:wrap;
-}
-
-.btn{
-  padding:13px 20px;
-  border-radius:9px;
-  border:0;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.primary{
-  background:#7c5cff;
-  color:#fff;
-}
-
-.secondary{
-  background:#15151b;
-  border:1px solid #33333d;
-  color:#fff;
+  margin-top:30px
 }
 
 .section{
   max-width:1150px;
   margin:auto;
-  padding:55px 5%;
+  padding:50px 5%
 }
 
 .section h2{
-  margin-bottom:25px;
+  margin-bottom:25px
 }
 
-.products{
+.products,
+.admin-services{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px
 }
 
-.card{
+.card,
+.admin-card,
+.wallet{
   background:#131318;
   border:1px solid #292933;
   border-radius:14px;
-  padding:20px;
+  padding:20px
 }
 
-.card h3{
-  margin-bottom:8px;
+.card h3,
+.admin-card h3{
+  margin-bottom:10px
 }
 
-.card p{
+.card p,
+.admin-card p,
+.wallet p{
   color:#999;
-  font-size:14px;
   line-height:1.5;
-  margin-bottom:15px;
+  margin:8px 0
 }
 
-.price{
-  font-size:20px;
+.price,
+.balance{
+  font-size:22px;
   font-weight:bold;
-  margin-bottom:15px;
+  color:#9a82ff;
+  margin:15px 0
 }
 
 .buy{
   width:100%;
-  background:#7c5cff;
-  border:0;
-  color:#fff;
   padding:12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.78);
-  z-index:1000;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.modal-box{
-  width:100%;
-  max-width:430px;
-  background:#15151b;
-  border:1px solid #30303a;
-  border-radius:15px;
-  padding:25px;
-  position:relative;
-}
-
-.close{
-  position:absolute;
-  right:15px;
-  top:10px;
-  background:none;
   border:0;
-  color:#aaa;
-  font-size:26px;
+  border-radius:8px;
+  background:#7c5cff;
+  color:#fff;
   cursor:pointer;
+  font-weight:bold
+}
+
+.wallet{
+  max-width:700px;
+  margin:20px auto
+}
+
+.opay{
+  margin-top:20px;
+  padding:18px;
+  background:#0e0e13;
+  border-radius:10px
 }
 
 .input{
@@ -203,30 +187,72 @@ nav a,nav button{
   border:1px solid #33333d;
   color:#fff;
   border-radius:8px;
-  outline:none;
+  outline:none
+}
+
+textarea.input{
+  resize:vertical
+}
+
+.form{
+  display:grid;
+  gap:12px;
+  margin:15px 0 30px
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:20px
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#15151b;
+  border:1px solid #33333d;
+  border-radius:15px;
+  padding:25px;
+  position:relative
+}
+
+.close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  background:none;
+  border:0;
+  color:#aaa;
+  font-size:26px;
+  cursor:pointer
 }
 
 .auth-submit{
   width:100%;
   padding:13px;
-  background:#7c5cff;
   border:0;
   border-radius:8px;
+  background:#7c5cff;
   color:#fff;
   font-weight:bold;
-  cursor:pointer;
+  cursor:pointer
 }
 
 .switch{
   text-align:center;
-  margin-top:15px;
   color:#999;
-  font-size:14px;
+  margin-top:15px;
+  font-size:14px
 }
 
-.switch span{
+.switch span:last-child{
   color:#9a82ff;
-  cursor:pointer;
+  cursor:pointer
 }
 
 .account{
@@ -237,12 +263,7 @@ nav a,nav button{
   border:1px solid #292933;
   border-radius:14px;
   padding:22px;
-  text-align:left;
-}
-
-.account p{
-  color:#aaa;
-  margin:8px 0;
+  text-align:left
 }
 
 .admin{
@@ -252,91 +273,38 @@ nav a,nav button{
   padding:25px;
   background:#131318;
   border:1px solid #7c5cff;
-  border-radius:16px;
+  border-radius:16px
 }
 
-.admin h2{
-  margin-bottom:20px;
-}
-
-.form{
-  display:grid;
-  gap:12px;
-  margin-bottom:30px;
-}
-
-textarea.input{
-  resize:vertical;
-}
-
-.admin-services{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:15px;
-}
-
-.admin-card{
-  background:#0f0f14;
-  border:1px solid #292933;
-  border-radius:12px;
-  padding:18px;
-}
-
-.admin-card p{
-  color:#999;
-  margin:8px 0;
+.admin hr{
+  margin:35px 0;
+  border:0;
+  border-top:1px solid #292933
 }
 
 .actions{
   display:flex;
   gap:8px;
-  margin-top:15px;
-}
-
-.delete{
-  background:#a52d49!important;
-}
-
-.wallet{
-  background:#131318;
-  border:1px solid #292933;
-  padding:20px;
-  border-radius:14px;
-  max-width:700px;
-  margin:20px auto;
-}
-
-.balance{
-  font-size:30px;
-  font-weight:bold;
-  color:#7c5cff;
-  margin-top:10px;
-}
-
-.opay{
-  margin-top:15px;
-  padding:15px;
-  background:#0e0e13;
-  border-radius:10px;
+  margin-top:15px
 }
 
 .message{
   color:#aaa;
-  margin-bottom:12px;
   line-height:1.5;
+  margin:10px 0
 }
 
 footer{
-  border-top:1px solid #292932;
   text-align:center;
   color:#777;
+  border-top:1px solid #292933;
   padding:30px;
-  margin-top:40px;
+  margin-top:40px
 }
 
 @media(max-width:650px){
-  nav a:not(.login-btn){
-    display:none;
+  nav a:not(.always){
+    display:none
   }
 }
 </style>
@@ -351,20 +319,49 @@ footer{
   </div>
 
   <nav>
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
 
-    <a href="#" id="accountLink" style="display:none;">
+    <a href="#home">
+      Home
+    </a>
+
+    <a href="#services">
+      Services
+    </a>
+
+    <a
+      href="#account"
+      id="accountLink"
+      class="always"
+      style="display:none"
+    >
       Account
     </a>
 
     <button
-      class="login-btn"
       id="loginButton"
+      class="btn primary"
       onclick="openAuth('login')"
     >
       Login
     </button>
+
+    <button
+      id="createButton"
+      class="btn secondary"
+      onclick="openAuth('register')"
+    >
+      Create Account
+    </button>
+
+    <button
+      id="logoutButton"
+      class="btn secondary"
+      onclick="logout()"
+      style="display:none"
+    >
+      Logout
+    </button>
+
   </nav>
 
 </header>
@@ -373,7 +370,8 @@ footer{
 <section class="hero" id="home">
 
   <h1>
-    Welcome to <span>Benjo-SMS</span>
+    Welcome to
+    <span>Benjo-SMS</span>
   </h1>
 
   <p>
@@ -391,6 +389,7 @@ footer{
     </a>
 
     <button
+      id="heroCreateButton"
       class="btn secondary"
       onclick="openAuth('register')"
     >
@@ -402,7 +401,7 @@ footer{
 
   <div
     class="account"
-    id="accountBox"
+    id="account"
   >
 
     <h2>My Account</h2>
@@ -411,31 +410,24 @@ footer{
 
     <p id="accountEmail"></p>
 
-    <button
-      class="btn secondary"
-      onclick="logout()"
-    >
-      Logout
-    </button>
-
   </div>
 
 </section>
 
 
-<!-- WALLET -->
+<section
+  class="section"
+  id="walletSection"
+  style="display:none"
+>
 
-<section class="section">
+  <div class="wallet">
 
-  <div
-    class="wallet"
-    id="walletBox"
-    style="display:none;"
-  >
+    <h2>💰 My Wallet</h2>
 
-    <h2>My Wallet</h2>
-
-    <p>Your current balance:</p>
+    <p>
+      Current balance
+    </p>
 
     <div
       class="balance"
@@ -444,35 +436,33 @@ footer{
       ₦0.00
     </div>
 
+
     <div class="opay">
 
       <h3>Manual OPay Deposit</h3>
 
-      <p style="color:#aaa;margin:10px 0;line-height:1.6;">
+      <p>
+        Send your payment to:
+      </p>
 
-        Send your deposit to:
-
-        <br><br>
-
+      <p>
         <strong>
           Account Name:
         </strong>
-
         Toluwani Benjamin / benjosms
+      </p>
 
-        <br>
-
+      <p>
         <strong>
           OPay Number:
         </strong>
-
         6550518571
-
       </p>
 
+
       <form
-        id="depositForm"
         class="form"
+        id="depositForm"
       >
 
         <input
@@ -513,35 +503,37 @@ footer{
 </section>
 
 
-<!-- SERVICES -->
-
 <section
   class="section"
   id="services"
 >
 
-  <h2>Services</h2>
+  <h2>
+    Services
+  </h2>
 
   <div
     class="products"
     id="servicesList"
   >
-
     <p>Loading services...</p>
-
   </div>
 
 </section>
 
 
-<!-- ADMIN -->
+<!-- ======================================================
+     ADMIN DASHBOARD
+====================================================== -->
 
 <section
   class="admin"
   id="adminPanel"
 >
 
-  <h2>👑 Benjo-SMS Admin Dashboard</h2>
+  <h2>
+    👑 Benjo-SMS Admin Dashboard
+  </h2>
 
   <div
     class="message"
@@ -549,9 +541,9 @@ footer{
   ></div>
 
 
-  <h3>Add Service</h3>
-
-  <br>
+  <h3>
+    ➕ Add Service
+  </h3>
 
   <form
     class="form"
@@ -587,13 +579,15 @@ footer{
       class="btn primary"
       type="submit"
     >
-      ➕ Add Service
+      Add Service
     </button>
 
   </form>
 
 
-  <h3>Manage Services</h3>
+  <h3>
+    📦 Manage Services
+  </h3>
 
   <br>
 
@@ -602,15 +596,36 @@ footer{
     id="adminServices"
   ></div>
 
+
+  <hr>
+
+
+  <h3>
+    💳 Customer Deposits
+  </h3>
+
+  <br>
+
+  <div
+    class="admin-services"
+    id="adminDeposits"
+  >
+    <p>
+      Loading deposits...
+    </p>
+  </div>
+
 </section>
 
 
 <footer>
-  © 2026 Benjo-SMS. All rights reserved.
+  © 2026 Benjo-SMS
 </footer>
 
 
-<!-- AUTH MODAL -->
+<!-- ======================================================
+     AUTH MODAL
+====================================================== -->
 
 <div
   class="modal"
@@ -642,7 +657,7 @@ footer{
         id="fullName"
         type="text"
         placeholder="Full name"
-        style="display:none;"
+        style="display:none"
       >
 
       <input
@@ -672,6 +687,7 @@ footer{
 
     </form>
 
+
     <div class="switch">
 
       <span id="switchText">
@@ -694,9 +710,9 @@ footer{
 
 <script>
 
-/* =========================================================
+/* ======================================================
    SUPABASE
-========================================================= */
+====================================================== */
 
 const SUPABASE_URL =
   "https://zwefikwlxgphufilgcyc.supabase.co";
@@ -704,20 +720,16 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 
-const {
-  createClient
-} = window.supabase;
-
 const supabaseClient =
-  createClient(
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
 
 
-/* =========================================================
-   AUTH
-========================================================= */
+/* ======================================================
+   AUTH MODE
+====================================================== */
 
 let authMode = "login";
 
@@ -763,19 +775,29 @@ function switchAuth(){
 function updateAuthForm(){
 
   const title =
-    document.getElementById("authTitle");
+    document.getElementById(
+      "authTitle"
+    );
 
   const fullName =
-    document.getElementById("fullName");
+    document.getElementById(
+      "fullName"
+    );
 
   const submit =
-    document.getElementById("authSubmit");
+    document.getElementById(
+      "authSubmit"
+    );
 
   const switchText =
-    document.getElementById("switchText");
+    document.getElementById(
+      "switchText"
+    );
 
   const switchAction =
-    document.getElementById("switchAction");
+    document.getElementById(
+      "switchAction"
+    );
 
 
   if(authMode === "register"){
@@ -823,9 +845,9 @@ function updateAuthForm(){
 }
 
 
-/* =========================================================
+/* ======================================================
    REGISTER / LOGIN
-========================================================= */
+====================================================== */
 
 document
   .getElementById("authForm")
@@ -834,6 +856,7 @@ document
     async function(e){
 
       e.preventDefault();
+
 
       const email =
         document
@@ -875,7 +898,7 @@ document
           if(!fullName){
 
             throw new Error(
-              "Please enter your full name."
+              "Enter your full name."
             );
 
           }
@@ -885,19 +908,21 @@ document
             data,
             error
           } =
-            await supabaseClient.auth.signUp({
+            await supabaseClient.auth
+              .signUp({
 
-              email,
+                email,
 
-              password,
+                password,
 
-              options:{
-                data:{
-                  full_name:fullName
+                options:{
+                  data:{
+                    full_name:
+                      fullName
+                  }
                 }
-              }
 
-            });
+              });
 
 
           if(error)
@@ -907,36 +932,50 @@ document
           if(data.user){
 
             /*
-              Create customer profile.
-              This will not affect the admin
-              account if it already exists.
+              Create profile.
+
+              If the account already has
+              an admin profile, upsert
+              will not remove admin status.
             */
 
-            await supabaseClient
-              .from("Benjosms")
-              .upsert({
+            const {
+              error:profileError
+            } =
+              await supabaseClient
+                .from("Benjosms")
+                .upsert({
 
-                id:data.user.id,
+                  id:data.user.id,
 
-                full_name:fullName,
+                  full_name:fullName,
 
-                email:data.user.email,
+                  email:data.user.email
 
-                is_admin:false
+                },{
+                  onConflict:"id"
+                });
 
-              });
 
+            if(profileError){
 
-            message.textContent =
-              data.session
-                ? "Account created successfully."
-                : "Account created. Check your email to verify your account.";
+              console.error(
+                profileError
+              );
+
+            }
+
 
             if(data.session){
 
               closeAuth();
 
               await refreshEverything();
+
+            }else{
+
+              message.textContent =
+                "Account created. Check your email to verify your account.";
 
             }
 
@@ -966,7 +1005,9 @@ document
 
           await refreshEverything();
 
-          alert("Login successful!");
+          alert(
+            "Login successful!"
+          );
 
         }
 
@@ -994,9 +1035,9 @@ document
   );
 
 
-/* =========================================================
-   ACCOUNT
-========================================================= */
+/* ======================================================
+   ACCOUNT UI
+====================================================== */
 
 async function loadAccount(){
 
@@ -1005,26 +1046,66 @@ async function loadAccount(){
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient.auth
+      .getUser();
 
 
   const loginButton =
-    document.getElementById("loginButton");
+    document.getElementById(
+      "loginButton"
+    );
+
+  const createButton =
+    document.getElementById(
+      "createButton"
+    );
+
+  const heroCreateButton =
+    document.getElementById(
+      "heroCreateButton"
+    );
+
+  const logoutButton =
+    document.getElementById(
+      "logoutButton"
+    );
 
   const accountLink =
-    document.getElementById("accountLink");
+    document.getElementById(
+      "accountLink"
+    );
 
   const accountBox =
-    document.getElementById("accountBox");
+    document.getElementById(
+      "account"
+    );
 
-  const walletBox =
-    document.getElementById("walletBox");
+  const walletSection =
+    document.getElementById(
+      "walletSection"
+    );
 
 
   if(!user){
 
+    /*
+      LOGGED OUT:
+      Login visible
+      Create Account visible
+      Logout hidden
+    */
+
     loginButton.style.display =
       "block";
+
+    createButton.style.display =
+      "inline-block";
+
+    heroCreateButton.style.display =
+      "inline-block";
+
+    logoutButton.style.display =
+      "none";
 
     accountLink.style.display =
       "none";
@@ -1032,7 +1113,7 @@ async function loadAccount(){
     accountBox.style.display =
       "none";
 
-    walletBox.style.display =
+    walletSection.style.display =
       "none";
 
     return null;
@@ -1040,32 +1121,50 @@ async function loadAccount(){
   }
 
 
+  /*
+    LOGGED IN:
+    Login hidden
+    Create Account hidden
+    Logout visible
+  */
+
   loginButton.style.display =
     "none";
 
+  createButton.style.display =
+    "none";
+
+  heroCreateButton.style.display =
+    "none";
+
+  logoutButton.style.display =
+    "inline-block";
+
   accountLink.style.display =
-    "block";
+    "inline-block";
 
   accountBox.style.display =
     "block";
 
-  walletBox.style.display =
+  walletSection.style.display =
     "block";
 
 
-  document.getElementById("accountName")
-    .textContent =
-      "Name: " +
-      (
-        user.user_metadata?.full_name ||
-        "Customer"
-      );
+  document.getElementById(
+    "accountName"
+  ).textContent =
+    "Name: " +
+    (
+      user.user_metadata?.full_name ||
+      "Customer"
+    );
 
 
-  document.getElementById("accountEmail")
-    .textContent =
-      "Email: " +
-      user.email;
+  document.getElementById(
+    "accountEmail"
+  ).textContent =
+    "Email: " +
+    user.email;
 
 
   return user;
@@ -1073,17 +1172,20 @@ async function loadAccount(){
 }
 
 
-/* =========================================================
+/* ======================================================
    ADMIN CHECK
-========================================================= */
+====================================================== */
 
 async function checkAdmin(){
 
   const user =
     await loadAccount();
 
+
   const panel =
-    document.getElementById("adminPanel");
+    document.getElementById(
+      "adminPanel"
+    );
 
 
   if(!user){
@@ -1129,12 +1231,14 @@ async function checkAdmin(){
   }
 
 
-  if(data && data.is_admin === true){
+  if(data?.is_admin === true){
 
     panel.style.display =
       "block";
 
     await loadAdminServices();
+
+    await loadAdminDeposits();
 
     return true;
 
@@ -1149,14 +1253,16 @@ async function checkAdmin(){
 }
 
 
-/* =========================================================
-   SERVICES FOR CUSTOMERS
-========================================================= */
+/* ======================================================
+   SERVICES
+====================================================== */
 
 async function loadServices(){
 
   const container =
-    document.getElementById("servicesList");
+    document.getElementById(
+      "servicesList"
+    );
 
 
   container.innerHTML =
@@ -1173,7 +1279,9 @@ async function loadServices(){
       .eq("available",true)
       .order(
         "created_at",
-        {ascending:false}
+        {
+          ascending:false
+        }
       );
 
 
@@ -1189,7 +1297,7 @@ async function loadServices(){
   }
 
 
-  if(!data || data.length === 0){
+  if(!data?.length){
 
     container.innerHTML =
       "<p>No services available yet.</p>";
@@ -1205,7 +1313,9 @@ async function loadServices(){
   data.forEach(service => {
 
     const card =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     card.className =
       "card";
@@ -1213,7 +1323,11 @@ async function loadServices(){
 
     card.innerHTML = `
 
-      <h3>${escapeHTML(service.name)}</h3>
+      <h3>
+        ${escapeHTML(
+          service.name
+        )}
+      </h3>
 
       <p>
         ${escapeHTML(
@@ -1222,7 +1336,9 @@ async function loadServices(){
       </p>
 
       <div class="price">
-        ₦${Number(service.price).toLocaleString()}
+        ₦${Number(
+          service.price
+        ).toLocaleString()}
       </div>
 
       <button
@@ -1237,16 +1353,18 @@ async function loadServices(){
     `;
 
 
-    container.appendChild(card);
+    container.appendChild(
+      card
+    );
 
   });
 
 }
 
 
-/* =========================================================
+/* ======================================================
    ADMIN SERVICES
-========================================================= */
+====================================================== */
 
 async function loadAdminServices(){
 
@@ -1257,7 +1375,7 @@ async function loadAdminServices(){
 
 
   container.innerHTML =
-    "<p>Loading...</p>";
+    "<p>Loading services...</p>";
 
 
   const {
@@ -1269,7 +1387,9 @@ async function loadAdminServices(){
       .select("*")
       .order(
         "created_at",
-        {ascending:false}
+        {
+          ascending:false
+        }
       );
 
 
@@ -1277,7 +1397,9 @@ async function loadAdminServices(){
 
     container.innerHTML =
       "<p>" +
-      escapeHTML(error.message) +
+      escapeHTML(
+        error.message
+      ) +
       "</p>";
 
     return;
@@ -1285,7 +1407,7 @@ async function loadAdminServices(){
   }
 
 
-  if(!data.length){
+  if(!data?.length){
 
     container.innerHTML =
       "<p>No services yet.</p>";
@@ -1301,7 +1423,9 @@ async function loadAdminServices(){
   data.forEach(service => {
 
     const card =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     card.className =
       "admin-card";
@@ -1310,7 +1434,9 @@ async function loadAdminServices(){
     card.innerHTML = `
 
       <h3>
-        ${escapeHTML(service.name)}
+        ${escapeHTML(
+          service.name
+        )}
       </h3>
 
       <p>
@@ -1327,6 +1453,7 @@ async function loadAdminServices(){
       </p>
 
       <p>
+        Status:
         ${
           service.available
             ? "Available"
@@ -1359,19 +1486,23 @@ async function loadAdminServices(){
     `;
 
 
-    container.appendChild(card);
+    container.appendChild(
+      card
+    );
 
   });
 
 }
 
 
-/* =========================================================
+/* ======================================================
    ADD SERVICE
-========================================================= */
+====================================================== */
 
 document
-  .getElementById("addServiceForm")
+  .getElementById(
+    "addServiceForm"
+  )
   .addEventListener(
     "submit",
     async function(e){
@@ -1381,7 +1512,9 @@ document
 
       const name =
         document
-          .getElementById("serviceName")
+          .getElementById(
+            "serviceName"
+          )
           .value
           .trim();
 
@@ -1409,25 +1542,6 @@ document
         document.getElementById(
           "adminMessage"
         );
-
-
-      const {
-        data:{
-          user
-        }
-      } =
-        await supabaseClient.auth
-          .getUser();
-
-
-      if(!user){
-
-        message.textContent =
-          "Please log in.";
-
-        return;
-
-      }
 
 
       if(!name){
@@ -1470,10 +1584,10 @@ document
 
       if(error){
 
+        console.error(error);
+
         message.textContent =
           error.message;
-
-        console.error(error);
 
         return;
 
@@ -1499,9 +1613,9 @@ document
   );
 
 
-/* =========================================================
+/* ======================================================
    EDIT SERVICE
-========================================================= */
+====================================================== */
 
 async function editService(id){
 
@@ -1601,7 +1715,7 @@ async function editService(id){
 
 
   alert(
-    "Service updated successfully."
+    "Service updated."
   );
 
 
@@ -1612,21 +1726,18 @@ async function editService(id){
 }
 
 
-/* =========================================================
+/* ======================================================
    DELETE SERVICE
-========================================================= */
+====================================================== */
 
 async function deleteService(id){
 
   if(
     !confirm(
-      "Are you sure you want to delete this service?"
+      "Delete this service?"
     )
-  ){
-
+  )
     return;
-
-  }
 
 
   const {
@@ -1659,9 +1770,9 @@ async function deleteService(id){
 }
 
 
-/* =========================================================
+/* ======================================================
    WALLET
-========================================================= */
+====================================================== */
 
 async function loadWallet(){
 
@@ -1685,7 +1796,10 @@ async function loadWallet(){
     await supabaseClient
       .from("wallets")
       .select("balance")
-      .eq("user_id",user.id)
+      .eq(
+        "user_id",
+        user.id
+      )
       .maybeSingle();
 
 
@@ -1701,30 +1815,30 @@ async function loadWallet(){
   }
 
 
-  document
-    .getElementById(
-      "walletBalance"
-    )
-    .textContent =
-      "₦" +
-      Number(
-        data?.balance || 0
-      ).toLocaleString(
-        undefined,
-        {
-          minimumFractionDigits:2
-        }
-      );
+  document.getElementById(
+    "walletBalance"
+  ).textContent =
+    "₦" +
+    Number(
+      data?.balance || 0
+    ).toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits:2
+      }
+    );
 
 }
 
 
-/* =========================================================
-   MANUAL OPAY DEPOSIT
-========================================================= */
+/* ======================================================
+   CUSTOMER DEPOSIT
+====================================================== */
 
 document
-  .getElementById("depositForm")
+  .getElementById(
+    "depositForm"
+  )
   .addEventListener(
     "submit",
     async function(e){
@@ -1777,8 +1891,10 @@ document
         );
 
 
-      if(!Number.isFinite(amount) ||
-         amount <= 0){
+      if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ){
 
         message.textContent =
           "Enter a valid amount.";
@@ -1791,7 +1907,7 @@ document
       if(!reference){
 
         message.textContent =
-          "Enter your OPay transaction reference.";
+          "Enter your transaction reference.";
 
         return;
 
@@ -1829,7 +1945,7 @@ document
 
 
       message.textContent =
-        "Deposit submitted. It is now pending admin verification.";
+        "Deposit submitted and is waiting for admin approval.";
 
 
       document
@@ -1842,9 +1958,285 @@ document
   );
 
 
-/* =========================================================
+/* ======================================================
+   ADMIN DEPOSITS
+====================================================== */
+
+async function loadAdminDeposits(){
+
+  const container =
+    document.getElementById(
+      "adminDeposits"
+    );
+
+
+  container.innerHTML =
+    "<p>Loading deposits...</p>";
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("deposits")
+      .select(
+        "id,user_id,amount,reference,status,created_at"
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      "<p>" +
+      escapeHTML(
+        error.message
+      ) +
+      "</p>";
+
+    return;
+
+  }
+
+
+  if(!data?.length){
+
+    container.innerHTML =
+      "<p>No deposits yet.</p>";
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(deposit => {
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+    card.className =
+      "admin-card";
+
+
+    const date =
+      new Date(
+        deposit.created_at
+      ).toLocaleString();
+
+
+    let actions = "";
+
+
+    if(
+      deposit.status ===
+      "pending"
+    ){
+
+      actions = `
+
+        <div class="actions">
+
+          <button
+            class="btn primary"
+            onclick="approveDeposit(
+              '${deposit.id}'
+            )"
+          >
+            ✅ Approve
+          </button>
+
+          <button
+            class="btn delete"
+            onclick="rejectDeposit(
+              '${deposit.id}'
+            )"
+          >
+            ❌ Reject
+          </button>
+
+        </div>
+
+      `;
+
+    }
+
+
+    card.innerHTML = `
+
+      <h3>
+        ₦${Number(
+          deposit.amount
+        ).toLocaleString()}
+      </h3>
+
+      <p>
+        Reference:
+        ${escapeHTML(
+          deposit.reference
+        )}
+      </p>
+
+      <p>
+        User:
+        ${escapeHTML(
+          deposit.user_id
+        )}
+      </p>
+
+      <p>
+        Date:
+        ${escapeHTML(date)}
+      </p>
+
+      <p>
+        Status:
+        <strong>
+          ${escapeHTML(
+            deposit.status
+          )}
+        </strong>
+      </p>
+
+      ${actions}
+
+    `;
+
+
+    container.appendChild(
+      card
+    );
+
+  });
+
+}
+
+
+/* ======================================================
+   APPROVE DEPOSIT
+====================================================== */
+
+async function approveDeposit(
+  depositId
+){
+
+  if(
+    !confirm(
+      "Approve this deposit and credit the customer's wallet?"
+    )
+  )
+    return;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .rpc(
+        "approve_deposit",
+        {
+          deposit_id:
+            depositId
+        }
+      );
+
+
+  if(error){
+
+    alert(
+      "Approval failed: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  if(data === true){
+
+    alert(
+      "Deposit approved and wallet credited."
+    );
+
+  }
+
+
+  await loadAdminDeposits();
+
+}
+
+
+/* ======================================================
+   REJECT DEPOSIT
+====================================================== */
+
+async function rejectDeposit(
+  depositId
+){
+
+  if(
+    !confirm(
+      "Reject this deposit?"
+    )
+  )
+    return;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("deposits")
+      .update({
+        status:"rejected"
+      })
+      .eq(
+        "id",
+        depositId
+      )
+      .eq(
+        "status",
+        "pending"
+      );
+
+
+  if(error){
+
+    alert(
+      "Rejection failed: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "Deposit rejected."
+  );
+
+
+  await loadAdminDeposits();
+
+}
+
+
+/* ======================================================
    CART
-========================================================= */
+====================================================== */
 
 let cart = [];
 
@@ -1879,18 +2271,12 @@ async function addToCart(id){
     " added to cart."
   );
 
-
-  /*
-    Checkout will be connected
-    after the wallet approval system.
-  */
-
 }
 
 
-/* =========================================================
+/* ======================================================
    LOGOUT
-========================================================= */
+====================================================== */
 
 async function logout(){
 
@@ -1914,73 +2300,29 @@ async function logout(){
 
   await refreshEverything();
 
-  alert(
-    "You have been logged out."
-  );
-
 }
 
 
-/* =========================================================
+/* ======================================================
    AUTH STATE
-========================================================= */
+====================================================== */
 
-supabaseClient.auth.onAuthStateChange(
-  function(){
+supabaseClient.auth
+  .onAuthStateChange(
+    function(){
 
-    setTimeout(
-      refreshEverything,
-      0
-    );
-
-  }
-);
-
-
-/* =========================================================
-   REFRESH EVERYTHING
-========================================================= */
-
-async function refreshEverything(){
-
-  await loadAccount();
-
-  await loadWallet();
-
-  await checkAdmin();
-
-  await loadServices();
-
-}
-
-
-/* =========================================================
-   ACCOUNT BUTTON
-========================================================= */
-
-document
-  .getElementById("accountLink")
-  .addEventListener(
-    "click",
-    function(e){
-
-      e.preventDefault();
-
-      document
-        .getElementById(
-          "accountBox"
-        )
-        .scrollIntoView({
-          behavior:"smooth"
-        });
+      setTimeout(
+        refreshEverything,
+        0
+      );
 
     }
   );
 
 
-/* =========================================================
-   HTML ESCAPE
-========================================================= */
+/* ======================================================
+   ESCAPE HTML
+====================================================== */
 
 function escapeHTML(value){
 
@@ -2009,9 +2351,26 @@ function escapeHTML(value){
 }
 
 
-/* =========================================================
+/* ======================================================
+   REFRESH
+====================================================== */
+
+async function refreshEverything(){
+
+  await loadAccount();
+
+  await loadWallet();
+
+  await checkAdmin();
+
+  await loadServices();
+
+}
+
+
+/* ======================================================
    START
-========================================================= */
+====================================================== */
 
 refreshEverything();
 
