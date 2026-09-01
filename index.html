@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Benjo-SMS | Digital Marketplace</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -15,7 +18,7 @@
 
     body {
       background: #0b0b0f;
-      color: #fff;
+      color: white;
     }
 
     header {
@@ -33,7 +36,6 @@
     .logo {
       font-size: 24px;
       font-weight: bold;
-      color: #fff;
     }
 
     .logo span {
@@ -42,26 +44,30 @@
 
     nav {
       display: flex;
-      gap: 20px;
+      gap: 12px;
       align-items: center;
     }
 
-    nav a {
+    nav a,
+    nav button {
       color: #ccc;
       text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
       font-size: 14px;
     }
 
-    nav a:hover {
-      color: #fff;
+    nav a:hover,
+    nav button:hover {
+      color: white;
     }
 
     .login-btn {
-      background: #7c5cff;
-      color: white;
+      background: #7c5cff !important;
+      color: white !important;
       padding: 10px 16px;
       border-radius: 8px;
-      text-decoration: none;
     }
 
     .hero {
@@ -102,16 +108,19 @@
       border-radius: 9px;
       text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .primary-btn {
       background: #7c5cff;
-      color: #fff;
+      color: white;
+      border: none;
     }
 
     .secondary-btn {
+      background: transparent;
       border: 1px solid #33333d;
-      color: #fff;
+      color: white;
     }
 
     .section {
@@ -154,7 +163,7 @@
       border: 1px solid #25252e;
       border-radius: 14px;
       padding: 20px;
-      transition: 0.2s;
+      transition: .2s;
     }
 
     .card:hover {
@@ -200,10 +209,6 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-    }
-
-    .buy-btn:hover {
-      background: #6849e8;
     }
 
     .features {
@@ -268,6 +273,107 @@
       justify-content: center;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+      background: #15151b;
+      border: 1px solid #2b2b34;
+      border-radius: 16px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .close {
+      position: absolute;
+      right: 18px;
+      top: 15px;
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 12px;
+      background: #0d0d12;
+      color: white;
+      border: 1px solid #30303a;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 13px;
+      background: #7c5cff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 15px;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .switch span {
+      color: #9a82ff;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .account-box {
+      display: none;
+      background: #131318;
+      border: 1px solid #25252e;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .account-box p {
+      color: #aaa;
+      margin: 8px 0;
+    }
+
+    .logout-btn {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #25252e;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     @media (max-width: 650px) {
       nav a:not(.login-btn) {
         display: none;
@@ -293,7 +399,8 @@
     <a href="#home">Home</a>
     <a href="#products">Marketplace</a>
     <a href="#features">Features</a>
-    <a href="#" class="login-btn">Login</a>
+    <a href="#" id="accountNav" style="display:none;">Account</a>
+    <a href="#" class="login-btn" id="loginNav">Login</a>
   </nav>
 </header>
 
@@ -308,7 +415,16 @@
 
   <div class="hero-buttons">
     <a href="#products" class="primary-btn">Browse Marketplace</a>
-    <a href="#" class="secondary-btn">Create Account</a>
+    <button class="secondary-btn" onclick="openAuth('register')">
+      Create Account
+    </button>
+  </div>
+
+  <div class="account-box" id="accountBox">
+    <h2>My Account</h2>
+    <p id="accountName"></p>
+    <p id="accountEmail"></p>
+    <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 </section>
 
@@ -326,7 +442,7 @@
     >
   </div>
 
-  <div class="products" id="productList">
+  <div class="products">
 
     <div class="card" data-name="Digital Service">
       <div class="card-icon">📱</div>
@@ -382,36 +498,25 @@
     <div class="feature">
       <div>🔐</div>
       <h3>Secure</h3>
-      <p>
-        Built with security in mind for customer accounts
-        and orders.
-      </p>
+      <p>Customer authentication and protected profile data.</p>
     </div>
 
     <div class="feature">
       <div>⚡</div>
       <h3>Fast</h3>
-      <p>
-        Simple checkout and quick order processing.
-      </p>
+      <p>Simple customer registration and login.</p>
     </div>
 
     <div class="feature">
       <div>📦</div>
       <h3>Order Tracking</h3>
-      <p>
-        Customers will be able to view their orders
-        from their account.
-      </p>
+      <p>Customer orders can be connected to their account.</p>
     </div>
 
     <div class="feature">
       <div>⚙️</div>
       <h3>Admin Control</h3>
-      <p>
-        Manage products, prices and orders from an
-        administrator dashboard.
-      </p>
+      <p>Admin products and order management will be added next.</p>
     </div>
 
   </div>
@@ -426,66 +531,620 @@
   <span id="cartCount">0</span>
 </div>
 
+<!-- AUTH MODAL -->
+
+<div class="modal" id="authModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeAuth()">×</button>
+
+    <h2 id="authTitle">Login</h2>
+
+    <div class="message" id="authMessage"></div>
+
+    <form id="authForm">
+
+      <input
+        class="input"
+        id="fullName"
+        type="text"
+        placeholder="Full name"
+        style="display:none;"
+      >
+
+      <input
+        class="input"
+        id="email"
+        type="email"
+        placeholder="Email address"
+        required
+      >
+
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Password"
+        minlength="6"
+        required
+      >
+
+      <button class="auth-btn" type="submit" id="authSubmit">
+        Login
+      </button>
+
+    </form>
+
+    <div class="switch">
+      <span id="switchText">Don't have an account?</span>
+      <span id="switchAction" onclick="switchAuth()"> Register</span>
+    </div>
+
+  </div>
+</div>
+
 <script>
+  // ============================================================
+  // SUPABASE CONFIGURATION
+  // ============================================================
+
+  const SUPABASE_URL =
+    "https://zwefikwlxgphufilgcyc.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
+
+  const { createClient } =
+    window.supabase;
+
+  const supabaseClient =
+    createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  // ============================================================
+  // AUTH STATE
+  // ============================================================
+
+  let authMode = "login";
   let cart = [];
 
+
+  // ============================================================
+  // AUTH MODAL
+  // ============================================================
+
+  function openAuth(mode = "login") {
+
+    authMode = mode;
+
+    document.getElementById("authModal").style.display = "flex";
+
+    updateAuthForm();
+
+    document.getElementById("authMessage").textContent = "";
+
+  }
+
+
+  function closeAuth() {
+
+    document.getElementById("authModal").style.display = "none";
+
+    document.getElementById("authForm").reset();
+
+    document.getElementById("authMessage").textContent = "";
+
+  }
+
+
+  function switchAuth() {
+
+    authMode =
+      authMode === "login"
+        ? "register"
+        : "login";
+
+    updateAuthForm();
+
+  }
+
+
+  function updateAuthForm() {
+
+    const title =
+      document.getElementById("authTitle");
+
+    const fullName =
+      document.getElementById("fullName");
+
+    const submit =
+      document.getElementById("authSubmit");
+
+    const switchText =
+      document.getElementById("switchText");
+
+    const switchAction =
+      document.getElementById("switchAction");
+
+    if (authMode === "register") {
+
+      title.textContent = "Create Account";
+
+      fullName.style.display = "block";
+
+      fullName.required = true;
+
+      submit.textContent = "Create Account";
+
+      switchText.textContent =
+        "Already have an account?";
+
+      switchAction.textContent =
+        " Login";
+
+    } else {
+
+      title.textContent = "Login";
+
+      fullName.style.display = "none";
+
+      fullName.required = false;
+
+      submit.textContent = "Login";
+
+      switchText.textContent =
+        "Don't have an account?";
+
+      switchAction.textContent =
+        " Register";
+
+    }
+
+  }
+
+
+  // ============================================================
+  // REGISTER / LOGIN
+  // ============================================================
+
+  document
+    .getElementById("authForm")
+    .addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+      const fullName =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
+
+      const message =
+        document
+          .getElementById("authMessage");
+
+      const button =
+        document
+          .getElementById("authSubmit");
+
+      message.textContent = "";
+
+      button.disabled = true;
+
+      button.textContent = "Please wait...";
+
+
+      try {
+
+        if (authMode === "register") {
+
+          if (!fullName) {
+            throw new Error("Please enter your full name.");
+          }
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signUp({
+
+              email: email,
+
+              password: password,
+
+              options: {
+                data: {
+                  full_name: fullName
+                }
+              }
+
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          /*
+            If email confirmation is enabled,
+            Supabase may return a user without
+            creating an active session.
+          */
+
+          if (data.user && !data.session) {
+
+            message.textContent =
+              "Account created. Check your email and confirm your email address before logging in.";
+
+            button.disabled = false;
+
+            button.textContent =
+              "Create Account";
+
+            return;
+
+          }
+
+
+          if (data.user) {
+
+            await createProfile(
+              data.user,
+              fullName
+            );
+
+            message.textContent =
+              "Account created successfully.";
+
+            closeAuth();
+
+            await loadAccount();
+
+          }
+
+        } else {
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signInWithPassword({
+
+              email: email,
+
+              password: password
+
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (data.user) {
+
+            await loadAccount();
+
+            closeAuth();
+
+            alert("Login successful!");
+
+          }
+
+        }
+
+      } catch (error) {
+
+        message.textContent =
+          error.message || "Something went wrong.";
+
+      } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          authMode === "register"
+            ? "Create Account"
+            : "Login";
+
+      }
+
+    });
+
+
+  // ============================================================
+  // CREATE PROFILE
+  // ============================================================
+
+  async function createProfile(user, fullName) {
+
+    const name =
+      fullName ||
+      user.user_metadata?.full_name ||
+      "";
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("profiles")
+        .upsert({
+
+          id: user.id,
+
+          full_name: name,
+
+          email: user.email
+
+        }, {
+
+          onConflict: "id"
+
+        });
+
+
+    if (error) {
+      console.error("Profile error:", error);
+    }
+
+  }
+
+
+  // ============================================================
+  // LOAD CUSTOMER ACCOUNT
+  // ============================================================
+
+  async function loadAccount() {
+
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    const loginNav =
+      document.getElementById("loginNav");
+
+    const accountNav =
+      document.getElementById("accountNav");
+
+    const accountBox =
+      document.getElementById("accountBox");
+
+
+    if (!user) {
+
+      loginNav.style.display = "block";
+
+      accountNav.style.display = "none";
+
+      accountBox.style.display = "none";
+
+      return;
+
+    }
+
+
+    loginNav.style.display = "none";
+
+    accountNav.style.display = "block";
+
+    accountBox.style.display = "block";
+
+
+    document.getElementById("accountName")
+      .textContent =
+      "Name: " +
+      (
+        user.user_metadata?.full_name ||
+        "Customer"
+      );
+
+
+    document.getElementById("accountEmail")
+      .textContent =
+      "Email: " +
+      user.email;
+
+  }
+
+
+  // ============================================================
+  // LOGOUT
+  // ============================================================
+
+  async function logout() {
+
+    const {
+      error
+    } =
+      await supabaseClient.auth.signOut();
+
+
+    if (error) {
+
+      alert(error.message);
+
+      return;
+
+    }
+
+
+    loadAccount();
+
+    alert("You have been logged out.");
+
+  }
+
+
+  // ============================================================
+  // AUTH STATE LISTENER
+  // ============================================================
+
+  supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+      loadAccount();
+
+    }
+  );
+
+
+  // ============================================================
+  // MARKETPLACE
+  // ============================================================
+
   function addToCart(name, price) {
+
     cart.push({
       name: name,
       price: price
     });
 
-    document.getElementById("cartCount").textContent = cart.length;
+    document.getElementById("cartCount")
+      .textContent = cart.length;
 
-    alert(name + " added to cart.");
+    alert(
+      name +
+      " added to cart."
+    );
+
   }
 
+
   function viewCart() {
+
     if (cart.length === 0) {
+
       alert("Your cart is empty.");
+
       return;
+
     }
 
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
 
-    let message = "Your Cart:\\n\\n";
+    let total = 0;
 
-    cart.forEach((item, index) => {
+    let message =
+      "Your Cart:\n\n";
+
+
+    cart.forEach(function(item, index) {
+
+      total += item.price;
+
       message +=
         (index + 1) +
         ". " +
         item.name +
         " - ₦" +
         item.price.toLocaleString() +
-        "\\n";
+        "\n";
+
     });
+
 
     message +=
-      "\\nTotal: ₦" +
-      total.toLocaleString() +
-      "\\n\\nCheckout will be connected in the next step.";
+      "\nTotal: ₦" +
+      total.toLocaleString();
+
 
     alert(message);
+
   }
+
 
   function searchProducts() {
-    let search =
-      document.getElementById("search").value.toLowerCase();
 
-    let cards =
+    const search =
+      document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const cards =
       document.querySelectorAll(".card");
 
-    cards.forEach(card => {
-      let name =
-        card.dataset.name.toLowerCase();
 
-      if (name.includes(search)) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
+    cards.forEach(function(card) {
+
+      const name =
+        card.dataset.name
+          .toLowerCase();
+
+
+      card.style.display =
+        name.includes(search)
+          ? "block"
+          : "none";
+
     });
+
   }
+
+
+  // ============================================================
+  // BUTTONS
+  // ============================================================
+
+  document
+    .getElementById("loginNav")
+    .addEventListener(
+      "click",
+      function(event) {
+
+        event.preventDefault();
+
+        openAuth("login");
+
+      }
+    );
+
+
+  document
+    .getElementById("accountNav")
+    .addEventListener(
+      "click",
+      function(event) {
+
+        event.preventDefault();
+
+        document
+          .getElementById("accountBox")
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
+      }
+    );
+
+
+  // ============================================================
+  // INITIAL LOAD
+  // ============================================================
+
+  loadAccount();
+
 </script>
 
 </body>
