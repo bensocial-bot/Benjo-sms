@@ -5,12 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111827">
 <title>Benjo-SMS</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{box-sizing:border-box}
-
 body{
     margin:0;
     font-family:Arial,sans-serif;
@@ -18,9 +15,7 @@ body{
     color:#111827;
     min-height:100vh;
 }
-
 button,input,textarea,select{font:inherit}
-
 button{
     border:0;
     border-radius:10px;
@@ -28,12 +23,10 @@ button{
     cursor:pointer;
     font-weight:700;
 }
-
 button:disabled{
     opacity:.6;
     cursor:not-allowed;
 }
-
 input,textarea,select{
     width:100%;
     padding:13px;
@@ -42,18 +35,15 @@ input,textarea,select{
     border-radius:10px;
     background:#fff;
 }
-
 textarea{
     min-height:120px;
     resize:vertical;
 }
-
 label{
     font-weight:700;
     display:block;
     margin-top:5px;
 }
-
 header{
     background:rgba(2,6,23,.97);
     color:#fff;
@@ -65,7 +55,6 @@ header{
     top:0;
     z-index:100;
 }
-
 .logo{
     display:flex;
     align-items:center;
@@ -73,7 +62,6 @@ header{
     font-size:22px;
     font-weight:900;
 }
-
 .logo-icon{
     width:40px;
     height:40px;
@@ -84,13 +72,11 @@ header{
     background:linear-gradient(135deg,#6366f1,#06b6d4);
     color:#fff;
 }
-
 .container{
     max-width:1100px;
     margin:auto;
     padding:20px 15px 110px;
 }
-
 .card{
     background:#fff;
     border-radius:18px;
@@ -98,93 +84,77 @@ header{
     margin-bottom:18px;
     box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
-
 .auth-card{
     max-width:450px;
     margin:40px auto;
 }
-
 .hero{
     color:#fff;
     text-align:center;
     padding:30px 10px;
 }
-
 .hero h1{
     font-size:40px;
     margin:5px;
 }
-
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
     gap:16px;
 }
-
 .service{
     border:1px solid #e5e7eb;
     border-radius:15px;
     padding:18px;
     background:#fff;
 }
-
 .service-icon{
     font-size:38px;
     margin-bottom:8px;
 }
-
 .price{
     font-size:25px;
     font-weight:900;
     margin:12px 0;
 }
-
 .balance{
     font-size:34px;
     font-weight:900;
 }
-
 .nav{
     display:flex;
     flex-wrap:wrap;
     gap:7px;
     margin-bottom:18px;
 }
-
 .nav button{
     flex:1;
     min-width:100px;
 }
-
 .category-nav{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
     gap:8px;
     margin-bottom:18px;
 }
-
 .category-nav button{
     background:#f3f4f6;
     color:#111827;
 }
-
 .category-nav button.active{
     background:#4f46e5;
     color:#fff;
 }
-
 .primary{background:#4f46e5;color:#fff}
 .success{background:#16a34a;color:#fff}
 .danger{background:#dc2626;color:#fff}
 .secondary{background:#e5e7eb;color:#111827}
 .full{width:100%}
 .hidden{display:none!important}
-
 .small{
     font-size:13px;
     color:#6b7280;
 }
-
 .success-box{
     background:#ecfdf5;
     border:1px solid #86efac;
@@ -193,7 +163,6 @@ header{
     border-radius:12px;
     margin-bottom:15px;
 }
-
 .error-box{
     background:#fef2f2;
     border:1px solid #fca5a5;
@@ -202,7 +171,6 @@ header{
     border-radius:12px;
     margin-bottom:15px;
 }
-
 .delivery{
     background:#ecfdf5;
     border:1px solid #86efac;
@@ -212,14 +180,12 @@ header{
     word-break:break-word;
     margin-top:12px;
 }
-
 .order{
     border:1px solid #e5e7eb;
     border-radius:14px;
     padding:16px;
     margin-bottom:12px;
 }
-
 .badge{
     display:inline-block;
     background:#e5e7eb;
@@ -228,14 +194,12 @@ header{
     font-size:12px;
     font-weight:700;
 }
-
 .payment-box{
     background:#f3f4f6;
     border-radius:14px;
     padding:18px;
     margin-top:15px;
 }
-
 .account-number{
     font-size:25px;
     font-weight:900;
@@ -243,7 +207,6 @@ header{
     display:block;
     margin:8px 0 14px;
 }
-
 .direct-chat{
     background:#eef2ff;
     border:1px solid #c7d2fe;
@@ -251,17 +214,14 @@ header{
     padding:18px;
     margin-top:15px;
 }
-
 .telegram{
     background:#229ed9;
     color:#fff;
 }
-
 .whatsapp{
     background:#25d366;
     color:#fff;
 }
-
 .info-card{
     background:linear-gradient(135deg,#eef2ff,#f0fdfa);
     border:1px solid #c7d2fe;
@@ -269,7 +229,6 @@ header{
     padding:18px;
     margin-bottom:18px;
 }
-
 .support-button{
     position:fixed;
     right:18px;
@@ -286,7 +245,6 @@ header{
     box-shadow:0 8px 25px rgba(0,0,0,.35);
     z-index:9998;
 }
-
 .support-menu{
     position:fixed;
     right:18px;
@@ -298,16 +256,13 @@ header{
     box-shadow:0 8px 30px rgba(0,0,0,.3);
     z-index:9999;
 }
-
 .support-menu a{
     text-decoration:none;
 }
-
 .support-menu button{
     width:100%;
     margin:4px 0;
 }
-
 .proof-image{
     width:100%;
     max-height:450px;
@@ -317,7 +272,6 @@ header{
     display:block;
     margin-top:10px;
 }
-
 #toast{
     display:none;
     position:fixed;
@@ -331,21 +285,18 @@ header{
     text-align:center;
     z-index:10001;
 }
-
 .admin-title{
     display:flex;
     justify-content:space-between;
     align-items:center;
     gap:10px;
 }
-
 .admin-service{
     border:1px solid #e5e7eb;
     border-radius:14px;
     padding:16px;
     margin-bottom:12px;
 }
-
 .empty{
     padding:20px;
     background:#f9fafb;
@@ -353,32 +304,26 @@ header{
     text-align:center;
     color:#6b7280;
 }
-
 .status-pending{
     background:#fef3c7;
     color:#92400e;
 }
-
 .status-approved{
     background:#dcfce7;
     color:#166534;
 }
-
 .status-rejected{
     background:#fee2e2;
     color:#991b1b;
 }
-
 .copy-row{
     display:flex;
     gap:8px;
     align-items:center;
 }
-
 .copy-row button{
     white-space:nowrap;
 }
-
 @media(max-width:600px){
     .hero h1{font-size:32px}
     .account-number{font-size:22px}
@@ -391,652 +336,325 @@ header{
 }
 </style>
 </head>
-
 <body>
-
 <header>
     <div class="logo">
         <div class="logo-icon">B</div>
         <span>Benjo-SMS</span>
     </div>
-
-    <div id="headerButtons"></div>
+<div id="headerButtons"></div>
 </header>
-
 <div class="container">
-
-<!-- ================= AUTH ================= -->
-
 <section id="authSection">
-
-    <div class="hero">
-        <h1>Benjo-SMS</h1>
-        <p>Simple • Fast • Secure</p>
-    </div>
-
-    <div id="verificationSuccess" class="success-box hidden">
-        <strong>Email verification successful! 🎉</strong>
-        <p>Your email has been verified successfully.</p>
-        <button class="primary" onclick="showLogin()">Continue to Login</button>
-    </div>
-
-    <div id="authMessage"></div>
-
-    <!-- LOGIN -->
-
-    <div id="loginBox" class="card auth-card">
-
-        <h2>Login</h2>
-
-        <label>Email</label>
-        <input
-            id="loginEmail"
-            type="email"
-            placeholder="Enter your email"
-            autocomplete="email"
-        >
-
-        <label>Password</label>
-        <input
-            id="loginPassword"
-            type="password"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-        >
-
-        <button class="primary full" onclick="login()">
-            Login
-        </button>
-
-        <br><br>
-
-        <button class="secondary full" onclick="showRegister()">
-            Create Account
-        </button>
-
-        <br><br>
-
-        <button class="secondary full" onclick="showForgot()">
-            Forgot Password?
-        </button>
-
-    </div>
-
-    <!-- REGISTER -->
-
-    <div id="registerBox" class="card auth-card hidden">
-
-        <h2>Create Account</h2>
-
-        <label>Email</label>
-        <input
-            id="registerEmail"
-            type="email"
-            placeholder="Enter your email"
-            autocomplete="email"
-        >
-
-        <label>Password</label>
-        <input
-            id="registerPassword"
-            type="password"
-            placeholder="Create a password"
-            autocomplete="new-password"
-        >
-
-        <button class="success full" onclick="register()">
-            Create Account
-        </button>
-
-        <br><br>
-
-        <button class="secondary full" onclick="showLogin()">
-            Back to Login
-        </button>
-
-    </div>
-
-    <!-- FORGOT -->
-
-    <div id="forgotBox" class="card auth-card hidden">
-
-        <h2>Forgot Password?</h2>
-
-        <p class="small">
-            Enter your email and we'll send you a password reset link.
-        </p>
-
-        <label>Email</label>
-
-        <input
-            id="forgotEmail"
-            type="email"
-            placeholder="Enter your email"
-        >
-
-        <button class="primary full" onclick="sendResetEmail()">
-            Send Reset Link
-        </button>
-
-        <br><br>
-
-        <button class="secondary full" onclick="showLogin()">
-            Back to Login
-        </button>
-
-    </div>
-
-    <!-- RESET -->
-
-    <div id="resetBox" class="card auth-card hidden">
-
-        <h2>New Password</h2>
-
-        <label>New Password</label>
-
-        <input
-            id="newPassword"
-            type="password"
-            placeholder="New password"
-        >
-
-        <label>Confirm Password</label>
-
-        <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Confirm password"
-        >
-
-        <button class="success full" onclick="updatePassword()">
-            Update Password
-        </button>
-
-    </div>
-
+<div class="hero">
+    <h1>Benjo-SMS</h1>
+    <p>Simple • Fast • Secure</p>
+</div>
+<div id="verificationSuccess" class="success-box hidden">
+    <strong>Email verification successful! 🎉</strong>
+    <p>Your email has been verified successfully.</p>
+    <button class="primary" onclick="showLogin()">Continue to Login</button>
+</div>
+<div id="authMessage"></div>
+<div id="loginBox" class="card auth-card">
+    <h2>Login</h2>
+    <label>Email</label>
+    <input id="loginEmail" type="email" placeholder="Enter your email" autocomplete="email">
+    <label>Password</label>
+    <input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password">
+    <button class="primary full" onclick="login()">Login</button>
+    <br><br>
+    <button class="secondary full" onclick="showRegister()">Create Account</button>
+    <br><br>
+    <button class="secondary full" onclick="showForgot()">Forgot Password?</button>
+</div>
+<div id="registerBox" class="card auth-card hidden">
+    <h2>Create Account</h2>
+    <label>Email</label>
+    <input id="registerEmail" type="email" placeholder="Enter your email" autocomplete="email">
+    <label>Password</label>
+    <input id="registerPassword" type="password" placeholder="Create a password" autocomplete="new-password">
+    <button class="success full" onclick="register()">Create Account</button>
+    <br><br>
+    <button class="secondary full" onclick="showLogin()">Back to Login</button>
+</div>
+<div id="forgotBox" class="card auth-card hidden">
+    <h2>Forgot Password?</h2>
+    <p class="small">
+        Enter your email and we'll send you a password reset link.
+    </p>
+    <label>Email</label>
+    <input id="forgotEmail" type="email" placeholder="Enter your email">
+    <button class="primary full" onclick="sendResetEmail()">Send Reset Link</button>
+    <br><br>
+    <button class="secondary full" onclick="showLogin()">Back to Login</button>
+</div>
+<div id="resetBox" class="card auth-card hidden">
+    <h2>New Password</h2>
+    <label>New Password</label>
+    <input id="newPassword" type="password" placeholder="New password">
+    <label>Confirm Password</label>
+    <input id="confirmPassword" type="password" placeholder="Confirm password">
+    <button class="success full" onclick="updatePassword()">Update Password</button>
+</div>
 </section>
-
-
-<!-- ================= USER APP ================= -->
-
 <section id="userApp" class="hidden">
-
-    <div class="nav">
-
-        <button class="secondary" onclick="userPage('home')">
-            Home
+<div class="nav">
+    <button class="secondary" onclick="userPage('home')">Home</button>
+    <button class="secondary" onclick="userPage('services')">Services</button>
+    <button class="secondary" onclick="userPage('wallet')">Wallet</button>
+    <button class="secondary" onclick="userPage('orders')">Orders</button>
+</div>
+<div id="homePage">
+    <div class="card">
+        <h2>Welcome to Benjo-SMS 👋</h2>
+        <p>
+            Buy social media accounts using your wallet or contact admin
+            for boosting and number verification.
+        </p>
+        <button class="primary" onclick="userPage('services')">
+            Browse Services
         </button>
-
-        <button class="secondary" onclick="userPage('services')">
+    </div>
+    <div class="grid">
+        <div class="info-card">
+            <h3>📘 Social Media Accounts</h3>
+            <p>
+                Facebook, Instagram, TikTok and Twitter/X accounts.
+            </p>
+            <button class="primary full" onclick="openCategory('accounts')">
+                View Accounts
+            </button>
+        </div>
+        <div class="info-card">
+            <h3>🚀 Boosting</h3>
+            <p>
+                Need followers, likes, views or other boosting services?
+            </p>
+            <button class="primary full" onclick="chatAdmin('boosting')">
+                💬 Chat Admin
+            </button>
+        </div>
+        <div class="info-card">
+            <h3>📱 Number Verification</h3>
+            <p>
+                Contact admin directly for number verification.
+            </p>
+            <button class="success full" onclick="chatAdmin('verification')">
+                💬 Chat Admin
+            </button>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Wallet Balance</h3>
+        <div id="homeBalance" class="balance">₦0.00</div>
+    </div>
+</div>
+<div id="servicesPage" class="hidden">
+    <div class="card">
+        <h2>Services</h2>
+        <div class="category-nav">
+            <button id="catAll" class="active" onclick="filterServices('all')">All</button>
+            <button id="catAccounts" onclick="filterServices('accounts')">📱 Accounts</button>
+            <button id="catFacebook" onclick="filterServices('facebook')">📘 Facebook</button>
+            <button id="catInstagram" onclick="filterServices('instagram')">📸 Instagram</button>
+            <button id="catTikTok" onclick="filterServices('tiktok')">🎵 TikTok</button>
+            <button id="catTwitter" onclick="filterServices('twitter')">𝕏 Twitter</button>
+            <button id="catBoosting" onclick="filterServices('boosting')">🚀 Boosting</button>
+            <button id="catVerification" onclick="filterServices('verification')">📱 Verification</button>
+        </div>
+        <div id="servicesList" class="grid">
+            Loading...
+        </div>
+    </div>
+</div>
+<div id="walletPage" class="hidden">
+    <div class="card">
+        <h2>My Wallet</h2>
+        <p class="small">Available Balance</p>
+        <div id="walletBalance" class="balance">₦0.00</div>
+    </div>
+    <div class="card">
+        <h2>💳 Fund Your Wallet</h2>
+        <p class="small">
+            Send your payment to the OPay account below, then upload
+            your payment screenshot.
+        </p>
+        <div class="payment-box">
+            <p>
+                <strong>Payment Method</strong><br>
+                OPay
+            </p>
+            <p>
+                <strong>Account Name</strong><br>
+                Toluwani Awe / BenjoSMS
+            </p>
+            <p>
+                <strong>Account Number</strong>
+            </p>
+            <div class="copy-row">
+                <span id="accountNumber" class="account-number">
+                    6550518571
+                </span>
+                <button class="primary" onclick="copyAccountNumber()">
+                    Copy
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <h2>Submit Payment</h2>
+        <label>Amount Paid</label>
+        <input
+            id="depositAmount"
+            type="number"
+            min="1"
+            step="0.01"
+            placeholder="Enter amount"
+        >
+        <label>Payment Screenshot</label>
+        <input
+            id="depositProof"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+        >
+        <p class="small">
+            Upload a clear screenshot of your payment receipt.
+            Maximum 8MB.
+        </p>
+        <button
+            id="depositButton"
+            class="success full"
+            onclick="submitDeposit()"
+        >
+            📤 Submit Deposit
+        </button>
+    </div>
+    <div class="card">
+        <h2>My Deposits</h2>
+        <div id="depositsList">
+            Loading...
+        </div>
+    </div>
+</div>
+<div id="ordersPage" class="hidden">
+    <div class="card">
+        <h2>My Orders</h2>
+        <p class="small">
+            Your purchased account login information will appear here
+            automatically after a successful purchase.
+        </p>
+        <div id="ordersList">
+            Loading...
+        </div>
+    </div>
+</div>
+</section>
+<section id="adminApp" class="hidden">
+<div class="card">
+    <div class="admin-title">
+        <h2>Admin Dashboard 🔐</h2>
+        <span class="badge">ADMIN</span>
+    </div>
+    <div class="nav">
+        <button class="secondary" onclick="adminPage('services')">
             Services
         </button>
-
-        <button class="secondary" onclick="userPage('wallet')">
-            Wallet
+        <button class="secondary" onclick="adminPage('deposits')">
+            Deposits
         </button>
-
-        <button class="secondary" onclick="userPage('orders')">
+        <button class="secondary" onclick="adminPage('orders')">
             Orders
         </button>
-
     </div>
-
-
-    <!-- HOME -->
-
-    <div id="homePage">
-
-        <div class="card">
-
-            <h2>Welcome to Benjo-SMS 👋</h2>
-
-            <p>
-                Buy social media accounts using your wallet or contact admin
-                for boosting and number verification.
-            </p>
-
-            <button class="primary" onclick="userPage('services')">
-                Browse Services
-            </button>
-
-        </div>
-
-        <div class="grid">
-
-            <div class="info-card">
-
-                <h3>📘 Social Media Accounts</h3>
-
-                <p>
-                    Facebook, Instagram, TikTok and Twitter/X accounts.
-                </p>
-
-                <button
-                    class="primary full"
-                    onclick="openCategory('accounts')"
-                >
-                    View Accounts
-                </button>
-
-            </div>
-
-            <div class="info-card">
-
-                <h3>🚀 Boosting</h3>
-
-                <p>
-                    Need followers, likes, views or other boosting services?
-                </p>
-
-                <button
-                    class="primary full"
-                    onclick="chatAdmin('boosting')"
-                >
-                    💬 Chat Admin
-                </button>
-
-            </div>
-
-            <div class="info-card">
-
-                <h3>📱 Number Verification</h3>
-
-                <p>
-                    Contact admin directly for number verification.
-                </p>
-
-                <button
-                    class="success full"
-                    onclick="chatAdmin('verification')"
-                >
-                    💬 Chat Admin
-                </button>
-
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Wallet Balance</h3>
-
-            <div id="homeBalance" class="balance">
-                ₦0.00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- SERVICES -->
-
-    <div id="servicesPage" class="hidden">
-
-        <div class="card">
-
-            <h2>Services</h2>
-
-            <div class="category-nav">
-
-                <button id="catAll" class="active" onclick="filterServices('all')">
-                    All
-                </button>
-
-                <button id="catAccounts" onclick="filterServices('accounts')">
-                    📱 Accounts
-                </button>
-
-                <button id="catFacebook" onclick="filterServices('facebook')">
-                    📘 Facebook
-                </button>
-
-                <button id="catInstagram" onclick="filterServices('instagram')">
-                    📸 Instagram
-                </button>
-
-                <button id="catTikTok" onclick="filterServices('tiktok')">
-                    🎵 TikTok
-                </button>
-
-                <button id="catTwitter" onclick="filterServices('twitter')">
-                    𝕏 Twitter
-                </button>
-
-                <button id="catBoosting" onclick="filterServices('boosting')">
-                    🚀 Boosting
-                </button>
-
-                <button id="catVerification" onclick="filterServices('verification')">
-                    📱 Verification
-                </button>
-
-            </div>
-
-            <div id="servicesList" class="grid">
-                Loading...
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- WALLET -->
-
-    <div id="walletPage" class="hidden">
-
-        <div class="card">
-
-            <h2>My Wallet</h2>
-
-            <p class="small">Available Balance</p>
-
-            <div id="walletBalance" class="balance">
-                ₦0.00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>💳 Fund Your Wallet</h2>
-
-            <p class="small">
-                Send your payment to the OPay account below, then upload
-                your payment screenshot.
-            </p>
-
-            <div class="payment-box">
-
-                <p>
-                    <strong>Payment Method</strong><br>
-                    OPay
-                </p>
-
-                <p>
-                    <strong>Account Name</strong><br>
-                    Toluwani Awe / BenjoSMS
-                </p>
-
-                <p>
-                    <strong>Account Number</strong>
-                </p>
-
-                <div class="copy-row">
-
-                    <span id="accountNumber" class="account-number">
-                        6550518571
-                    </span>
-
-                    <button class="primary" onclick="copyAccountNumber()">
-                        Copy
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>Submit Payment</h2>
-
-            <label>Amount Paid</label>
-
-            <input
-                id="depositAmount"
-                type="number"
-                min="1"
-                step="0.01"
-                placeholder="Enter amount"
-            >
-
-            <label>Payment Screenshot</label>
-
-            <input
-                id="depositProof"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-            >
-
-            <p class="small">
-                Upload a clear screenshot of your payment receipt.
-                Maximum 8MB.
-            </p>
-
-            <button
-                id="depositButton"
-                class="success full"
-                onclick="submitDeposit()"
-            >
-                📤 Submit Deposit
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            <h2>My Deposits</h2>
-
-            <div id="depositsList">
-                Loading...
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ORDERS -->
-
-    <div id="ordersPage" class="hidden">
-
-        <div class="card">
-
-            <h2>My Orders</h2>
-
-            <p class="small">
-                Your purchased account login information will appear here
-                automatically after a successful purchase.
-            </p>
-
-            <div id="ordersList">
-                Loading...
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= ADMIN ================= -->
-
-<section id="adminApp" class="hidden">
-
+</div>
+<div id="adminServicesPage">
     <div class="card">
-
-        <div class="admin-title">
-
-            <h2>Admin Dashboard 🔐</h2>
-
-            <span class="badge">
-                ADMIN
-            </span>
-
-        </div>
-
-        <div class="nav">
-
-            <button
-                class="secondary"
-                onclick="adminPage('services')"
-            >
-                Services
-            </button>
-
-            <button
-                class="secondary"
-                onclick="adminPage('deposits')"
-            >
-                Deposits
-            </button>
-
-            <button
-                class="secondary"
-                onclick="adminPage('orders')"
-            >
-                Orders
-            </button>
-
-        </div>
-
+        <h2>Add Service</h2>
+        <p class="small">
+            For account listings, use names such as Facebook Account,
+            Instagram Account, TikTok Account or Twitter Account.
+            For boosting, use names containing "Boosting".
+            For number verification, use "Number Verification".
+        </p>
+        <label>Service Name</label>
+        <input
+            id="serviceName"
+            type="text"
+            placeholder="Example: Facebook Account"
+        >
+        <label>Price</label>
+        <input
+            id="servicePrice"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Example: 5000"
+        >
+        <label>Description</label>
+        <textarea
+            id="serviceDescription"
+            placeholder="Service description"
+        ></textarea>
+        <label>Login / Delivery Information</label>
+        <textarea
+            id="serviceDelivery"
+            placeholder="For accounts: enter login information here"
+        ></textarea>
+        <p class="small">
+            For Boosting and Number Verification, delivery information
+            is not used for the purchase because the user is sent
+            directly to admin.
+        </p>
+        <button class="success" onclick="addService()">
+            ➕ Add Service
+        </button>
     </div>
-
-
-    <!-- ADMIN SERVICES -->
-
-    <div id="adminServicesPage">
-
-        <div class="card">
-
-            <h2>Add Service</h2>
-
-            <p class="small">
-                For account listings, use names such as Facebook Account,
-                Instagram Account, TikTok Account or Twitter Account.
-                For boosting, use names containing "Boosting".
-                For number verification, use "Number Verification".
-            </p>
-
-            <label>Service Name</label>
-
-            <input
-                id="serviceName"
-                type="text"
-                placeholder="Example: Facebook Account"
-            >
-
-            <label>Price</label>
-
-            <input
-                id="servicePrice"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="Example: 5000"
-            >
-
-            <label>Description</label>
-
-            <textarea
-                id="serviceDescription"
-                placeholder="Service description"
-            ></textarea>
-
-            <label>Login / Delivery Information</label>
-
-            <textarea
-                id="serviceDelivery"
-                placeholder="For accounts: enter login information here"
-            ></textarea>
-
-            <p class="small">
-                For Boosting and Number Verification, delivery information
-                is not used for the purchase because the user is sent
-                directly to admin.
-            </p>
-
-            <button class="success" onclick="addService()">
-                ➕ Add Service
-            </button>
-
+    <div class="card">
+        <h2>Services</h2>
+        <div id="adminServices">
+            Loading...
         </div>
-
-
-        <div class="card">
-
-            <h2>Services</h2>
-
-            <div id="adminServices">
-                Loading...
-            </div>
-
-        </div>
-
     </div>
-
-
-    <!-- ADMIN DEPOSITS -->
-
-    <div id="adminDepositsPage" class="hidden">
-
-        <div class="card">
-
-            <h2>Deposit Requests</h2>
-
-            <div id="adminDeposits">
-                Loading...
-            </div>
-
+</div>
+<div id="adminDepositsPage" class="hidden">
+    <div class="card">
+        <h2>Deposit Requests</h2>
+        <div id="adminDeposits">
+            Loading...
         </div>
-
     </div>
-
-
-    <!-- ADMIN ORDERS -->
-
-    <div id="adminOrdersPage" class="hidden">
-
-        <div class="card">
-
-            <h2>Orders</h2>
-
-            <div id="adminOrders">
-                Loading...
-            </div>
-
+</div>
+<div id="adminOrdersPage" class="hidden">
+    <div class="card">
+        <h2>Orders</h2>
+        <div id="adminOrders">
+            Loading...
         </div>
-
     </div>
-
+</div>
 </section>
-
 </div>
-
-
-<!-- ================= SUPPORT ================= -->
-
 <div id="supportMenu" class="support-menu hidden">
-
-    <a
-        href="https://t.me/benjosms"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        <button class="telegram">
-            Telegram Support
-        </button>
-    </a>
-
-    <a
-        href="https://wa.me/2347019999529"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        <button class="whatsapp">
-            WhatsApp Support
-        </button>
-    </a>
-
+<a
+    href="https://t.me/benjosms"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    <button class="telegram">
+        Telegram Support
+    </button>
+</a>
+<a
+    href="https://wa.me/2347019999529"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    <button class="whatsapp">
+        WhatsApp Support
+    </button>
+</a>
 </div>
-
 <div
     class="support-button"
     onclick="toggleSupport()"
@@ -1044,49 +662,34 @@ header{
 >
     💬
 </div>
-
 <div id="toast"></div>
-
-
 <script>
-
 /* ==========================================================
    SUPABASE CONFIGURATION
    ========================================================== */
-
 const SUPABASE_URL =
     "https://zwefikwlxgphufilgcyc.supabase.co";
-
 const SUPABASE_KEY =
     "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
-
-
 /* ==========================================================
    GLOBAL VARIABLES
    ========================================================== */
-
 let currentUser = null;
 let currentProfile = null;
 let allServices = [];
 let currentFilter = "all";
 let applicationStarted = false;
-
-
 /* ==========================================================
    HELPER
    ========================================================== */
-
 function $(id){
     return document.getElementById(id);
 }
-
-
 function money(value){
     return "₦" + Number(value || 0).toLocaleString(
         "en-NG",
@@ -1096,8 +699,6 @@ function money(value){
         }
     );
 }
-
-
 function safe(value){
     return String(value ?? "")
         .replaceAll("&","&amp;")
@@ -1106,67 +707,46 @@ function safe(value){
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
 }
-
-
 function toast(message){
     $("toast").textContent = message;
     $("toast").style.display = "block";
-
     clearTimeout(window.toastTimer);
-
     window.toastTimer = setTimeout(() => {
         $("toast").style.display = "none";
     },4000);
 }
-
-
 function showAuthMessage(message,type="error"){
-
     $("authMessage").innerHTML = `
         <div class="${type === "success" ? "success-box" : "error-box"}">
             ${safe(message)}
         </div>
     `;
 }
-
-
 function clearAuthMessage(){
     $("authMessage").innerHTML = "";
 }
-
-
 function formatDate(value){
-
     if(!value) return "";
-
     const date = new Date(value);
-
     if(Number.isNaN(date.getTime())){
         return "";
     }
-
     return date.toLocaleString();
 }
-
-
 /* ==========================================================
    SERVICE TYPE
    ========================================================== */
-
 function getServiceType(service){
-
     const text = (
         (service.name || "") + " " +
         (service.description || "")
     ).toLowerCase();
-
     if(
         text.includes("verification") ||
         text.includes("verify")
     ){
         return "verification";
     }
-
     if(
         text.includes("boost") ||
         text.includes("followers") ||
@@ -1176,7 +756,6 @@ function getServiceType(service){
     ){
         return "boosting";
     }
-
     if(
         text.includes("facebook") ||
         text.includes("instagram") ||
@@ -1186,31 +765,22 @@ function getServiceType(service){
     ){
         return "accounts";
     }
-
     return "other";
 }
-
-
 /* ==========================================================
    PLATFORM
    ========================================================== */
-
 function getPlatform(service){
-
     const text = (
         (service.name || "") + " " +
         (service.description || "")
     ).toLowerCase();
-
     if(text.includes("facebook"))
         return "facebook";
-
     if(text.includes("instagram"))
         return "instagram";
-
     if(text.includes("tiktok"))
         return "tiktok";
-
     if(
         text.includes("twitter") ||
         text.includes("twitter/x") ||
@@ -1218,61 +788,40 @@ function getPlatform(service){
     ){
         return "twitter";
     }
-
     return "";
 }
-
-
 /* ==========================================================
    ICON
    ========================================================== */
-
 function getIcon(service){
-
     const platform = getPlatform(service);
-
     if(platform === "facebook")
         return "📘";
-
     if(platform === "instagram")
         return "📸";
-
     if(platform === "tiktok")
         return "🎵";
-
     if(platform === "twitter")
         return "𝕏";
-
     const type = getServiceType(service);
-
     if(type === "boosting")
         return "🚀";
-
     if(type === "verification")
         return "📱";
-
     return "🛒";
 }
-
-
 /* ==========================================================
    SUPPORT
    ========================================================== */
-
 function toggleSupport(){
     $("supportMenu").classList.toggle("hidden");
 }
-
-
 function copyAccountNumber(){
-
     const number = "6550518571";
-
     if(
         navigator.clipboard &&
         window.isSecureContext
     ){
-
         navigator.clipboard
             .writeText(number)
             .then(() => {
@@ -1281,46 +830,34 @@ function copyAccountNumber(){
             .catch(() => {
                 toast("Account number: " + number);
             });
-
     }else{
         toast("Account number: " + number);
     }
 }
-
-
 function chatAdmin(type){
-
     let message =
         "Hello Benjo-SMS Admin, I need assistance.";
-
     if(type === "boosting"){
         message =
             "Hello Benjo-SMS Admin, I want to order a boosting service.";
     }
-
     if(type === "verification"){
         message =
             "Hello Benjo-SMS Admin, I want number verification.";
     }
-
     const whatsappURL =
         "https://wa.me/2347019999529?text=" +
         encodeURIComponent(message);
-
     window.open(
         whatsappURL,
         "_blank",
         "noopener,noreferrer"
     );
 }
-
-
 /* ==========================================================
    AUTH UI
    ========================================================== */
-
 function hideAuthBoxes(){
-
     [
         "loginBox",
         "registerBox",
@@ -1330,71 +867,43 @@ function hideAuthBoxes(){
         $(id).classList.add("hidden");
     });
 }
-
-
 function showLogin(){
-
     hideAuthBoxes();
     clearAuthMessage();
-
     $("verificationSuccess").classList.add("hidden");
-
     $("loginBox").classList.remove("hidden");
 }
-
-
 function showRegister(){
-
     hideAuthBoxes();
     clearAuthMessage();
-
     $("verificationSuccess").classList.add("hidden");
-
     $("registerBox").classList.remove("hidden");
 }
-
-
 function showForgot(){
-
     hideAuthBoxes();
     clearAuthMessage();
-
     $("verificationSuccess").classList.add("hidden");
-
     $("forgotBox").classList.remove("hidden");
 }
-
-
 /* ==========================================================
    REGISTER
    ========================================================== */
-
 async function register(){
-
     const email =
         $("registerEmail").value.trim();
-
     const password =
         $("registerPassword").value;
-
     if(!email || !password){
-        showAuthMessage(
-            "Enter your email and password."
-        );
+        showAuthMessage("Enter your email and password.");
         return;
     }
-
     if(password.length < 6){
-        showAuthMessage(
-            "Password must be at least 6 characters."
-        );
+        showAuthMessage("Password must be at least 6 characters.");
         return;
     }
-
     const redirectURL =
         window.location.origin +
         window.location.pathname;
-
     const {
         data,
         error
@@ -1406,53 +915,36 @@ async function register(){
                 emailRedirectTo:redirectURL
             }
         });
-
     if(error){
         showAuthMessage(error.message);
         return;
     }
-
     if(data.session){
-
         currentUser = data.user;
-
         showAuthMessage(
             "Account created successfully.",
             "success"
         );
-
         await startApplication();
-
     }else{
-
         showAuthMessage(
             "Account created. Check your email and verify your account.",
             "success"
         );
-
     }
 }
-
-
 /* ==========================================================
    LOGIN
    ========================================================== */
-
 async function login(){
-
     const email =
         $("loginEmail").value.trim();
-
     const password =
         $("loginPassword").value;
-
     if(!email || !password){
-        showAuthMessage(
-            "Enter your email and password."
-        );
+        showAuthMessage("Enter your email and password.");
         return;
     }
-
     const {
         data,
         error
@@ -1461,36 +953,26 @@ async function login(){
         email,
         password
     });
-
     if(error){
         showAuthMessage(error.message);
         return;
     }
-
     currentUser = data.user;
-
     await startApplication();
 }
-
-
 /* ==========================================================
    FORGOT PASSWORD
    ========================================================== */
-
 async function sendResetEmail(){
-
     const email =
         $("forgotEmail").value.trim();
-
     if(!email){
         showAuthMessage("Enter your email.");
         return;
     }
-
     const redirectURL =
         window.location.origin +
         window.location.pathname;
-
     const {
         error
     } =
@@ -1500,128 +982,91 @@ async function sendResetEmail(){
             redirectTo:redirectURL
         }
     );
-
     if(error){
         showAuthMessage(error.message);
         return;
     }
-
     showAuthMessage(
         "Password reset link sent. Check your email.",
         "success"
     );
 }
-
-
 /* ==========================================================
    UPDATE PASSWORD
    ========================================================== */
-
 async function updatePassword(){
-
     const password =
         $("newPassword").value;
-
     const confirm =
         $("confirmPassword").value;
-
     if(password.length < 6){
         toast("Password must be at least 6 characters.");
         return;
     }
-
     if(password !== confirm){
         toast("Passwords do not match.");
         return;
     }
-
     const {
         error
     } =
     await supabaseClient.auth.updateUser({
         password
     });
-
     if(error){
         toast(error.message);
         return;
     }
-
     toast("Password updated successfully. ✅");
-
     await supabaseClient.auth.signOut();
-
     currentUser = null;
     currentProfile = null;
-
     $("authSection").classList.remove("hidden");
     $("userApp").classList.add("hidden");
     $("adminApp").classList.add("hidden");
-
     showLogin();
 }
-
-
 /* ==========================================================
    START APPLICATION
    ========================================================== */
-
 async function startApplication(){
-
     if(!currentUser){
         return;
     }
-
-    if(applicationStarted &&
-       currentUser.id === window.startedUserId){
+    if(
+        applicationStarted &&
+        currentUser.id === window.startedUserId
+    ){
         return;
     }
-
     applicationStarted = true;
     window.startedUserId = currentUser.id;
-
     $("authSection").classList.add("hidden");
     $("userApp").classList.remove("hidden");
-
     $("adminApp").classList.add("hidden");
-
     $("headerButtons").innerHTML = `
-        <button
-            class="secondary"
-            onclick="logout()"
-        >
+        <button class="secondary" onclick="logout()">
             Logout
         </button>
     `;
-
     await loadProfile();
-
     await loadServices();
-
     await loadBalance();
-
     await loadOrders();
-
     if(
         currentProfile &&
         String(currentProfile.role).toLowerCase() === "admin"
     ){
-
         $("adminApp").classList.remove("hidden");
-
         await loadAdminServices();
         await loadAdminDeposits();
         await loadAdminOrders();
     }
 }
-
-
 /* ==========================================================
    PROFILE
    ========================================================== */
-
 async function loadProfile(){
-
     const {
         data,
         error
@@ -1631,41 +1076,27 @@ async function loadProfile(){
         .select("*")
         .eq("id",currentUser.id)
         .maybeSingle();
-
     if(error){
-
         console.error("Profile error:",error);
-
         return;
     }
-
     currentProfile = data;
 }
-
-
 /* ==========================================================
    LOGOUT
    ========================================================== */
-
 async function logout(){
-
     await supabaseClient.auth.signOut();
-
     currentUser = null;
     currentProfile = null;
     applicationStarted = false;
     window.startedUserId = null;
-
     location.reload();
 }
-
-
 /* ==========================================================
    USER NAVIGATION
    ========================================================== */
-
 function userPage(page){
-
     [
         "homePage",
         "servicesPage",
@@ -1674,56 +1105,39 @@ function userPage(page){
     ].forEach(id => {
         $(id).classList.add("hidden");
     });
-
     const target = $(page + "Page");
-
     if(target){
         target.classList.remove("hidden");
     }
-
     if(page === "services"){
         loadServices();
     }
-
     if(page === "wallet"){
         loadBalance();
         loadDeposits();
     }
-
     if(page === "orders"){
         loadOrders();
     }
 }
-
-
 /* ==========================================================
    OPEN CATEGORY
    ========================================================== */
-
 function openCategory(category){
-
     userPage("services");
-
     setTimeout(() => {
         filterServices(category);
     },100);
 }
-
-
 /* ==========================================================
    LOAD SERVICES
    ========================================================== */
-
 async function loadServices(){
-
     const box = $("servicesList");
-
     if(!box){
         return;
     }
-
     box.innerHTML = "Loading services...";
-
     const {
         data,
         error
@@ -1733,174 +1147,120 @@ async function loadServices(){
         .select("*")
         .eq("available",true)
         .order("created_at",{ascending:false});
-
     if(error){
-
         box.innerHTML = `
             <div class="error-box">
                 ${safe(error.message)}
             </div>
         `;
-
         return;
     }
-
     allServices = data || [];
-
     renderServices();
 }
-
-
 /* ==========================================================
    RENDER SERVICES
    ========================================================== */
-
 function renderServices(){
-
     const box = $("servicesList");
-
     if(!box){
         return;
     }
-
     box.innerHTML = "";
-
     let filtered = allServices;
-
     if(currentFilter === "accounts"){
-
         filtered =
             allServices.filter(
                 service =>
                     getServiceType(service) === "accounts"
             );
     }
-
     else if(
         ["facebook","instagram","tiktok","twitter"]
             .includes(currentFilter)
     ){
-
         filtered =
             allServices.filter(
                 service =>
                     getPlatform(service) === currentFilter
             );
     }
-
     else if(currentFilter === "boosting"){
-
         filtered =
             allServices.filter(
                 service =>
                     getServiceType(service) === "boosting"
             );
     }
-
     else if(currentFilter === "verification"){
-
         filtered =
             allServices.filter(
                 service =>
                     getServiceType(service) === "verification"
             );
     }
-
     if(filtered.length === 0){
-
         box.innerHTML = `
             <div class="empty">
                 No services available in this category.
             </div>
         `;
-
         return;
     }
-
     filtered.forEach(service => {
-
         const div =
             document.createElement("div");
-
         div.className = "service";
-
         const type =
             getServiceType(service);
-
         const icon =
             getIcon(service);
-
         if(type === "boosting"){
-
             div.innerHTML = `
                 <div class="service-icon">${icon}</div>
-
                 <h3>${safe(service.name)}</h3>
-
                 <p>${safe(service.description)}</p>
-
                 <div class="direct-chat">
-
                     <strong>🚀 Boosting Service</strong>
-
                     <p class="small">
                         Boosting orders are handled directly by admin.
                     </p>
-
                     <button
                         class="primary full"
                         onclick="chatAdmin('boosting')"
                     >
                         💬 Chat Admin
                     </button>
-
                 </div>
             `;
-
         }
-
         else if(type === "verification"){
-
             div.innerHTML = `
                 <div class="service-icon">${icon}</div>
-
                 <h3>${safe(service.name)}</h3>
-
                 <p>${safe(service.description)}</p>
-
                 <div class="direct-chat">
-
                     <strong>📱 Number Verification</strong>
-
                     <p class="small">
                         Contact admin directly to arrange verification.
                     </p>
-
                     <button
                         class="success full"
                         onclick="chatAdmin('verification')"
                     >
                         💬 Chat Admin
                     </button>
-
                 </div>
             `;
-
         }
-
         else{
-
             div.innerHTML = `
                 <div class="service-icon">${icon}</div>
-
                 <h3>${safe(service.name)}</h3>
-
                 <p>${safe(service.description)}</p>
-
                 <div class="price">
                     ${money(service.price)}
                 </div>
-
                 <button
                     class="success full"
                     onclick="buyService('${safe(service.id)}')"
@@ -1909,20 +1269,14 @@ function renderServices(){
                 </button>
             `;
         }
-
         box.appendChild(div);
     });
 }
-
-
 /* ==========================================================
    FILTER
    ========================================================== */
-
 function filterServices(category){
-
     currentFilter = category;
-
     const buttons = [
         "catAll",
         "catAccounts",
@@ -1933,16 +1287,12 @@ function filterServices(category){
         "catBoosting",
         "catVerification"
     ];
-
     buttons.forEach(id => {
-
         const button = $(id);
-
         if(button){
             button.classList.remove("active");
         }
     });
-
     const map = {
         all:"catAll",
         accounts:"catAccounts",
@@ -1953,68 +1303,45 @@ function filterServices(category){
         boosting:"catBoosting",
         verification:"catVerification"
     };
-
     if(map[category] && $(map[category])){
         $(map[category]).classList.add("active");
     }
-
     renderServices();
 }
-
-
 /* ==========================================================
    BUY SERVICE
    ========================================================== */
-
 async function buyService(serviceId){
-
     if(!currentUser){
-
         toast("Please login first.");
-
         return;
     }
-
     const service =
         allServices.find(
             item => String(item.id) === String(serviceId)
         );
-
     if(!service){
-
         toast("Service not found.");
-
         return;
     }
-
     const type =
         getServiceType(service);
-
     if(type === "boosting"){
-
         chatAdmin("boosting");
-
         return;
     }
-
     if(type === "verification"){
-
         chatAdmin("verification");
-
         return;
     }
-
     const confirmed =
         confirm(
             `Buy ${service.name} for ${money(service.price)}?`
         );
-
     if(!confirmed){
         return;
     }
-
     toast("Processing payment...");
-
     const {
         data,
         error
@@ -2026,43 +1353,29 @@ async function buyService(serviceId){
             p_service_id:service.id
         }
     );
-
     if(error){
-
         console.error("Purchase error:",error);
-
         toast(
             "Payment failed: " +
             error.message
         );
-
         return;
     }
-
     console.log("Purchase result:",data);
-
     toast(
         "Payment successful! Login information delivered. ✅"
     );
-
     await loadBalance();
-
     await loadOrders();
-
     userPage("orders");
 }
-
-
 /* ==========================================================
    BALANCE
    ========================================================== */
-
 async function loadBalance(){
-
     if(!currentUser){
         return;
     }
-
     const {
         data,
         error
@@ -2072,89 +1385,59 @@ async function loadBalance(){
         .select("balance")
         .eq("user_id",currentUser.id)
         .maybeSingle();
-
     if(error){
-
         console.error("Balance error:",error);
-
         return;
     }
-
     const balance =
         money(data?.balance || 0);
-
     $("walletBalance").textContent = balance;
     $("homeBalance").textContent = balance;
 }
-
-
 /* ==========================================================
-   SUBMIT DEPOSIT
+   SUBMIT DEPOSIT + TELEGRAM NOTIFICATION
    ========================================================== */
-
 async function submitDeposit(){
-
     if(!currentUser){
-
         toast("Please login first.");
-
         return;
     }
-
     const amount =
         Number($("depositAmount").value);
-
     const file =
         $("depositProof").files[0];
-
     if(!amount || amount <= 0){
-
         toast("Enter a valid amount.");
-
         return;
     }
-
     if(!file){
-
         toast("Please select your payment screenshot.");
-
         return;
     }
-
     if(!file.type.startsWith("image/")){
-
         toast("Please upload an image.");
-
         return;
     }
-
     if(file.size > 8 * 1024 * 1024){
-
         toast("Screenshot must be smaller than 8MB.");
-
         return;
     }
-
-    const extension =
-        file.name.includes(".")
-            ? file.name.split(".").pop().toLowerCase()
-            : "jpg";
-
-    const path =
-        currentUser.id +
-        "/" +
-        crypto.randomUUID() +
-        "." +
-        extension;
-
-    const button = $("depositButton");
-
+    const button =
+        $("depositButton");
     button.disabled = true;
-
-    toast("Uploading payment screenshot...");
-
+    button.textContent = "Uploading...";
     try{
-
+        const extension =
+            file.name.includes(".")
+                ? file.name.split(".").pop().toLowerCase()
+                : "jpg";
+        const path =
+            currentUser.id +
+            "/" +
+            crypto.randomUUID() +
+            "." +
+            extension;
+        toast("Uploading payment screenshot...");
         const {
             error:uploadError
         } =
@@ -2169,11 +1452,12 @@ async function submitDeposit(){
                     upsert:false
                 }
             );
-
         if(uploadError){
-            throw uploadError;
+            throw new Error(
+                "Screenshot upload failed: " +
+                uploadError.message
+            );
         }
-
         const {
             data:urlData
         } =
@@ -2181,12 +1465,17 @@ async function submitDeposit(){
             .storage
             .from("deposit-proofs")
             .getPublicUrl(path);
-
         const proofUrl =
             urlData?.publicUrl || "";
-
+        if(!proofUrl){
+            throw new Error(
+                "Could not create payment screenshot URL."
+            );
+        }
+        toast("Saving deposit request...");
         const {
-            error
+            data:deposit,
+            error:depositError
         } =
         await supabaseClient
             .from("deposits")
@@ -2195,52 +1484,93 @@ async function submitDeposit(){
                 amount:amount,
                 proof_url:proofUrl,
                 status:"pending"
-            });
-
-        if(error){
-            throw error;
+            })
+            .select()
+            .single();
+        if(depositError){
+            throw new Error(
+                "Could not save deposit: " +
+                depositError.message
+            );
         }
-
+        /*
+         * IMPORTANT:
+         * The Telegram bot token is NOT placed in this HTML.
+         * The notify-deposit Edge Function handles Telegram.
+         */
+        toast("Sending notification to admin...");
+        const {
+            data:notifyData,
+            error:notifyError
+        } =
+        await supabaseClient.functions.invoke(
+            "notify-deposit",
+            {
+                body:{
+                    deposit_id:deposit.id,
+                    user_id:currentUser.id,
+                    user_email:currentUser.email || "Unknown",
+                    amount:amount,
+                    proof_url:proofUrl
+                }
+            }
+        );
+        /*
+         * The deposit is already saved.
+         * Therefore a Telegram error should NOT
+         * make the user's deposit disappear.
+         */
+        if(notifyError){
+            console.error(
+                "Telegram notification error:",
+                notifyError
+            );
+            toast(
+                "Deposit submitted successfully. Admin notification may need attention. ✅"
+            );
+        }else if(
+            notifyData &&
+            notifyData.success === false
+        ){
+            console.error(
+                "Telegram notification failed:",
+                notifyData
+            );
+            toast(
+                "Deposit submitted successfully. Admin notification may need attention. ✅"
+            );
+        }else{
+            toast(
+                "Deposit submitted successfully! Admin has been notified on Telegram. ✅"
+            );
+        }
         $("depositAmount").value = "";
         $("depositProof").value = "";
-
-        toast(
-            "Payment screenshot submitted successfully! ✅"
-        );
-
         await loadDeposits();
-
     }catch(error){
-
-        console.error("Deposit error:",error);
-
-        toast(
-            "Could not submit deposit: " +
-            error.message
+        console.error(
+            "Deposit error:",
+            error
         );
-
+        toast(
+            error.message ||
+            "Could not submit deposit."
+        );
     }finally{
-
         button.disabled = false;
+        button.textContent = "📤 Submit Deposit";
     }
 }
-
-
 /* ==========================================================
    USER DEPOSITS
    ========================================================== */
-
 async function loadDeposits(){
-
     if(!currentUser){
         return;
     }
-
     const box =
         $("depositsList");
-
     box.innerHTML = "Loading...";
-
     const {
         data,
         error
@@ -2250,87 +1580,63 @@ async function loadDeposits(){
         .select("*")
         .eq("user_id",currentUser.id)
         .order("created_at",{ascending:false});
-
     if(error){
-
         box.innerHTML = `
             <div class="error-box">
                 ${safe(error.message)}
             </div>
         `;
-
         return;
     }
-
     if(!data || data.length === 0){
-
         box.innerHTML = `
             <div class="empty">
                 No deposits yet.
             </div>
         `;
-
         return;
     }
-
     box.innerHTML = "";
-
     data.forEach(deposit => {
-
         const div =
             document.createElement("div");
-
         div.className = "order";
-
         let statusClass =
             "status-pending";
-
         if(deposit.status === "approved"){
             statusClass = "status-approved";
         }
-
         if(deposit.status === "rejected"){
             statusClass = "status-rejected";
         }
-
         div.innerHTML = `
             <strong>
                 ${money(deposit.amount)}
             </strong>
-
             <p>
                 Status:
                 <span class="badge ${statusClass}">
                     ${safe(deposit.status)}
                 </span>
             </p>
-
             <p class="small">
                 ${formatDate(deposit.created_at)}
             </p>
         `;
-
         box.appendChild(div);
     });
 }
-
-
 /* ==========================================================
    ORDERS
    ========================================================== */
-
 async function loadOrders(){
-
     if(!currentUser){
         return;
     }
-
     const box =
         $("ordersList");
-
     box.innerHTML =
         "Loading orders...";
-
     const {
         data,
         error
@@ -2340,105 +1646,76 @@ async function loadOrders(){
         .select("*")
         .eq("user_id",currentUser.id)
         .order("created_at",{ascending:false});
-
     if(error){
-
         box.innerHTML = `
             <div class="error-box">
                 ${safe(error.message)}
             </div>
         `;
-
         return;
     }
-
     if(!data || data.length === 0){
-
         box.innerHTML = `
             <div class="empty">
-
                 <p>
                     You have no orders yet.
                 </p>
-
                 <button
                     class="primary"
                     onclick="userPage('services')"
                 >
                     Browse Accounts
                 </button>
-
             </div>
         `;
-
         return;
     }
-
     box.innerHTML = "";
-
     data.forEach(order => {
-
         const div =
             document.createElement("div");
-
         div.className = "order";
-
         let delivery =
             order.login_information;
-
         if(!delivery){
             delivery =
                 "Login information has not been added yet. Please contact admin.";
         }
-
         div.innerHTML = `
             <h3>
                 ${safe(order.product_name || "Order")}
             </h3>
-
             <p>
                 Amount:
                 <strong>
                     ${money(order.amount)}
                 </strong>
             </p>
-
             <p>
                 Status:
                 <span class="badge">
                     ${safe(order.status || "completed")}
                 </span>
             </p>
-
             <div class="delivery">
-
                 <strong>
                     🔐 Login / Delivery Information
                 </strong>
-
                 <br><br>
-
                 ${safe(delivery)}
-
             </div>
-
             <p class="small">
                 Purchased:
                 ${formatDate(order.created_at)}
             </p>
         `;
-
         box.appendChild(div);
     });
 }
-
-
 /* ==========================================================
    ADMIN NAV
    ========================================================== */
-
 function adminPage(page){
-
     [
         "adminServicesPage",
         "adminDepositsPage",
@@ -2446,82 +1723,59 @@ function adminPage(page){
     ].forEach(id => {
         $(id).classList.add("hidden");
     });
-
     const pageId =
         "admin" +
         page.charAt(0).toUpperCase() +
         page.slice(1) +
         "Page";
-
     if($(pageId)){
         $(pageId).classList.remove("hidden");
     }
-
     if(page === "services"){
         loadAdminServices();
     }
-
     if(page === "deposits"){
         loadAdminDeposits();
     }
-
     if(page === "orders"){
         loadAdminOrders();
     }
 }
-
-
 /* ==========================================================
    ADMIN ADD SERVICE
    ========================================================== */
-
 async function addService(){
-
     const name =
         $("serviceName").value.trim();
-
     const description =
         $("serviceDescription").value.trim();
-
     const price =
         Number($("servicePrice").value);
-
     const delivery =
         $("serviceDelivery").value.trim();
-
     if(!name){
-
         toast("Enter a service name.");
-
         return;
     }
-
     if(Number.isNaN(price) || price < 0){
-
         toast("Enter a valid price.");
-
         return;
     }
-
     const type =
         getServiceType({
             name,
             description
         });
-
     if(
         type !== "boosting" &&
         type !== "verification" &&
         !delivery
     ){
-
         toast(
             "Enter the login/delivery information for this account."
         );
-
         return;
     }
-
     const {
         error
     } =
@@ -2534,42 +1788,28 @@ async function addService(){
             delivery_information:delivery,
             available:true
         });
-
     if(error){
-
         toast(
             "Could not add service: " +
             error.message
         );
-
         return;
     }
-
     $("serviceName").value = "";
     $("serviceDescription").value = "";
     $("servicePrice").value = "";
     $("serviceDelivery").value = "";
-
-    toast(
-        "Service added successfully. ✅"
-    );
-
+    toast("Service added successfully. ✅");
     await loadAdminServices();
     await loadServices();
 }
-
-
 /* ==========================================================
    ADMIN SERVICE LIST
    ========================================================== */
-
 async function loadAdminServices(){
-
     const box =
         $("adminServices");
-
     box.innerHTML = "Loading...";
-
     const {
         data,
         error
@@ -2578,48 +1818,34 @@ async function loadAdminServices(){
         .from("services")
         .select("*")
         .order("created_at",{ascending:false});
-
     if(error){
-
         box.innerHTML = `
             <div class="error-box">
                 ${safe(error.message)}
             </div>
         `;
-
         return;
     }
-
     if(!data || data.length === 0){
-
         box.innerHTML = `
             <div class="empty">
                 No services yet.
             </div>
         `;
-
         return;
     }
-
     box.innerHTML = "";
-
     data.forEach(service => {
-
         const div =
             document.createElement("div");
-
         div.className =
             "admin-service";
-
         const type =
             getServiceType(service);
-
         const icon =
             getIcon(service);
-
         let purchaseText =
             "Wallet Purchase";
-
         if(
             type === "boosting" ||
             type === "verification"
@@ -2627,58 +1853,46 @@ async function loadAdminServices(){
             purchaseText =
                 "Direct Admin Chat";
         }
-
         div.innerHTML = `
             <h3>
                 ${icon} ${safe(service.name)}
             </h3>
-
             <p>
                 <span class="badge">
                     ${safe(type)}
                 </span>
             </p>
-
             <p>
                 Price:
                 <strong>
                     ${money(service.price)}
                 </strong>
             </p>
-
             <p>
                 ${safe(service.description)}
             </p>
-
             ${
                 service.delivery_information
                 ?
                 `
                 <div class="delivery">
-
                     <strong>
                         Delivery Information
                     </strong>
-
                     <br><br>
-
                     ${safe(service.delivery_information)}
-
                 </div>
                 `
                 :
                 ""
             }
-
             <p class="small">
                 ${purchaseText}
             </p>
-
             <p class="small">
                 Available:
                 ${service.available ? "Yes" : "No"}
             </p>
-
             <button
                 class="danger"
                 onclick="deleteService('${safe(service.id)}')"
@@ -2686,22 +1900,16 @@ async function loadAdminServices(){
                 Delete
             </button>
         `;
-
         box.appendChild(div);
     });
 }
-
-
 /* ==========================================================
    DELETE SERVICE
    ========================================================== */
-
 async function deleteService(id){
-
     if(!confirm("Delete this service?")){
         return;
     }
-
     const {
         error
     } =
@@ -2709,33 +1917,22 @@ async function deleteService(id){
         .from("services")
         .delete()
         .eq("id",id);
-
     if(error){
-
         toast(error.message);
-
         return;
     }
-
     toast("Service deleted.");
-
     await loadAdminServices();
     await loadServices();
 }
-
-
 /* ==========================================================
    ADMIN DEPOSITS
    ========================================================== */
-
 async function loadAdminDeposits(){
-
     const box =
         $("adminDeposits");
-
     box.innerHTML =
         "Loading deposits...";
-
     const {
         data,
         error
@@ -2744,42 +1941,29 @@ async function loadAdminDeposits(){
         .from("deposits")
         .select("*")
         .order("created_at",{ascending:false});
-
     if(error){
-
         box.innerHTML = `
             <div class="error-box">
                 ${safe(error.message)}
             </div>
         `;
-
         return;
     }
-
     if(!data || data.length === 0){
-
         box.innerHTML = `
             <div class="empty">
                 No deposit requests.
             </div>
         `;
-
         return;
     }
-
     box.innerHTML = "";
-
     data.forEach(deposit => {
-
         const div =
             document.createElement("div");
-
         div.className = "order";
-
         let screenshot = "";
-
         if(deposit.proof_url){
-
             screenshot = `
                 <div
                     style="
@@ -2789,11 +1973,9 @@ async function loadAdminDeposits(){
                         border-radius:14px;
                     "
                 >
-
                     <strong>
                         🖼️ Payment Screenshot
                     </strong>
-
                     <img
                         class="proof-image"
                         src="${safe(deposit.proof_url)}"
@@ -2802,32 +1984,24 @@ async function loadAdminDeposits(){
                         onclick="openProof('${safe(deposit.proof_url)}')"
                         style="cursor:pointer"
                     >
-
                     <br>
-
                     <button
                         class="primary full"
                         onclick="openProof('${safe(deposit.proof_url)}')"
                     >
                         🖼️ Open Full Screenshot
                     </button>
-
                 </div>
             `;
-
         }else{
-
             screenshot = `
                 <div class="error-box">
                     No payment screenshot uploaded.
                 </div>
             `;
         }
-
         let actions = "";
-
         if(deposit.status === "pending"){
-
             actions = `
                 <div
                     style="
@@ -2836,7 +2010,6 @@ async function loadAdminDeposits(){
                         margin-top:15px;
                     "
                 >
-
                     <button
                         class="success"
                         style="flex:1"
@@ -2844,7 +2017,6 @@ async function loadAdminDeposits(){
                     >
                         ✅ Approve
                     </button>
-
                     <button
                         class="danger"
                         style="flex:1"
@@ -2852,91 +2024,65 @@ async function loadAdminDeposits(){
                     >
                         ❌ Reject
                     </button>
-
                 </div>
             `;
         }
-
         let statusClass =
             "status-pending";
-
         if(deposit.status === "approved"){
             statusClass = "status-approved";
         }
-
         if(deposit.status === "rejected"){
             statusClass = "status-rejected";
         }
-
         div.innerHTML = `
             <h3>
                 Deposit Request
             </h3>
-
             <p>
                 <strong>Amount</strong>
                 <br>
                 ${money(deposit.amount)}
             </p>
-
             <p>
                 <strong>User ID</strong>
                 <br>
                 ${safe(deposit.user_id)}
             </p>
-
             <p>
                 <strong>Status</strong>
                 <br>
-
                 <span class="badge ${statusClass}">
                     ${safe(deposit.status)}
                 </span>
             </p>
-
             <p class="small">
                 ${formatDate(deposit.created_at)}
             </p>
-
             ${screenshot}
-
             ${actions}
         `;
-
         box.appendChild(div);
     });
 }
-
-
 /* ==========================================================
    OPEN PROOF
    ========================================================== */
-
 function openProof(url){
-
     if(!url){
-
-        toast(
-            "Payment screenshot unavailable."
-        );
-
+        toast("Payment screenshot unavailable.");
         return;
     }
-
     window.open(
         url,
         "_blank",
         "noopener,noreferrer"
     );
 }
-
-
 /* ==========================================================
    APPROVE DEPOSIT
    ========================================================== */
-
 async function approveDeposit(id){
-
     if(
         !confirm(
             "Approve this deposit and credit the user's wallet?"
@@ -2944,9 +2090,7 @@ async function approveDeposit(id){
     ){
         return;
     }
-
     toast("Approving deposit...");
-
     const {
         data,
         error
@@ -2957,47 +2101,34 @@ async function approveDeposit(id){
             p_deposit_id:id
         }
     );
-
     if(error){
-
         console.error(
             "Approve deposit error:",
             error
         );
-
         toast(
             "Approval failed: " +
             error.message
         );
-
         return;
     }
-
     console.log(
         "Approve result:",
         data
     );
-
     toast(
         "Deposit approved and wallet credited. ✅"
     );
-
     await loadAdminDeposits();
-
     await loadBalance();
 }
-
-
 /* ==========================================================
    REJECT DEPOSIT
    ========================================================== */
-
 async function rejectDeposit(id){
-
     if(!confirm("Reject this deposit?")){
         return;
     }
-
     const {
         error
     } =
@@ -3008,35 +2139,24 @@ async function rejectDeposit(id){
         })
         .eq("id",id)
         .eq("status","pending");
-
     if(error){
-
         toast(
             "Could not reject deposit: " +
             error.message
         );
-
         return;
     }
-
     toast("Deposit rejected.");
-
     await loadAdminDeposits();
 }
-
-
 /* ==========================================================
    ADMIN ORDERS
    ========================================================== */
-
 async function loadAdminOrders(){
-
     const box =
         $("adminOrders");
-
     box.innerHTML =
         "Loading orders...";
-
     const {
         data,
         error
@@ -3045,211 +2165,142 @@ async function loadAdminOrders(){
         .from("orders")
         .select("*")
         .order("created_at",{ascending:false});
-
     if(error){
-
         box.innerHTML = `
             <div class="error-box">
                 ${safe(error.message)}
             </div>
         `;
-
         return;
     }
-
     if(!data || data.length === 0){
-
         box.innerHTML = `
             <div class="empty">
                 No orders yet.
             </div>
         `;
-
         return;
     }
-
     box.innerHTML = "";
-
     data.forEach(order => {
-
         const div =
             document.createElement("div");
-
         div.className =
             "order";
-
         div.innerHTML = `
             <h3>
                 ${safe(order.product_name || "Order")}
             </h3>
-
             <p>
                 <strong>User ID</strong>
                 <br>
                 ${safe(order.user_id)}
             </p>
-
             <p>
                 Amount:
                 <strong>
                     ${money(order.amount)}
                 </strong>
             </p>
-
             <p>
                 Status:
                 <span class="badge">
                     ${safe(order.status)}
                 </span>
             </p>
-
             <div class="delivery">
-
                 <strong>
                     Login / Delivery Information
                 </strong>
-
                 <br><br>
-
                 ${safe(
                     order.login_information ||
                     "No delivery information."
                 )}
-
             </div>
-
             <p class="small">
                 ${formatDate(order.created_at)}
             </p>
         `;
-
         box.appendChild(div);
     });
 }
-
-
 /* ==========================================================
    AUTH STATE
    ========================================================== */
-
 supabaseClient.auth.onAuthStateChange(
     async (event,session) => {
-
         console.log(
             "Auth event:",
             event
         );
-
         if(event === "PASSWORD_RECOVERY"){
-
             $("authSection").classList.remove("hidden");
             $("userApp").classList.add("hidden");
             $("adminApp").classList.add("hidden");
-
             hideAuthBoxes();
-
             $("resetBox").classList.remove("hidden");
-
             return;
         }
-
         if(
             event === "SIGNED_IN" &&
             session &&
             session.user
         ){
-
             currentUser =
                 session.user;
-
-            /*
-             * Do not immediately run database-heavy
-             * operations inside the auth callback.
-             * checkSession() handles initial login.
-             */
         }
     }
 );
-
-
 /* ==========================================================
    INITIAL SESSION
    ========================================================== */
-
 async function checkSession(){
-
     try{
-
         const {
             data,
             error
         } =
         await supabaseClient.auth.getSession();
-
         if(error){
-
             console.error(
                 "Session error:",
                 error
             );
-
             $("authSection").classList.remove("hidden");
-
             $("userApp").classList.add("hidden");
-
             $("adminApp").classList.add("hidden");
-
             showLogin();
-
             return;
         }
-
         if(data.session){
-
             currentUser =
                 data.session.user;
-
             await startApplication();
-
         }else{
-
             $("authSection").classList.remove("hidden");
-
             $("userApp").classList.add("hidden");
-
             $("adminApp").classList.add("hidden");
-
             showLogin();
         }
-
     }catch(error){
-
         console.error(
             "Startup error:",
             error
         );
-
         $("authSection").classList.remove("hidden");
-
         $("userApp").classList.add("hidden");
-
         $("adminApp").classList.add("hidden");
-
         showAuthMessage(
             "Could not start the application: " +
             error.message
         );
     }
 }
-
-
 /* ==========================================================
    START
    ========================================================== */
-
 checkSession();
-
 </script>
-
 </body>
-</html>
+</html
