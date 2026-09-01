@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Benjo-SMS | Digital Marketplace</title>
-
+  <title>Benjo-SMS | Digital Services</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
     * {
       box-sizing: border-box;
@@ -15,16 +12,14 @@
       padding: 0;
       font-family: Arial, sans-serif;
     }
-
     body {
       background: #0b0b0f;
-      color: white;
+      color: #fff;
     }
-
     header {
       background: #111116;
       border-bottom: 1px solid #25252d;
-      padding: 16px 5%;
+      padding: 15px 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -32,132 +27,135 @@
       top: 0;
       z-index: 100;
     }
-
     .logo {
-      font-size: 24px;
+      font-size: 23px;
       font-weight: bold;
     }
-
     .logo span {
       color: #7c5cff;
     }
-
     nav {
       display: flex;
-      gap: 12px;
       align-items: center;
+      gap: 10px;
     }
-
     nav a,
     nav button {
       color: #ccc;
       text-decoration: none;
+      border: 0;
       background: none;
-      border: none;
       cursor: pointer;
       font-size: 14px;
     }
-
     nav a:hover,
     nav button:hover {
-      color: white;
+      color: #fff;
     }
-
     .login-btn {
       background: #7c5cff !important;
-      color: white !important;
-      padding: 10px 16px;
+      color: #fff !important;
+      padding: 10px 15px;
       border-radius: 8px;
     }
-
     .hero {
-      padding: 80px 5%;
+      padding: 75px 5%;
       text-align: center;
       background:
-        radial-gradient(circle at top, #21194b 0%, #0b0b0f 55%);
+        radial-gradient(circle at top, #21194b 0%, #0b0b0f 58%);
     }
-
     .hero h1 {
-      font-size: clamp(38px, 7vw, 70px);
-      margin-bottom: 20px;
+      font-size: clamp(38px, 7vw, 68px);
+      margin-bottom: 18px;
     }
-
     .hero h1 span {
       color: #7c5cff;
     }
-
     .hero p {
-      color: #aaa;
-      max-width: 650px;
+      max-width: 680px;
       margin: auto;
+      color: #aaa;
       line-height: 1.7;
-      font-size: 17px;
+      font-size: 16px;
     }
-
     .hero-buttons {
-      margin-top: 30px;
+      margin-top: 28px;
       display: flex;
       justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
     }
-
     .primary-btn,
     .secondary-btn {
-      padding: 13px 22px;
+      padding: 13px 21px;
       border-radius: 9px;
-      text-decoration: none;
       font-weight: bold;
       cursor: pointer;
+      text-decoration: none;
     }
-
     .primary-btn {
       background: #7c5cff;
-      color: white;
-      border: none;
+      color: #fff;
+      border: 0;
     }
-
     .secondary-btn {
       background: transparent;
-      border: 1px solid #33333d;
-      color: white;
+      color: #fff;
+      border: 1px solid #363640;
     }
-
     .section {
-      padding: 55px 5%;
       max-width: 1200px;
       margin: auto;
+      padding: 55px 5%;
     }
-
     .section-title {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
       gap: 15px;
+      margin-bottom: 25px;
       flex-wrap: wrap;
     }
-
     .section-title h2 {
       font-size: 28px;
     }
-
     .search {
+      width: 250px;
+      padding: 12px 14px;
       background: #15151b;
+      color: #fff;
       border: 1px solid #2b2b34;
-      color: white;
-      padding: 12px 15px;
       border-radius: 8px;
-      width: 240px;
       outline: none;
     }
-
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+    }
+    .filter-btn {
+      white-space: nowrap;
+      padding: 9px 13px;
+      border-radius: 8px;
+      border: 1px solid #30303a;
+      background: #15151b;
+      color: #bbb;
+      cursor: pointer;
+    }
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: #7c5cff;
+      color: #fff;
+      border-color: #7c5cff;
+    }
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
-
     .card {
       background: #131318;
       border: 1px solid #25252e;
@@ -165,610 +163,722 @@
       padding: 20px;
       transition: .2s;
     }
-
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: #7c5cff;
     }
-
-    .card-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: #211b40;
+    .service-icon {
+      width: 52px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      margin-bottom: 18px;
+      background: #211b40;
+      border-radius: 12px;
+      font-size: 24px;
+      margin-bottom: 15px;
     }
-
+    .badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: #211b40;
+      color: #a995ff;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
     .card h3 {
       margin-bottom: 8px;
     }
-
     .card p {
       color: #999;
       font-size: 14px;
       line-height: 1.5;
-      margin-bottom: 18px;
+      min-height: 42px;
+      margin-bottom: 15px;
     }
-
     .price {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 13px;
     }
-
     .buy-btn {
       width: 100%;
-      border: none;
-      background: #7c5cff;
-      color: white;
       padding: 12px;
+      border: 0;
       border-radius: 8px;
+      background: #7c5cff;
+      color: #fff;
       cursor: pointer;
       font-weight: bold;
     }
-
+    .buy-btn:hover {
+      opacity: .9;
+    }
+    .account-box,
+    .wallet-box {
+      display: none;
+      max-width: 650px;
+      margin: 25px auto 0;
+      background: #131318;
+      border: 1px solid #25252e;
+      border-radius: 14px;
+      padding: 22px;
+      text-align: left;
+    }
+    .account-box h2,
+    .wallet-box h2 {
+      margin-bottom: 15px;
+    }
+    .account-row {
+      padding: 12px 0;
+      border-bottom: 1px solid #25252e;
+      color: #bbb;
+    }
+    .account-row:last-child {
+      border-bottom: 0;
+    }
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+      color: #fff;
+      margin: 8px 0 15px;
+    }
+    .account-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+    .small-btn {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 8px;
+      background: #25252e;
+      color: #fff;
+      cursor: pointer;
+    }
+    .small-btn.primary {
+      background: #7c5cff;
+    }
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
-
     .feature {
       background: #131318;
       border: 1px solid #25252e;
-      border-radius: 12px;
+      border-radius: 13px;
       padding: 22px;
     }
-
-    .feature h3 {
-      margin: 10px 0;
+    .feature-icon {
+      font-size: 25px;
     }
-
+    .feature h3 {
+      margin: 12px 0 8px;
+    }
     .feature p {
       color: #999;
       line-height: 1.5;
       font-size: 14px;
     }
-
     footer {
       border-top: 1px solid #25252d;
       background: #0e0e12;
-      padding: 30px 5%;
-      text-align: center;
       color: #777;
-      margin-top: 40px;
+      text-align: center;
+      padding: 30px 5%;
+      margin-top: 30px;
     }
-
     .cart {
       position: fixed;
       right: 20px;
       bottom: 20px;
-      background: #7c5cff;
-      width: 55px;
-      height: 55px;
+      width: 57px;
+      height: 57px;
       border-radius: 50%;
+      background: #7c5cff;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       font-size: 22px;
       cursor: pointer;
+      z-index: 200;
       box-shadow: 0 8px 25px rgba(0,0,0,.4);
     }
-
     #cartCount {
       position: absolute;
       top: -5px;
       right: -5px;
-      background: #ff3b6b;
       width: 21px;
       height: 21px;
       border-radius: 50%;
-      font-size: 12px;
+      background: #ff3b6b;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      font-size: 11px;
     }
-
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.75);
+      background: rgba(0,0,0,.78);
       z-index: 999;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       padding: 20px;
     }
-
     .modal-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       background: #15151b;
       border: 1px solid #2b2b34;
       border-radius: 16px;
       padding: 25px;
       position: relative;
     }
-
     .modal-box h2 {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
-
     .close {
       position: absolute;
-      right: 18px;
-      top: 15px;
+      right: 17px;
+      top: 12px;
+      border: 0;
       background: none;
-      border: none;
       color: #aaa;
-      font-size: 25px;
+      font-size: 26px;
       cursor: pointer;
     }
-
     .input {
       width: 100%;
       padding: 13px;
       margin-bottom: 12px;
       background: #0d0d12;
-      color: white;
+      color: #fff;
       border: 1px solid #30303a;
       border-radius: 8px;
       outline: none;
     }
-
     .auth-btn {
       width: 100%;
       padding: 13px;
-      background: #7c5cff;
-      color: white;
-      border: none;
+      border: 0;
       border-radius: 8px;
+      background: #7c5cff;
+      color: #fff;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 5px;
     }
-
+    .message {
+      min-height: 20px;
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
     .switch {
       text-align: center;
-      margin-top: 15px;
       color: #999;
+      margin-top: 15px;
       font-size: 14px;
     }
-
-    .switch span {
+    .switch span:last-child {
       color: #9a82ff;
       cursor: pointer;
     }
-
-    .message {
-      margin-bottom: 12px;
-      font-size: 14px;
-      line-height: 1.5;
+    .empty {
+      text-align: center;
+      color: #888;
+      padding: 30px;
+      grid-column: 1 / -1;
     }
-
-    .account-box {
-      display: none;
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .account-box p {
-      color: #aaa;
-      margin: 8px 0;
-    }
-
-    .logout-btn {
-      margin-top: 15px;
-      padding: 10px 15px;
-      background: #25252e;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
     @media (max-width: 650px) {
       nav a:not(.login-btn) {
         display: none;
       }
-
       .hero {
         padding: 60px 5%;
       }
-
       .search {
         width: 100%;
+      }
+      .section {
+        padding: 45px 5%;
       }
     }
   </style>
 </head>
-
 <body>
-
 <header>
   <div class="logo">Benjo<span>-SMS</span></div>
-
   <nav>
     <a href="#home">Home</a>
-    <a href="#products">Marketplace</a>
+    <a href="#products">Services</a>
     <a href="#features">Features</a>
-    <a href="#" id="accountNav" style="display:none;">Account</a>
-    <a href="#" class="login-btn" id="loginNav">Login</a>
+    <a href="#account" id="accountNav"
+       style="display:none;">Account</a>
+    <button class="login-btn" id="loginNav"
+            onclick="openAuth('login')">
+      Login
+    </button>
   </nav>
 </header>
-
 <section class="hero" id="home">
   <h1>Welcome to <span>Benjo-SMS</span></h1>
-
   <p>
-    Your simple and secure digital marketplace.
-    Browse available products, choose what you need,
-    and place your order with ease.
+    Fast and simple digital services for social platforms.
+    Create your account, fund your wallet and place your
+    service order from one place.
   </p>
-
   <div class="hero-buttons">
-    <a href="#products" class="primary-btn">Browse Marketplace</a>
-    <button class="secondary-btn" onclick="openAuth('register')">
-      Create Account
+    <a href="#products" class="primary-btn">
+      Browse Services
+    </a>
+<button class="secondary-btn"
+        onclick="openAuth('register')">
+  Create Account
+</button>
+  </div>
+  <div class="account-box" id="accountBox">
+<h2>My Account</h2>
+<div class="account-row" id="accountName">
+  Name: —
+</div>
+<div class="account-row" id="accountEmail">
+  Email: —
+</div>
+<div class="wallet-box"
+     id="walletBox"
+     style="display:block;margin:18px 0 0;">
+  <div>Wallet Balance</div>
+  <div class="balance"
+       id="walletBalance">
+    ₦0
+  </div>
+  <div class="account-actions">
+    <button class="small-btn primary"
+            onclick="fundWallet()">
+      Fund Wallet
+    </button>
+    <button class="small-btn"
+            onclick="loadOrders()">
+      My Orders
+    </button>
+    <button class="small-btn"
+            onclick="logout()">
+      Logout
     </button>
   </div>
-
-  <div class="account-box" id="accountBox">
-    <h2>My Account</h2>
-    <p id="accountName"></p>
-    <p id="accountEmail"></p>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
   </div>
 </section>
-
 <section class="section" id="products">
-
   <div class="section-title">
-    <h2>Marketplace</h2>
-
-    <input
-      type="text"
-      class="search"
-      id="search"
-      placeholder="Search products..."
-      onkeyup="searchProducts()"
-    >
+<h2>Services</h2>
+<input
+  type="text"
+  class="search"
+  id="search"
+  placeholder="Search services..."
+  oninput="renderServices()"
+>
   </div>
-
-  <div class="products">
-
-    <div class="card" data-name="Digital Service">
-      <div class="card-icon">📱</div>
-      <h3>Digital Service</h3>
-      <p>Example marketplace product.</p>
-      <div class="price">₦5,000</div>
-      <button class="buy-btn" onclick="addToCart('Digital Service', 5000)">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="card" data-name="Premium Service">
-      <div class="card-icon">⭐</div>
-      <h3>Premium Service</h3>
-      <p>Example premium digital service.</p>
-      <div class="price">₦10,000</div>
-      <button class="buy-btn" onclick="addToCart('Premium Service', 10000)">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="card" data-name="Business Service">
-      <div class="card-icon">💼</div>
-      <h3>Business Service</h3>
-      <p>Example business-focused service.</p>
-      <div class="price">₦15,000</div>
-      <button class="buy-btn" onclick="addToCart('Business Service', 15000)">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="card" data-name="Custom Service">
-      <div class="card-icon">⚡</div>
-      <h3>Custom Service</h3>
-      <p>Example custom digital service.</p>
-      <div class="price">₦20,000</div>
-      <button class="buy-btn" onclick="addToCart('Custom Service', 20000)">
-        Add to Cart
-      </button>
-    </div>
-
+  <div class="filters">
+<button class="filter-btn active"
+        onclick="setFilter('All', this)">
+  All
+</button>
+<button class="filter-btn"
+        onclick="setFilter('Facebook', this)">
+  Facebook
+</button>
+<button class="filter-btn"
+        onclick="setFilter('Instagram', this)">
+  Instagram
+</button>
+<button class="filter-btn"
+        onclick="setFilter('TikTok', this)">
+  TikTok
+</button>
+<button class="filter-btn"
+        onclick="setFilter('Twitter', this)">
+  Twitter/X
+</button>
   </div>
+  <div class="products" id="productsGrid"></div>
 </section>
-
 <section class="section" id="features">
-
   <div class="section-title">
     <h2>Why Benjo-SMS?</h2>
   </div>
-
   <div class="features">
-
-    <div class="feature">
-      <div>🔐</div>
-      <h3>Secure</h3>
-      <p>Customer authentication and protected profile data.</p>
-    </div>
-
-    <div class="feature">
-      <div>⚡</div>
-      <h3>Fast</h3>
-      <p>Simple customer registration and login.</p>
-    </div>
-
-    <div class="feature">
-      <div>📦</div>
-      <h3>Order Tracking</h3>
-      <p>Customer orders can be connected to their account.</p>
-    </div>
-
-    <div class="feature">
-      <div>⚙️</div>
-      <h3>Admin Control</h3>
-      <p>Admin products and order management will be added next.</p>
-    </div>
-
+<div class="feature">
+  <div class="feature-icon">🔐</div>
+  <h3>Secure Account</h3>
+  <p>
+    Customer accounts are handled through Supabase
+    authentication.
+  </p>
+</div>
+<div class="feature">
+  <div class="feature-icon">💳</div>
+  <h3>Wallet Payments</h3>
+  <p>
+    Customers can fund their wallet and use their
+    available balance for eligible orders.
+  </p>
+</div>
+<div class="feature">
+  <div class="feature-icon">📦</div>
+  <h3>Order Tracking</h3>
+  <p>
+    Orders can be linked to the customer's account
+    for easier tracking.
+  </p>
+</div>
+<div class="feature">
+  <div class="feature-icon">⚙️</div>
+  <h3>Admin Control</h3>
+  <p>
+    Services and order management can be connected
+    to the Benjo-SMS admin system.
+  </p>
+</div>
   </div>
 </section>
-
 <footer>
   <p>© 2026 Benjo-SMS. All rights reserved.</p>
+  <p style="margin-top:8px;">
+    Telegram Support: @benjosms
+  </p>
 </footer>
-
 <div class="cart" onclick="viewCart()">
   🛒
   <span id="cartCount">0</span>
 </div>
-
 <!-- AUTH MODAL -->
-
 <div class="modal" id="authModal">
-
   <div class="modal-box">
-
-    <button class="close" onclick="closeAuth()">×</button>
-
-    <h2 id="authTitle">Login</h2>
-
-    <div class="message" id="authMessage"></div>
-
-    <form id="authForm">
-
-      <input
-        class="input"
-        id="fullName"
-        type="text"
-        placeholder="Full name"
-        style="display:none;"
-      >
-
-      <input
-        class="input"
-        id="email"
-        type="email"
-        placeholder="Email address"
-        required
-      >
-
-      <input
-        class="input"
-        id="password"
-        type="password"
-        placeholder="Password"
-        minlength="6"
-        required
-      >
-
-      <button class="auth-btn" type="submit" id="authSubmit">
-        Login
-      </button>
-
-    </form>
-
-    <div class="switch">
-      <span id="switchText">Don't have an account?</span>
-      <span id="switchAction" onclick="switchAuth()"> Register</span>
-    </div>
-
+<button class="close"
+        onclick="closeAuth()">
+  ×
+</button>
+<h2 id="authTitle">Login</h2>
+<div class="message"
+     id="authMessage"></div>
+<form id="authForm">
+  <input
+    class="input"
+    id="fullName"
+    type="text"
+    placeholder="Full name"
+    style="display:none;"
+  >
+  <input
+    class="input"
+    id="email"
+    type="email"
+    placeholder="Email address"
+    required
+  >
+  <input
+    class="input"
+    id="password"
+    type="password"
+    placeholder="Password"
+    minlength="6"
+    required
+  >
+  <button class="auth-btn"
+          type="submit"
+          id="authSubmit">
+    Login
+  </button>
+</form>
+<div class="switch">
+  <span id="switchText">
+    Don't have an account?
+  </span>
+  <span id="switchAction"
+        onclick="switchAuth()">
+    Register
+  </span>
+</div>
   </div>
 </div>
-
 <script>
+  /* =========================================================
+     SUPABASE
+  ========================================================= */
   const SUPABASE_URL =
     "https://zwefikwlxgphufilgcyc.supabase.co";
-
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-
-  const { createClient } =
-    window.supabase;
-
+  const {
+    createClient
+  } = window.supabase;
   const supabaseClient =
     createClient(
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
-
+  /* =========================================================
+     STATE
+  ========================================================= */
   let authMode = "login";
   let cart = [];
-
+  let currentFilter = "All";
+  let services = [
+    {
+      name: "Facebook Boosting",
+      platform: "Facebook",
+      type: "Boosting",
+      description:
+        "Facebook promotional service.",
+      price: 5000,
+      icon: "📘"
+    },
+    {
+      name: "Instagram Boosting",
+      platform: "Instagram",
+      type: "Boosting",
+      description:
+        "Instagram promotional service.",
+      price: 5000,
+      icon: "📸"
+    },
+    {
+      name: "TikTok Boosting",
+      platform: "TikTok",
+      type: "Boosting",
+      description:
+        "TikTok promotional service.",
+      price: 5000,
+      icon: "🎵"
+    },
+    {
+      name: "Twitter/X Boosting",
+      platform: "Twitter",
+      type: "Boosting",
+      description:
+        "Twitter/X promotional service.",
+      price: 5000,
+      icon: "🐦"
+    }
+  ];
+  /* =========================================================
+     AUTH MODAL
+  ========================================================= */
   function openAuth(mode = "login") {
     authMode = mode;
-    document.getElementById("authModal").style.display = "flex";
+    document.getElementById(
+      "authModal"
+    ).style.display = "flex";
     updateAuthForm();
-    document.getElementById("authMessage").textContent = "";
+    document.getElementById(
+      "authMessage"
+    ).textContent = "";
   }
-
   function closeAuth() {
-    document.getElementById("authModal").style.display = "none";
-    document.getElementById("authForm").reset();
-    document.getElementById("authMessage").textContent = "";
+    document.getElementById(
+      "authModal"
+    ).style.display = "none";
+    document.getElementById(
+      "authForm"
+    ).reset();
+    document.getElementById(
+      "authMessage"
+    ).textContent = "";
   }
-
   function switchAuth() {
     authMode =
       authMode === "login"
         ? "register"
         : "login";
-
     updateAuthForm();
   }
-
   function updateAuthForm() {
     const title =
-      document.getElementById("authTitle");
-
+      document.getElementById(
+        "authTitle"
+      );
     const fullName =
-      document.getElementById("fullName");
-
+      document.getElementById(
+        "fullName"
+      );
     const submit =
-      document.getElementById("authSubmit");
-
+      document.getElementById(
+        "authSubmit"
+      );
     const switchText =
-      document.getElementById("switchText");
-
+      document.getElementById(
+        "switchText"
+      );
     const switchAction =
-      document.getElementById("switchAction");
-
+      document.getElementById(
+        "switchAction"
+      );
     if (authMode === "register") {
-      title.textContent = "Create Account";
-      fullName.style.display = "block";
-      fullName.required = true;
-      submit.textContent = "Create Account";
+      title.textContent =
+        "Create Account";
+      fullName.style.display =
+        "block";
+      fullName.required =
+        true;
+      submit.textContent =
+        "Create Account";
       switchText.textContent =
         "Already have an account?";
-      switchAction.textContent = " Login";
+      switchAction.textContent =
+        " Login";
     } else {
-      title.textContent = "Login";
-      fullName.style.display = "none";
-      fullName.required = false;
-      submit.textContent = "Login";
+      title.textContent =
+        "Login";
+      fullName.style.display =
+        "none";
+      fullName.required =
+        false;
+      submit.textContent =
+        "Login";
       switchText.textContent =
         "Don't have an account?";
-      switchAction.textContent = " Register";
+      switchAction.textContent =
+        " Register";
     }
   }
-
+  /* =========================================================
+     REGISTER / LOGIN
+  ========================================================= */
   document
     .getElementById("authForm")
-    .addEventListener("submit", async function(event) {
-
-      event.preventDefault();
-
-      const email =
-        document.getElementById("email").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      const fullName =
-        document.getElementById("fullName").value.trim();
-
-      const message =
-        document.getElementById("authMessage");
-
-      const button =
-        document.getElementById("authSubmit");
-
-      message.textContent = "";
-      button.disabled = true;
-      button.textContent = "Please wait...";
-
-      try {
-
-        if (authMode === "register") {
-
-          if (!fullName) {
-            throw new Error("Please enter your full name.");
-          }
-
-          const { data, error } =
-            await supabaseClient.auth.signUp({
-              email: email,
-              password: password,
-              options: {
-                data: {
-                  full_name: fullName
-                }
-              }
-            });
-
-          if (error) throw error;
-
-          if (data.user && !data.session) {
-            message.textContent =
-              "Account created. Check your email and confirm your email address before logging in.";
-
-            button.disabled = false;
-            button.textContent = "Create Account";
-            return;
-          }
-
-          if (data.user) {
-            await createProfile(
-              data.user,
-              fullName
-            );
-
-            message.textContent =
-              "Account created successfully.";
-
-            closeAuth();
-            await loadAccount();
-          }
-
-        } else {
-
-          const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-              email: email,
-              password: password
-            });
-
-          if (error) throw error;
-
-          if (data.user) {
-            await loadAccount();
-            closeAuth();
-            alert("Login successful!");
-          }
-        }
-
-      } catch (error) {
-
-        message.textContent =
-          error.message || "Something went wrong.";
-
-      } finally {
-
-        button.disabled = false;
-
+    .addEventListener(
+      "submit",
+      async function(event) {
+        event.preventDefault();
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+        const password =
+          document
+            .getElementById("password")
+            .value;
+        const fullName =
+          document
+            .getElementById("fullName")
+            .value
+            .trim();
+        const message =
+          document.getElementById(
+            "authMessage"
+          );
+        const button =
+          document.getElementById(
+            "authSubmit"
+          );
+        message.textContent = "";
+        button.disabled = true;
         button.textContent =
-          authMode === "register"
-            ? "Create Account"
-            : "Login";
+          "Please wait...";
+        try {
+          if (authMode === "register") {
+            if (!fullName) {
+              throw new Error(
+                "Please enter your full name."
+              );
+            }
+            const {
+              data,
+              error
+            } =
+              await supabaseClient
+                .auth
+                .signUp({
+                  email,
+                  password,
+                  options: {
+                    data: {
+                      full_name:
+                        fullName
+                    }
+                  }
+                });
+            if (error) {
+              throw error;
+            }
+            if (
+              data.user &&
+              !data.session
+            ) {
+              message.textContent =
+                "Account created. Please check your email to confirm your account.";
+              return;
+            }
+            if (data.user) {
+              await createProfile(
+                data.user,
+                fullName
+              );
+              closeAuth();
+              await loadAccount();
+              alert(
+                "Account created successfully!"
+              );
+            }
+          } else {
+            const {
+              data,
+              error
+            } =
+              await supabaseClient
+                .auth
+                .signInWithPassword({
+                  email,
+                  password
+                });
+            if (error) {
+              throw error;
+            }
+            if (data.user) {
+              closeAuth();
+              await loadAccount();
+              alert(
+                "Login successful!"
+              );
+            }
+          }
+        } catch (error) {
+          message.textContent =
+            error.message ||
+            "Something went wrong.";
+        } finally {
+          button.disabled = false;
+          button.textContent =
+            authMode === "register"
+              ? "Create Account"
+              : "Login";
+        }
       }
-    });
-
-  async function createProfile(user, fullName) {
-
+    );
+  /* =========================================================
+     PROFILE
+  ========================================================= */
+  async function createProfile(
+    user,
+    fullName
+  ) {
     const name =
       fullName ||
       user.user_metadata?.full_name ||
       "";
-
-    const { error } =
+    const {
+      error
+    } =
       await supabaseClient
         .from("profiles")
         .upsert({
@@ -778,147 +888,373 @@
         }, {
           onConflict: "id"
         });
-
     if (error) {
-      console.error("Profile error:", error);
+      console.error(
+        "Profile error:",
+        error
+      );
     }
   }
-
+  /* =========================================================
+     ACCOUNT
+  ========================================================= */
   async function loadAccount() {
-
     const {
-      data: { user }
+      data: {
+        user
+      }
     } =
-      await supabaseClient.auth.getUser();
-
+      await supabaseClient
+        .auth
+        .getUser();
     const loginNav =
-      document.getElementById("loginNav");
-
+      document.getElementById(
+        "loginNav"
+      );
     const accountNav =
-      document.getElementById("accountNav");
-
+      document.getElementById(
+        "accountNav"
+      );
     const accountBox =
-      document.getElementById("accountBox");
-
+      document.getElementById(
+        "accountBox"
+      );
     if (!user) {
-      loginNav.style.display = "block";
-      accountNav.style.display = "none";
-      accountBox.style.display = "none";
+      loginNav.style.display =
+        "block";
+      accountNav.style.display =
+        "none";
+      accountBox.style.display =
+        "none";
       return;
     }
-
-    loginNav.style.display = "none";
-    accountNav.style.display = "block";
-    accountBox.style.display = "block";
-
-    document.getElementById("accountName")
-      .textContent =
+    loginNav.style.display =
+      "none";
+    accountNav.style.display =
+      "block";
+    accountBox.style.display =
+      "block";
+    document.getElementById(
+      "accountName"
+    ).textContent =
       "Name: " +
       (
-        user.user_metadata?.full_name ||
+        user.user_metadata
+          ?.full_name ||
         "Customer"
       );
-
-    document.getElementById("accountEmail")
-      .textContent =
+    document.getElementById(
+      "accountEmail"
+    ).textContent =
       "Email: " +
-      user.email;
+      (
+        user.email ||
+        ""
+      );
+    await loadWallet();
   }
-
+  /* =========================================================
+     WALLET
+  ========================================================= */
+  async function loadWallet() {
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabaseClient
+        .auth
+        .getUser();
+    if (!user) {
+      return;
+    }
+    try {
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("wallet_balance")
+          .eq("id", user.id)
+          .maybeSingle();
+      if (error) {
+        console.error(
+          "Wallet error:",
+          error
+        );
+        return;
+      }
+      const balance =
+        Number(
+          data?.wallet_balance || 0
+        );
+      document.getElementById(
+        "walletBalance"
+      ).textContent =
+        formatNaira(balance);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  function formatNaira(amount) {
+    return "₦" +
+      Number(amount || 0)
+        .toLocaleString("en-NG");
+  }
+  function fundWallet() {
+    alert(
+      "Wallet funding will be connected to the payment gateway in the next step."
+    );
+  }
+  /* =========================================================
+     LOGOUT
+  ========================================================= */
   async function logout() {
-
-    const { error } =
-      await supabaseClient.auth.signOut();
-
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .signOut();
     if (error) {
       alert(error.message);
       return;
     }
-
-    loadAccount();
-    alert("You have been logged out.");
-  }
-
-  supabaseClient.auth.onAuthStateChange(() => {
-    loadAccount();
-  });
-
-  function addToCart(name, price) {
-
-    cart.push({
-      name,
-      price
-    });
-
-    updateCartCount();
-
-    alert(`${name} added to cart!`);
-  }
-
-  function updateCartCount() {
-
-    const count =
-      document.getElementById("cartCount");
-
-    count.textContent =
-      cart.length;
-  }
-
-  function viewCart() {
-
-    if (cart.length === 0) {
-      alert("Your cart is empty.");
-      return;
-    }
-
-    const cartSummary =
-      cart
-        .map(
-          (item, i) =>
-            `${i + 1}. ${item.name} - ₦${item.price}`
-        )
-        .join("\n");
-
-    const total =
-      cart.reduce(
-        (sum, item) => sum + item.price,
-        0
-      );
-
+    await loadAccount();
     alert(
-      `Your Cart:\n\n${cartSummary}\n\nTotal: ₦${total}`
+      "You have been logged out."
     );
   }
-
-  function searchProducts() {
-
+  /* =========================================================
+     SERVICES
+  ========================================================= */
+  function setFilter(
+    filter,
+    button
+  ) {
+    currentFilter =
+      filter;
+    document
+      .querySelectorAll(
+        ".filter-btn"
+      )
+      .forEach(
+        btn =>
+          btn.classList.remove(
+            "active"
+          )
+      );
+    button.classList.add(
+      "active"
+    );
+    renderServices();
+  }
+  function renderServices() {
+    const grid =
+      document.getElementById(
+        "productsGrid"
+      );
     const query =
       document
         .getElementById("search")
         .value
-        .toLowerCase();
-
-    const cards =
-      document.querySelectorAll(".card");
-
-    cards.forEach(card => {
-
-      const name =
-        card
-          .getAttribute("data-name")
-          ?.toLowerCase() || "";
-
-      card.style.display =
-        name.includes(query)
-          ? "block"
-          : "none";
-    });
+        .toLowerCase()
+        .trim();
+    const filtered =
+      services.filter(
+        service => {
+          const matchesFilter =
+            currentFilter === "All" ||
+            service.platform ===
+              currentFilter;
+          const matchesSearch =
+            service.name
+              .toLowerCase()
+              .includes(query) ||
+            service.type
+              .toLowerCase()
+              .includes(query) ||
+            service.platform
+              .toLowerCase()
+              .includes(query);
+          return (
+            matchesFilter &&
+            matchesSearch
+          );
+        }
+      );
+    if (!filtered.length) {
+      grid.innerHTML =
+        `<div class="empty">
+          No services found.
+        </div>`;
+      return;
+    }
+    grid.innerHTML =
+      filtered
+        .map(
+          service => `
+            <div class="card">
+              <div class="service-icon">
+                ${service.icon}
+              </div>
+              <span class="badge">
+                ${service.platform}
+                •
+                ${service.type}
+              </span>
+              <h3>
+                ${service.name}
+              </h3>
+              <p>
+                ${service.description}
+              </p>
+              <div class="price">
+                ${formatNaira(
+                  service.price
+                )}
+              </div>
+              <button
+                class="buy-btn"
+                onclick="addToCart(
+                  '${escapeText(service.name)}',
+                  ${service.price}
+                )"
+              >
+                Order Service
+              </button>
+            </div>
+          `
+        )
+        .join("");
   }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    loadAccount();
-  });
+  function escapeText(text) {
+    return String(text)
+      .replace(
+        /'/g,
+        "\\'"
+      );
+  }
+  /* =========================================================
+     CART
+  ========================================================= */
+  function addToCart(
+    name,
+    price
+  ) {
+    cart.push({
+      name,
+      price
+    });
+    updateCartCount();
+    alert(
+      name +
+      " added to cart."
+    );
+  }
+  function updateCartCount() {
+    document.getElementById(
+      "cartCount"
+    ).textContent =
+      cart.length;
+  }
+  function viewCart() {
+    if (!cart.length) {
+      alert(
+        "Your cart is empty."
+      );
+      return;
+    }
+    const summary =
+      cart
+        .map(
+          (item, index) =>
+            `${index + 1}. ${item.name} - ${formatNaira(item.price)}`
+        )
+        .join("\n");
+    const total =
+      cart.reduce(
+        (sum, item) =>
+          sum + Number(item.price),
+        0
+      );
+    const proceed =
+      confirm(
+        "Your Cart:\n\n" +
+        summary +
+        "\n\nTotal: " +
+        formatNaira(total) +
+        "\n\nProceed with this order?"
+      );
+    if (proceed) {
+      checkout(total);
+    }
+  }
+  async function checkout(total) {
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabaseClient
+        .auth
+        .getUser();
+    if (!user) {
+      alert(
+        "Please login before placing an order."
+      );
+      openAuth("login");
+      return;
+    }
+    alert(
+      "Order checkout will be connected to the wallet/order database in the next step.\n\nTotal: " +
+      formatNaira(total)
+    );
+  }
+  /* =========================================================
+     ORDERS
+  ========================================================= */
+  async function loadOrders() {
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabaseClient
+        .auth
+        .getUser();
+    if (!user) {
+      openAuth("login");
+      return;
+    }
+    alert(
+      "Your order-history section is ready to be connected to the orders table."
+    );
+  }
+  /* =========================================================
+     AUTH STATE
+  ========================================================= */
+  supabaseClient
+    .auth
+    .onAuthStateChange(
+      () => {
+        setTimeout(
+          () => loadAccount(),
+          0
+        );
+      }
+    );
+  /* =========================================================
+     INITIALIZE
+  ========================================================= */
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      renderServices();
+      loadAccount();
+    }
+  );
 </script>
-
 </body>
 </html>
