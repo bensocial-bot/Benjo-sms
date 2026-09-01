@@ -1,98 +1,565 @@
-<!-- =========================================================
-     BENJO-SMS ADMIN DASHBOARD
-========================================================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Benjo-SMS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-  #adminPanel {
-    display: none;
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 25px;
-    background: #131318;
-    border: 1px solid #292933;
-    border-radius: 16px;
-  }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-  #adminPanel h2 {
-    margin-bottom: 20px;
-  }
+body{
+  background:#0b0b0f;
+  color:#fff;
+}
 
-  .admin-form {
-    display: grid;
-    gap: 12px;
-    margin-bottom: 30px;
-  }
+header{
+  background:#111116;
+  border-bottom:1px solid #282832;
+  padding:16px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
 
-  .admin-input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 8px;
-    border: 1px solid #33333d;
-    background: #0d0d12;
-    color: white;
-    outline: none;
-  }
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
 
-  .admin-button {
-    padding: 12px 18px;
-    border: none;
-    border-radius: 8px;
-    background: #7c5cff;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-  }
+.logo span{
+  color:#7c5cff;
+}
 
-  .admin-button.delete {
-    background: #b83250;
-  }
+nav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-  .admin-services {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 15px;
-  }
+nav a,nav button{
+  color:#ccc;
+  background:none;
+  border:0;
+  text-decoration:none;
+  cursor:pointer;
+}
 
-  .admin-service {
-    border: 1px solid #292933;
-    border-radius: 12px;
-    padding: 18px;
-    background: #101015;
-  }
+.login-btn{
+  background:#7c5cff!important;
+  color:#fff!important;
+  padding:10px 16px;
+  border-radius:8px;
+}
 
-  .admin-service h3 {
-    margin-bottom: 8px;
-  }
+.hero{
+  padding:75px 5%;
+  text-align:center;
+  background:radial-gradient(circle at top,#241951,#0b0b0f 60%);
+}
 
-  .admin-service p {
-    color: #999;
-    margin-bottom: 10px;
-  }
+.hero h1{
+  font-size:clamp(38px,7vw,70px);
+  margin-bottom:20px;
+}
 
-  .admin-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 15px;
-  }
+.hero h1 span{
+  color:#7c5cff;
+}
 
-  .admin-message {
-    margin-bottom: 15px;
-    color: #aaa;
+.hero p{
+  max-width:650px;
+  margin:auto;
+  color:#aaa;
+  line-height:1.7;
+}
+
+.buttons{
+  margin-top:30px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:13px 20px;
+  border-radius:9px;
+  border:0;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.primary{
+  background:#7c5cff;
+  color:#fff;
+}
+
+.secondary{
+  background:#15151b;
+  border:1px solid #33333d;
+  color:#fff;
+}
+
+.section{
+  max-width:1150px;
+  margin:auto;
+  padding:55px 5%;
+}
+
+.section h2{
+  margin-bottom:25px;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:#131318;
+  border:1px solid #292933;
+  border-radius:14px;
+  padding:20px;
+}
+
+.card h3{
+  margin-bottom:8px;
+}
+
+.card p{
+  color:#999;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:15px;
+}
+
+.price{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.buy{
+  width:100%;
+  background:#7c5cff;
+  border:0;
+  color:#fff;
+  padding:12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#15151b;
+  border:1px solid #30303a;
+  border-radius:15px;
+  padding:25px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  background:none;
+  border:0;
+  color:#aaa;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  background:#0c0c11;
+  border:1px solid #33333d;
+  color:#fff;
+  border-radius:8px;
+  outline:none;
+}
+
+.auth-submit{
+  width:100%;
+  padding:13px;
+  background:#7c5cff;
+  border:0;
+  border-radius:8px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.switch{
+  text-align:center;
+  margin-top:15px;
+  color:#999;
+  font-size:14px;
+}
+
+.switch span{
+  color:#9a82ff;
+  cursor:pointer;
+}
+
+.account{
+  display:none;
+  max-width:700px;
+  margin:30px auto 0;
+  background:#131318;
+  border:1px solid #292933;
+  border-radius:14px;
+  padding:22px;
+  text-align:left;
+}
+
+.account p{
+  color:#aaa;
+  margin:8px 0;
+}
+
+.admin{
+  display:none;
+  max-width:1150px;
+  margin:30px auto;
+  padding:25px;
+  background:#131318;
+  border:1px solid #7c5cff;
+  border-radius:16px;
+}
+
+.admin h2{
+  margin-bottom:20px;
+}
+
+.form{
+  display:grid;
+  gap:12px;
+  margin-bottom:30px;
+}
+
+textarea.input{
+  resize:vertical;
+}
+
+.admin-services{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+}
+
+.admin-card{
+  background:#0f0f14;
+  border:1px solid #292933;
+  border-radius:12px;
+  padding:18px;
+}
+
+.admin-card p{
+  color:#999;
+  margin:8px 0;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+}
+
+.delete{
+  background:#a52d49!important;
+}
+
+.wallet{
+  background:#131318;
+  border:1px solid #292933;
+  padding:20px;
+  border-radius:14px;
+  max-width:700px;
+  margin:20px auto;
+}
+
+.balance{
+  font-size:30px;
+  font-weight:bold;
+  color:#7c5cff;
+  margin-top:10px;
+}
+
+.opay{
+  margin-top:15px;
+  padding:15px;
+  background:#0e0e13;
+  border-radius:10px;
+}
+
+.message{
+  color:#aaa;
+  margin-bottom:12px;
+  line-height:1.5;
+}
+
+footer{
+  border-top:1px solid #292932;
+  text-align:center;
+  color:#777;
+  padding:30px;
+  margin-top:40px;
+}
+
+@media(max-width:650px){
+  nav a:not(.login-btn){
+    display:none;
   }
+}
 </style>
+</head>
 
-<section id="adminPanel">
+<body>
+
+<header>
+
+  <div class="logo">
+    Benjo<span>-SMS</span>
+  </div>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+
+    <a href="#" id="accountLink" style="display:none;">
+      Account
+    </a>
+
+    <button
+      class="login-btn"
+      id="loginButton"
+      onclick="openAuth('login')"
+    >
+      Login
+    </button>
+  </nav>
+
+</header>
+
+
+<section class="hero" id="home">
+
+  <h1>
+    Welcome to <span>Benjo-SMS</span>
+  </h1>
+
+  <p>
+    Your digital marketplace for simple and convenient
+    online services.
+  </p>
+
+  <div class="buttons">
+
+    <a
+      href="#services"
+      class="btn primary"
+    >
+      Browse Services
+    </a>
+
+    <button
+      class="btn secondary"
+      onclick="openAuth('register')"
+    >
+      Create Account
+    </button>
+
+  </div>
+
+
+  <div
+    class="account"
+    id="accountBox"
+  >
+
+    <h2>My Account</h2>
+
+    <p id="accountName"></p>
+
+    <p id="accountEmail"></p>
+
+    <button
+      class="btn secondary"
+      onclick="logout()"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- WALLET -->
+
+<section class="section">
+
+  <div
+    class="wallet"
+    id="walletBox"
+    style="display:none;"
+  >
+
+    <h2>My Wallet</h2>
+
+    <p>Your current balance:</p>
+
+    <div
+      class="balance"
+      id="walletBalance"
+    >
+      ₦0.00
+    </div>
+
+    <div class="opay">
+
+      <h3>Manual OPay Deposit</h3>
+
+      <p style="color:#aaa;margin:10px 0;line-height:1.6;">
+
+        Send your deposit to:
+
+        <br><br>
+
+        <strong>
+          Account Name:
+        </strong>
+
+        Toluwani Benjamin / benjosms
+
+        <br>
+
+        <strong>
+          OPay Number:
+        </strong>
+
+        6550518571
+
+      </p>
+
+      <form
+        id="depositForm"
+        class="form"
+      >
+
+        <input
+          class="input"
+          id="depositAmount"
+          type="number"
+          min="100"
+          placeholder="Amount sent (₦)"
+          required
+        >
+
+        <input
+          class="input"
+          id="depositReference"
+          type="text"
+          placeholder="OPay transaction reference"
+          required
+        >
+
+        <button
+          class="btn primary"
+          type="submit"
+        >
+          Submit Deposit
+        </button>
+
+      </form>
+
+      <div
+        class="message"
+        id="depositMessage"
+      ></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SERVICES -->
+
+<section
+  class="section"
+  id="services"
+>
+
+  <h2>Services</h2>
+
+  <div
+    class="products"
+    id="servicesList"
+  >
+
+    <p>Loading services...</p>
+
+  </div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section
+  class="admin"
+  id="adminPanel"
+>
 
   <h2>👑 Benjo-SMS Admin Dashboard</h2>
 
-  <p class="admin-message" id="adminMessage"></p>
+  <div
+    class="message"
+    id="adminMessage"
+  ></div>
+
 
   <h3>Add Service</h3>
 
-  <form class="admin-form" id="addServiceForm">
+  <br>
+
+  <form
+    class="form"
+    id="addServiceForm"
+  >
 
     <input
-      class="admin-input"
+      class="input"
       id="serviceName"
       type="text"
       placeholder="Service name"
@@ -100,14 +567,14 @@
     >
 
     <textarea
-      class="admin-input"
+      class="input"
       id="serviceDescription"
-      placeholder="Service description"
       rows="4"
+      placeholder="Service description"
     ></textarea>
 
     <input
-      class="admin-input"
+      class="input"
       id="servicePrice"
       type="number"
       min="0"
@@ -117,7 +584,7 @@
     >
 
     <button
-      class="admin-button"
+      class="btn primary"
       type="submit"
     >
       ➕ Add Service
@@ -125,7 +592,8 @@
 
   </form>
 
-  <h3>Services</h3>
+
+  <h3>Manage Services</h3>
 
   <br>
 
@@ -137,86 +605,687 @@
 </section>
 
 
+<footer>
+  © 2026 Benjo-SMS. All rights reserved.
+</footer>
+
+
+<!-- AUTH MODAL -->
+
+<div
+  class="modal"
+  id="authModal"
+>
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      onclick="closeAuth()"
+    >
+      ×
+    </button>
+
+    <h2 id="authTitle">
+      Login
+    </h2>
+
+    <div
+      class="message"
+      id="authMessage"
+    ></div>
+
+    <form id="authForm">
+
+      <input
+        class="input"
+        id="fullName"
+        type="text"
+        placeholder="Full name"
+        style="display:none;"
+      >
+
+      <input
+        class="input"
+        id="email"
+        type="email"
+        placeholder="Email address"
+        required
+      >
+
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Password"
+        minlength="6"
+        required
+      >
+
+      <button
+        class="auth-submit"
+        id="authSubmit"
+        type="submit"
+      >
+        Login
+      </button>
+
+    </form>
+
+    <div class="switch">
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <span
+        id="switchAction"
+        onclick="switchAuth()"
+      >
+        Register
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
+
 /* =========================================================
-   ADMIN DASHBOARD
+   SUPABASE
 ========================================================= */
 
-async function checkAdminAccess() {
+const SUPABASE_URL =
+  "https://zwefikwlxgphufilgcyc.supabase.co";
 
-  const {
-    data: {
-      user
-    }
-  } = await supabaseClient.auth.getUser();
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 
-  if (!user) {
-    document.getElementById("adminPanel").style.display = "none";
-    return;
+const {
+  createClient
+} = window.supabase;
+
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+let authMode = "login";
+
+
+function openAuth(mode){
+
+  authMode = mode;
+
+  updateAuthForm();
+
+  document
+    .getElementById("authModal")
+    .style.display = "flex";
+
+}
+
+
+function closeAuth(){
+
+  document
+    .getElementById("authModal")
+    .style.display = "none";
+
+  document
+    .getElementById("authMessage")
+    .textContent = "";
+
+}
+
+
+function switchAuth(){
+
+  authMode =
+    authMode === "login"
+      ? "register"
+      : "login";
+
+  updateAuthForm();
+
+}
+
+
+function updateAuthForm(){
+
+  const title =
+    document.getElementById("authTitle");
+
+  const fullName =
+    document.getElementById("fullName");
+
+  const submit =
+    document.getElementById("authSubmit");
+
+  const switchText =
+    document.getElementById("switchText");
+
+  const switchAction =
+    document.getElementById("switchAction");
+
+
+  if(authMode === "register"){
+
+    title.textContent =
+      "Create Account";
+
+    fullName.style.display =
+      "block";
+
+    fullName.required =
+      true;
+
+    submit.textContent =
+      "Create Account";
+
+    switchText.textContent =
+      "Already have an account?";
+
+    switchAction.textContent =
+      " Login";
+
+  }else{
+
+    title.textContent =
+      "Login";
+
+    fullName.style.display =
+      "none";
+
+    fullName.required =
+      false;
+
+    submit.textContent =
+      "Login";
+
+    switchText.textContent =
+      "Don't have an account?";
+
+    switchAction.textContent =
+      " Register";
+
   }
 
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("Benjosms")
-    .select("is_admin")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Admin check error:", error);
-    return;
-  }
-
-  if (data && data.is_admin === true) {
-
-    document.getElementById("adminPanel").style.display = "block";
-
-    loadAdminServices();
-
-  } else {
-
-    document.getElementById("adminPanel").style.display = "none";
-
-  }
 }
 
 
 /* =========================================================
-   LOAD SERVICES
+   REGISTER / LOGIN
 ========================================================= */
 
-async function loadAdminServices() {
+document
+  .getElementById("authForm")
+  .addEventListener(
+    "submit",
+    async function(e){
 
-  const container =
-    document.getElementById("adminServices");
+      e.preventDefault();
 
-  container.innerHTML =
-    "<p>Loading services...</p>";
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+      const fullName =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
+
+      const message =
+        document
+          .getElementById("authMessage");
+
+      const button =
+        document
+          .getElementById("authSubmit");
+
+
+      message.textContent =
+        "Please wait...";
+
+      button.disabled =
+        true;
+
+
+      try{
+
+        if(authMode === "register"){
+
+          if(!fullName){
+
+            throw new Error(
+              "Please enter your full name."
+            );
+
+          }
+
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signUp({
+
+              email,
+
+              password,
+
+              options:{
+                data:{
+                  full_name:fullName
+                }
+              }
+
+            });
+
+
+          if(error)
+            throw error;
+
+
+          if(data.user){
+
+            /*
+              Create customer profile.
+              This will not affect the admin
+              account if it already exists.
+            */
+
+            await supabaseClient
+              .from("Benjosms")
+              .upsert({
+
+                id:data.user.id,
+
+                full_name:fullName,
+
+                email:data.user.email,
+
+                is_admin:false
+
+              });
+
+
+            message.textContent =
+              data.session
+                ? "Account created successfully."
+                : "Account created. Check your email to verify your account.";
+
+            if(data.session){
+
+              closeAuth();
+
+              await refreshEverything();
+
+            }
+
+          }
+
+        }else{
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth
+              .signInWithPassword({
+
+                email,
+
+                password
+
+              });
+
+
+          if(error)
+            throw error;
+
+
+          closeAuth();
+
+          await refreshEverything();
+
+          alert("Login successful!");
+
+        }
+
+      }catch(error){
+
+        console.error(error);
+
+        message.textContent =
+          error.message ||
+          "Something went wrong.";
+
+      }finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          authMode === "register"
+            ? "Create Account"
+            : "Login";
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+async function loadAccount(){
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const accountLink =
+    document.getElementById("accountLink");
+
+  const accountBox =
+    document.getElementById("accountBox");
+
+  const walletBox =
+    document.getElementById("walletBox");
+
+
+  if(!user){
+
+    loginButton.style.display =
+      "block";
+
+    accountLink.style.display =
+      "none";
+
+    accountBox.style.display =
+      "none";
+
+    walletBox.style.display =
+      "none";
+
+    return null;
+
+  }
+
+
+  loginButton.style.display =
+    "none";
+
+  accountLink.style.display =
+    "block";
+
+  accountBox.style.display =
+    "block";
+
+  walletBox.style.display =
+    "block";
+
+
+  document.getElementById("accountName")
+    .textContent =
+      "Name: " +
+      (
+        user.user_metadata?.full_name ||
+        "Customer"
+      );
+
+
+  document.getElementById("accountEmail")
+    .textContent =
+      "Email: " +
+      user.email;
+
+
+  return user;
+
+}
+
+
+/* =========================================================
+   ADMIN CHECK
+========================================================= */
+
+async function checkAdmin(){
+
+  const user =
+    await loadAccount();
+
+  const panel =
+    document.getElementById("adminPanel");
+
+
+  if(!user){
+
+    panel.style.display =
+      "none";
+
+    return false;
+
+  }
+
 
   const {
     data,
     error
-  } = await supabaseClient
-    .from("services")
-    .select("*")
-    .order("created_at", {
-      ascending: false
-    });
+  } =
+    await supabaseClient
+      .from("Benjosms")
+      .select("is_admin")
+      .eq("id",user.id)
+      .maybeSingle();
 
-  if (error) {
 
-    container.innerHTML =
-      "<p>Could not load services.</p>";
+  console.log(
+    "Admin check:",
+    data,
+    error
+  );
+
+
+  if(error){
+
+    console.error(
+      "Admin check failed:",
+      error
+    );
+
+    panel.style.display =
+      "none";
+
+    return false;
+
+  }
+
+
+  if(data && data.is_admin === true){
+
+    panel.style.display =
+      "block";
+
+    await loadAdminServices();
+
+    return true;
+
+  }
+
+
+  panel.style.display =
+    "none";
+
+  return false;
+
+}
+
+
+/* =========================================================
+   SERVICES FOR CUSTOMERS
+========================================================= */
+
+async function loadServices(){
+
+  const container =
+    document.getElementById("servicesList");
+
+
+  container.innerHTML =
+    "<p>Loading services...</p>";
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .eq("available",true)
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  if(error){
 
     console.error(error);
+
+    container.innerHTML =
+      "<p>Unable to load services.</p>";
 
     return;
 
   }
 
-  if (!data || data.length === 0) {
+
+  if(!data || data.length === 0){
+
+    container.innerHTML =
+      "<p>No services available yet.</p>";
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(service => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "card";
+
+
+    card.innerHTML = `
+
+      <h3>${escapeHTML(service.name)}</h3>
+
+      <p>
+        ${escapeHTML(
+          service.description || ""
+        )}
+      </p>
+
+      <div class="price">
+        ₦${Number(service.price).toLocaleString()}
+      </div>
+
+      <button
+        class="buy"
+        onclick="addToCart(
+          '${service.id}'
+        )"
+      >
+        Add to Cart
+      </button>
+
+    `;
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   ADMIN SERVICES
+========================================================= */
+
+async function loadAdminServices(){
+
+  const container =
+    document.getElementById(
+      "adminServices"
+    );
+
+
+  container.innerHTML =
+    "<p>Loading...</p>";
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  if(error){
+
+    container.innerHTML =
+      "<p>" +
+      escapeHTML(error.message) +
+      "</p>";
+
+    return;
+
+  }
+
+
+  if(!data.length){
 
     container.innerHTML =
       "<p>No services yet.</p>";
@@ -225,7 +1294,9 @@ async function loadAdminServices() {
 
   }
 
+
   container.innerHTML = "";
+
 
   data.forEach(service => {
 
@@ -233,37 +1304,52 @@ async function loadAdminServices() {
       document.createElement("div");
 
     card.className =
-      "admin-service";
+      "admin-card";
+
 
     card.innerHTML = `
 
-      <h3>${escapeHTML(service.name)}</h3>
+      <h3>
+        ${escapeHTML(service.name)}
+      </h3>
 
       <p>
-        ${escapeHTML(service.description || "")}
+        ${escapeHTML(
+          service.description || ""
+        )}
       </p>
-
-      <strong>
-        ₦${Number(service.price).toLocaleString()}
-      </strong>
 
       <p>
-        Status:
-        ${service.available ? "Available" : "Hidden"}
+        Price:
+        ₦${Number(
+          service.price
+        ).toLocaleString()}
       </p>
 
-      <div class="admin-actions">
+      <p>
+        ${
+          service.available
+            ? "Available"
+            : "Hidden"
+        }
+      </p>
+
+      <div class="actions">
 
         <button
-          class="admin-button"
-          onclick="editService('${service.id}')"
+          class="btn primary"
+          onclick="editService(
+            '${service.id}'
+          )"
         >
           ✏️ Edit
         </button>
 
         <button
-          class="admin-button delete"
-          onclick="deleteService('${service.id}')"
+          class="btn delete"
+          onclick="deleteService(
+            '${service.id}'
+          )"
         >
           🗑️ Delete
         </button>
@@ -271,6 +1357,7 @@ async function loadAdminServices() {
       </div>
 
     `;
+
 
     container.appendChild(card);
 
@@ -285,155 +1372,151 @@ async function loadAdminServices() {
 
 document
   .getElementById("addServiceForm")
-  .addEventListener("submit", async function(event) {
+  .addEventListener(
+    "submit",
+    async function(e){
 
-    event.preventDefault();
+      e.preventDefault();
 
-    const name =
-      document
-        .getElementById("serviceName")
-        .value
-        .trim();
 
-    const description =
-      document
-        .getElementById("serviceDescription")
-        .value
-        .trim();
-
-    const price =
-      Number(
+      const name =
         document
-          .getElementById("servicePrice")
+          .getElementById("serviceName")
           .value
-      );
+          .trim();
 
-    const message =
-      document.getElementById("adminMessage");
 
-    if (!name || !Number.isFinite(price)) {
+      const description =
+        document
+          .getElementById(
+            "serviceDescription"
+          )
+          .value
+          .trim();
+
+
+      const price =
+        Number(
+          document
+            .getElementById(
+              "servicePrice"
+            )
+            .value
+        );
+
+
+      const message =
+        document.getElementById(
+          "adminMessage"
+        );
+
+
+      const {
+        data:{
+          user
+        }
+      } =
+        await supabaseClient.auth
+          .getUser();
+
+
+      if(!user){
+
+        message.textContent =
+          "Please log in.";
+
+        return;
+
+      }
+
+
+      if(!name){
+
+        message.textContent =
+          "Enter a service name.";
+
+        return;
+
+      }
+
+
+      if(!Number.isFinite(price)){
+
+        message.textContent =
+          "Enter a valid price.";
+
+        return;
+
+      }
+
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("services")
+          .insert({
+
+            name,
+
+            description,
+
+            price,
+
+            available:true
+
+          });
+
+
+      if(error){
+
+        message.textContent =
+          error.message;
+
+        console.error(error);
+
+        return;
+
+      }
+
 
       message.textContent =
-        "Enter a valid service name and price.";
+        "Service added successfully.";
 
-      return;
 
-    }
+      document
+        .getElementById(
+          "addServiceForm"
+        )
+        .reset();
 
-    const {
-      error
-    } = await supabaseClient
-      .from("services")
-      .insert({
 
-        name: name,
+      await loadAdminServices();
 
-        description: description,
-
-        price: price,
-
-        available: true
-
-      });
-
-    if (error) {
-
-      console.error(error);
-
-      message.textContent =
-        "Could not add service: " +
-        error.message;
-
-      return;
+      await loadServices();
 
     }
-
-    message.textContent =
-      "Service added successfully.";
-
-    document
-      .getElementById("addServiceForm")
-      .reset();
-
-    loadAdminServices();
-
-  });
+  );
 
 
 /* =========================================================
    EDIT SERVICE
 ========================================================= */
 
-async function editService(id) {
+async function editService(id){
 
   const {
-    data: service,
-    error: fetchError
-  } = await supabaseClient
-    .from("services")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (fetchError) {
-
-    alert(fetchError.message);
-
-    return;
-
-  }
-
-  const newName =
-    prompt(
-      "Service name:",
-      service.name
-    );
-
-  if (newName === null) return;
-
-  const newDescription =
-    prompt(
-      "Description:",
-      service.description || ""
-    );
-
-  if (newDescription === null) return;
-
-  const newPrice =
-    prompt(
-      "Price:",
-      service.price
-    );
-
-  if (newPrice === null) return;
-
-  const price =
-    Number(newPrice);
-
-  if (!Number.isFinite(price) || price < 0) {
-
-    alert("Invalid price.");
-
-    return;
-
-  }
-
-  const {
+    data:service,
     error
-  } = await supabaseClient
-    .from("services")
-    .update({
+  } =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .eq("id",id)
+      .single();
 
-      name: newName.trim(),
 
-      description: newDescription.trim(),
-
-      price: price
-
-    })
-    .eq("id", id);
-
-  if (error) {
+  if(error){
 
     alert(error.message);
 
@@ -441,9 +1524,90 @@ async function editService(id) {
 
   }
 
-  alert("Service updated.");
 
-  loadAdminServices();
+  const name =
+    prompt(
+      "Service name:",
+      service.name
+    );
+
+
+  if(name === null)
+    return;
+
+
+  const description =
+    prompt(
+      "Description:",
+      service.description || ""
+    );
+
+
+  if(description === null)
+    return;
+
+
+  const priceInput =
+    prompt(
+      "Price:",
+      service.price
+    );
+
+
+  if(priceInput === null)
+    return;
+
+
+  const price =
+    Number(priceInput);
+
+
+  if(!Number.isFinite(price)){
+
+    alert("Invalid price.");
+
+    return;
+
+  }
+
+
+  const {
+    error:updateError
+  } =
+    await supabaseClient
+      .from("services")
+      .update({
+
+        name:name.trim(),
+
+        description:
+          description.trim(),
+
+        price
+
+      })
+      .eq("id",id);
+
+
+  if(updateError){
+
+    alert(
+      updateError.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "Service updated successfully."
+  );
+
+
+  await loadAdminServices();
+
+  await loadServices();
 
 }
 
@@ -452,23 +1616,29 @@ async function editService(id) {
    DELETE SERVICE
 ========================================================= */
 
-async function deleteService(id) {
+async function deleteService(id){
 
-  const confirmed =
-    confirm(
-      "Delete this service?"
-    );
+  if(
+    !confirm(
+      "Are you sure you want to delete this service?"
+    )
+  ){
 
-  if (!confirmed) return;
+    return;
+
+  }
+
 
   const {
     error
-  } = await supabaseClient
-    .from("services")
-    .delete()
-    .eq("id", id);
+  } =
+    await supabaseClient
+      .from("services")
+      .delete()
+      .eq("id",id);
 
-  if (error) {
+
+  if(error){
 
     alert(error.message);
 
@@ -476,32 +1646,377 @@ async function deleteService(id) {
 
   }
 
-  alert("Service deleted.");
 
-  loadAdminServices();
+  alert(
+    "Service deleted."
+  );
+
+
+  await loadAdminServices();
+
+  await loadServices();
 
 }
 
 
 /* =========================================================
-   SECURITY / HTML ESCAPING
+   WALLET
 ========================================================= */
 
-function escapeHTML(value) {
+async function loadWallet(){
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth
+      .getUser();
+
+
+  if(!user)
+    return;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("wallets")
+      .select("balance")
+      .eq("user_id",user.id)
+      .maybeSingle();
+
+
+  if(error){
+
+    console.error(
+      "Wallet error:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "walletBalance"
+    )
+    .textContent =
+      "₦" +
+      Number(
+        data?.balance || 0
+      ).toLocaleString(
+        undefined,
+        {
+          minimumFractionDigits:2
+        }
+      );
+
+}
+
+
+/* =========================================================
+   MANUAL OPAY DEPOSIT
+========================================================= */
+
+document
+  .getElementById("depositForm")
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+
+      const {
+        data:{
+          user
+        }
+      } =
+        await supabaseClient.auth
+          .getUser();
+
+
+      if(!user){
+
+        alert(
+          "Please login first."
+        );
+
+        return;
+
+      }
+
+
+      const amount =
+        Number(
+          document
+            .getElementById(
+              "depositAmount"
+            )
+            .value
+        );
+
+
+      const reference =
+        document
+          .getElementById(
+            "depositReference"
+          )
+          .value
+          .trim();
+
+
+      const message =
+        document.getElementById(
+          "depositMessage"
+        );
+
+
+      if(!Number.isFinite(amount) ||
+         amount <= 0){
+
+        message.textContent =
+          "Enter a valid amount.";
+
+        return;
+
+      }
+
+
+      if(!reference){
+
+        message.textContent =
+          "Enter your OPay transaction reference.";
+
+        return;
+
+      }
+
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("deposits")
+          .insert({
+
+            user_id:user.id,
+
+            amount,
+
+            reference,
+
+            status:"pending"
+
+          });
+
+
+      if(error){
+
+        console.error(error);
+
+        message.textContent =
+          error.message;
+
+        return;
+
+      }
+
+
+      message.textContent =
+        "Deposit submitted. It is now pending admin verification.";
+
+
+      document
+        .getElementById(
+          "depositForm"
+        )
+        .reset();
+
+    }
+  );
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+let cart = [];
+
+
+async function addToCart(id){
+
+  const {
+    data:service,
+    error
+  } =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+
+  }
+
+
+  cart.push(service);
+
+
+  alert(
+    service.name +
+    " added to cart."
+  );
+
+
+  /*
+    Checkout will be connected
+    after the wallet approval system.
+  */
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  const {
+    error
+  } =
+    await supabaseClient.auth
+      .signOut();
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+
+  }
+
+
+  cart = [];
+
+  await refreshEverything();
+
+  alert(
+    "You have been logged out."
+  );
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  function(){
+
+    setTimeout(
+      refreshEverything,
+      0
+    );
+
+  }
+);
+
+
+/* =========================================================
+   REFRESH EVERYTHING
+========================================================= */
+
+async function refreshEverything(){
+
+  await loadAccount();
+
+  await loadWallet();
+
+  await checkAdmin();
+
+  await loadServices();
+
+}
+
+
+/* =========================================================
+   ACCOUNT BUTTON
+========================================================= */
+
+document
+  .getElementById("accountLink")
+  .addEventListener(
+    "click",
+    function(e){
+
+      e.preventDefault();
+
+      document
+        .getElementById(
+          "accountBox"
+        )
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
+    }
+  );
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHTML(value){
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
 /* =========================================================
-   START ADMIN CHECK
+   START
 ========================================================= */
 
-checkAdminAccess();
+refreshEverything();
+
 </script>
+
+</body>
+</html>
+``
