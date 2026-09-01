@@ -1,1151 +1,507 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- =========================================================
+     BENJO-SMS ADMIN DASHBOARD
+========================================================= -->
 
-  <title>Benjo-SMS | Digital Marketplace</title>
+<style>
+  #adminPanel {
+    display: none;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #131318;
+    border: 1px solid #292933;
+    border-radius: 16px;
+  }
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  #adminPanel h2 {
+    margin-bottom: 20px;
+  }
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+  .admin-form {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
 
-    body {
-      background: #0b0b0f;
-      color: white;
-    }
+  .admin-input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #33333d;
+    background: #0d0d12;
+    color: white;
+    outline: none;
+  }
 
-    header {
-      background: #111116;
-      border-bottom: 1px solid #25252d;
-      padding: 16px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+  .admin-button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #7c5cff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
+  .admin-button.delete {
+    background: #b83250;
+  }
 
-    .logo span {
-      color: #7c5cff;
-    }
+  .admin-services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+  }
 
-    nav {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+  .admin-service {
+    border: 1px solid #292933;
+    border-radius: 12px;
+    padding: 18px;
+    background: #101015;
+  }
 
-    nav a,
-    nav button {
-      color: #ccc;
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
+  .admin-service h3 {
+    margin-bottom: 8px;
+  }
 
-    nav a:hover,
-    nav button:hover {
-      color: white;
-    }
+  .admin-service p {
+    color: #999;
+    margin-bottom: 10px;
+  }
 
-    .login-btn {
-      background: #7c5cff !important;
-      color: white !important;
-      padding: 10px 16px;
-      border-radius: 8px;
-    }
+  .admin-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+  }
 
-    .hero {
-      padding: 80px 5%;
-      text-align: center;
-      background:
-        radial-gradient(circle at top, #21194b 0%, #0b0b0f 55%);
-    }
+  .admin-message {
+    margin-bottom: 15px;
+    color: #aaa;
+  }
+</style>
 
-    .hero h1 {
-      font-size: clamp(38px, 7vw, 70px);
-      margin-bottom: 20px;
-    }
+<section id="adminPanel">
 
-    .hero h1 span {
-      color: #7c5cff;
-    }
+  <h2>👑 Benjo-SMS Admin Dashboard</h2>
 
-    .hero p {
-      color: #aaa;
-      max-width: 650px;
-      margin: auto;
-      line-height: 1.7;
-      font-size: 17px;
-    }
+  <p class="admin-message" id="adminMessage"></p>
 
-    .hero-buttons {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+  <h3>Add Service</h3>
 
-    .primary-btn,
-    .secondary-btn {
-      padding: 13px 22px;
-      border-radius: 9px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .primary-btn {
-      background: #7c5cff;
-      color: white;
-      border: none;
-    }
-
-    .secondary-btn {
-      background: transparent;
-      border: 1px solid #33333d;
-      color: white;
-    }
-
-    .section {
-      padding: 55px 5%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .section-title h2 {
-      font-size: 28px;
-    }
-
-    .search {
-      background: #15151b;
-      border: 1px solid #2b2b34;
-      color: white;
-      padding: 12px 15px;
-      border-radius: 8px;
-      width: 240px;
-      outline: none;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 14px;
-      padding: 20px;
-      transition: .2s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #7c5cff;
-    }
-
-    .card-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: #211b40;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 18px;
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      color: #999;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-
-    .price {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .buy-btn {
-      width: 100%;
-      border: none;
-      background: #7c5cff;
-      color: white;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-
-    .feature {
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 12px;
-      padding: 22px;
-    }
-
-    .feature h3 {
-      margin: 10px 0;
-    }
-
-    .feature p {
-      color: #999;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    footer {
-      border-top: 1px solid #25252d;
-      background: #0e0e12;
-      padding: 30px 5%;
-      text-align: center;
-      color: #777;
-      margin-top: 40px;
-    }
-
-    .cart {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background: #7c5cff;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(0,0,0,.4);
-    }
-
-    #cartCount {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ff3b6b;
-      width: 21px;
-      height: 21px;
-      border-radius: 50%;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.75);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 420px;
-      background: #15151b;
-      border: 1px solid #2b2b34;
-      border-radius: 16px;
-      padding: 25px;
-      position: relative;
-    }
-
-    .modal-box h2 {
-      margin-bottom: 20px;
-    }
-
-    .close {
-      position: absolute;
-      right: 18px;
-      top: 15px;
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 25px;
-      cursor: pointer;
-    }
-
-    .input {
-      width: 100%;
-      padding: 13px;
-      margin-bottom: 12px;
-      background: #0d0d12;
-      color: white;
-      border: 1px solid #30303a;
-      border-radius: 8px;
-      outline: none;
-    }
-
-    .auth-btn {
-      width: 100%;
-      padding: 13px;
-      background: #7c5cff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-
-    .switch {
-      text-align: center;
-      margin-top: 15px;
-      color: #999;
-      font-size: 14px;
-    }
-
-    .switch span {
-      color: #9a82ff;
-      cursor: pointer;
-    }
-
-    .message {
-      margin-bottom: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .account-box {
-      display: none;
-      background: #131318;
-      border: 1px solid #25252e;
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .account-box p {
-      color: #aaa;
-      margin: 8px 0;
-    }
-
-    .logout-btn {
-      margin-top: 15px;
-      padding: 10px 15px;
-      background: #25252e;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    @media (max-width: 650px) {
-      nav a:not(.login-btn) {
-        display: none;
-      }
-
-      .hero {
-        padding: 60px 5%;
-      }
-
-      .search {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <div class="logo">Benjo<span>-SMS</span></div>
-
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#products">Marketplace</a>
-    <a href="#features">Features</a>
-    <a href="#" id="accountNav" style="display:none;">Account</a>
-    <a href="#" class="login-btn" id="loginNav">Login</a>
-  </nav>
-</header>
-
-<section class="hero" id="home">
-  <h1>Welcome to <span>Benjo-SMS</span></h1>
-
-  <p>
-    Your simple and secure digital marketplace.
-    Browse available products, choose what you need,
-    and place your order with ease.
-  </p>
-
-  <div class="hero-buttons">
-    <a href="#products" class="primary-btn">Browse Marketplace</a>
-    <button class="secondary-btn" onclick="openAuth('register')">
-      Create Account
-    </button>
-  </div>
-
-  <div class="account-box" id="accountBox">
-    <h2>My Account</h2>
-    <p id="accountName"></p>
-    <p id="accountEmail"></p>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
-</section>
-
-<section class="section" id="products">
-
-  <div class="section-title">
-    <h2>Marketplace</h2>
+  <form class="admin-form" id="addServiceForm">
 
     <input
+      class="admin-input"
+      id="serviceName"
       type="text"
-      class="search"
-      id="search"
-      placeholder="Search products..."
-      onkeyup="searchProducts()"
+      placeholder="Service name"
+      required
     >
-  </div>
 
-  <div class="products">
+    <textarea
+      class="admin-input"
+      id="serviceDescription"
+      placeholder="Service description"
+      rows="4"
+    ></textarea>
 
-    <div class="card" data-name="Digital Service">
-      <div class="card-icon">📱</div>
-      <h3>Digital Service</h3>
-      <p>Example marketplace product.</p>
-      <div class="price">₦5,000</div>
-      <button class="buy-btn" onclick="addToCart('Digital Service', 5000)">
-        Add to Cart
-      </button>
-    </div>
+    <input
+      class="admin-input"
+      id="servicePrice"
+      type="number"
+      min="0"
+      step="0.01"
+      placeholder="Price in ₦"
+      required
+    >
 
-    <div class="card" data-name="Premium Service">
-      <div class="card-icon">⭐</div>
-      <h3>Premium Service</h3>
-      <p>Example premium digital service.</p>
-      <div class="price">₦10,000</div>
-      <button class="buy-btn" onclick="addToCart('Premium Service', 10000)">
-        Add to Cart
-      </button>
-    </div>
+    <button
+      class="admin-button"
+      type="submit"
+    >
+      ➕ Add Service
+    </button>
 
-    <div class="card" data-name="Business Service">
-      <div class="card-icon">💼</div>
-      <h3>Business Service</h3>
-      <p>Example business-focused service.</p>
-      <div class="price">₦15,000</div>
-      <button class="buy-btn" onclick="addToCart('Business Service', 15000)">
-        Add to Cart
-      </button>
-    </div>
+  </form>
 
-    <div class="card" data-name="Custom Service">
-      <div class="card-icon">⚡</div>
-      <h3>Custom Service</h3>
-      <p>Example custom digital service.</p>
-      <div class="price">₦20,000</div>
-      <button class="buy-btn" onclick="addToCart('Custom Service', 20000)">
-        Add to Cart
-      </button>
-    </div>
+  <h3>Services</h3>
 
-  </div>
+  <br>
+
+  <div
+    class="admin-services"
+    id="adminServices"
+  ></div>
+
 </section>
 
-<section class="section" id="features">
-
-  <div class="section-title">
-    <h2>Why Benjo-SMS?</h2>
-  </div>
-
-  <div class="features">
-
-    <div class="feature">
-      <div>🔐</div>
-      <h3>Secure</h3>
-      <p>Customer authentication and protected profile data.</p>
-    </div>
-
-    <div class="feature">
-      <div>⚡</div>
-      <h3>Fast</h3>
-      <p>Simple customer registration and login.</p>
-    </div>
-
-    <div class="feature">
-      <div>📦</div>
-      <h3>Order Tracking</h3>
-      <p>Customer orders can be connected to their account.</p>
-    </div>
-
-    <div class="feature">
-      <div>⚙️</div>
-      <h3>Admin Control</h3>
-      <p>Admin products and order management will be added next.</p>
-    </div>
-
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 Benjo-SMS. All rights reserved.</p>
-</footer>
-
-<div class="cart" onclick="viewCart()">
-  🛒
-  <span id="cartCount">0</span>
-</div>
-
-<!-- AUTH MODAL -->
-
-<div class="modal" id="authModal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeAuth()">×</button>
-
-    <h2 id="authTitle">Login</h2>
-
-    <div class="message" id="authMessage"></div>
-
-    <form id="authForm">
-
-      <input
-        class="input"
-        id="fullName"
-        type="text"
-        placeholder="Full name"
-        style="display:none;"
-      >
-
-      <input
-        class="input"
-        id="email"
-        type="email"
-        placeholder="Email address"
-        required
-      >
-
-      <input
-        class="input"
-        id="password"
-        type="password"
-        placeholder="Password"
-        minlength="6"
-        required
-      >
-
-      <button class="auth-btn" type="submit" id="authSubmit">
-        Login
-      </button>
-
-    </form>
-
-    <div class="switch">
-      <span id="switchText">Don't have an account?</span>
-      <span id="switchAction" onclick="switchAuth()"> Register</span>
-    </div>
-
-  </div>
-</div>
 
 <script>
-  // ============================================================
-  // SUPABASE CONFIGURATION
-  // ============================================================
+/* =========================================================
+   ADMIN DASHBOARD
+========================================================= */
 
-  const SUPABASE_URL =
-    "https://zwefikwlxgphufilgcyc.supabase.co";
+async function checkAdminAccess() {
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-
-  const { createClient } =
-    window.supabase;
-
-  const supabaseClient =
-    createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-
-  // ============================================================
-  // AUTH STATE
-  // ============================================================
-
-  let authMode = "login";
-  let cart = [];
-
-
-  // ============================================================
-  // AUTH MODAL
-  // ============================================================
-
-  function openAuth(mode = "login") {
-
-    authMode = mode;
-
-    document.getElementById("authModal").style.display = "flex";
-
-    updateAuthForm();
-
-    document.getElementById("authMessage").textContent = "";
-
-  }
-
-
-  function closeAuth() {
-
-    document.getElementById("authModal").style.display = "none";
-
-    document.getElementById("authForm").reset();
-
-    document.getElementById("authMessage").textContent = "";
-
-  }
-
-
-  function switchAuth() {
-
-    authMode =
-      authMode === "login"
-        ? "register"
-        : "login";
-
-    updateAuthForm();
-
-  }
-
-
-  function updateAuthForm() {
-
-    const title =
-      document.getElementById("authTitle");
-
-    const fullName =
-      document.getElementById("fullName");
-
-    const submit =
-      document.getElementById("authSubmit");
-
-    const switchText =
-      document.getElementById("switchText");
-
-    const switchAction =
-      document.getElementById("switchAction");
-
-    if (authMode === "register") {
-
-      title.textContent = "Create Account";
-
-      fullName.style.display = "block";
-
-      fullName.required = true;
-
-      submit.textContent = "Create Account";
-
-      switchText.textContent =
-        "Already have an account?";
-
-      switchAction.textContent =
-        " Login";
-
-    } else {
-
-      title.textContent = "Login";
-
-      fullName.style.display = "none";
-
-      fullName.required = false;
-
-      submit.textContent = "Login";
-
-      switchText.textContent =
-        "Don't have an account?";
-
-      switchAction.textContent =
-        " Register";
-
+  const {
+    data: {
+      user
     }
+  } = await supabaseClient.auth.getUser();
 
+  if (!user) {
+    document.getElementById("adminPanel").style.display = "none";
+    return;
   }
 
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("Benjosms")
+    .select("is_admin")
+    .eq("id", user.id)
+    .maybeSingle();
 
-  // ============================================================
-  // REGISTER / LOGIN
-  // ============================================================
+  if (error) {
+    console.error("Admin check error:", error);
+    return;
+  }
 
-  document
-    .getElementById("authForm")
-    .addEventListener("submit", async function(event) {
+  if (data && data.is_admin === true) {
 
-      event.preventDefault();
+    document.getElementById("adminPanel").style.display = "block";
 
-      const email =
-        document
-          .getElementById("email")
-          .value
-          .trim();
+    loadAdminServices();
 
-      const password =
-        document
-          .getElementById("password")
-          .value;
+  } else {
 
-      const fullName =
-        document
-          .getElementById("fullName")
-          .value
-          .trim();
+    document.getElementById("adminPanel").style.display = "none";
 
-      const message =
-        document
-          .getElementById("authMessage");
-
-      const button =
-        document
-          .getElementById("authSubmit");
-
-      message.textContent = "";
-
-      button.disabled = true;
-
-      button.textContent = "Please wait...";
+  }
+}
 
 
-      try {
+/* =========================================================
+   LOAD SERVICES
+========================================================= */
 
-        if (authMode === "register") {
+async function loadAdminServices() {
 
-          if (!fullName) {
-            throw new Error("Please enter your full name.");
-          }
+  const container =
+    document.getElementById("adminServices");
 
-          const {
-            data,
-            error
-          } =
-            await supabaseClient.auth.signUp({
+  container.innerHTML =
+    "<p>Loading services...</p>";
 
-              email: email,
-
-              password: password,
-
-              options: {
-                data: {
-                  full_name: fullName
-                }
-              }
-
-            });
-
-
-          if (error) {
-            throw error;
-          }
-
-
-          /*
-            If email confirmation is enabled,
-            Supabase may return a user without
-            creating an active session.
-          */
-
-          if (data.user && !data.session) {
-
-            message.textContent =
-              "Account created. Check your email and confirm your email address before logging in.";
-
-            button.disabled = false;
-
-            button.textContent =
-              "Create Account";
-
-            return;
-
-          }
-
-
-          if (data.user) {
-
-            await createProfile(
-              data.user,
-              fullName
-            );
-
-            message.textContent =
-              "Account created successfully.";
-
-            closeAuth();
-
-            await loadAccount();
-
-          }
-
-        } else {
-
-          const {
-            data,
-            error
-          } =
-            await supabaseClient.auth.signInWithPassword({
-
-              email: email,
-
-              password: password
-
-            });
-
-
-          if (error) {
-            throw error;
-          }
-
-
-          if (data.user) {
-
-            await loadAccount();
-
-            closeAuth();
-
-            alert("Login successful!");
-
-          }
-
-        }
-
-      } catch (error) {
-
-        message.textContent =
-          error.message || "Something went wrong.";
-
-      } finally {
-
-        button.disabled = false;
-
-        button.textContent =
-          authMode === "register"
-            ? "Create Account"
-            : "Login";
-
-      }
-
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("services")
+    .select("*")
+    .order("created_at", {
+      ascending: false
     });
 
+  if (error) {
 
-  // ============================================================
-  // CREATE PROFILE
-  // ============================================================
+    container.innerHTML =
+      "<p>Could not load services.</p>";
 
-  async function createProfile(user, fullName) {
+    console.error(error);
+
+    return;
+
+  }
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<p>No services yet.</p>";
+
+    return;
+
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(service => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "admin-service";
+
+    card.innerHTML = `
+
+      <h3>${escapeHTML(service.name)}</h3>
+
+      <p>
+        ${escapeHTML(service.description || "")}
+      </p>
+
+      <strong>
+        ₦${Number(service.price).toLocaleString()}
+      </strong>
+
+      <p>
+        Status:
+        ${service.available ? "Available" : "Hidden"}
+      </p>
+
+      <div class="admin-actions">
+
+        <button
+          class="admin-button"
+          onclick="editService('${service.id}')"
+        >
+          ✏️ Edit
+        </button>
+
+        <button
+          class="admin-button delete"
+          onclick="deleteService('${service.id}')"
+        >
+          🗑️ Delete
+        </button>
+
+      </div>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   ADD SERVICE
+========================================================= */
+
+document
+  .getElementById("addServiceForm")
+  .addEventListener("submit", async function(event) {
+
+    event.preventDefault();
 
     const name =
-      fullName ||
-      user.user_metadata?.full_name ||
-      "";
+      document
+        .getElementById("serviceName")
+        .value
+        .trim();
 
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("profiles")
-        .upsert({
+    const description =
+      document
+        .getElementById("serviceDescription")
+        .value
+        .trim();
 
-          id: user.id,
-
-          full_name: name,
-
-          email: user.email
-
-        }, {
-
-          onConflict: "id"
-
-        });
-
-
-    if (error) {
-      console.error("Profile error:", error);
-    }
-
-  }
-
-
-  // ============================================================
-  // LOAD CUSTOMER ACCOUNT
-  // ============================================================
-
-  async function loadAccount() {
-
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient.auth.getUser();
-
-
-    const loginNav =
-      document.getElementById("loginNav");
-
-    const accountNav =
-      document.getElementById("accountNav");
-
-    const accountBox =
-      document.getElementById("accountBox");
-
-
-    if (!user) {
-
-      loginNav.style.display = "block";
-
-      accountNav.style.display = "none";
-
-      accountBox.style.display = "none";
-
-      return;
-
-    }
-
-
-    loginNav.style.display = "none";
-
-    accountNav.style.display = "block";
-
-    accountBox.style.display = "block";
-
-
-    document.getElementById("accountName")
-      .textContent =
-      "Name: " +
-      (
-        user.user_metadata?.full_name ||
-        "Customer"
+    const price =
+      Number(
+        document
+          .getElementById("servicePrice")
+          .value
       );
 
+    const message =
+      document.getElementById("adminMessage");
 
-    document.getElementById("accountEmail")
-      .textContent =
-      "Email: " +
-      user.email;
+    if (!name || !Number.isFinite(price)) {
 
-  }
+      message.textContent =
+        "Enter a valid service name and price.";
 
+      return;
 
-  // ============================================================
-  // LOGOUT
-  // ============================================================
-
-  async function logout() {
+    }
 
     const {
       error
-    } =
-      await supabaseClient.auth.signOut();
+    } = await supabaseClient
+      .from("services")
+      .insert({
 
+        name: name,
+
+        description: description,
+
+        price: price,
+
+        available: true
+
+      });
 
     if (error) {
 
-      alert(error.message);
+      console.error(error);
+
+      message.textContent =
+        "Could not add service: " +
+        error.message;
 
       return;
 
     }
 
+    message.textContent =
+      "Service added successfully.";
 
-    loadAccount();
+    document
+      .getElementById("addServiceForm")
+      .reset();
 
-    alert("You have been logged out.");
+    loadAdminServices();
+
+  });
+
+
+/* =========================================================
+   EDIT SERVICE
+========================================================= */
+
+async function editService(id) {
+
+  const {
+    data: service,
+    error: fetchError
+  } = await supabaseClient
+    .from("services")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) {
+
+    alert(fetchError.message);
+
+    return;
 
   }
 
+  const newName =
+    prompt(
+      "Service name:",
+      service.name
+    );
 
-  // ============================================================
-  // AUTH STATE LISTENER
-  // ============================================================
+  if (newName === null) return;
 
-  supabaseClient.auth.onAuthStateChange(
-    function(event, session) {
+  const newDescription =
+    prompt(
+      "Description:",
+      service.description || ""
+    );
 
-      loadAccount();
+  if (newDescription === null) return;
 
-    }
-  );
+  const newPrice =
+    prompt(
+      "Price:",
+      service.price
+    );
 
+  if (newPrice === null) return;
 
-  // ============================================================
-  // MARKETPLACE
-  // ============================================================
+  const price =
+    Number(newPrice);
 
-  function addToCart(name, price) {
+  if (!Number.isFinite(price) || price < 0) {
 
-    cart.push({
-      name: name,
+    alert("Invalid price.");
+
+    return;
+
+  }
+
+  const {
+    error
+  } = await supabaseClient
+    .from("services")
+    .update({
+
+      name: newName.trim(),
+
+      description: newDescription.trim(),
+
       price: price
-    });
 
-    document.getElementById("cartCount")
-      .textContent = cart.length;
+    })
+    .eq("id", id);
 
-    alert(
-      name +
-      " added to cart."
-    );
+  if (error) {
 
-  }
+    alert(error.message);
 
-
-  function viewCart() {
-
-    if (cart.length === 0) {
-
-      alert("Your cart is empty.");
-
-      return;
-
-    }
-
-
-    let total = 0;
-
-    let message =
-      "Your Cart:\n\n";
-
-
-    cart.forEach(function(item, index) {
-
-      total += item.price;
-
-      message +=
-        (index + 1) +
-        ". " +
-        item.name +
-        " - ₦" +
-        item.price.toLocaleString() +
-        "\n";
-
-    });
-
-
-    message +=
-      "\nTotal: ₦" +
-      total.toLocaleString();
-
-
-    alert(message);
+    return;
 
   }
 
+  alert("Service updated.");
 
-  function searchProducts() {
+  loadAdminServices();
 
-    const search =
-      document
-        .getElementById("search")
-        .value
-        .toLowerCase();
+}
 
 
-    const cards =
-      document.querySelectorAll(".card");
+/* =========================================================
+   DELETE SERVICE
+========================================================= */
 
+async function deleteService(id) {
 
-    cards.forEach(function(card) {
+  const confirmed =
+    confirm(
+      "Delete this service?"
+    );
 
-      const name =
-        card.dataset.name
-          .toLowerCase();
+  if (!confirmed) return;
 
+  const {
+    error
+  } = await supabaseClient
+    .from("services")
+    .delete()
+    .eq("id", id);
 
-      card.style.display =
-        name.includes(search)
-          ? "block"
-          : "none";
+  if (error) {
 
-    });
+    alert(error.message);
+
+    return;
 
   }
 
+  alert("Service deleted.");
 
-  // ============================================================
-  // BUTTONS
-  // ============================================================
+  loadAdminServices();
 
-  document
-    .getElementById("loginNav")
-    .addEventListener(
-      "click",
-      function(event) {
-
-        event.preventDefault();
-
-        openAuth("login");
-
-      }
-    );
+}
 
 
-  document
-    .getElementById("accountNav")
-    .addEventListener(
-      "click",
-      function(event) {
+/* =========================================================
+   SECURITY / HTML ESCAPING
+========================================================= */
 
-        event.preventDefault();
+function escapeHTML(value) {
 
-        document
-          .getElementById("accountBox")
-          .scrollIntoView({
-            behavior: "smooth"
-          });
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
-      }
-    );
+}
 
 
-  // ============================================================
-  // INITIAL LOAD
-  // ============================================================
+/* =========================================================
+   START ADMIN CHECK
+========================================================= */
 
-  loadAccount();
-
+checkAdminAccess();
 </script>
-
-</body>
-</html>
