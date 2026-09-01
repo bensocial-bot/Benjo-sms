@@ -4,23 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#111827">
+
 <title>Benjo-SMS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box}
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 font-family:Arial,sans-serif;
 background:linear-gradient(135deg,#020617,#111827,#312e81);
 color:#111827;
-min-height:100vh
+min-height:100vh;
 }
 
-button,input,textarea,select{
-font:inherit
+button,
+input,
+textarea,
+select{
+font:inherit;
 }
 
 button{
@@ -28,24 +34,33 @@ border:0;
 border-radius:10px;
 padding:12px 16px;
 cursor:pointer;
-font-weight:700
+font-weight:700;
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
 width:100%;
 padding:13px;
 margin:6px 0 12px;
 border:1px solid #d1d5db;
 border-radius:10px;
-background:white
+background:white;
 }
 
 textarea{
-min-height:120px
+min-height:120px;
+resize:vertical;
+}
+
+label{
+font-weight:700;
+display:block;
+margin-top:5px;
 }
 
 header{
-background:rgba(2,6,23,.96);
+background:rgba(2,6,23,.97);
 color:white;
 padding:14px 18px;
 display:flex;
@@ -53,7 +68,7 @@ justify-content:space-between;
 align-items:center;
 position:sticky;
 top:0;
-z-index:100
+z-index:100;
 }
 
 .logo{
@@ -61,7 +76,7 @@ display:flex;
 align-items:center;
 gap:10px;
 font-size:22px;
-font-weight:900
+font-weight:900;
 }
 
 .logo-icon{
@@ -72,13 +87,13 @@ display:flex;
 align-items:center;
 justify-content:center;
 background:linear-gradient(135deg,#6366f1,#06b6d4);
-color:white
+color:white;
 }
 
 .container{
 max-width:1100px;
 margin:auto;
-padding:20px 15px 110px
+padding:20px 15px 110px;
 }
 
 .card{
@@ -86,109 +101,114 @@ background:white;
 border-radius:18px;
 padding:20px;
 margin-bottom:18px;
-box-shadow:0 10px 30px rgba(0,0,0,.2)
+box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
 .auth-card{
 max-width:450px;
-margin:40px auto
+margin:40px auto;
 }
 
 .hero{
 color:white;
 text-align:center;
-padding:30px 10px
+padding:30px 10px;
 }
 
 .hero h1{
 font-size:40px;
-margin:5px
+margin:5px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:16px
+gap:16px;
 }
 
 .service{
 border:1px solid #e5e7eb;
 border-radius:15px;
 padding:18px;
-background:#fff
+background:#fff;
 }
 
 .service-icon{
 font-size:38px;
-margin-bottom:8px
+margin-bottom:8px;
 }
 
 .price{
 font-size:25px;
 font-weight:900;
-margin:12px 0
+margin:12px 0;
 }
 
 .balance{
 font-size:34px;
-font-weight:900
+font-weight:900;
 }
 
 .nav{
 display:flex;
 flex-wrap:wrap;
 gap:7px;
-margin-bottom:18px
+margin-bottom:18px;
+}
+
+.nav button{
+flex:1;
+min-width:100px;
 }
 
 .category-nav{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
 gap:8px;
-margin-bottom:18px
+margin-bottom:18px;
 }
 
 .category-nav button{
 background:#f3f4f6;
-color:#111827
+color:#111827;
 }
 
 .category-nav button.active{
 background:#4f46e5;
-color:white
+color:white;
 }
 
 .primary{
 background:#4f46e5;
-color:white
+color:white;
 }
 
 .success{
 background:#16a34a;
-color:white
+color:white;
 }
 
 .danger{
 background:#dc2626;
-color:white
+color:white;
 }
 
 .secondary{
 background:#e5e7eb;
-color:#111827
+color:#111827;
 }
 
 .full{
-width:100%
+width:100%;
 }
 
 .hidden{
-display:none!important
+display:none!important;
 }
 
 .small{
 font-size:13px;
-color:#6b7280
+color:#6b7280;
 }
 
 .success-box{
@@ -197,7 +217,7 @@ border:1px solid #86efac;
 color:#166534;
 padding:15px;
 border-radius:12px;
-margin-bottom:15px
+margin-bottom:15px;
 }
 
 .error-box{
@@ -206,7 +226,7 @@ border:1px solid #fca5a5;
 color:#991b1b;
 padding:15px;
 border-radius:12px;
-margin-bottom:15px
+margin-bottom:15px;
 }
 
 .delivery{
@@ -215,14 +235,15 @@ border:1px solid #86efac;
 padding:15px;
 border-radius:12px;
 white-space:pre-wrap;
-word-break:break-word
+word-break:break-word;
+margin-top:12px;
 }
 
 .order{
 border:1px solid #e5e7eb;
 border-radius:14px;
 padding:16px;
-margin-bottom:12px
+margin-bottom:12px;
 }
 
 .badge{
@@ -231,20 +252,22 @@ background:#e5e7eb;
 padding:5px 10px;
 border-radius:20px;
 font-size:12px;
-font-weight:700
+font-weight:700;
 }
 
 .payment-box{
 background:#f3f4f6;
 border-radius:14px;
 padding:18px;
-margin-top:15px
+margin-top:15px;
 }
 
 .account-number{
 font-size:25px;
 font-weight:900;
-letter-spacing:1px
+letter-spacing:1px;
+display:block;
+margin:8px 0 14px;
 }
 
 .direct-chat{
@@ -252,24 +275,24 @@ background:#eef2ff;
 border:1px solid #c7d2fe;
 border-radius:15px;
 padding:18px;
-margin-top:15px
+margin-top:15px;
 }
 
 .chat-buttons{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
-margin-top:12px
+margin-top:12px;
 }
 
 .telegram{
 background:#229ed9;
-color:white
+color:white;
 }
 
 .whatsapp{
 background:#25d366;
-color:white
+color:white;
 }
 
 .info-card{
@@ -277,7 +300,7 @@ background:linear-gradient(135deg,#eef2ff,#f0fdfa);
 border:1px solid #c7d2fe;
 border-radius:16px;
 padding:18px;
-margin-bottom:18px
+margin-bottom:18px;
 }
 
 .support-button{
@@ -294,7 +317,7 @@ align-items:center;
 justify-content:center;
 font-size:25px;
 box-shadow:0 8px 25px rgba(0,0,0,.35);
-z-index:9998
+z-index:9998;
 }
 
 .support-menu{
@@ -306,17 +329,17 @@ background:white;
 padding:10px;
 border-radius:14px;
 box-shadow:0 8px 30px rgba(0,0,0,.3);
-z-index:9999
+z-index:9999;
 }
 
 .support-menu a{
-text-decoration:none
+text-decoration:none;
 }
 
 .support-menu button{
 width:100%;
 margin:4px 0;
-color:white
+color:white;
 }
 
 .proof-image{
@@ -326,7 +349,7 @@ object-fit:contain;
 background:#000;
 border-radius:12px;
 display:block;
-margin-top:10px
+margin-top:10px;
 }
 
 #toast{
@@ -340,35 +363,83 @@ color:white;
 padding:14px;
 border-radius:12px;
 text-align:center;
-z-index:10001
+z-index:10001;
 }
 
 .admin-title{
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:10px
+gap:10px;
 }
 
 .admin-service{
 border:1px solid #e5e7eb;
 border-radius:14px;
 padding:16px;
-margin-bottom:12px
+margin-bottom:12px;
+}
+
+.empty{
+padding:20px;
+background:#f9fafb;
+border-radius:12px;
+text-align:center;
+color:#6b7280;
+}
+
+.status-pending{
+background:#fef3c7;
+color:#92400e;
+}
+
+.status-approved{
+background:#dcfce7;
+color:#166534;
+}
+
+.status-rejected{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.copy-row{
+display:flex;
+gap:8px;
+align-items:center;
+}
+
+.copy-row button{
+white-space:nowrap;
 }
 
 @media(max-width:600px){
+
 .hero h1{
-font-size:32px
+font-size:32px;
 }
 
 .chat-buttons{
-grid-template-columns:1fr
+grid-template-columns:1fr;
 }
 
 .account-number{
-font-size:22px
+font-size:22px;
 }
+
+.copy-row{
+display:block;
+}
+
+.copy-row button{
+width:100%;
+margin-top:5px;
+}
+
+.nav button{
+flex:auto;
+}
+
 }
 </style>
 </head>
@@ -389,7 +460,7 @@ font-size:22px
 <div class="container">
 
 <!-- =====================================================
-AUTH
+AUTH SECTION
 ===================================================== -->
 
 <section id="authSection">
@@ -401,7 +472,7 @@ AUTH
 
 <div id="verificationSuccess" class="success-box hidden">
 
-Email verification successful! 🎉
+<strong>Email verification successful! 🎉</strong>
 
 <p>
 Your email has been verified successfully.
@@ -424,17 +495,21 @@ Continue to Login
 
 <h2>Login</h2>
 
+<label>Email</label>
+
 <input
 id="loginEmail"
 type="email"
-placeholder="Email"
+placeholder="Enter your email"
 autocomplete="email"
 >
+
+<label>Password</label>
 
 <input
 id="loginPassword"
 type="password"
-placeholder="Password"
+placeholder="Enter your password"
 autocomplete="current-password"
 >
 
@@ -471,17 +546,21 @@ Forgot Password?
 
 <h2>Create Account</h2>
 
+<label>Email</label>
+
 <input
 id="registerEmail"
 type="email"
-placeholder="Email"
+placeholder="Enter your email"
 autocomplete="email"
 >
+
+<label>Password</label>
 
 <input
 id="registerPassword"
 type="password"
-placeholder="Password"
+placeholder="Create a password"
 autocomplete="new-password"
 >
 
@@ -510,13 +589,15 @@ Back to Login
 <h2>Forgot Password?</h2>
 
 <p class="small">
-Enter your email and we'll send you a reset link.
+Enter your email and we'll send you a password reset link.
 </p>
+
+<label>Email</label>
 
 <input
 id="forgotEmail"
 type="email"
-placeholder="Email"
+placeholder="Enter your email"
 >
 
 <button
@@ -543,11 +624,15 @@ Back to Login
 
 <h2>New Password</h2>
 
+<label>New Password</label>
+
 <input
 id="newPassword"
 type="password"
 placeholder="New password"
 >
+
+<label>Confirm Password</label>
 
 <input
 id="confirmPassword"
@@ -565,6 +650,7 @@ Update Password
 </div>
 
 </section>
+
 
 <!-- =====================================================
 USER APP
@@ -604,6 +690,7 @@ Orders
 
 </div>
 
+
 <!-- HOME -->
 
 <div id="homePage">
@@ -613,7 +700,7 @@ Orders
 <h2>Welcome to Benjo-SMS 👋</h2>
 
 <p>
-Buy social media accounts or contact admin for boosting and number verification.
+Buy social media accounts using your wallet or contact admin for boosting and number verification.
 </p>
 
 <button
@@ -624,6 +711,7 @@ Browse Services
 </button>
 
 </div>
+
 
 <div class="grid">
 
@@ -644,6 +732,7 @@ View Accounts
 
 </div>
 
+
 <div class="info-card">
 
 <h3>🚀 Boosting</h3>
@@ -654,12 +743,13 @@ Need followers, likes, views or other boosting services?
 
 <button
 class="primary full"
-onclick="openCategory('boosting')"
+onclick="chatAdmin('boosting')"
 >
-Chat Admin
+💬 Chat Admin
 </button>
 
 </div>
+
 
 <div class="info-card">
 
@@ -671,14 +761,15 @@ Contact admin directly for number verification.
 
 <button
 class="success full"
-onclick="openCategory('verification')"
+onclick="chatAdmin('verification')"
 >
-Chat Admin
+💬 Chat Admin
 </button>
 
 </div>
 
 </div>
+
 
 <div class="card">
 
@@ -694,6 +785,7 @@ class="balance"
 </div>
 
 </div>
+
 
 <!-- SERVICES -->
 
@@ -775,6 +867,7 @@ Loading...
 
 </div>
 
+
 <!-- WALLET -->
 
 <div id="walletPage" class="hidden">
@@ -795,6 +888,7 @@ class="balance"
 </div>
 
 </div>
+
 
 <!-- OPAY -->
 
@@ -819,8 +913,10 @@ Toluwani Awe / BenjoSMS
 </p>
 
 <p>
+<strong>Account Number</strong>
+</p>
 
-<strong>Account Number</strong><br>
+<div class="copy-row">
 
 <span
 id="accountNumber"
@@ -829,18 +925,19 @@ class="account-number"
 6550518571
 </span>
 
-</p>
-
 <button
-class="primary full"
+class="primary"
 onclick="copyAccountNumber()"
 >
-📋 Copy Account Number
+Copy
 </button>
 
 </div>
 
 </div>
+
+</div>
+
 
 <!-- DEPOSIT -->
 
@@ -856,6 +953,7 @@ Amount Paid
 id="depositAmount"
 type="number"
 min="1"
+step="0.01"
 placeholder="Enter amount"
 >
 
@@ -870,7 +968,7 @@ accept="image/jpeg,image/png,image/webp"
 >
 
 <p class="small">
-Upload a clear screenshot of your payment receipt.
+Upload a clear screenshot of your payment receipt. Maximum 8MB.
 </p>
 
 <button
@@ -881,6 +979,7 @@ onclick="submitDeposit()"
 </button>
 
 </div>
+
 
 <!-- MY DEPOSITS -->
 
@@ -896,6 +995,7 @@ Loading...
 
 </div>
 
+
 <!-- ORDERS -->
 
 <div id="ordersPage" class="hidden">
@@ -905,7 +1005,7 @@ Loading...
 <h2>My Orders</h2>
 
 <p class="small">
-Your purchased account login information will appear here immediately after successful payment.
+Your purchased account login information will appear here automatically after a successful purchase.
 </p>
 
 <div id="ordersList">
@@ -918,8 +1018,9 @@ Loading...
 
 </section>
 
+
 <!-- =====================================================
-ADMIN
+ADMIN APP
 ===================================================== -->
 
 <section id="adminApp" class="hidden">
@@ -963,6 +1064,7 @@ Orders
 
 </div>
 
+
 <!-- ADMIN SERVICES -->
 
 <div id="adminServicesPage">
@@ -972,7 +1074,10 @@ Orders
 <h2>Add Service</h2>
 
 <p class="small">
-For account listings, enter the account login information in the delivery field. For boosting and verification, users will be directed to chat with admin.
+For account listings, use names such as:
+Facebook Account, Instagram Account, TikTok Account or Twitter Account.
+For boosting, use names containing "Boosting".
+For number verification, use "Number Verification".
 </p>
 
 <label>
@@ -998,12 +1103,12 @@ placeholder="Example: 5000"
 >
 
 <label>
-Service Description
+Description
 </label>
 
 <textarea
 id="serviceDescription"
-placeholder="Example: Facebook account with login details"
+placeholder="Service description"
 ></textarea>
 
 <label>
@@ -1012,17 +1117,22 @@ Login / Delivery Information
 
 <textarea
 id="serviceDelivery"
-placeholder="Example: Email: example@email.com&#10;Password: Example123&#10;&#10;For boosting/verification, you can enter admin instructions."
+placeholder="For accounts: enter login information here"
 ></textarea>
 
+<p class="small">
+For Boosting and Number Verification, the delivery information is not used for the purchase because the user is sent directly to admin.
+</p>
+
 <button
-class="success full"
+class="success"
 onclick="addService()"
 >
 ➕ Add Service
 </button>
 
 </div>
+
 
 <div class="card">
 
@@ -1035,6 +1145,7 @@ Loading...
 </div>
 
 </div>
+
 
 <!-- ADMIN DEPOSITS -->
 
@@ -1054,6 +1165,7 @@ Loading...
 </div>
 
 </div>
+
 
 <!-- ADMIN ORDERS -->
 
@@ -1078,6 +1190,7 @@ Loading...
 
 </div>
 
+
 <!-- =====================================================
 SUPPORT
 ===================================================== -->
@@ -1099,6 +1212,7 @@ Telegram Support
 
 </a>
 
+
 <a
 href="https://wa.me/2347019999529"
 target="_blank"
@@ -1113,6 +1227,7 @@ WhatsApp Support
 
 </div>
 
+
 <div
 class="support-button"
 onclick="toggleSupport()"
@@ -1121,12 +1236,14 @@ title="Support"
 💬
 </div>
 
+
 <div id="toast"></div>
+
 
 <script>
 
 /* =====================================================
-SUPABASE
+SUPABASE CONFIG
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1141,10 +1258,18 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
+
+/* =====================================================
+GLOBAL VARIABLES
+===================================================== */
+
 let currentUser = null;
 let currentProfile = null;
+
 let allServices = [];
+
 let currentFilter = "all";
+
 
 /* =====================================================
 HELPERS
@@ -1152,6 +1277,7 @@ HELPERS
 
 const $ = id =>
 document.getElementById(id);
+
 
 function money(value){
 
@@ -1166,6 +1292,7 @@ maximumFractionDigits:2
 
 }
 
+
 function safe(value){
 
 return String(value ?? "")
@@ -1177,19 +1304,24 @@ return String(value ?? "")
 
 }
 
+
 function toast(message){
 
-$("toast").textContent = message;
+$("toast").textContent =
+message;
 
-$("toast").style.display = "block";
+$("toast").style.display =
+"block";
 
 setTimeout(() => {
 
-$("toast").style.display = "none";
+$("toast").style.display =
+"none";
 
 },4000);
 
 }
+
 
 function showAuthMessage(
 message,
@@ -1197,15 +1329,18 @@ type = "error"
 ){
 
 $("authMessage").innerHTML =
-`<div class="${
+`
+<div class="${
 type === "success"
 ? "success-box"
 : "error-box"
 }">
 ${safe(message)}
-</div>`;
+</div>
+`;
 
 }
+
 
 function clearAuthMessage(){
 
@@ -1213,27 +1348,31 @@ $("authMessage").innerHTML = "";
 
 }
 
+
 /* =====================================================
 SERVICE TYPE
 ===================================================== */
 
 function getServiceType(service){
 
-const text = (
+const text =
+(
 (service.name || "") +
 " " +
 (service.description || "")
 ).toLowerCase();
 
+
 if(
 text.includes("verification") ||
 text.includes("verify") ||
-text.includes("number")
+text.includes("number verification")
 ){
 
 return "verification";
 
 }
+
 
 if(
 text.includes("boost") ||
@@ -1247,6 +1386,7 @@ return "boosting";
 
 }
 
+
 if(
 text.includes("facebook") ||
 text.includes("instagram") ||
@@ -1259,26 +1399,37 @@ return "accounts";
 
 }
 
+
 return "other";
 
 }
 
+
+/* =====================================================
+PLATFORM
+===================================================== */
+
 function getPlatform(service){
 
-const text = (
+const text =
+(
 (service.name || "") +
 " " +
 (service.description || "")
 ).toLowerCase();
 
+
 if(text.includes("facebook"))
 return "facebook";
+
 
 if(text.includes("instagram"))
 return "instagram";
 
+
 if(text.includes("tiktok"))
 return "tiktok";
+
 
 if(
 text.includes("twitter") ||
@@ -1287,39 +1438,54 @@ text.includes("x account")
 )
 return "twitter";
 
+
 return "";
 
 }
+
+
+/* =====================================================
+ICON
+===================================================== */
 
 function getIcon(service){
 
 const platform =
 getPlatform(service);
 
+
 if(platform === "facebook")
 return "📘";
+
 
 if(platform === "instagram")
 return "📸";
 
+
 if(platform === "tiktok")
 return "🎵";
+
 
 if(platform === "twitter")
 return "𝕏";
 
+
 const type =
 getServiceType(service);
+
 
 if(type === "boosting")
 return "🚀";
 
+
 if(type === "verification")
 return "📱";
+
 
 return "🛒";
 
 }
+
 
 /* =====================================================
 SUPPORT
@@ -1332,9 +1498,12 @@ $("supportMenu")
 
 }
 
+
 function copyAccountNumber(){
 
-const number = "6550518571";
+const number =
+"6550518571";
+
 
 if(
 navigator.clipboard &&
@@ -1368,6 +1537,7 @@ toast(
 
 }
 
+
 /* =====================================================
 DIRECT ADMIN CHAT
 ===================================================== */
@@ -1376,12 +1546,14 @@ function chatAdmin(type){
 
 let message = "";
 
+
 if(type === "boosting"){
 
 message =
 "Hello Benjo-SMS Admin, I want to order a boosting service.";
 
 }
+
 
 if(type === "verification"){
 
@@ -1390,17 +1562,24 @@ message =
 
 }
 
+
 const whatsappURL =
 "https://wa.me/2347019999529?text=" +
 encodeURIComponent(message);
 
+
 window.open(
 whatsappURL,
 "_blank",
-"noopener"
+"noopener,noreferrer"
 );
 
 }
+
+
+/* =====================================================
+OPEN CATEGORY
+===================================================== */
 
 function openCategory(category){
 
@@ -1413,6 +1592,7 @@ filterServices(category);
 },100);
 
 }
+
 
 /* =====================================================
 AUTH UI
@@ -1433,9 +1613,11 @@ $(id).classList.add("hidden");
 
 }
 
+
 function showLogin(){
 
 hideAuthBoxes();
+
 clearAuthMessage();
 
 $("loginBox")
@@ -1443,9 +1625,11 @@ $("loginBox")
 
 }
 
+
 function showRegister(){
 
 hideAuthBoxes();
+
 clearAuthMessage();
 
 $("registerBox")
@@ -1453,15 +1637,18 @@ $("registerBox")
 
 }
 
+
 function showForgot(){
 
 hideAuthBoxes();
+
 clearAuthMessage();
 
 $("forgotBox")
 .classList.remove("hidden");
 
 }
+
 
 /* =====================================================
 REGISTER
@@ -1470,10 +1657,14 @@ REGISTER
 async function register(){
 
 const email =
-$("registerEmail").value.trim();
+$("registerEmail")
+.value
+.trim();
 
 const password =
-$("registerPassword").value;
+$("registerPassword")
+.value;
+
 
 if(!email || !password){
 
@@ -1484,6 +1675,7 @@ showAuthMessage(
 return;
 
 }
+
 
 if(password.length < 6){
 
@@ -1495,12 +1687,14 @@ return;
 
 }
 
+
 const {
 error
 } =
 await supabaseClient.auth.signUp({
 
 email,
+
 password,
 
 options:{
@@ -1509,6 +1703,7 @@ window.location.href
 }
 
 });
+
 
 if(error){
 
@@ -1520,12 +1715,14 @@ return;
 
 }
 
+
 showAuthMessage(
 "Account created. Check your email and verify your account.",
 "success"
 );
 
 }
+
 
 /* =====================================================
 LOGIN
@@ -1534,10 +1731,14 @@ LOGIN
 async function login(){
 
 const email =
-$("loginEmail").value.trim();
+$("loginEmail")
+.value
+.trim();
 
 const password =
-$("loginPassword").value;
+$("loginPassword")
+.value;
+
 
 if(!email || !password){
 
@@ -1549,6 +1750,7 @@ return;
 
 }
 
+
 const {
 data,
 error
@@ -1556,9 +1758,12 @@ error
 await supabaseClient
 .auth
 .signInWithPassword({
+
 email,
 password
+
 });
+
 
 if(error){
 
@@ -1570,12 +1775,14 @@ return;
 
 }
 
+
 currentUser =
 data.user;
 
 await startApplication();
 
 }
+
 
 /* =====================================================
 FORGOT PASSWORD
@@ -1584,7 +1791,10 @@ FORGOT PASSWORD
 async function sendResetEmail(){
 
 const email =
-$("forgotEmail").value.trim();
+$("forgotEmail")
+.value
+.trim();
+
 
 if(!email){
 
@@ -1595,6 +1805,7 @@ showAuthMessage(
 return;
 
 }
+
 
 const {
 error
@@ -1610,6 +1821,7 @@ window.location.pathname
 }
 );
 
+
 if(error){
 
 showAuthMessage(
@@ -1620,12 +1832,14 @@ return;
 
 }
 
+
 showAuthMessage(
 "Password reset link sent. Check your email.",
 "success"
 );
 
 }
+
 
 /* =====================================================
 UPDATE PASSWORD
@@ -1634,10 +1848,13 @@ UPDATE PASSWORD
 async function updatePassword(){
 
 const password =
-$("newPassword").value;
+$("newPassword")
+.value;
 
 const confirm =
-$("confirmPassword").value;
+$("confirmPassword")
+.value;
+
 
 if(password.length < 6){
 
@@ -1649,6 +1866,7 @@ return;
 
 }
 
+
 if(password !== confirm){
 
 toast(
@@ -1659,14 +1877,18 @@ return;
 
 }
 
+
 const {
 error
 } =
 await supabaseClient
 .auth
 .updateUser({
+
 password
+
 });
+
 
 if(error){
 
@@ -1676,13 +1898,16 @@ return;
 
 }
 
+
 toast(
 "Password updated successfully. ✅"
 );
 
+
 showLogin();
 
 }
+
 
 /* =====================================================
 START APPLICATION
@@ -1697,17 +1922,24 @@ $("userApp")
 .classList.remove("hidden");
 
 $("headerButtons").innerHTML =
-`<button
+`
+<button
 class="secondary"
 onclick="logout()"
 >
 Logout
-</button>`;
+</button>
+`;
+
 
 await loadProfile();
+
 await loadServices();
+
 await loadBalance();
+
 await loadOrders();
+
 
 if(
 currentProfile &&
@@ -1718,12 +1950,15 @@ $("adminApp")
 .classList.remove("hidden");
 
 await loadAdminServices();
+
 await loadAdminDeposits();
+
 await loadAdminOrders();
 
 }
 
 }
+
 
 /* =====================================================
 PROFILE
@@ -1738,20 +1973,30 @@ error
 await supabaseClient
 .from("profiles")
 .select("*")
-.eq("id",currentUser.id)
+.eq(
+"id",
+currentUser.id
+)
 .maybeSingle();
+
 
 if(error){
 
-console.error(error);
+console.error(
+"Profile error:",
+error
+);
 
 return;
 
 }
 
-currentProfile = data;
+
+currentProfile =
+data;
 
 }
+
 
 /* =====================================================
 LOGOUT
@@ -1767,8 +2012,9 @@ location.reload();
 
 }
 
+
 /* =====================================================
-USER NAV
+USER NAVIGATION
 ===================================================== */
 
 function userPage(page){
@@ -1780,30 +2026,43 @@ function userPage(page){
 "ordersPage"
 ].forEach(id => {
 
-$(id).classList.add("hidden");
+$(id)
+.classList.add("hidden");
 
 });
+
 
 $(page + "Page")
 .classList.remove("hidden");
 
-if(page === "services")
+
+if(page === "services"){
+
 loadServices();
+
+}
+
 
 if(page === "wallet"){
 
 loadBalance();
+
 loadDeposits();
 
 }
 
-if(page === "orders")
+
+if(page === "orders"){
+
 loadOrders();
 
 }
 
+}
+
+
 /* =====================================================
-SERVICES
+LOAD SERVICES
 ===================================================== */
 
 async function loadServices(){
@@ -1812,7 +2071,8 @@ const box =
 $("servicesList");
 
 box.innerHTML =
-"Loading...";
+"Loading services...";
+
 
 const {
 data,
@@ -1821,7 +2081,10 @@ error
 await supabaseClient
 .from("services")
 .select("*")
-.eq("available",true)
+.eq(
+"available",
+true
+)
 .order(
 "created_at",
 {
@@ -1829,20 +2092,29 @@ ascending:false
 }
 );
 
+
 if(error){
 
 box.innerHTML =
-`<p>${safe(error.message)}</p>`;
+`
+<div class="error-box">
+${safe(error.message)}
+</div>
+`;
 
 return;
 
 }
 
-allServices = data || [];
+
+allServices =
+data || [];
+
 
 renderServices();
 
 }
+
 
 /* =====================================================
 RENDER SERVICES
@@ -1855,17 +2127,25 @@ $("servicesList");
 
 box.innerHTML = "";
 
+
 let filtered =
 allServices;
 
-if(currentFilter === "accounts"){
+
+if(
+currentFilter === "accounts"
+){
 
 filtered =
-allServices.filter(service =>
-getServiceType(service) === "accounts"
+allServices.filter(
+service =>
+getServiceType(service)
+===
+"accounts"
 );
 
 }
+
 
 else if(
 [
@@ -1877,41 +2157,61 @@ else if(
 ){
 
 filtered =
-allServices.filter(service =>
-getPlatform(service) === currentFilter
+allServices.filter(
+service =>
+getPlatform(service)
+===
+currentFilter
 );
 
 }
 
-else if(currentFilter === "boosting"){
+
+else if(
+currentFilter === "boosting"
+){
 
 filtered =
-allServices.filter(service =>
-getServiceType(service) === "boosting"
+allServices.filter(
+service =>
+getServiceType(service)
+===
+"boosting"
 );
 
 }
 
-else if(currentFilter === "verification"){
+
+else if(
+currentFilter === "verification"
+){
 
 filtered =
-allServices.filter(service =>
-getServiceType(service) === "verification"
+allServices.filter(
+service =>
+getServiceType(service)
+===
+"verification"
 );
 
 }
+
 
 if(
-!filtered ||
 filtered.length === 0
 ){
 
 box.innerHTML =
-"<p>No services available in this category.</p>";
+`
+<div class="empty">
+No services available in this category.
+</div>
+`;
 
 return;
 
 }
+
 
 filtered.forEach(service => {
 
@@ -1921,16 +2221,18 @@ document.createElement("div");
 div.className =
 "service";
 
+
 const type =
 getServiceType(service);
 
 const icon =
 getIcon(service);
 
+
 if(type === "boosting"){
 
-div.innerHTML = `
-
+div.innerHTML =
+`
 <div class="service-icon">
 ${icon}
 </div>
@@ -1961,15 +2263,15 @@ onclick="chatAdmin('boosting')"
 </button>
 
 </div>
-
 `;
 
 }
 
+
 else if(type === "verification"){
 
-div.innerHTML = `
-
+div.innerHTML =
+`
 <div class="service-icon">
 ${icon}
 </div>
@@ -2000,15 +2302,15 @@ onclick="chatAdmin('verification')"
 </button>
 
 </div>
-
 `;
 
 }
 
+
 else{
 
-div.innerHTML = `
-
+div.innerHTML =
+`
 <div class="service-icon">
 ${icon}
 </div>
@@ -2031,16 +2333,17 @@ onclick="buyService('${service.id}')"
 >
 Buy Now
 </button>
-
 `;
 
 }
+
 
 box.appendChild(div);
 
 });
 
 }
+
 
 /* =====================================================
 SERVICE FILTER
@@ -2051,7 +2354,9 @@ function filterServices(category){
 currentFilter =
 category;
 
+
 const buttons = [
+
 "catAll",
 "catAccounts",
 "catFacebook",
@@ -2060,26 +2365,38 @@ const buttons = [
 "catTwitter",
 "catBoosting",
 "catVerification"
+
 ];
+
 
 buttons.forEach(id => {
 
-$(id).classList.remove("active");
+$(id)
+.classList.remove("active");
 
 });
+
 
 const map = {
 
 all:"catAll",
+
 accounts:"catAccounts",
+
 facebook:"catFacebook",
+
 instagram:"catInstagram",
+
 tiktok:"catTikTok",
+
 twitter:"catTwitter",
+
 boosting:"catBoosting",
+
 verification:"catVerification"
 
 };
+
 
 if(map[category]){
 
@@ -2088,9 +2405,11 @@ $(map[category])
 
 }
 
+
 renderServices();
 
 }
+
 
 /* =====================================================
 BUY SERVICE
@@ -2100,8 +2419,10 @@ async function buyService(serviceId){
 
 const service =
 allServices.find(
-item => item.id === serviceId
+item =>
+item.id === serviceId
 );
+
 
 if(!service){
 
@@ -2113,8 +2434,10 @@ return;
 
 }
 
+
 const type =
 getServiceType(service);
+
 
 if(type === "boosting"){
 
@@ -2124,6 +2447,7 @@ return;
 
 }
 
+
 if(type === "verification"){
 
 chatAdmin("verification");
@@ -2132,30 +2456,38 @@ return;
 
 }
 
-if(
-!confirm(
-`Purchase ${service.name} for ${money(service.price)}?`
-)
-){
+
+const confirmed =
+confirm(
+`Buy ${service.name} for ${money(service.price)}?`
+);
+
+
+if(!confirmed){
 
 return;
 
 }
 
+
 toast(
 "Processing payment..."
 );
 
-/*
-The purchase_service RPC should:
 
-1. Check the user's wallet balance.
-2. Check that the service is available.
-3. Deduct the service price.
-4. Create an order.
-5. Copy the service delivery_information
-   into the order's login_information.
+/*
+IMPORTANT:
+
+The Supabase RPC should:
+
+1. Check wallet balance
+2. Deduct service price
+3. Create order
+4. Put service delivery_information
+   into order.login_information
+5. Return success
 */
+
 
 const {
 data,
@@ -2173,6 +2505,7 @@ serviceId
 }
 );
 
+
 if(error){
 
 toast(
@@ -2184,16 +2517,26 @@ return;
 
 }
 
+
+console.log(
+"Purchase result:",
+data
+);
+
+
 toast(
 "Payment successful! Login information delivered. ✅"
 );
 
+
 await loadBalance();
+
 await loadOrders();
 
 userPage("orders");
 
 }
+
 
 /* =====================================================
 BALANCE
@@ -2208,29 +2551,42 @@ error
 await supabaseClient
 .from("wallets")
 .select("balance")
-.eq("user_id",currentUser.id)
+.eq(
+"user_id",
+currentUser.id
+)
 .maybeSingle();
+
 
 if(error){
 
-console.error(error);
+console.error(
+"Balance error:",
+error
+);
 
 return;
 
 }
 
+
 const balance =
-money(data?.balance || 0);
+money(
+data?.balance || 0
+);
+
 
 $("walletBalance")
 .textContent =
 balance;
+
 
 $("homeBalance")
 .textContent =
 balance;
 
 }
+
 
 /* =====================================================
 SUBMIT DEPOSIT
@@ -2240,13 +2596,20 @@ async function submitDeposit(){
 
 const amount =
 Number(
-$("depositAmount").value
+$("depositAmount")
+.value
 );
 
-const file =
-$("depositProof").files[0];
 
-if(!amount || amount <= 0){
+const file =
+$("depositProof")
+.files[0];
+
+
+if(
+!amount ||
+amount <= 0
+){
 
 toast(
 "Enter a valid amount."
@@ -2255,6 +2618,7 @@ toast(
 return;
 
 }
+
 
 if(!file){
 
@@ -2265,6 +2629,7 @@ toast(
 return;
 
 }
+
 
 if(
 !file.type.startsWith("image/")
@@ -2278,8 +2643,10 @@ return;
 
 }
 
+
 if(
-file.size > 8 * 1024 * 1024
+file.size >
+8 * 1024 * 1024
 ){
 
 toast(
@@ -2289,6 +2656,7 @@ toast(
 return;
 
 }
+
 
 const extension =
 file.name.includes(".")
@@ -2300,6 +2668,7 @@ file.name
 :
 "jpg";
 
+
 const path =
 currentUser.id +
 "/" +
@@ -2307,9 +2676,11 @@ crypto.randomUUID() +
 "." +
 extension;
 
+
 toast(
 "Uploading payment screenshot..."
 );
+
 
 const {
 error:uploadError
@@ -2321,10 +2692,13 @@ await supabaseClient
 path,
 file,
 {
-contentType:file.type,
+contentType:
+file.type,
+
 upsert:false
 }
 );
+
 
 if(uploadError){
 
@@ -2337,6 +2711,7 @@ return;
 
 }
 
+
 const {
 data:urlData
 } =
@@ -2345,8 +2720,10 @@ supabaseClient
 .from("deposit-proofs")
 .getPublicUrl(path);
 
+
 const proofUrl =
 urlData.publicUrl;
+
 
 const {
 error
@@ -2369,6 +2746,7 @@ status:
 
 });
 
+
 if(error){
 
 toast(
@@ -2380,19 +2758,24 @@ return;
 
 }
 
+
 $("depositAmount")
 .value = "";
 
+
 $("depositProof")
 .value = "";
+
 
 toast(
 "Payment screenshot submitted successfully! ✅"
 );
 
+
 await loadDeposits();
 
 }
+
 
 /* =====================================================
 USER DEPOSITS
@@ -2406,6 +2789,7 @@ $("depositsList");
 box.innerHTML =
 "Loading...";
 
+
 const {
 data,
 error
@@ -2413,7 +2797,10 @@ error
 await supabaseClient
 .from("deposits")
 .select("*")
-.eq("user_id",currentUser.id)
+.eq(
+"user_id",
+currentUser.id
+)
 .order(
 "created_at",
 {
@@ -2421,25 +2808,40 @@ ascending:false
 }
 );
 
+
 if(error){
 
 box.innerHTML =
-`<p>${safe(error.message)}</p>`;
+`
+<div class="error-box">
+${safe(error.message)}
+</div>
+`;
 
 return;
 
 }
 
-if(!data || data.length === 0){
+
+if(
+!data ||
+data.length === 0
+){
 
 box.innerHTML =
-"<p>No deposits yet.</p>";
+`
+<div class="empty">
+No deposits yet.
+</div>
+`;
 
 return;
 
 }
 
+
 box.innerHTML = "";
+
 
 data.forEach(deposit => {
 
@@ -2449,26 +2851,68 @@ document.createElement("div");
 div.className =
 "order";
 
-div.innerHTML = `
 
+let statusClass = "";
+
+if(
+deposit.status === "approved"
+){
+
+statusClass =
+"status-approved";
+
+}
+
+else if(
+deposit.status === "rejected"
+){
+
+statusClass =
+"status-rejected";
+
+}
+
+else{
+
+statusClass =
+"status-pending";
+
+}
+
+
+div.innerHTML =
+`
 <strong>
 ${money(deposit.amount)}
 </strong>
 
 <p>
 Status:
-<span class="badge">
+<span class="badge ${statusClass}">
 ${safe(deposit.status)}
 </span>
 </p>
 
+<p class="small">
+${
+deposit.created_at
+?
+new Date(
+deposit.created_at
+).toLocaleString()
+:
+""
+}
+</p>
 `;
+
 
 box.appendChild(div);
 
 });
 
 }
+
 
 /* =====================================================
 ORDERS
@@ -2480,7 +2924,8 @@ const box =
 $("ordersList");
 
 box.innerHTML =
-"Loading...";
+"Loading orders...";
+
 
 const {
 data,
@@ -2489,7 +2934,10 @@ error
 await supabaseClient
 .from("orders")
 .select("*")
-.eq("user_id",currentUser.id)
+.eq(
+"user_id",
+currentUser.id
+)
 .order(
 "created_at",
 {
@@ -2497,25 +2945,51 @@ ascending:false
 }
 );
 
+
 if(error){
 
 box.innerHTML =
-`<p>${safe(error.message)}</p>`;
+`
+<div class="error-box">
+${safe(error.message)}
+</div>
+`;
 
 return;
 
 }
 
-if(!data || data.length === 0){
+
+if(
+!data ||
+data.length === 0
+){
 
 box.innerHTML =
-"<p>No orders yet.</p>";
+`
+<div class="empty">
+
+<p>
+You have no orders yet.
+</p>
+
+<button
+class="primary"
+onclick="userPage('services')"
+>
+Browse Accounts
+</button>
+
+</div>
+`;
 
 return;
 
 }
 
+
 box.innerHTML = "";
+
 
 data.forEach(order => {
 
@@ -2525,12 +2999,22 @@ document.createElement("div");
 div.className =
 "order";
 
-const delivery =
-order.login_information ||
-"Login information has not been added yet.";
 
-div.innerHTML = `
+let delivery =
+order.login_information;
 
+
+if(
+!delivery
+){
+
+delivery =
+"Login information has not been added yet. Please contact admin.";
+}
+
+
+div.innerHTML =
+`
 <h3>
 ${safe(order.product_name)}
 </h3>
@@ -2561,13 +3045,27 @@ ${safe(delivery)}
 
 </div>
 
+<p class="small">
+Purchased:
+${
+order.created_at
+?
+new Date(
+order.created_at
+).toLocaleString()
+:
+""
+}
+</p>
 `;
+
 
 box.appendChild(div);
 
 });
 
 }
+
 
 /* =====================================================
 ADMIN NAV
@@ -2581,9 +3079,11 @@ function adminPage(page){
 "adminOrdersPage"
 ].forEach(id => {
 
-$(id).classList.add("hidden");
+$(id)
+.classList.add("hidden");
 
 });
+
 
 const pageId =
 "admin" +
@@ -2591,19 +3091,24 @@ page.charAt(0).toUpperCase() +
 page.slice(1) +
 "Page";
 
+
 $(pageId)
 .classList.remove("hidden");
+
 
 if(page === "services")
 loadAdminServices();
 
+
 if(page === "deposits")
 loadAdminDeposits();
+
 
 if(page === "orders")
 loadAdminOrders();
 
 }
+
 
 /* =====================================================
 ADMIN ADD SERVICE
@@ -2612,18 +3117,29 @@ ADMIN ADD SERVICE
 async function addService(){
 
 const name =
-$("serviceName").value.trim();
+$("serviceName")
+.value
+.trim();
+
 
 const description =
-$("serviceDescription").value.trim();
+$("serviceDescription")
+.value
+.trim();
+
 
 const price =
 Number(
-$("servicePrice").value
+$("servicePrice")
+.value
 );
 
+
 const delivery =
-$("serviceDelivery").value.trim();
+$("serviceDelivery")
+.value
+.trim();
+
 
 if(!name){
 
@@ -2634,6 +3150,7 @@ toast(
 return;
 
 }
+
 
 if(
 Number.isNaN(price) ||
@@ -2648,25 +3165,34 @@ return;
 
 }
 
-if(!description){
+
+const type =
+getServiceType({
+name,
+description
+});
+
+
+/*
+Boosting and verification do not
+need delivery information.
+*/
+
+
+if(
+type !== "boosting" &&
+type !== "verification" &&
+!delivery
+){
 
 toast(
-"Enter a service description."
+"Enter the login/delivery information for this account."
 );
 
 return;
 
 }
 
-if(!delivery){
-
-toast(
-"Enter the login/delivery information."
-);
-
-return;
-
-}
 
 const {
 error
@@ -2688,6 +3214,7 @@ available:true
 
 });
 
+
 if(error){
 
 toast(
@@ -2699,22 +3226,34 @@ return;
 
 }
 
-$("serviceName").value = "";
 
-$("serviceDescription").value = "";
+$("serviceName")
+.value = "";
 
-$("servicePrice").value = "";
 
-$("serviceDelivery").value = "";
+$("serviceDescription")
+.value = "";
+
+
+$("servicePrice")
+.value = "";
+
+
+$("serviceDelivery")
+.value = "";
+
 
 toast(
 "Service added successfully. ✅"
 );
 
+
 await loadAdminServices();
+
 await loadServices();
 
 }
+
 
 /* =====================================================
 ADMIN SERVICE LIST
@@ -2727,6 +3266,7 @@ $("adminServices");
 
 box.innerHTML =
 "Loading...";
+
 
 const {
 data,
@@ -2742,25 +3282,40 @@ ascending:false
 }
 );
 
+
 if(error){
 
 box.innerHTML =
-`<p>${safe(error.message)}</p>`;
+`
+<div class="error-box">
+${safe(error.message)}
+</div>
+`;
 
 return;
 
 }
 
-if(!data || data.length === 0){
+
+if(
+!data ||
+data.length === 0
+){
 
 box.innerHTML =
-"<p>No services yet.</p>";
+`
+<div class="empty">
+No services yet.
+</div>
+`;
 
 return;
 
 }
 
+
 box.innerHTML = "";
+
 
 data.forEach(service => {
 
@@ -2770,25 +3325,31 @@ document.createElement("div");
 div.className =
 "admin-service";
 
+
 const type =
 getServiceType(service);
+
 
 const icon =
 getIcon(service);
 
+
 let purchaseText =
 "Wallet Purchase";
+
 
 if(type === "boosting")
 purchaseText =
 "Direct Admin Chat";
 
+
 if(type === "verification")
 purchaseText =
 "Direct Admin Chat";
 
-div.innerHTML = `
 
+div.innerHTML =
+`
 <h3>
 ${icon} ${safe(service.name)}
 </h3>
@@ -2810,15 +3371,32 @@ ${money(service.price)}
 ${safe(service.description)}
 </p>
 
+${
+service.delivery_information
+?
+`
 <div class="delivery">
+<strong>
+Delivery Information
+</strong>
+
+<br><br>
+
 ${safe(service.delivery_information)}
 </div>
+`
+:
+""
+}
 
 <p class="small">
 ${purchaseText}
 </p>
 
-<br>
+<p class="small">
+Available:
+${service.available ? "Yes" : "No"}
+</p>
 
 <button
 class="danger"
@@ -2826,14 +3404,15 @@ onclick="deleteService('${service.id}')"
 >
 Delete
 </button>
-
 `;
+
 
 box.appendChild(div);
 
 });
 
 }
+
 
 /* =====================================================
 DELETE SERVICE
@@ -2851,13 +3430,18 @@ return;
 
 }
 
+
 const {
 error
 } =
 await supabaseClient
 .from("services")
 .delete()
-.eq("id",id);
+.eq(
+"id",
+id
+);
+
 
 if(error){
 
@@ -2869,14 +3453,18 @@ return;
 
 }
 
+
 toast(
 "Service deleted."
 );
 
+
 await loadAdminServices();
+
 await loadServices();
 
 }
+
 
 /* =====================================================
 ADMIN DEPOSITS
@@ -2889,6 +3477,7 @@ $("adminDeposits");
 
 box.innerHTML =
 "Loading deposits...";
+
 
 const {
 data,
@@ -2904,30 +3493,40 @@ ascending:false
 }
 );
 
+
 if(error){
 
-box.innerHTML = `
-
+box.innerHTML =
+`
 <div class="error-box">
 ${safe(error.message)}
 </div>
-
 `;
 
 return;
 
 }
 
-if(!data || data.length === 0){
+
+if(
+!data ||
+data.length === 0
+){
 
 box.innerHTML =
-"<p>No deposit requests.</p>";
+`
+<div class="empty">
+No deposit requests.
+</div>
+`;
 
 return;
 
 }
 
+
 box.innerHTML = "";
+
 
 data.forEach(deposit => {
 
@@ -2937,12 +3536,14 @@ document.createElement("div");
 div.className =
 "order";
 
+
 let screenshot = "";
+
 
 if(deposit.proof_url){
 
-screenshot = `
-
+screenshot =
+`
 <div
 style="
 margin-top:15px;
@@ -2975,29 +3576,29 @@ onclick="openProof('${safe(deposit.proof_url)}')"
 </button>
 
 </div>
-
 `;
 
 }else{
 
-screenshot = `
-
+screenshot =
+`
 <div class="error-box">
 No payment screenshot uploaded.
 </div>
-
 `;
 
 }
 
+
 let actions = "";
+
 
 if(
 deposit.status === "pending"
 ){
 
-actions = `
-
+actions =
+`
 <div
 style="
 display:flex;
@@ -3023,13 +3624,13 @@ onclick="rejectDeposit('${deposit.id}')"
 </button>
 
 </div>
-
 `;
 
 }
 
-div.innerHTML = `
 
+div.innerHTML =
+`
 <h3>
 Deposit Request
 </h3>
@@ -3038,7 +3639,9 @@ Deposit Request
 <strong>
 Amount
 </strong>
+
 <br>
+
 ${money(deposit.amount)}
 </p>
 
@@ -3046,7 +3649,9 @@ ${money(deposit.amount)}
 <strong>
 User ID
 </strong>
+
 <br>
+
 ${safe(deposit.user_id)}
 </p>
 
@@ -3054,12 +3659,12 @@ ${safe(deposit.user_id)}
 <strong>
 Status
 </strong>
+
 <br>
 
 <span class="badge">
 ${safe(deposit.status)}
 </span>
-
 </p>
 
 <p class="small">
@@ -3077,14 +3682,15 @@ deposit.created_at
 ${screenshot}
 
 ${actions}
-
 `;
+
 
 box.appendChild(div);
 
 });
 
 }
+
 
 /* =====================================================
 OPEN SCREENSHOT
@@ -3102,6 +3708,7 @@ return;
 
 }
 
+
 window.open(
 url,
 "_blank",
@@ -3109,6 +3716,7 @@ url,
 );
 
 }
+
 
 /* =====================================================
 APPROVE DEPOSIT
@@ -3126,9 +3734,11 @@ return;
 
 }
 
+
 toast(
 "Approving deposit..."
 );
+
 
 const {
 data,
@@ -3142,6 +3752,7 @@ p_deposit_id:id
 }
 );
 
+
 if(error){
 
 toast(
@@ -3153,13 +3764,29 @@ return;
 
 }
 
+
+console.log(
+"Approve result:",
+data
+);
+
+
 toast(
 "Deposit approved and wallet credited. ✅"
 );
 
+
 await loadAdminDeposits();
 
+
+if(currentUser){
+
+await loadBalance();
+
 }
+
+}
+
 
 /* =====================================================
 REJECT DEPOSIT
@@ -3177,16 +3804,26 @@ return;
 
 }
 
+
 const {
 error
 } =
 await supabaseClient
 .from("deposits")
 .update({
+
 status:"rejected"
+
 })
-.eq("id",id)
-.eq("status","pending");
+.eq(
+"id",
+id
+)
+.eq(
+"status",
+"pending"
+);
+
 
 if(error){
 
@@ -3199,13 +3836,16 @@ return;
 
 }
 
+
 toast(
 "Deposit rejected."
 );
 
+
 await loadAdminDeposits();
 
 }
+
 
 /* =====================================================
 ADMIN ORDERS
@@ -3218,6 +3858,7 @@ $("adminOrders");
 
 box.innerHTML =
 "Loading orders...";
+
 
 const {
 data,
@@ -3233,25 +3874,40 @@ ascending:false
 }
 );
 
+
 if(error){
 
 box.innerHTML =
-`<p>${safe(error.message)}</p>`;
+`
+<div class="error-box">
+${safe(error.message)}
+</div>
+`;
 
 return;
 
 }
 
-if(!data || data.length === 0){
+
+if(
+!data ||
+data.length === 0
+){
 
 box.innerHTML =
-"<p>No orders yet.</p>";
+`
+<div class="empty">
+No orders yet.
+</div>
+`;
 
 return;
 
 }
 
+
 box.innerHTML = "";
+
 
 data.forEach(order => {
 
@@ -3261,15 +3917,20 @@ document.createElement("div");
 div.className =
 "order";
 
-div.innerHTML = `
 
+div.innerHTML =
+`
 <h3>
 ${safe(order.product_name)}
 </h3>
 
 <p>
-User ID:
+<strong>
+User ID
+</strong>
+
 <br>
+
 ${safe(order.user_id)}
 </p>
 
@@ -3295,20 +3956,30 @@ Login / Delivery Information
 
 <br><br>
 
-${safe(
-order.login_information ||
-"Not supplied"
-)}
+${safe(order.login_information)}
 
 </div>
 
+<p class="small">
+${
+order.created_at
+?
+new Date(
+order.created_at
+).toLocaleString()
+:
+""
+}
+</p>
 `;
+
 
 box.appendChild(div);
 
 });
 
 }
+
 
 /* =====================================================
 AUTH STATE
@@ -3318,6 +3989,7 @@ supabaseClient
 .auth
 .onAuthStateChange(
 async(event,session) => {
+
 
 if(
 event ===
@@ -3330,12 +4002,18 @@ $("authSection")
 $("userApp")
 .classList.add("hidden");
 
+$("adminApp")
+.classList.add("hidden");
+
 hideAuthBoxes();
 
 $("resetBox")
 .classList.remove("hidden");
 
+return;
+
 }
+
 
 if(
 event === "SIGNED_IN" &&
@@ -3348,6 +4026,7 @@ session.user;
 }
 
 });
+
 
 /* =====================================================
 INITIAL SESSION
@@ -3362,6 +4041,7 @@ await supabaseClient
 .auth
 .getSession();
 
+
 if(
 data.session
 ){
@@ -3371,9 +4051,27 @@ data.session.user;
 
 await startApplication();
 
+}else{
+
+$("authSection")
+.classList.remove("hidden");
+
+$("userApp")
+.classList.add("hidden");
+
+$("adminApp")
+.classList.add("hidden");
+
+showLogin();
+
 }
 
 }
+
+
+/* =====================================================
+START
+===================================================== */
 
 checkSession();
 
