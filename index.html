@@ -585,10 +585,6 @@
 </div>
 
 <script>
-  // ============================================================
-  // SUPABASE CONFIGURATION
-  // ============================================================
-
   const SUPABASE_URL =
     "https://zwefikwlxgphufilgcyc.supabase.co";
 
@@ -604,57 +600,32 @@
       SUPABASE_PUBLISHABLE_KEY
     );
 
-
-  // ============================================================
-  // AUTH STATE
-  // ============================================================
-
   let authMode = "login";
   let cart = [];
 
-
-  // ============================================================
-  // AUTH MODAL
-  // ============================================================
-
   function openAuth(mode = "login") {
-
     authMode = mode;
-
     document.getElementById("authModal").style.display = "flex";
-
     updateAuthForm();
-
     document.getElementById("authMessage").textContent = "";
-
   }
-
 
   function closeAuth() {
-
     document.getElementById("authModal").style.display = "none";
-
     document.getElementById("authForm").reset();
-
     document.getElementById("authMessage").textContent = "";
-
   }
 
-
   function switchAuth() {
-
     authMode =
       authMode === "login"
         ? "register"
         : "login";
 
     updateAuthForm();
-
   }
 
-
   function updateAuthForm() {
-
     const title =
       document.getElementById("authTitle");
 
@@ -671,45 +642,23 @@
       document.getElementById("switchAction");
 
     if (authMode === "register") {
-
       title.textContent = "Create Account";
-
       fullName.style.display = "block";
-
       fullName.required = true;
-
       submit.textContent = "Create Account";
-
       switchText.textContent =
         "Already have an account?";
-
-      switchAction.textContent =
-        " Login";
-
+      switchAction.textContent = " Login";
     } else {
-
       title.textContent = "Login";
-
       fullName.style.display = "none";
-
       fullName.required = false;
-
       submit.textContent = "Login";
-
       switchText.textContent =
         "Don't have an account?";
-
-      switchAction.textContent =
-        " Register";
-
+      switchAction.textContent = " Register";
     }
-
   }
-
-
-  // ============================================================
-  // REGISTER / LOGIN
-  // ============================================================
 
   document
     .getElementById("authForm")
@@ -718,36 +667,23 @@
       event.preventDefault();
 
       const email =
-        document
-          .getElementById("email")
-          .value
-          .trim();
+        document.getElementById("email").value.trim();
 
       const password =
-        document
-          .getElementById("password")
-          .value;
+        document.getElementById("password").value;
 
       const fullName =
-        document
-          .getElementById("fullName")
-          .value
-          .trim();
+        document.getElementById("fullName").value.trim();
 
       const message =
-        document
-          .getElementById("authMessage");
+        document.getElementById("authMessage");
 
       const button =
-        document
-          .getElementById("authSubmit");
+        document.getElementById("authSubmit");
 
       message.textContent = "";
-
       button.disabled = true;
-
       button.textContent = "Please wait...";
-
 
       try {
 
@@ -757,53 +693,29 @@
             throw new Error("Please enter your full name.");
           }
 
-          const {
-            data,
-            error
-          } =
+          const { data, error } =
             await supabaseClient.auth.signUp({
-
               email: email,
-
               password: password,
-
               options: {
                 data: {
                   full_name: fullName
                 }
               }
-
             });
 
-
-          if (error) {
-            throw error;
-          }
-
-
-          /*
-            If email confirmation is enabled,
-            Supabase may return a user without
-            creating an active session.
-          */
+          if (error) throw error;
 
           if (data.user && !data.session) {
-
             message.textContent =
               "Account created. Check your email and confirm your email address before logging in.";
 
             button.disabled = false;
-
-            button.textContent =
-              "Create Account";
-
+            button.textContent = "Create Account";
             return;
-
           }
 
-
           if (data.user) {
-
             await createProfile(
               data.user,
               fullName
@@ -813,41 +725,24 @@
               "Account created successfully.";
 
             closeAuth();
-
             await loadAccount();
-
           }
 
         } else {
 
-          const {
-            data,
-            error
-          } =
+          const { data, error } =
             await supabaseClient.auth.signInWithPassword({
-
               email: email,
-
               password: password
-
             });
 
-
-          if (error) {
-            throw error;
-          }
-
+          if (error) throw error;
 
           if (data.user) {
-
             await loadAccount();
-
             closeAuth();
-
             alert("Login successful!");
-
           }
-
         }
 
       } catch (error) {
@@ -863,15 +758,8 @@
           authMode === "register"
             ? "Create Account"
             : "Login";
-
       }
-
     });
-
-
-  // ============================================================
-  // CREATE PROFILE
-  // ============================================================
 
   async function createProfile(user, fullName) {
 
@@ -880,46 +768,28 @@
       user.user_metadata?.full_name ||
       "";
 
-    const {
-      error
-    } =
+    const { error } =
       await supabaseClient
         .from("profiles")
         .upsert({
-
           id: user.id,
-
           full_name: name,
-
           email: user.email
-
         }, {
-
           onConflict: "id"
-
         });
-
 
     if (error) {
       console.error("Profile error:", error);
     }
-
   }
-
-
-  // ============================================================
-  // LOAD CUSTOMER ACCOUNT
-  // ============================================================
 
   async function loadAccount() {
 
     const {
-      data: {
-        user
-      }
+      data: { user }
     } =
       await supabaseClient.auth.getUser();
-
 
     const loginNav =
       document.getElementById("loginNav");
@@ -930,26 +800,16 @@
     const accountBox =
       document.getElementById("accountBox");
 
-
     if (!user) {
-
       loginNav.style.display = "block";
-
       accountNav.style.display = "none";
-
       accountBox.style.display = "none";
-
       return;
-
     }
 
-
     loginNav.style.display = "none";
-
     accountNav.style.display = "block";
-
     accountBox.style.display = "block";
-
 
     document.getElementById("accountName")
       .textContent =
@@ -959,55 +819,29 @@
         "Customer"
       );
 
-
     document.getElementById("accountEmail")
       .textContent =
       "Email: " +
       user.email;
-
   }
-
-
-  // ============================================================
-  // LOGOUT
-  // ============================================================
 
   async function logout() {
 
-    const {
-      error
-    } =
+    const { error } =
       await supabaseClient.auth.signOut();
 
-
     if (error) {
-
       alert(error.message);
-
       return;
-
     }
 
-
     loadAccount();
-
     alert("You have been logged out.");
-
   }
-
-
-  // ============================================================
-  // AUTH STATE LISTENER
-  // ============================================================
 
   supabaseClient.auth.onAuthStateChange(() => {
     loadAccount();
   });
-
-
-  // ============================================================
-  // CART
-  // ============================================================
 
   function addToCart(name, price) {
 
@@ -1019,9 +853,7 @@
     updateCartCount();
 
     alert(`${name} added to cart!`);
-
   }
-
 
   function updateCartCount() {
 
@@ -1030,46 +862,33 @@
 
     count.textContent =
       cart.length;
-
   }
-
 
   function viewCart() {
 
     if (cart.length === 0) {
-
       alert("Your cart is empty.");
-
       return;
-
     }
 
     const cartSummary =
       cart
         .map(
-          (item, i) => `
-            ${i + 1}. ${item.name} - ₦${item.price}
-          `
+          (item, i) =>
+            `${i + 1}. ${item.name} - ₦${item.price}`
         )
         .join("\n");
 
     const total =
-      cart
-        .reduce(
-          (sum, item) => sum + item.price,
-          0
-        );
+      cart.reduce(
+        (sum, item) => sum + item.price,
+        0
+      );
 
     alert(
       `Your Cart:\n\n${cartSummary}\n\nTotal: ₦${total}`
     );
-
   }
-
-
-  // ============================================================
-  // PRODUCT SEARCH
-  // ============================================================
 
   function searchProducts() {
 
@@ -1085,27 +904,20 @@
     cards.forEach(card => {
 
       const name =
-        card.getAttribute("data-name")
+        card
+          .getAttribute("data-name")
           ?.toLowerCase() || "";
 
       card.style.display =
         name.includes(query)
           ? "block"
           : "none";
-
     });
-
   }
-
-
-  // ============================================================
-  // INITIALIZE ON LOAD
-  // ============================================================
 
   document.addEventListener("DOMContentLoaded", () => {
     loadAccount();
   });
-
 </script>
 
 </body>
