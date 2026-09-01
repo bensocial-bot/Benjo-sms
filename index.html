@@ -1,646 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benjo-SMS</title>
 
-<title>Benjo-SMS</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-*{box-sizing:border-box}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #111827;
+    }
 
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f7fb;
-  color:#111827
-}
+    header {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-header{
-  background:#111827;
-  color:white;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:10
-}
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-.logo{
-  font-size:22px;
-  font-weight:bold
-}
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px
-}
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
 
-.card{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  margin-bottom:15px;
-  box-shadow:0 2px 10px rgba(0,0,0,.06)
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+    }
 
-.hidden{display:none!important}
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+    }
 
-button{
-  border:0;
-  border-radius:8px;
-  padding:11px 15px;
-  cursor:pointer;
-  font-weight:bold;
-  margin:3px
-}
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 7px 0 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+    }
 
-.primary{background:#111827;color:white}
-.success{background:#16a34a;color:white}
-.danger{background:#dc2626;color:white}
-.secondary{background:#e5e7eb;color:#111827}
+    textarea {
+      min-height: 100px;
+    }
 
-input,textarea{
-  width:100%;
-  padding:12px;
-  margin:7px 0 12px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:15px
-}
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      margin: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-textarea{
-  min-height:110px;
-  resize:vertical
-}
+    .primary {
+      background: #111827;
+      color: white;
+    }
 
-.nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:20px
-}
+    .success {
+      background: #16a34a;
+      color: white;
+    }
 
-.nav button{
-  background:#e5e7eb
-}
+    .danger {
+      background: #dc2626;
+      color: white;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:15px
-}
+    .light {
+      background: #e5e7eb;
+      color: #111827;
+    }
 
-.product{
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  padding:15px
-}
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
 
-.price{
-  font-size:20px;
-  font-weight:bold;
-  margin:10px 0
-}
+    .hidden {
+      display: none !important;
+    }
 
-.balance{
-  font-size:30px;
-  font-weight:bold
-}
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
 
-.status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#e5e7eb;
-  font-size:12px
-}
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+    }
 
-.delivery{
-  background:#ecfdf5;
-  border:1px solid #86efac;
-  padding:15px;
-  border-radius:8px;
-  white-space:pre-wrap;
-  word-break:break-word
-}
+    .delivery {
+      background: #ecfdf5;
+      border: 1px solid #86efac;
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 10px;
+    }
 
-.small{
-  font-size:13px;
-  color:#6b7280
-}
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      background: #e5e7eb;
+      font-size: 12px;
+    }
 
-#toast{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#111827;
-  color:white;
-  padding:13px 18px;
-  border-radius:8px;
-  display:none;
-  z-index:100
-}
-</style>
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: #111827;
+      color: white;
+      padding: 14px;
+      border-radius: 8px;
+      z-index: 999;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <div class="logo">Benjo-SMS</div>
-  <div id="headerButtons"></div>
+  <div id="headerArea"></div>
 </header>
 
 <div class="container">
 
-<!-- ================= AUTH ================= -->
+  <!-- AUTH -->
+  <section id="auth">
 
-<section id="authSection">
+    <div class="card">
 
-<div class="card">
+      <h2>Welcome to Benjo-SMS</h2>
 
-<h2>Welcome to Benjo-SMS</h2>
+      <div class="nav">
+        <button class="primary" onclick="showLogin()">Login</button>
+        <button class="light" onclick="showRegister()">Create Account</button>
+      </div>
 
-<p>Login or create an account to continue.</p>
+      <div id="loginBox">
 
-<div class="nav">
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="Email">
 
-<button
-id="loginTab"
-class="primary"
-onclick="showAuth('login')">
-Login
-</button>
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Password">
 
-<button
-id="registerTab"
-class="secondary"
-onclick="showAuth('register')">
-Create Account
-</button>
+        <button class="primary" onclick="login()">
+          Login
+        </button>
+
+      </div>
+
+      <div id="registerBox" class="hidden">
+
+        <input
+          id="registerEmail"
+          type="email"
+          placeholder="Email">
+
+        <input
+          id="registerPassword"
+          type="password"
+          placeholder="Password">
+
+        <button class="success" onclick="register()">
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- USER APP -->
+  <section id="userApp" class="hidden">
+
+    <div class="nav">
+      <button onclick="page('home')">Home</button>
+      <button onclick="page('services')">Services</button>
+      <button onclick="page('wallet')">Wallet</button>
+      <button onclick="page('orders')">My Orders</button>
+      <button onclick="logout()" class="danger">Logout</button>
+    </div>
+
+
+    <!-- HOME -->
+    <div id="homePage">
+
+      <div class="card">
+        <h2>Benjo-SMS</h2>
+        <p>Welcome to your account.</p>
+        <button class="primary" onclick="page('services')">
+          View Services
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- SERVICES -->
+    <div id="servicesPage" class="hidden">
+
+      <div class="card">
+
+        <h2>Services</h2>
+
+        <div id="servicesList" class="grid">
+          Loading services...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- WALLET -->
+    <div id="walletPage" class="hidden">
+
+      <div class="card">
+
+        <h2>My Wallet</h2>
+
+        <p>Balance</p>
+
+        <div id="balance" class="balance">
+          ₦0.00
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>Deposit</h2>
+
+        <p>
+          Make your payment and upload the payment proof.
+        </p>
+
+        <input
+          id="depositAmount"
+          type="number"
+          placeholder="Amount">
+
+        <input
+          id="depositProof"
+          type="file"
+          accept="image/*">
+
+        <button
+          class="success"
+          onclick="deposit()">
+          Submit Deposit
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>My Deposits</h2>
+
+        <div id="depositsList">
+          Loading...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ORDERS -->
+    <div id="ordersPage" class="hidden">
+
+      <div class="card">
+
+        <h2>My Orders</h2>
+
+        <div id="ordersList">
+          Loading...
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMIN -->
+  <section id="adminApp" class="hidden">
+
+    <div class="card">
+
+      <h2>Admin Panel</h2>
+
+      <div class="nav">
+
+        <button onclick="adminPage('products')">
+          Products
+        </button>
+
+        <button onclick="adminPage('deposits')">
+          Deposits
+        </button>
+
+        <button onclick="adminPage('orders')">
+          Orders
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ADMIN PRODUCTS -->
+    <div id="adminProductsPage">
+
+      <div class="card">
+
+        <h2>Add Service</h2>
+
+        <input
+          id="serviceName"
+          placeholder="Service / Product name">
+
+        <textarea
+          id="serviceDescription"
+          placeholder="Description"></textarea>
+
+        <input
+          id="servicePrice"
+          type="number"
+          placeholder="Price">
+
+        <textarea
+          id="serviceDelivery"
+          placeholder="Login information / delivery information"></textarea>
+
+        <button
+          class="success"
+          onclick="addService()">
+          Add Service
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>Existing Services</h2>
+
+        <div id="adminServices">
+          Loading...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ADMIN DEPOSITS -->
+    <div id="adminDepositsPage" class="hidden">
+
+      <div class="card">
+
+        <h2>Deposits</h2>
+
+        <div id="adminDeposits">
+          Loading...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ADMIN ORDERS -->
+    <div id="adminOrdersPage" class="hidden">
+
+      <div class="card">
+
+        <h2>Orders</h2>
+
+        <div id="adminOrders">
+          Loading...
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 </div>
-
-<div id="loginForm">
-
-<input
-id="loginEmail"
-type="email"
-placeholder="Email">
-
-<input
-id="loginPassword"
-type="password"
-placeholder="Password">
-
-<button
-class="primary"
-onclick="login()">
-Login
-</button>
-
-</div>
-
-<div id="registerForm" class="hidden">
-
-<input
-id="registerEmail"
-type="email"
-placeholder="Email">
-
-<input
-id="registerPassword"
-type="password"
-placeholder="Password">
-
-<button
-class="success"
-onclick="register()">
-Create Account
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= USER APP ================= -->
-
-<section id="userApp" class="hidden">
-
-<div class="nav">
-
-<button onclick="showPage('home')">Home</button>
-<button onclick="showPage('services')">Services</button>
-<button onclick="showPage('wallet')">Wallet</button>
-<button onclick="showPage('cart')">Cart</button>
-<button onclick="showPage('orders')">My Orders</button>
-
-</div>
-
-
-<!-- HOME -->
-
-<div id="page-home">
-
-<div class="card">
-
-<h2>Welcome to Benjo-SMS</h2>
-
-<p>
-Your account is ready. Select a product from Services.
-</p>
-
-</div>
-
-</div>
-
-
-<!-- SERVICES -->
-
-<div id="page-services" class="hidden">
-
-<div class="card">
-
-<h2>Available Products</h2>
-
-<div
-id="servicesList"
-class="grid">
-</div>
-
-</div>
-
-</div>
-
-
-<!-- WALLET -->
-
-<div id="page-wallet" class="hidden">
-
-<div class="card">
-
-<h2>My Wallet</h2>
-
-<p>Balance:</p>
-
-<div
-id="walletBalance"
-class="balance">
-₦0.00
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Deposit</h2>
-
-<p>
-Make your OPay payment, then upload the payment screenshot.
-</p>
-
-<input
-id="depositAmount"
-type="number"
-placeholder="Amount">
-
-<input
-id="depositScreenshot"
-type="file"
-accept="image/*">
-
-<button
-class="success"
-onclick="submitDeposit()">
-Submit Deposit
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>My Deposits</h2>
-
-<div id="myDeposits"></div>
-
-</div>
-
-</div>
-
-
-<!-- CART -->
-
-<div id="page-cart" class="hidden">
-
-<div class="card">
-
-<h2>My Cart</h2>
-
-<div id="cartList"></div>
-
-</div>
-
-</div>
-
-
-<!-- ORDERS -->
-
-<div id="page-orders" class="hidden">
-
-<div class="card">
-
-<h2>My Orders</h2>
-
-<div id="ordersList"></div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= ADMIN ================= -->
-
-<section id="adminApp" class="hidden">
-
-<div class="nav">
-
-<button onclick="showAdminPage('dashboard')">
-Dashboard
-</button>
-
-<button onclick="showAdminPage('products')">
-Products
-</button>
-
-<button onclick="showAdminPage('deposits')">
-Deposits
-</button>
-
-<button onclick="showAdminPage('orders')">
-Orders
-</button>
-
-</div>
-
-
-<!-- ADMIN DASHBOARD -->
-
-<div id="admin-dashboard">
-
-<div class="card">
-
-<h2>Admin Dashboard</h2>
-
-<p>
-Manage products, deposits and customer orders.
-</p>
-
-</div>
-
-</div>
-
-
-<!-- ADMIN PRODUCTS -->
-
-<div
-id="admin-products"
-class="hidden">
-
-<div class="card">
-
-<h2>Add Product</h2>
-
-<label>Product Name</label>
-
-<input
-id="productName"
-placeholder="Product name">
-
-
-<label>Description</label>
-
-<textarea
-id="productDescription"
-placeholder="Product description">
-</textarea>
-
-
-<label>Price</label>
-
-<input
-id="productPrice"
-type="number"
-placeholder="Price">
-
-
-<label>Delivery Information</label>
-
-<textarea
-id="productDelivery"
-placeholder="Enter authorized delivery/access information">
-</textarea>
-
-
-<button
-class="success"
-onclick="createProduct()">
-Add Product
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Products</h2>
-
-<div id="adminProducts"></div>
-
-</div>
-
-</div>
-
-
-<!-- ADMIN DEPOSITS -->
-
-<div
-id="admin-deposits"
-class="hidden">
-
-<div class="card">
-
-<h2>Customer Deposits</h2>
-
-<div id="adminDeposits"></div>
-
-</div>
-
-</div>
-
-
-<!-- ADMIN ORDERS -->
-
-<div
-id="admin-orders"
-class="hidden">
-
-<div class="card">
-
-<h2>Customer Orders</h2>
-
-<div id="adminOrders"></div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
 
 <div id="toast"></div>
 
 
 <script>
 
-/* =========================================================
-   SUPABASE CONFIG
-========================================================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
-"https://zwefikwlxgphufilgcyc.supabase.co";
+  "https://zwefikwlxgphufilgcyc.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
+  "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 
 const supabaseClient =
-supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-/* =========================================================
-   STATE
-========================================================= */
+/* =====================================================
+   GLOBAL
+===================================================== */
 
-let currentUser = null;
-let currentProfile = null;
-
-let cart =
-JSON.parse(
-localStorage.getItem("benjo_cart") || "[]"
-);
+let user = null;
+let profile = null;
 
 
-/* =========================================================
+/* =====================================================
    HELPERS
-========================================================= */
+===================================================== */
 
-function $(id){
-  return document.getElementById(id);
-}
+function toast(message) {
 
-
-function escapeHTML(value){
-
-  if(value === null || value === undefined)
-    return "";
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-
-function money(value){
-
-  return "₦" +
-  Number(value || 0)
-  .toLocaleString("en-NG",{
-    minimumFractionDigits:2
-  });
-}
-
-
-function toast(message){
-
-  const box = $("toast");
+  const box =
+    document.getElementById("toast");
 
   box.textContent = message;
   box.style.display = "block";
 
-  setTimeout(()=>{
+  setTimeout(() => {
     box.style.display = "none";
-  },3000);
+  }, 3500);
 }
 
 
-/* =========================================================
-   AUTH
-========================================================= */
+function money(amount) {
 
-function showAuth(type){
-
-  if(type === "login"){
-
-    $("loginForm").classList.remove("hidden");
-    $("registerForm").classList.add("hidden");
-
-    $("loginTab").className = "primary";
-    $("registerTab").className = "secondary";
-
-  }else{
-
-    $("loginForm").classList.add("hidden");
-    $("registerForm").classList.remove("hidden");
-
-    $("loginTab").className = "secondary";
-    $("registerTab").className = "primary";
-
-  }
+  return "₦" +
+    Number(amount || 0)
+      .toLocaleString("en-NG", {
+        minimumFractionDigits: 2
+      });
 
 }
 
 
-async function register(){
+function safe(value) {
+
+  if (value === null || value === undefined)
+    return "";
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* =====================================================
+   AUTH UI
+===================================================== */
+
+function showLogin() {
+
+  document
+    .getElementById("loginBox")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("registerBox")
+    .classList.add("hidden");
+
+}
+
+
+function showRegister() {
+
+  document
+    .getElementById("loginBox")
+    .classList.add("hidden");
+
+  document
+    .getElementById("registerBox")
+    .classList.remove("hidden");
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+async function register() {
 
   const email =
-  $("registerEmail").value.trim();
+    document.getElementById("registerEmail")
+      .value.trim();
 
   const password =
-  $("registerPassword").value;
+    document.getElementById("registerPassword")
+      .value;
 
-  if(!email || !password){
+  if (!email || !password) {
 
     toast("Enter email and password.");
     return;
 
   }
 
-  const {data,error} =
-  await supabaseClient.auth.signUp({
-    email,
-    password
-  });
+  const { error } =
+    await supabaseClient.auth.signUp({
+      email,
+      password
+    });
 
-  if(error){
+  if (error) {
 
     toast(error.message);
     return;
@@ -648,109 +582,127 @@ async function register(){
   }
 
   toast(
-    "Account created. Check your email if confirmation is required."
+    "Account created successfully."
   );
 
 }
 
 
-async function login(){
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function login() {
 
   const email =
-  $("loginEmail").value.trim();
+    document.getElementById("loginEmail")
+      .value.trim();
 
   const password =
-  $("loginPassword").value;
+    document.getElementById("loginPassword")
+      .value;
 
-  const {data,error} =
-  await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  if (!email || !password) {
 
-  if(error){
+    toast("Enter your login details.");
+    return;
+
+  }
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
 
     toast(error.message);
     return;
 
   }
 
-  currentUser = data.user;
+  user = data.user;
 
-  await loadUser();
+  await startApp();
 
 }
 
 
-/* =========================================================
-   USER
-========================================================= */
+/* =====================================================
+   START APP
+===================================================== */
 
-async function loadUser(){
+async function startApp() {
 
-  if(!currentUser)
+  if (!user)
     return;
 
 
-  const {data,error} =
-  await supabaseClient
-  .from("Benjosms")
-  .select("*")
-  .eq("id",currentUser.id)
-  .single();
+  document
+    .getElementById("auth")
+    .classList.add("hidden");
+
+  document
+    .getElementById("userApp")
+    .classList.remove("hidden");
 
 
-  if(error){
-
-    toast(error.message);
-    return;
-
-  }
-
-
-  currentProfile = data;
-
-
-  $("authSection")
-  .classList.add("hidden");
+  document
+    .getElementById("headerArea")
+    .innerHTML = `
+      <button
+        class="light"
+        onclick="logout()">
+        Logout
+      </button>
+    `;
 
 
-  $("userApp")
-  .classList.remove("hidden");
-
-
-  $("headerButtons").innerHTML = `
-    <button
-      class="secondary"
-      onclick="logout()">
-      Logout
-    </button>
-  `;
-
-
+  await loadProfile();
   await loadServices();
-  await loadWallet();
+  await loadBalance();
   await loadOrders();
 
 
-  if(currentProfile.is_admin){
+  if (profile && profile.is_admin === true) {
 
-    $("adminApp")
-    .classList.remove("hidden");
+    document
+      .getElementById("adminApp")
+      .classList.remove("hidden");
 
-    await loadAdminProducts();
+    await loadAdminServices();
     await loadAdminDeposits();
     await loadAdminOrders();
 
   }
 
+}
 
-  showPage("home");
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+async function loadProfile() {
+
+  const { data } =
+    await supabaseClient
+      .from("Benjosms")
+      .select("*")
+      .eq("id", user.id)
+      .maybeSingle();
+
+  profile = data;
 
 }
 
 
-async function logout(){
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout() {
 
   await supabaseClient.auth.signOut();
 
@@ -759,107 +711,81 @@ async function logout(){
 }
 
 
-async function checkSession(){
+/* =====================================================
+   USER PAGE
+===================================================== */
 
-  const {data} =
-  await supabaseClient.auth.getSession();
+function page(name) {
 
-  if(data.session){
-
-    currentUser =
-    data.session.user;
-
-    await loadUser();
-
-  }
-
-}
-
-checkSession();
-
-
-/* =========================================================
-   USER NAVIGATION
-========================================================= */
-
-function showPage(page){
-
-  [
-    "home",
-    "services",
-    "wallet",
-    "cart",
-    "orders"
-  ].forEach(name=>{
-
-    $("page-" + name)
+  document
+    .getElementById("homePage")
     .classList.add("hidden");
 
-  });
+  document
+    .getElementById("servicesPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("walletPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("ordersPage")
+    .classList.add("hidden");
 
 
-  $("page-" + page)
-  .classList.remove("hidden");
+  document
+    .getElementById(name + "Page")
+    .classList.remove("hidden");
 
 
-  if(page === "services")
+  if (name === "services")
     loadServices();
 
-  if(page === "wallet"){
+  if (name === "wallet") {
 
-    loadWallet();
+    loadBalance();
     loadDeposits();
 
   }
 
-  if(page === "cart")
-    renderCart();
-
-  if(page === "orders")
+  if (name === "orders")
     loadOrders();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SERVICES
-========================================================= */
+===================================================== */
 
-async function loadServices(){
-
-  if(!currentUser)
-    return;
-
+async function loadServices() {
 
   const box =
-  $("servicesList");
+    document.getElementById("servicesList");
 
-  box.innerHTML =
-  "<p>Loading products...</p>";
-
-
-  const {data,error} =
-  await supabaseClient
-  .from("services")
-  .select("*")
-  .eq("available",true)
-  .order("name");
+  const { data, error } =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .eq("available", true)
+      .order("name");
 
 
-  if(error){
+  if (error) {
 
     box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
+      `<p>${safe(error.message)}</p>`;
 
     return;
 
   }
 
 
-  if(!data || !data.length){
+  if (!data || data.length === 0) {
 
     box.innerHTML =
-    "<p>No products available.</p>";
+      "<p>No services available.</p>";
 
     return;
 
@@ -869,186 +795,81 @@ async function loadServices(){
   box.innerHTML = "";
 
 
-  data.forEach(product=>{
+  data.forEach(service => {
 
-    const card =
-    document.createElement("div");
+    const div =
+      document.createElement("div");
 
-    card.className = "product";
+    div.className = "product";
 
 
-    card.innerHTML = `
+    div.innerHTML = `
 
       <h3>
-        ${escapeHTML(product.name)}
+        ${safe(service.name)}
       </h3>
 
       <p>
-        ${escapeHTML(product.description || "")}
+        ${safe(service.description || "")}
       </p>
 
       <div class="price">
-        ${money(product.price)}
+        ${money(service.price)}
       </div>
 
       <button
-        class="primary"
-        onclick='addToCart("${product.id}")'>
-        Add to Cart
-      </button>
-
-    `;
-
-
-    box.appendChild(card);
-
-  });
-
-}
-
-
-/* =========================================================
-   CART
-========================================================= */
-
-function addToCart(id){
-
-  if(!cart.includes(id))
-    cart.push(id);
-
-  localStorage.setItem(
-    "benjo_cart",
-    JSON.stringify(cart)
-  );
-
-  toast("Added to cart.");
-
-  renderCart();
-
-}
-
-
-async function renderCart(){
-
-  const box =
-  $("cartList");
-
-
-  if(!cart.length){
-
-    box.innerHTML =
-    "<p>Your cart is empty.</p>";
-
-    return;
-
-  }
-
-
-  const {data,error} =
-  await supabaseClient
-  .from("services")
-  .select("*")
-  .in("id",cart);
-
-
-  if(error){
-
-    box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
-
-    return;
-
-  }
-
-
-  box.innerHTML = "";
-
-
-  data.forEach(product=>{
-
-    const card =
-    document.createElement("div");
-
-    card.className = "card";
-
-
-    card.innerHTML = `
-
-      <h3>
-        ${escapeHTML(product.name)}
-      </h3>
-
-      <p>
-        ${money(product.price)}
-      </p>
-
-      <button
         class="success"
-        onclick='payForProduct("${product.id}")'>
-        Pay With Wallet
-      </button>
-
-      <button
-        class="danger"
-        onclick='removeFromCart("${product.id}")'>
-        Remove
+        onclick="buyService('${service.id}')">
+        Buy Now
       </button>
 
     `;
 
 
-    box.appendChild(card);
+    box.appendChild(div);
 
   });
 
 }
 
 
-function removeFromCart(id){
+/* =====================================================
+   BUY SERVICE
+===================================================== */
 
-  cart =
-  cart.filter(x=>x !== id);
+async function buyService(serviceId) {
 
-  localStorage.setItem(
-    "benjo_cart",
-    JSON.stringify(cart)
-  );
-
-  renderCart();
-
-}
-
-
-/* =========================================================
-   PAYMENT
-========================================================= */
-
-async function payForProduct(productId){
-
-  if(!currentUser){
-
-    toast("Please login.");
+  if (!confirm(
+    "Pay for this service with your wallet?"
+  )) {
     return;
-
   }
 
 
-  if(!confirm(
-    "Pay for this product using your wallet?"
-  ))
-    return;
+  toast("Processing payment...");
 
 
-  const {data,error} =
-  await supabaseClient.rpc(
-    "pay_for_order",
-    {
-      p_service_id:productId
-    }
-  );
+  /*
+    This calls the Supabase function you created.
+
+    The function is responsible for:
+    - checking wallet balance
+    - getting product information
+    - deducting the wallet
+    - creating the order
+    - putting delivery information into login_information
+  */
+
+  const { data, error } =
+    await supabaseClient.rpc(
+      "pay_for_order",
+      {
+        p_service_id: serviceId
+      }
+    );
 
 
-  if(error){
+  if (error) {
 
     toast(
       "Payment failed: " +
@@ -1060,117 +881,111 @@ async function payForProduct(productId){
   }
 
 
-  cart =
-  cart.filter(id=>id !== productId);
-
-
-  localStorage.setItem(
-    "benjo_cart",
-    JSON.stringify(cart)
-  );
-
-
   toast(
-    "Payment successful. Delivery information is available."
+    "Payment successful!"
   );
 
 
-  await loadWallet();
+  await loadBalance();
   await loadOrders();
 
-  showPage("orders");
+  page("orders");
 
 }
 
 
-/* =========================================================
+/* =====================================================
    WALLET
-========================================================= */
+===================================================== */
 
-async function loadWallet(){
+async function loadBalance() {
 
-  if(!currentUser)
-    return;
-
-
-  const {data,error} =
-  await supabaseClient
-  .from("wallets")
-  .select("balance")
-  .eq("user_id",currentUser.id)
-  .maybeSingle();
+  const box =
+    document.getElementById("balance");
 
 
-  if(error){
+  const { data, error } =
+    await supabaseClient
+      .from("wallets")
+      .select("balance")
+      .eq("user_id", user.id)
+      .maybeSingle();
 
-    $("walletBalance")
-    .textContent = "₦0.00";
 
+  if (error) {
+
+    box.textContent = "₦0.00";
     return;
 
   }
 
 
-  $("walletBalance")
-  .textContent =
-  money(data?.balance || 0);
+  box.textContent =
+    money(data ? data.balance : 0);
 
 }
 
 
-/* =========================================================
+/* =====================================================
    DEPOSIT
-========================================================= */
+===================================================== */
 
-async function submitDeposit(){
+async function deposit() {
 
   const amount =
-  Number(
-    $("depositAmount").value
-  );
+    Number(
+      document
+        .getElementById("depositAmount")
+        .value
+    );
 
   const file =
-  $("depositScreenshot").files[0];
+    document
+      .getElementById("depositProof")
+      .files[0];
 
 
-  if(!amount || amount <= 0){
+  if (!amount || amount <= 0) {
 
-    toast("Enter a valid amount.");
+    toast("Enter a valid deposit amount.");
     return;
 
   }
 
 
-  if(!file){
+  if (!file) {
 
-    toast("Upload your payment screenshot.");
+    toast("Select your payment proof.");
     return;
 
   }
+
+
+  toast("Uploading proof...");
 
 
   const extension =
-  file.name.split(".").pop();
+    file.name.split(".").pop();
 
 
   const path =
-  currentUser.id +
-  "/" +
-  crypto.randomUUID() +
-  "." +
-  extension;
+    user.id +
+    "/" +
+    crypto.randomUUID() +
+    "." +
+    extension;
 
 
-  const {error:uploadError} =
-  await supabaseClient.storage
-  .from("deposit-proofs")
-  .upload(
-    path,
-    file
-  );
+  const { error: uploadError } =
+    await supabaseClient.storage
+      .from("deposit-proofs")
+      .upload(
+        path,
+        file
+      );
 
 
-  if(uploadError){
+  if (uploadError) {
 
     toast(
       "Upload failed: " +
@@ -1182,27 +997,20 @@ async function submitDeposit(){
   }
 
 
-  const {error} =
-  await supabaseClient
-  .from("deposits")
-  .insert({
+  const { error } =
+    await supabaseClient
+      .from("deposits")
+      .insert({
 
-    user_id:
-    currentUser.id,
+        user_id: user.id,
+        amount: amount,
+        screenshot_url: path,
+        status: "pending"
 
-    amount:
-    amount,
-
-    screenshot_url:
-    path,
-
-    status:
-    "pending"
-
-  });
+      });
 
 
-  if(error){
+  if (error) {
 
     toast(error.message);
     return;
@@ -1210,52 +1018,59 @@ async function submitDeposit(){
   }
 
 
-  $("depositAmount").value = "";
-  $("depositScreenshot").value = "";
+  document
+    .getElementById("depositAmount")
+    .value = "";
+
+  document
+    .getElementById("depositProof")
+    .value = "";
+
 
   toast(
-    "Deposit submitted for approval."
+    "Deposit submitted successfully."
   );
+
 
   loadDeposits();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    USER DEPOSITS
-========================================================= */
+===================================================== */
 
-async function loadDeposits(){
+async function loadDeposits() {
 
   const box =
-  $("myDeposits");
+    document.getElementById("depositsList");
 
 
-  const {data,error} =
-  await supabaseClient
-  .from("deposits")
-  .select("*")
-  .eq("user_id",currentUser.id)
-  .order("created_at",{
-    ascending:false
-  });
+  const { data, error } =
+    await supabaseClient
+      .from("deposits")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", {
+        ascending: false
+      });
 
 
-  if(error){
+  if (error) {
 
     box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
+      `<p>${safe(error.message)}</p>`;
 
     return;
 
   }
 
 
-  if(!data.length){
+  if (!data.length) {
 
     box.innerHTML =
-    "<p>No deposits yet.</p>";
+      "<p>No deposits yet.</p>";
 
     return;
 
@@ -1265,10 +1080,10 @@ async function loadDeposits(){
   box.innerHTML = "";
 
 
-  data.forEach(deposit=>{
+  data.forEach(item => {
 
     const div =
-    document.createElement("div");
+      document.createElement("div");
 
     div.className = "card";
 
@@ -1276,13 +1091,13 @@ async function loadDeposits(){
     div.innerHTML = `
 
       <strong>
-        ${money(deposit.amount)}
+        ${money(item.amount)}
       </strong>
 
       <p>
         Status:
         <span class="status">
-          ${escapeHTML(deposit.status)}
+          ${safe(item.status)}
         </span>
       </p>
 
@@ -1296,40 +1111,40 @@ async function loadDeposits(){
 }
 
 
-/* =========================================================
+/* =====================================================
    ORDERS
-========================================================= */
+===================================================== */
 
-async function loadOrders(){
+async function loadOrders() {
 
   const box =
-  $("ordersList");
+    document.getElementById("ordersList");
 
 
-  const {data,error} =
-  await supabaseClient
-  .from("orders")
-  .select("*")
-  .eq("user_id",currentUser.id)
-  .order("created_at",{
-    ascending:false
-  });
+  const { data, error } =
+    await supabaseClient
+      .from("orders")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", {
+        ascending: false
+      });
 
 
-  if(error){
+  if (error) {
 
     box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
+      `<p>${safe(error.message)}</p>`;
 
     return;
 
   }
 
 
-  if(!data.length){
+  if (!data.length) {
 
     box.innerHTML =
-    "<p>No orders yet.</p>";
+      "<p>No orders yet.</p>";
 
     return;
 
@@ -1339,10 +1154,10 @@ async function loadOrders(){
   box.innerHTML = "";
 
 
-  data.forEach(order=>{
+  data.forEach(order => {
 
     const div =
-    document.createElement("div");
+      document.createElement("div");
 
     div.className = "card";
 
@@ -1350,23 +1165,20 @@ async function loadOrders(){
     div.innerHTML = `
 
       <h3>
-        ${escapeHTML(order.product_name)}
+        ${safe(order.product_name)}
       </h3>
 
       <p>
         Amount:
-        ${money(order.amount)}
-      </p>
-
-      <p>
-        Payment:
-        ${escapeHTML(order.payment_method)}
+        <strong>
+          ${money(order.amount)}
+        </strong>
       </p>
 
       <p>
         Status:
         <span class="status">
-          ${escapeHTML(order.status)}
+          ${safe(order.status)}
         </span>
       </p>
 
@@ -1374,23 +1186,23 @@ async function loadOrders(){
         order.login_information
         ?
         `
-        <div class="delivery">
+          <div class="delivery">
 
-          <strong>
-            Delivery Information
-          </strong>
+            <strong>
+              Login / Delivery Information
+            </strong>
 
-          <br><br>
+            <br><br>
 
-          ${escapeHTML(order.login_information)}
+            ${safe(order.login_information)}
 
-        </div>
+          </div>
         `
         :
         `
-        <p class="small">
-          Delivery information is not available.
-        </p>
+          <p>
+            Delivery information not available yet.
+          </p>
         `
       }
 
@@ -1404,71 +1216,98 @@ async function loadOrders(){
 }
 
 
-/* =========================================================
+/* =====================================================
    ADMIN NAVIGATION
-========================================================= */
+===================================================== */
 
-function showAdminPage(page){
+function adminPage(name) {
 
-  [
-    "dashboard",
-    "products",
-    "deposits",
-    "orders"
-  ].forEach(name=>{
-
-    $("admin-"+name)
+  document
+    .getElementById("adminProductsPage")
     .classList.add("hidden");
 
-  });
+  document
+    .getElementById("adminDepositsPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminOrdersPage")
+    .classList.add("hidden");
 
 
-  $("admin-"+page)
-  .classList.remove("hidden");
+  if (name === "products") {
+
+    document
+      .getElementById("adminProductsPage")
+      .classList.remove("hidden");
+
+    loadAdminServices();
+
+  }
 
 
-  if(page === "products")
-    loadAdminProducts();
+  if (name === "deposits") {
 
-  if(page === "deposits")
+    document
+      .getElementById("adminDepositsPage")
+      .classList.remove("hidden");
+
     loadAdminDeposits();
 
-  if(page === "orders")
+  }
+
+
+  if (name === "orders") {
+
+    document
+      .getElementById("adminOrdersPage")
+      .classList.remove("hidden");
+
     loadAdminOrders();
+
+  }
 
 }
 
 
-/* =========================================================
-   ADMIN CREATE PRODUCT
-========================================================= */
+/* =====================================================
+   ADMIN ADD SERVICE
+===================================================== */
 
-async function createProduct(){
+async function addService() {
 
   const name =
-  $("productName").value.trim();
+    document
+      .getElementById("serviceName")
+      .value.trim();
 
   const description =
-  $("productDescription").value.trim();
+    document
+      .getElementById("serviceDescription")
+      .value.trim();
 
   const price =
-  Number(
-    $("productPrice").value
-  );
+    Number(
+      document
+        .getElementById("servicePrice")
+        .value
+    );
 
   const delivery =
-  $("productDelivery").value.trim();
+    document
+      .getElementById("serviceDelivery")
+      .value.trim();
 
 
-  if(!name){
+  if (!name) {
 
-    toast("Enter product name.");
+    toast("Enter service name.");
     return;
 
   }
 
 
-  if(!price || price <= 0){
+  if (!price || price <= 0) {
 
     toast("Enter a valid price.");
     return;
@@ -1476,10 +1315,10 @@ async function createProduct(){
   }
 
 
-  if(!delivery){
+  if (!delivery) {
 
     toast(
-      "Enter the authorized delivery information."
+      "Enter the login/delivery information."
     );
 
     return;
@@ -1487,25 +1326,21 @@ async function createProduct(){
   }
 
 
-  const {error} =
-  await supabaseClient
-  .from("services")
-  .insert({
+  const { error } =
+    await supabaseClient
+      .from("services")
+      .insert({
 
-    name:name,
+        name: name,
+        description: description,
+        price: price,
+        delivery_information: delivery,
+        available: true
 
-    description:description,
-
-    price:price,
-
-    delivery_information:delivery,
-
-    available:true
-
-  });
+      });
 
 
-  if(error){
+  if (error) {
 
     toast(error.message);
     return;
@@ -1513,40 +1348,43 @@ async function createProduct(){
   }
 
 
-  $("productName").value = "";
-  $("productDescription").value = "";
-  $("productPrice").value = "";
-  $("productDelivery").value = "";
+  document.getElementById("serviceName").value = "";
+  document.getElementById("serviceDescription").value = "";
+  document.getElementById("servicePrice").value = "";
+  document.getElementById("serviceDelivery").value = "";
 
 
-  toast("Product added successfully.");
+  toast(
+    "Service added successfully."
+  );
 
-  loadAdminProducts();
+
+  loadAdminServices();
 
 }
 
 
-/* =========================================================
-   ADMIN PRODUCTS
-========================================================= */
+/* =====================================================
+   ADMIN SERVICES
+===================================================== */
 
-async function loadAdminProducts(){
+async function loadAdminServices() {
 
   const box =
-  $("adminProducts");
+    document.getElementById("adminServices");
 
 
-  const {data,error} =
-  await supabaseClient
-  .from("services")
-  .select("*")
-  .order("name");
+  const { data, error } =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .order("name");
 
 
-  if(error){
+  if (error) {
 
     box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
+      `<p>${safe(error.message)}</p>`;
 
     return;
 
@@ -1556,55 +1394,33 @@ async function loadAdminProducts(){
   box.innerHTML = "";
 
 
-  data.forEach(product=>{
+  data.forEach(service => {
 
     const div =
-    document.createElement("div");
+      document.createElement("div");
 
-    div.className =
-    "card";
+    div.className = "card";
 
 
     div.innerHTML = `
 
       <h3>
-        ${escapeHTML(product.name)}
+        ${safe(service.name)}
       </h3>
 
       <p>
-        Price:
-        ${money(product.price)}
-      </p>
-
-      <p>
-        ${escapeHTML(product.description || "")}
+        ${money(service.price)}
       </p>
 
       <div class="delivery">
-
-        <strong>
-          Delivery Information
-        </strong>
-
-        <br><br>
-
-        ${escapeHTML(
-          product.delivery_information || ""
+        ${safe(
+          service.delivery_information || ""
         )}
-
       </div>
-
-      <br>
-
-      <button
-        class="secondary"
-        onclick='editProduct("${product.id}")'>
-        Edit
-      </button>
 
       <button
         class="danger"
-        onclick='deleteProduct("${product.id}")'>
+        onclick="deleteService('${service.id}')">
         Delete
       </button>
 
@@ -1618,21 +1434,27 @@ async function loadAdminProducts(){
 }
 
 
-/* =========================================================
-   EDIT PRODUCT
-========================================================= */
+/* =====================================================
+   DELETE SERVICE
+===================================================== */
 
-async function editProduct(id){
+async function deleteService(id) {
 
-  const {data,error} =
-  await supabaseClient
-  .from("services")
-  .select("*")
-  .eq("id",id)
-  .single();
+  if (!confirm(
+    "Delete this service?"
+  )) {
+    return;
+  }
 
 
-  if(error){
+  const { error } =
+    await supabaseClient
+      .from("services")
+      .delete()
+      .eq("id", id);
+
+
+  if (error) {
 
     toast(error.message);
     return;
@@ -1640,143 +1462,46 @@ async function editProduct(id){
   }
 
 
-  const name =
-  prompt(
-    "Product name:",
-    data.name
-  );
+  toast("Service deleted.");
 
-
-  if(name === null)
-    return;
-
-
-  const price =
-  Number(
-    prompt(
-      "Price:",
-      data.price
-    )
-  );
-
-
-  if(!price || price <= 0){
-
-    toast("Invalid price.");
-    return;
-
-  }
-
-
-  const delivery =
-  prompt(
-    "Delivery information:",
-    data.delivery_information || ""
-  );
-
-
-  if(delivery === null)
-    return;
-
-
-  const {error:updateError} =
-  await supabaseClient
-  .from("services")
-  .update({
-
-    name:name.trim(),
-
-    price:price,
-
-    delivery_information:
-    delivery.trim()
-
-  })
-  .eq("id",id);
-
-
-  if(updateError){
-
-    toast(updateError.message);
-    return;
-
-  }
-
-
-  toast("Product updated.");
-
-  loadAdminProducts();
+  loadAdminServices();
 
 }
 
 
-/* =========================================================
-   DELETE PRODUCT
-========================================================= */
-
-async function deleteProduct(id){
-
-  if(!confirm(
-    "Delete this product?"
-  ))
-    return;
-
-
-  const {error} =
-  await supabaseClient
-  .from("services")
-  .delete()
-  .eq("id",id);
-
-
-  if(error){
-
-    toast(error.message);
-    return;
-
-  }
-
-
-  toast("Product deleted.");
-
-  loadAdminProducts();
-
-}
-
-
-/* =========================================================
+/* =====================================================
    ADMIN DEPOSITS
-========================================================= */
+===================================================== */
 
-async function loadAdminDeposits(){
+async function loadAdminDeposits() {
 
   const box =
-  $("adminDeposits");
+    document.getElementById("adminDeposits");
 
 
-  const {data,error} =
-  await supabaseClient
-  .from("deposits")
-  .select("*")
-  .order("created_at",{
-    ascending:false
-  });
+  const { data, error } =
+    await supabaseClient
+      .from("deposits")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
 
 
-  if(error){
+  if (error) {
 
     box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
+      `<p>${safe(error.message)}</p>`;
 
     return;
 
   }
 
 
-  if(!data.length){
+  if (!data.length) {
 
     box.innerHTML =
-    "<p>No deposits.</p>";
+      "<p>No deposits.</p>";
 
     return;
 
@@ -1786,20 +1511,19 @@ async function loadAdminDeposits(){
   box.innerHTML = "";
 
 
-  data.forEach(deposit=>{
+  data.forEach(deposit => {
 
     const div =
-    document.createElement("div");
+      document.createElement("div");
 
-    div.className =
-    "card";
+    div.className = "card";
 
 
     div.innerHTML = `
 
       <p>
         User:
-        ${escapeHTML(deposit.user_id)}
+        ${safe(deposit.user_id)}
       </p>
 
       <h3>
@@ -1808,30 +1532,24 @@ async function loadAdminDeposits(){
 
       <p>
         Status:
-        ${escapeHTML(deposit.status)}
+        ${safe(deposit.status)}
       </p>
-
-      ${
-        deposit.screenshot_url
-        ?
-        `
-        <p>
-          Payment screenshot uploaded.
-        </p>
-        `
-        :
-        ""
-      }
 
       ${
         deposit.status === "pending"
         ?
         `
-        <button
-          class="success"
-          onclick='approveDeposit("${deposit.id}")'>
-          Approve Deposit
-        </button>
+          <button
+            class="success"
+            onclick="approveDeposit('${deposit.id}')">
+            Approve
+          </button>
+
+          <button
+            class="danger"
+            onclick="rejectDeposit('${deposit.id}')">
+            Reject
+          </button>
         `
         :
         ""
@@ -1847,28 +1565,29 @@ async function loadAdminDeposits(){
 }
 
 
-/* =========================================================
+/* =====================================================
    APPROVE DEPOSIT
-========================================================= */
+===================================================== */
 
-async function approveDeposit(id){
+async function approveDeposit(id) {
 
-  if(!confirm(
-    "Approve this deposit and credit the wallet?"
-  ))
+  if (!confirm(
+    "Approve this deposit?"
+  )) {
     return;
+  }
 
 
-  const {error} =
-  await supabaseClient.rpc(
-    "approve_deposit",
-    {
-      deposit_id:id
-    }
-  );
+  const { error } =
+    await supabaseClient.rpc(
+      "approve_deposit",
+      {
+        deposit_id: id
+      }
+    );
 
 
-  if(error){
+  if (error) {
 
     toast(
       "Approval failed: " +
@@ -1890,39 +1609,69 @@ async function approveDeposit(id){
 }
 
 
-/* =========================================================
-   ADMIN ORDERS
-========================================================= */
+/* =====================================================
+   REJECT DEPOSIT
+===================================================== */
 
-async function loadAdminOrders(){
+async function rejectDeposit(id) {
+
+  const { error } =
+    await supabaseClient
+      .from("deposits")
+      .update({
+        status: "rejected"
+      })
+      .eq("id", id);
+
+
+  if (error) {
+
+    toast(error.message);
+    return;
+
+  }
+
+
+  toast("Deposit rejected.");
+
+  loadAdminDeposits();
+
+}
+
+
+/* =====================================================
+   ADMIN ORDERS
+===================================================== */
+
+async function loadAdminOrders() {
 
   const box =
-  $("adminOrders");
+    document.getElementById("adminOrders");
 
 
-  const {data,error} =
-  await supabaseClient
-  .from("orders")
-  .select("*")
-  .order("created_at",{
-    ascending:false
-  });
+  const { data, error } =
+    await supabaseClient
+      .from("orders")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
 
 
-  if(error){
+  if (error) {
 
     box.innerHTML =
-    `<p>${escapeHTML(error.message)}</p>`;
+      `<p>${safe(error.message)}</p>`;
 
     return;
 
   }
 
 
-  if(!data.length){
+  if (!data.length) {
 
     box.innerHTML =
-    "<p>No orders yet.</p>";
+      "<p>No orders.</p>";
 
     return;
 
@@ -1932,24 +1681,23 @@ async function loadAdminOrders(){
   box.innerHTML = "";
 
 
-  data.forEach(order=>{
+  data.forEach(order => {
 
     const div =
-    document.createElement("div");
+      document.createElement("div");
 
-    div.className =
-    "card";
+    div.className = "card";
 
 
     div.innerHTML = `
 
       <h3>
-        ${escapeHTML(order.product_name)}
+        ${safe(order.product_name)}
       </h3>
 
       <p>
         User:
-        ${escapeHTML(order.user_id)}
+        ${safe(order.user_id)}
       </p>
 
       <p>
@@ -1958,24 +1706,13 @@ async function loadAdminOrders(){
       </p>
 
       <p>
-        Payment:
-        ${escapeHTML(order.payment_method)}
-      </p>
-
-      <p>
         Status:
-        ${escapeHTML(order.status)}
+        ${safe(order.status)}
       </p>
 
       <div class="delivery">
 
-        <strong>
-          Delivered Information
-        </strong>
-
-        <br><br>
-
-        ${escapeHTML(
+        ${safe(
           order.login_information || ""
         )}
 
@@ -1989,6 +1726,31 @@ async function loadAdminOrders(){
   });
 
 }
+
+
+/* =====================================================
+   SESSION
+===================================================== */
+
+async function checkSession() {
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+
+  if (data.session) {
+
+    user =
+      data.session.user;
+
+    await startApp();
+
+  }
+
+}
+
+
+checkSession();
 
 </script>
 
