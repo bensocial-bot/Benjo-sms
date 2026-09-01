@@ -2,78 +2,152 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
 <title>Benjo-SMS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:#f5f7fb;
   color:#111827;
+  background:
+    radial-gradient(circle at top left,#312e81 0,#111827 35%,#020617 100%);
+  min-height:100vh;
 }
 
-header{
-  background:#111827;
-  color:white;
-  padding:16px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.logo{
-  font-size:22px;
-  font-weight:bold;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
-
-.card{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
-}
-
-input,
-textarea{
-  width:100%;
-  padding:12px;
-  margin:7px 0 12px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:15px;
-}
-
-textarea{
-  min-height:110px;
-  resize:vertical;
-}
+button,input,textarea{font:inherit}
 
 button{
   border:0;
-  border-radius:8px;
-  padding:11px 15px;
-  margin:4px;
+  border-radius:10px;
+  padding:12px 16px;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:700;
+}
+
+input,textarea{
+  width:100%;
+  padding:13px;
+  margin:6px 0 12px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  outline:none;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+input:focus,textarea:focus{
+  border-color:#4f46e5;
+}
+
+header{
+  background:rgba(2,6,23,.88);
+  backdrop-filter:blur(10px);
+  color:white;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  font-weight:900;
+}
+
+.logo-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#6366f1,#06b6d4);
+  color:white;
+  font-weight:900;
+  box-shadow:0 5px 20px rgba(99,102,241,.4);
+}
+
+.container{
+  width:min(1100px,100%);
+  margin:auto;
+  padding:22px 16px 100px;
+}
+
+.card{
+  background:rgba(255,255,255,.97);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
+
+.auth-card{
+  max-width:480px;
+  margin:45px auto;
+}
+
+.hero{
+  color:white;
+  text-align:center;
+  padding:35px 15px;
+}
+
+.hero h1{
+  font-size:40px;
+  margin:5px 0 10px;
+}
+
+.hero p{
+  color:#dbeafe;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
+}
+
+.service{
+  border:1px solid #e5e7eb;
+  border-radius:15px;
+  padding:18px;
+}
+
+.price{
+  font-size:24px;
+  font-weight:900;
+  margin:12px 0;
+}
+
+.balance{
+  font-size:34px;
+  font-weight:900;
+}
+
+.nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:18px;
 }
 
 .primary{
-  background:#111827;
+  background:#4f46e5;
   color:white;
 }
 
@@ -87,94 +161,17 @@ button{
   color:white;
 }
 
-.light{
+.secondary{
   background:#e5e7eb;
   color:#111827;
 }
 
-.telegram{
-  background:#229ED9;
-  color:white;
-}
-
-.whatsapp{
-  background:#25D366;
-  color:white;
-}
-
-.nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-bottom:20px;
+.full{
+  width:100%;
 }
 
 .hidden{
   display:none!important;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(
-    auto-fit,
-    minmax(240px,1fr)
-  );
-  gap:15px;
-}
-
-.product{
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:15px;
-}
-
-.price{
-  font-size:20px;
-  font-weight:bold;
-  margin:10px 0;
-}
-
-.balance{
-  font-size:30px;
-  font-weight:bold;
-}
-
-.delivery{
-  background:#ecfdf5;
-  border:1px solid #86efac;
-  padding:15px;
-  border-radius:8px;
-  margin-top:10px;
-  white-space:pre-wrap;
-  word-break:break-word;
-}
-
-.status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#e5e7eb;
-  font-size:12px;
-}
-
-.success-message{
-  background:#ecfdf5;
-  border:1px solid #86efac;
-  color:#166534;
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:15px;
-}
-
-.support-button{
-  display:block;
-  text-decoration:none;
-  margin:8px 0;
-}
-
-.support-button button{
-  width:100%;
-  margin:0;
 }
 
 .small{
@@ -182,18 +179,125 @@ button{
   font-size:13px;
 }
 
+.success-box{
+  background:#ecfdf5;
+  border:1px solid #86efac;
+  color:#166534;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:18px;
+}
+
+.error-box{
+  background:#fef2f2;
+  border:1px solid #fca5a5;
+  color:#991b1b;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:18px;
+}
+
+.delivery{
+  background:#ecfdf5;
+  border:1px solid #86efac;
+  padding:15px;
+  border-radius:12px;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.order{
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.badge{
+  display:inline-block;
+  background:#e5e7eb;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.support-button{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:#4f46e5;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  box-shadow:0 8px 25px rgba(0,0,0,.3);
+  z-index:9998;
+}
+
+.support-menu{
+  position:fixed;
+  right:18px;
+  bottom:88px;
+  width:210px;
+  background:white;
+  padding:10px;
+  border-radius:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.3);
+  z-index:9999;
+}
+
+.support-menu a{
+  text-decoration:none;
+  display:block;
+  margin:5px 0;
+}
+
+.telegram{
+  background:#229ed9;
+  color:white;
+  width:100%;
+}
+
+.whatsapp{
+  background:#25d366;
+  color:white;
+  width:100%;
+}
+
 #toast{
   display:none;
   position:fixed;
-  bottom:20px;
-  left:20px;
-  right:20px;
+  left:18px;
+  right:18px;
+  bottom:90px;
   background:#111827;
   color:white;
   padding:14px;
-  border-radius:8px;
-  z-index:9999;
+  border-radius:12px;
   text-align:center;
+  z-index:10001;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  text-align:left;
+  padding:10px;
+  border-bottom:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+@media(max-width:600px){
+  .hero h1{font-size:32px}
+  .card{padding:16px}
 }
 </style>
 </head>
@@ -201,345 +305,227 @@ button{
 <body>
 
 <header>
-
   <div class="logo">
-    Benjo-SMS
+    <div class="logo-icon">B</div>
+    <span>Benjo-SMS</span>
   </div>
 
-  <div id="headerArea"></div>
-
+  <div id="headerButtons"></div>
 </header>
-
 
 <div class="container">
 
+<!-- AUTH -->
+<section id="authSection">
 
-<!-- =====================================================
-     EMAIL VERIFIED MESSAGE
-===================================================== -->
+  <div class="hero">
+    <h1>Benjo-SMS</h1>
+    <p>Simple. Fast. Secure.</p>
+  </div>
 
-<div
-  id="verificationSuccess"
-  class="success-message hidden">
+  <div id="verificationSuccess" class="success-box hidden">
+    <strong>Email verified successfully! 🎉</strong>
+    <p>Your email has been verified. You can now log in.</p>
+    <button class="primary" onclick="showLogin()">Continue to Login</button>
+  </div>
 
-  <strong>
-    Email verified successfully! 🎉
-  </strong>
+  <div id="authMessage"></div>
 
-  <p>
-    Your email has been verified.
-    You can now log in to your Benjo-SMS account.
-  </p>
+  <!-- LOGIN -->
+  <div id="loginBox" class="card auth-card">
+    <h2>Login</h2>
 
-  <button
-    class="primary"
-    onclick="showLogin()">
-    Continue to Login
-  </button>
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Email"
+      autocomplete="email"
+    >
 
-</div>
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
 
+    <button class="primary full" onclick="login()">Login</button>
 
-<!-- =====================================================
-     AUTH
-===================================================== -->
+    <button class="secondary full" onclick="showRegister()">
+      Create Account
+    </button>
 
-<section id="auth">
+    <button class="secondary full" onclick="showForgot()">
+      Forgot Password?
+    </button>
+  </div>
 
-  <div class="card">
+  <!-- REGISTER -->
+  <div id="registerBox" class="card auth-card hidden">
+    <h2>Create Account</h2>
 
-    <h2>Welcome to Benjo-SMS</h2>
+    <input
+      id="registerEmail"
+      type="email"
+      placeholder="Email"
+      autocomplete="email"
+    >
 
-    <p>
-      Login or create your account.
+    <input
+      id="registerPassword"
+      type="password"
+      placeholder="Password — minimum 6 characters"
+      autocomplete="new-password"
+    >
+
+    <button class="success full" onclick="register()">
+      Create Account
+    </button>
+
+    <button class="secondary full" onclick="showLogin()">
+      Back to Login
+    </button>
+  </div>
+
+  <!-- FORGOT PASSWORD -->
+  <div id="forgotBox" class="card auth-card hidden">
+    <h2>Forgot Password?</h2>
+
+    <p class="small">
+      Enter your email and we'll send you a password reset link.
     </p>
 
+    <input
+      id="forgotEmail"
+      type="email"
+      placeholder="Email"
+    >
 
-    <!-- LOGIN -->
+    <button class="primary full" onclick="sendResetEmail()">
+      Send Reset Link
+    </button>
 
-    <div id="loginBox">
+    <button class="secondary full" onclick="showLogin()">
+      Back to Login
+    </button>
+  </div>
 
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="Email">
+  <!-- RESET PASSWORD -->
+  <div id="resetBox" class="card auth-card hidden">
+    <h2>Create New Password</h2>
 
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="Password">
+    <input
+      id="newPassword"
+      type="password"
+      placeholder="New password"
+    >
 
-      <button
-        class="primary"
-        onclick="login()">
-        Login
-      </button>
+    <input
+      id="confirmPassword"
+      type="password"
+      placeholder="Confirm password"
+    >
 
-      <button
-        class="light"
-        onclick="showRegister()">
-        Create Account
-      </button>
-
-      <br>
-
-      <button
-        class="light"
-        onclick="showForgotPassword()">
-        Forgot Password?
-      </button>
-
-    </div>
-
-
-    <!-- REGISTER -->
-
-    <div
-      id="registerBox"
-      class="hidden">
-
-      <h3>Create Account</h3>
-
-      <input
-        id="registerEmail"
-        type="email"
-        placeholder="Email">
-
-      <input
-        id="registerPassword"
-        type="password"
-        placeholder="Password">
-
-      <button
-        class="success"
-        onclick="register()">
-        Create Account
-      </button>
-
-      <button
-        class="light"
-        onclick="showLogin()">
-        Back to Login
-      </button>
-
-    </div>
-
-
-    <!-- FORGOT PASSWORD -->
-
-    <div
-      id="forgotBox"
-      class="hidden">
-
-      <h3>Forgot Password?</h3>
-
-      <p>
-        Enter your email and we'll send you
-        a password reset link.
-      </p>
-
-      <input
-        id="forgotEmail"
-        type="email"
-        placeholder="Your email">
-
-      <button
-        class="primary"
-        onclick="sendResetEmail()">
-        Send Reset Link
-      </button>
-
-      <button
-        class="light"
-        onclick="showLogin()">
-        Back to Login
-      </button>
-
-    </div>
-
-
-    <!-- RESET PASSWORD -->
-
-    <div
-      id="resetBox"
-      class="hidden">
-
-      <h3>Set New Password</h3>
-
-      <input
-        id="newPassword"
-        type="password"
-        placeholder="New password">
-
-      <input
-        id="confirmPassword"
-        type="password"
-        placeholder="Confirm new password">
-
-      <button
-        class="success"
-        onclick="updatePassword()">
-        Update Password
-      </button>
-
-    </div>
-
+    <button class="success full" onclick="updatePassword()">
+      Update Password
+    </button>
   </div>
 
 </section>
 
 
-<!-- =====================================================
-     USER APP
-===================================================== -->
-
-<section
-  id="userApp"
-  class="hidden">
-
-
-  <!-- NAV -->
+<!-- USER APP -->
+<section id="userApp" class="hidden">
 
   <div class="nav">
-
-    <button onclick="userPage('home')">
-      Home
-    </button>
-
-    <button onclick="userPage('services')">
-      Services
-    </button>
-
-    <button onclick="userPage('wallet')">
-      Wallet
-    </button>
-
-    <button onclick="userPage('orders')">
-      My Orders
-    </button>
-
-    <button onclick="userPage('support')">
-      Support
-    </button>
-
-    <button
-      class="danger"
-      onclick="logout()">
-      Logout
-    </button>
-
+    <button class="secondary" onclick="userPage('home')">Home</button>
+    <button class="secondary" onclick="userPage('services')">Services</button>
+    <button class="secondary" onclick="userPage('wallet')">Wallet</button>
+    <button class="secondary" onclick="userPage('orders')">My Orders</button>
   </div>
 
-
   <!-- HOME -->
-
   <div id="homePage">
 
     <div class="card">
-
-      <h2>
-        Welcome to Benjo-SMS
-      </h2>
-
+      <h2>Welcome to Benjo-SMS 👋</h2>
       <p>
-        Choose a service to get started.
+        Browse our available services and purchase using your wallet.
       </p>
 
-      <button
-        class="primary"
-        onclick="userPage('services')">
-        View Services
+      <button class="primary" onclick="userPage('services')">
+        Browse Services
       </button>
+    </div>
 
+    <div class="card">
+      <h3>Wallet Balance</h3>
+      <div id="homeBalance" class="balance">₦0.00</div>
     </div>
 
   </div>
 
 
   <!-- SERVICES -->
-
-  <div
-    id="servicesPage"
-    class="hidden">
+  <div id="servicesPage" class="hidden">
 
     <div class="card">
-
-      <h2>
-        Available Services
-      </h2>
-
-      <div
-        id="servicesList"
-        class="grid">
+      <h2>Available Services</h2>
+      <div id="servicesList" class="grid">
+        Loading...
       </div>
-
     </div>
 
   </div>
 
 
   <!-- WALLET -->
-
-  <div
-    id="walletPage"
-    class="hidden">
+  <div id="walletPage" class="hidden">
 
     <div class="card">
+      <h2>My Wallet</h2>
 
-      <h2>
-        My Wallet
-      </h2>
+      <p class="small">Available Balance</p>
 
-      <p>
-        Current balance
-      </p>
-
-      <div
-        id="balance"
-        class="balance">
+      <div id="walletBalance" class="balance">
         ₦0.00
       </div>
-
     </div>
-
 
     <div class="card">
 
-      <h2>
-        Deposit
-      </h2>
+      <h2>Deposit</h2>
 
-      <p>
-        Make your payment and upload
-        your payment proof.
+      <p class="small">
+        Make your payment through your chosen payment method, then submit
+        the amount and payment proof below.
       </p>
 
       <input
         id="depositAmount"
         type="number"
-        placeholder="Amount">
+        min="1"
+        placeholder="Amount"
+      >
 
       <input
         id="depositProof"
         type="file"
-        accept="image/*">
+        accept="image/*"
+      >
 
-      <button
-        class="success"
-        onclick="submitDeposit()">
+      <button class="success" onclick="submitDeposit()">
         Submit Deposit
       </button>
 
     </div>
 
-
     <div class="card">
 
-      <h2>
-        My Deposits
-      </h2>
+      <h2>My Deposits</h2>
 
       <div id="depositsList">
+        Loading...
       </div>
 
     </div>
@@ -548,64 +534,15 @@ button{
 
 
   <!-- ORDERS -->
-
-  <div
-    id="ordersPage"
-    class="hidden">
+  <div id="ordersPage" class="hidden">
 
     <div class="card">
 
-      <h2>
-        My Orders
-      </h2>
+      <h2>My Orders</h2>
 
       <div id="ordersList">
+        Loading...
       </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- SUPPORT -->
-
-  <div
-    id="supportPage"
-    class="hidden">
-
-    <div class="card">
-
-      <h2>
-        🆘 Support
-      </h2>
-
-      <p>
-        Need help? Contact our support team.
-      </p>
-
-
-      <a
-        class="support-button"
-        href="https://t.me/sliverfoxoftiktok"
-        target="_blank">
-
-        <button class="telegram">
-          Telegram Support
-        </button>
-
-      </a>
-
-
-      <a
-        class="support-button"
-        href="https://wa.me/2347019999529"
-        target="_blank">
-
-        <button class="whatsapp">
-          WhatsApp Support
-        </button>
-
-      </a>
 
     </div>
 
@@ -614,87 +551,76 @@ button{
 </section>
 
 
-<!-- =====================================================
-     ADMIN
-===================================================== -->
-
-<section
-  id="adminApp"
-  class="hidden">
+<!-- ADMIN -->
+<section id="adminApp" class="hidden">
 
   <div class="card">
 
-    <h2>
-      Admin Panel
-    </h2>
+    <h2>Admin Dashboard 🔐</h2>
 
     <div class="nav">
-
-      <button
-        onclick="adminPage('products')">
-        Products
+      <button class="secondary" onclick="adminPage('services')">
+        Services
       </button>
 
-      <button
-        onclick="adminPage('deposits')">
+      <button class="secondary" onclick="adminPage('deposits')">
         Deposits
       </button>
 
-      <button
-        onclick="adminPage('orders')">
+      <button class="secondary" onclick="adminPage('orders')">
         Orders
       </button>
-
     </div>
 
   </div>
 
 
-  <!-- ADMIN PRODUCTS -->
-
-  <div id="adminProductsPage">
+  <!-- ADMIN SERVICES -->
+  <div id="adminServicesPage">
 
     <div class="card">
 
-      <h2>
-        Add Service
-      </h2>
+      <h2>Add Service</h2>
 
       <input
         id="serviceName"
-        placeholder="Service / Product name">
+        placeholder="Service name"
+      >
 
       <textarea
         id="serviceDescription"
-        placeholder="Description">
-      </textarea>
+        placeholder="Service description"
+      ></textarea>
 
       <input
         id="servicePrice"
         type="number"
-        placeholder="Price">
+        min="0"
+        placeholder="Price"
+      >
 
       <textarea
         id="serviceDelivery"
-        placeholder="Login information / delivery information">
-      </textarea>
+        placeholder="Login information / delivery information
 
-      <button
-        class="success"
-        onclick="addService()">
+Example:
+Username: example
+Password: example
+Email: example@email.com"
+      ></textarea>
+
+      <button class="success" onclick="addService()">
         Add Service
       </button>
 
     </div>
 
-
     <div class="card">
 
-      <h2>
-        Existing Services
-      </h2>
+      <h2>Services</h2>
 
       <div id="adminServices">
+        Loading...
       </div>
 
     </div>
@@ -703,18 +629,14 @@ button{
 
 
   <!-- ADMIN DEPOSITS -->
-
-  <div
-    id="adminDepositsPage"
-    class="hidden">
+  <div id="adminDepositsPage" class="hidden">
 
     <div class="card">
 
-      <h2>
-        Deposits
-      </h2>
+      <h2>Deposit Requests</h2>
 
       <div id="adminDeposits">
+        Loading...
       </div>
 
     </div>
@@ -723,18 +645,14 @@ button{
 
 
   <!-- ADMIN ORDERS -->
-
-  <div
-    id="adminOrdersPage"
-    class="hidden">
+  <div id="adminOrdersPage" class="hidden">
 
     <div class="card">
 
-      <h2>
-        Orders
-      </h2>
+      <h2>Orders</h2>
 
       <div id="adminOrders">
+        Loading...
       </div>
 
     </div>
@@ -746,21 +664,45 @@ button{
 </div>
 
 
+<!-- SUPPORT -->
+<div id="supportMenu" class="support-menu hidden">
+
+  <a href="https://t.me/benjosms" target="_blank">
+    <button class="telegram">
+      Telegram Support
+    </button>
+  </a>
+
+  <a href="https://wa.me/2347019999529" target="_blank">
+    <button class="whatsapp">
+      WhatsApp Support
+    </button>
+  </a>
+
+</div>
+
+<div
+  class="support-button"
+  onclick="toggleSupport()"
+  title="Support"
+>
+  💬
+</div>
+
 <div id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-   SUPABASE CONFIG
-===================================================== */
+/* ============================================================
+   SUPABASE
+============================================================ */
 
 const SUPABASE_URL =
   "https://zwefikwlxgphufilgcyc.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-
 
 const supabaseClient =
   supabase.createClient(
@@ -769,44 +711,33 @@ const supabaseClient =
   );
 
 
-/* =====================================================
-   GLOBAL
-===================================================== */
-
 let currentUser = null;
 let currentProfile = null;
 
 
-/* =====================================================
+/* ============================================================
    HELPERS
-===================================================== */
+============================================================ */
 
-function el(id) {
-  return document.getElementById(id);
-}
+const $ = id => document.getElementById(id);
 
-
-function money(value) {
+function money(value){
 
   return "₦" +
-    Number(value || 0)
-      .toLocaleString("en-NG", {
-        minimumFractionDigits: 2
-      });
+    Number(value || 0).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
 
 }
 
 
-function safe(value) {
+function safe(value){
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
-    return "";
-  }
-
-  return String(value)
+  return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -816,118 +747,135 @@ function safe(value) {
 }
 
 
-function toast(message) {
+function toast(message){
 
-  const box = el("toast");
-
-  box.textContent = message;
-  box.style.display = "block";
+  $("toast").textContent = message;
+  $("toast").style.display = "block";
 
   setTimeout(() => {
-
-    box.style.display = "none";
-
-  },3500);
+    $("toast").style.display = "none";
+  },4000);
 
 }
 
 
-/* =====================================================
-   AUTH SCREENS
-===================================================== */
+function showAuthMessage(message,type="error"){
 
-function hideAuthBoxes() {
-
-  el("loginBox").classList.add("hidden");
-  el("registerBox").classList.add("hidden");
-  el("forgotBox").classList.add("hidden");
-  el("resetBox").classList.add("hidden");
+  $("authMessage").innerHTML =
+    `<div class="${type === "success" ? "success-box" : "error-box"}">
+      ${safe(message)}
+    </div>`;
 
 }
 
 
-function showLogin() {
+function clearAuthMessage(){
+
+  $("authMessage").innerHTML = "";
+
+}
+
+
+function toggleSupport(){
+
+  $("supportMenu").classList.toggle("hidden");
+
+}
+
+
+function hideAuthBoxes(){
+
+  [
+    "loginBox",
+    "registerBox",
+    "forgotBox",
+    "resetBox"
+  ].forEach(id => {
+    $(id).classList.add("hidden");
+  });
+
+}
+
+
+function showLogin(){
 
   hideAuthBoxes();
+  clearAuthMessage();
 
-  el("loginBox").classList.remove("hidden");
+  $("loginBox").classList.remove("hidden");
 
 }
 
 
-function showRegister() {
+function showRegister(){
 
   hideAuthBoxes();
+  clearAuthMessage();
 
-  el("registerBox").classList.remove("hidden");
+  $("registerBox").classList.remove("hidden");
 
 }
 
 
-function showForgotPassword() {
+function showForgot(){
 
   hideAuthBoxes();
+  clearAuthMessage();
 
-  el("forgotBox").classList.remove("hidden");
+  $("forgotBox").classList.remove("hidden");
 
 }
 
 
-/* =====================================================
-   REGISTER
-===================================================== */
+/* ============================================================
+   AUTH
+============================================================ */
 
-async function register() {
+async function register(){
 
   const email =
-    el("registerEmail")
-      .value
-      .trim();
+    $("registerEmail").value.trim();
 
   const password =
-    el("registerPassword")
-      .value;
+    $("registerPassword").value;
 
+  if(!email || !password){
 
-  if (!email || !password) {
-
-    toast(
+    showAuthMessage(
       "Enter your email and password."
     );
 
     return;
-
   }
 
+  if(password.length < 6){
 
-  if (password.length < 6) {
-
-    toast(
+    showAuthMessage(
       "Password must be at least 6 characters."
     );
 
     return;
-
   }
 
 
-  const { error } =
+  const { data,error } =
     await supabaseClient.auth.signUp({
       email,
       password
     });
 
 
-  if (error) {
+  if(error){
 
-    toast(error.message);
+    showAuthMessage(error.message);
+
     return;
-
   }
 
 
-  toast(
-    "Account created. Check your email to verify your account."
+  showAuthMessage(
+    "Account created successfully. Check your email and click the verification link.",
+    "success"
   );
 
   showLogin();
@@ -935,175 +883,130 @@ async function register() {
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function login() {
+async function login(){
 
   const email =
-    el("loginEmail")
-      .value
-      .trim();
+    $("loginEmail").value.trim();
 
   const password =
-    el("loginPassword")
-      .value;
+    $("loginPassword").value;
 
 
-  if (!email || !password) {
+  if(!email || !password){
 
-    toast(
+    showAuthMessage(
       "Enter your email and password."
     );
 
     return;
-
   }
 
 
-  const { data, error } =
+  const { data,error } =
     await supabaseClient.auth.signInWithPassword({
       email,
       password
     });
 
 
-  if (error) {
+  if(error){
 
-    toast(error.message);
+    showAuthMessage(error.message);
+
     return;
-
   }
 
 
-  currentUser =
-    data.user;
+  currentUser = data.user;
 
-
-  await startApp();
+  await startApplication();
 
 }
 
 
-/* =====================================================
-   FORGOT PASSWORD
-===================================================== */
-
-async function sendResetEmail() {
+async function sendResetEmail(){
 
   const email =
-    el("forgotEmail")
-      .value
-      .trim();
+    $("forgotEmail").value.trim();
 
 
-  if (!email) {
+  if(!email){
 
-    toast(
-      "Enter your email address."
+    showAuthMessage(
+      "Enter your email."
     );
 
     return;
-
   }
-
-
-  /*
-    IMPORTANT:
-    Change this URL if your GitHub
-    Pages address is different.
-  */
-
-  const redirectUrl =
-    "https://bensocial-bot.github.io/Benjo-sms/";
 
 
   const { error } =
-    await supabaseClient.auth
-      .resetPasswordForEmail(
-        email,
-        {
-          redirectTo: redirectUrl
-        }
-      );
+    await supabaseClient.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo:
+          window.location.origin +
+          window.location.pathname
+      }
+    );
 
 
-  if (error) {
+  if(error){
 
-    toast(error.message);
+    showAuthMessage(error.message);
+
     return;
-
   }
 
 
-  toast(
-    "Password reset link sent. Check your email."
+  showAuthMessage(
+    "Password reset link sent. Check your email.",
+    "success"
   );
 
 }
 
 
-/* =====================================================
-   UPDATE PASSWORD
-===================================================== */
-
-async function updatePassword() {
+async function updatePassword(){
 
   const password =
-    el("newPassword")
-      .value;
+    $("newPassword").value;
 
   const confirm =
-    el("confirmPassword")
-      .value;
+    $("confirmPassword").value;
 
 
-  if (!password || !confirm) {
-
-    toast(
-      "Enter your new password."
-    );
-
-    return;
-
-  }
-
-
-  if (password.length < 6) {
+  if(password.length < 6){
 
     toast(
       "Password must be at least 6 characters."
     );
 
     return;
-
   }
 
 
-  if (password !== confirm) {
+  if(password !== confirm){
 
     toast(
       "Passwords do not match."
     );
 
     return;
-
   }
 
 
   const { error } =
-    await supabaseClient.auth
-      .updateUser({
-        password: password
-      });
+    await supabaseClient.auth.updateUser({
+      password
+    });
 
 
-  if (error) {
+  if(error){
 
     toast(error.message);
-    return;
 
+    return;
   }
 
 
@@ -1111,103 +1014,23 @@ async function updatePassword() {
     "Password updated successfully."
   );
 
-
   showLogin();
 
 }
 
 
-/* =====================================================
-   AUTH STATE
-===================================================== */
+/* ============================================================
+   START APPLICATION
+============================================================ */
 
-supabaseClient.auth.onAuthStateChange(
-  async (event, session) => {
+async function startApplication(){
 
-    /*
-      EMAIL VERIFICATION
-    */
+  $("authSection").classList.add("hidden");
 
-    if (
-      event === "SIGNED_IN" &&
-      session &&
-      session.user.email_confirmed_at
-    ) {
+  $("userApp").classList.remove("hidden");
 
-      const url =
-        new URL(window.location.href);
-
-      /*
-        Only show verification message
-        when the URL came from an auth
-        verification flow.
-      */
-
-      if (
-        url.hash.includes("access_token") ||
-        url.searchParams.get("code")
-      ) {
-
-        el("verificationSuccess")
-          .classList
-          .remove("hidden");
-
-      }
-
-    }
-
-
-    /*
-      PASSWORD RECOVERY
-    */
-
-    if (
-      event === "PASSWORD_RECOVERY"
-    ) {
-
-      el("auth")
-        .classList
-        .remove("hidden");
-
-      hideAuthBoxes();
-
-      el("resetBox")
-        .classList
-        .remove("hidden");
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   START APP
-===================================================== */
-
-async function startApp() {
-
-  if (!currentUser)
-    return;
-
-
-  el("auth")
-    .classList
-    .add("hidden");
-
-
-  el("userApp")
-    .classList
-    .remove("hidden");
-
-
-  el("headerArea").innerHTML = `
-    <button
-      class="light"
-      onclick="logout()">
-      Logout
-    </button>
-  `;
+  $("headerButtons").innerHTML =
+    `<button class="secondary" onclick="logout()">Logout</button>`;
 
 
   await loadProfile();
@@ -1219,15 +1042,10 @@ async function startApp() {
   await loadOrders();
 
 
-  if (
-    currentProfile &&
-    currentProfile.is_admin === true
-  ) {
+  if(currentProfile &&
+     currentProfile.role === "admin"){
 
-    el("adminApp")
-      .classList
-      .remove("hidden");
-
+    $("adminApp").classList.remove("hidden");
 
     await loadAdminServices();
 
@@ -1240,18 +1058,22 @@ async function startApp() {
 }
 
 
-/* =====================================================
-   PROFILE
-===================================================== */
+async function loadProfile(){
 
-async function loadProfile() {
-
-  const { data } =
+  const { data,error } =
     await supabaseClient
-      .from("Benjosms")
+      .from("profiles")
       .select("*")
       .eq("id",currentUser.id)
       .maybeSingle();
+
+
+  if(error){
+
+    console.error(error);
+
+    return;
+  }
 
 
   currentProfile = data;
@@ -1259,78 +1081,61 @@ async function loadProfile() {
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logout() {
+async function logout(){
 
   await supabaseClient.auth.signOut();
 
-  location.reload();
+  window.location.reload();
 
 }
 
 
-/* =====================================================
+/* ============================================================
    USER NAVIGATION
-===================================================== */
+============================================================ */
 
-function userPage(name) {
+function userPage(page){
 
-  const pages = [
-    "home",
-    "services",
-    "wallet",
-    "orders",
-    "support"
-  ];
-
-
-  pages.forEach(pageName => {
-
-    el(pageName + "Page")
-      .classList
-      .add("hidden");
-
+  [
+    "homePage",
+    "servicesPage",
+    "walletPage",
+    "ordersPage"
+  ].forEach(id => {
+    $(id).classList.add("hidden");
   });
 
 
-  el(name + "Page")
-    .classList
-    .remove("hidden");
+  $(page + "Page")
+    .classList.remove("hidden");
 
 
-  if (name === "services")
+  if(page === "services")
     loadServices();
 
-
-  if (name === "wallet") {
+  if(page === "wallet"){
 
     loadBalance();
     loadDeposits();
 
   }
 
-
-  if (name === "orders")
+  if(page === "orders")
     loadOrders();
 
 }
 
 
-/* =====================================================
-   LOAD SERVICES
-===================================================== */
+/* ============================================================
+   SERVICES
+============================================================ */
 
-async function loadServices() {
+async function loadServices(){
 
   const box =
-    el("servicesList");
+    $("servicesList");
 
-
-  box.innerHTML =
-    "Loading services...";
+  box.innerHTML = "Loading...";
 
 
   const { data,error } =
@@ -1338,26 +1143,24 @@ async function loadServices() {
       .from("services")
       .select("*")
       .eq("available",true)
-      .order("name");
+      .order("created_at",{ascending:false});
 
 
-  if (error) {
+  if(error){
 
     box.innerHTML =
       `<p>${safe(error.message)}</p>`;
 
     return;
-
   }
 
 
-  if (!data || data.length === 0) {
+  if(!data || data.length === 0){
 
     box.innerHTML =
       "<p>No services available.</p>";
 
     return;
-
   }
 
 
@@ -1369,30 +1172,24 @@ async function loadServices() {
     const div =
       document.createElement("div");
 
-    div.className =
-      "product";
+    div.className = "service";
 
 
     div.innerHTML = `
 
-      <h3>
-        ${safe(service.name)}
-      </h3>
+      <h3>${safe(service.name)}</h3>
 
-      <p>
-        ${safe(
-          service.description || ""
-        )}
-      </p>
+      <p>${safe(service.description)}</p>
 
       <div class="price">
         ${money(service.price)}
       </div>
 
       <button
-        class="success"
-        onclick="buyService('${service.id}')">
-        Pay With Wallet
+        class="success full"
+        onclick="buyService('${service.id}')"
+      >
+        Buy Now
       </button>
 
     `;
@@ -1405,20 +1202,17 @@ async function loadServices() {
 }
 
 
-/* =====================================================
+/* ============================================================
    BUY SERVICE
-===================================================== */
+============================================================ */
 
-async function buyService(serviceId) {
+async function buyService(serviceId){
 
-  if (
-    !confirm(
-      "Pay for this service with your wallet?"
-    )
-  ) {
+  if(!confirm(
+    "Are you sure you want to purchase this service?"
+  )){
 
     return;
-
   }
 
 
@@ -1431,12 +1225,12 @@ async function buyService(serviceId) {
     await supabaseClient.rpc(
       "pay_for_order",
       {
-        p_service_id: serviceId
+        p_service_id:serviceId
       }
     );
 
 
-  if (error) {
+  if(error){
 
     toast(
       "Payment failed: " +
@@ -1444,12 +1238,11 @@ async function buyService(serviceId) {
     );
 
     return;
-
   }
 
 
   toast(
-    "Payment successful!"
+    "Payment successful! Login information is now available."
   );
 
 
@@ -1462,11 +1255,11 @@ async function buyService(serviceId) {
 }
 
 
-/* =====================================================
+/* ============================================================
    WALLET
-===================================================== */
+============================================================ */
 
-async function loadBalance() {
+async function loadBalance(){
 
   const { data,error } =
     await supabaseClient
@@ -1476,74 +1269,66 @@ async function loadBalance() {
       .maybeSingle();
 
 
-  if (error) {
+  if(error){
 
-    el("balance")
-      .textContent = "₦0.00";
+    console.error(error);
 
     return;
-
   }
 
 
-  el("balance")
-    .textContent =
-      money(
-        data
-        ? data.balance
-        : 0
-      );
+  const balance =
+    money(data?.balance || 0);
+
+
+  $("walletBalance").textContent =
+    balance;
+
+  $("homeBalance").textContent =
+    balance;
 
 }
 
 
-/* =====================================================
-   DEPOSIT
-===================================================== */
+/* ============================================================
+   DEPOSITS
+============================================================ */
 
-async function submitDeposit() {
+async function submitDeposit(){
 
   const amount =
     Number(
-      el("depositAmount").value
+      $("depositAmount").value
     );
 
   const file =
-    el("depositProof")
-      .files[0];
+    $("depositProof").files[0];
 
 
-  if (!amount || amount <= 0) {
+  if(!amount || amount <= 0){
 
     toast(
-      "Enter a valid amount."
+      "Enter a valid deposit amount."
     );
 
     return;
-
   }
 
 
-  if (!file) {
+  if(!file){
 
     toast(
-      "Select your payment proof."
+      "Please select your payment proof."
     );
 
     return;
-
   }
-
-
-  toast(
-    "Uploading payment proof..."
-  );
 
 
   const extension =
-    file.name
-      .split(".")
-      .pop();
+    file.name.includes(".")
+      ? file.name.split(".").pop()
+      : "jpg";
 
 
   const path =
@@ -1552,6 +1337,11 @@ async function submitDeposit() {
     crypto.randomUUID() +
     "." +
     extension;
+
+
+  toast(
+    "Uploading payment proof..."
+  );
 
 
   const { error:uploadError } =
@@ -1563,7 +1353,7 @@ async function submitDeposit() {
       );
 
 
-  if (uploadError) {
+  if(uploadError){
 
     toast(
       "Upload failed: " +
@@ -1571,43 +1361,37 @@ async function submitDeposit() {
     );
 
     return;
-
   }
+
+
+  const { data:urlData } =
+    supabaseClient.storage
+      .from("deposit-proofs")
+      .getPublicUrl(path);
 
 
   const { error } =
     await supabaseClient
       .from("deposits")
       .insert({
-
-        user_id:
-          currentUser.id,
-
-        amount:
-          amount,
-
-        screenshot_url:
-          path,
-
-        status:
-          "pending"
-
+        user_id:currentUser.id,
+        amount,
+        proof_url:urlData.publicUrl,
+        status:"pending"
       });
 
 
-  if (error) {
+  if(error){
 
     toast(error.message);
-    return;
 
+    return;
   }
 
 
-  el("depositAmount")
-    .value = "";
+  $("depositAmount").value = "";
 
-  el("depositProof")
-    .value = "";
+  $("depositProof").value = "";
 
 
   toast(
@@ -1620,14 +1404,10 @@ async function submitDeposit() {
 }
 
 
-/* =====================================================
-   USER DEPOSITS
-===================================================== */
-
-async function loadDeposits() {
+async function loadDeposits(){
 
   const box =
-    el("depositsList");
+    $("depositsList");
 
 
   const { data,error } =
@@ -1635,28 +1415,27 @@ async function loadDeposits() {
       .from("deposits")
       .select("*")
       .eq("user_id",currentUser.id)
-      .order("created_at",{
-        ascending:false
-      });
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
-  if (error) {
+  if(error){
 
     box.innerHTML =
       `<p>${safe(error.message)}</p>`;
 
     return;
-
   }
 
 
-  if (!data.length) {
+  if(!data || data.length === 0){
 
     box.innerHTML =
       "<p>No deposits yet.</p>";
 
     return;
-
   }
 
 
@@ -1668,8 +1447,7 @@ async function loadDeposits() {
     const div =
       document.createElement("div");
 
-    div.className =
-      "card";
+    div.className = "order";
 
 
     div.innerHTML = `
@@ -1680,7 +1458,7 @@ async function loadDeposits() {
 
       <p>
         Status:
-        <span class="status">
+        <span class="badge">
           ${safe(deposit.status)}
         </span>
       </p>
@@ -1695,14 +1473,14 @@ async function loadDeposits() {
 }
 
 
-/* =====================================================
+/* ============================================================
    ORDERS
-===================================================== */
+============================================================ */
 
-async function loadOrders() {
+async function loadOrders(){
 
   const box =
-    el("ordersList");
+    $("ordersList");
 
 
   const { data,error } =
@@ -1710,28 +1488,27 @@ async function loadOrders() {
       .from("orders")
       .select("*")
       .eq("user_id",currentUser.id)
-      .order("created_at",{
-        ascending:false
-      });
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
-  if (error) {
+  if(error){
 
     box.innerHTML =
       `<p>${safe(error.message)}</p>`;
 
     return;
-
   }
 
 
-  if (!data.length) {
+  if(!data || data.length === 0){
 
     box.innerHTML =
       "<p>No orders yet.</p>";
 
     return;
-
   }
 
 
@@ -1743,8 +1520,7 @@ async function loadOrders() {
     const div =
       document.createElement("div");
 
-    div.className =
-      "card";
+    div.className = "order";
 
 
     div.innerHTML = `
@@ -1762,36 +1538,22 @@ async function loadOrders() {
 
       <p>
         Status:
-        <span class="status">
+        <span class="badge">
           ${safe(order.status)}
         </span>
       </p>
 
-      ${
-        order.login_information
-        ?
-        `
-          <div class="delivery">
+      <div class="delivery">
 
-            <strong>
-              Login / Delivery Information
-            </strong>
+        <strong>
+          Login / Delivery Information
+        </strong>
 
-            <br><br>
+        <br><br>
 
-            ${safe(
-              order.login_information
-            )}
+        ${safe(order.login_information)}
 
-          </div>
-        `
-        :
-        `
-          <p class="small">
-            Delivery information not available.
-          </p>
-        `
-      }
+      </div>
 
     `;
 
@@ -1803,117 +1565,93 @@ async function loadOrders() {
 }
 
 
-/* =====================================================
+/* ============================================================
    ADMIN NAVIGATION
-===================================================== */
+============================================================ */
 
-function adminPage(name) {
+function adminPage(page){
 
-  el("adminProductsPage")
-    .classList
-    .add("hidden");
+  [
+    "adminServicesPage",
+    "adminDepositsPage",
+    "adminOrdersPage"
+  ].forEach(id => {
 
-  el("adminDepositsPage")
-    .classList
-    .add("hidden");
+    $(id).classList.add("hidden");
 
-  el("adminOrdersPage")
-    .classList
-    .add("hidden");
+  });
 
 
-  if (name === "products") {
+  const id =
+    "admin" +
+    page.charAt(0).toUpperCase() +
+    page.slice(1) +
+    "Page";
 
-    el("adminProductsPage")
-      .classList
-      .remove("hidden");
 
+  $(id).classList.remove("hidden");
+
+
+  if(page === "services")
     loadAdminServices();
 
-  }
-
-
-  if (name === "deposits") {
-
-    el("adminDepositsPage")
-      .classList
-      .remove("hidden");
-
+  if(page === "deposits")
     loadAdminDeposits();
 
-  }
-
-
-  if (name === "orders") {
-
-    el("adminOrdersPage")
-      .classList
-      .remove("hidden");
-
+  if(page === "orders")
     loadAdminOrders();
-
-  }
 
 }
 
 
-/* =====================================================
-   ADD SERVICE
-===================================================== */
+/* ============================================================
+   ADMIN SERVICES
+============================================================ */
 
-async function addService() {
+async function addService(){
 
   const name =
-    el("serviceName")
-      .value
-      .trim();
+    $("serviceName").value.trim();
 
   const description =
-    el("serviceDescription")
-      .value
-      .trim();
+    $("serviceDescription").value.trim();
 
   const price =
     Number(
-      el("servicePrice").value
+      $("servicePrice").value
     );
 
   const delivery =
-    el("serviceDelivery")
-      .value
-      .trim();
+    $("serviceDelivery").value.trim();
 
 
-  if (!name) {
+  if(!name){
 
     toast(
-      "Enter the service name."
+      "Enter a service name."
     );
 
     return;
-
   }
 
 
-  if (!price || price <= 0) {
+  if(!price || price < 0){
 
     toast(
       "Enter a valid price."
     );
 
     return;
-
   }
 
 
-  if (!delivery) {
+  if(!delivery){
 
     toast(
       "Enter the login/delivery information."
     );
 
     return;
-
   }
 
 
@@ -1921,33 +1659,32 @@ async function addService() {
     await supabaseClient
       .from("services")
       .insert({
-
-        name:name,
-
-        description:description,
-
-        price:price,
-
-        delivery_information:
-          delivery,
-
+        name,
+        description,
+        price,
+        delivery_information:delivery,
         available:true
-
       });
 
 
-  if (error) {
+  if(error){
 
-    toast(error.message);
+    toast(
+      "Could not add service: " +
+      error.message
+    );
+
     return;
-
   }
 
 
-  el("serviceName").value = "";
-  el("serviceDescription").value = "";
-  el("servicePrice").value = "";
-  el("serviceDelivery").value = "";
+  $("serviceName").value = "";
+
+  $("serviceDescription").value = "";
+
+  $("servicePrice").value = "";
+
+  $("serviceDelivery").value = "";
 
 
   toast(
@@ -1960,30 +1697,37 @@ async function addService() {
 }
 
 
-/* =====================================================
-   ADMIN SERVICES
-===================================================== */
-
-async function loadAdminServices() {
+async function loadAdminServices(){
 
   const box =
-    el("adminServices");
+    $("adminServices");
 
 
   const { data,error } =
     await supabaseClient
       .from("services")
       .select("*")
-      .order("name");
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
-  if (error) {
+  if(error){
 
     box.innerHTML =
       `<p>${safe(error.message)}</p>`;
 
     return;
+  }
 
+
+  if(!data || data.length === 0){
+
+    box.innerHTML =
+      "<p>No services yet.</p>";
+
+    return;
   }
 
 
@@ -1995,8 +1739,7 @@ async function loadAdminServices() {
     const div =
       document.createElement("div");
 
-    div.className =
-      "card";
+    div.className = "order";
 
 
     div.innerHTML = `
@@ -2007,20 +1750,25 @@ async function loadAdminServices() {
 
       <p>
         Price:
-        ${money(service.price)}
+        <strong>
+          ${money(service.price)}
+        </strong>
+      </p>
+
+      <p>
+        ${safe(service.description)}
       </p>
 
       <div class="delivery">
-
-        ${safe(
-          service.delivery_information || ""
-        )}
-
+        ${safe(service.delivery_information)}
       </div>
+
+      <br>
 
       <button
         class="danger"
-        onclick="deleteService('${service.id}')">
+        onclick="deleteService('${service.id}')"
+      >
         Delete
       </button>
 
@@ -2034,20 +1782,13 @@ async function loadAdminServices() {
 }
 
 
-/* =====================================================
-   DELETE SERVICE
-===================================================== */
+async function deleteService(id){
 
-async function deleteService(id) {
-
-  if (
-    !confirm(
-      "Delete this service?"
-    )
-  ) {
+  if(!confirm(
+    "Delete this service?"
+  )){
 
     return;
-
   }
 
 
@@ -2058,11 +1799,14 @@ async function deleteService(id) {
       .eq("id",id);
 
 
-  if (error) {
+  if(error){
 
-    toast(error.message);
+    toast(
+      "Delete failed: " +
+      error.message
+    );
+
     return;
-
   }
 
 
@@ -2076,42 +1820,41 @@ async function deleteService(id) {
 }
 
 
-/* =====================================================
+/* ============================================================
    ADMIN DEPOSITS
-===================================================== */
+============================================================ */
 
-async function loadAdminDeposits() {
+async function loadAdminDeposits(){
 
   const box =
-    el("adminDeposits");
+    $("adminDeposits");
 
 
   const { data,error } =
     await supabaseClient
       .from("deposits")
       .select("*")
-      .order("created_at",{
-        ascending:false
-      });
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
-  if (error) {
+  if(error){
 
     box.innerHTML =
       `<p>${safe(error.message)}</p>`;
 
     return;
-
   }
 
 
-  if (!data.length) {
+  if(!data || data.length === 0){
 
     box.innerHTML =
-      "<p>No deposits.</p>";
+      "<p>No deposit requests.</p>";
 
     return;
-
   }
 
 
@@ -2123,14 +1866,13 @@ async function loadAdminDeposits() {
     const div =
       document.createElement("div");
 
-    div.className =
-      "card";
+    div.className = "order";
 
 
     div.innerHTML = `
 
       <p>
-        User:
+        <strong>User ID:</strong><br>
         ${safe(deposit.user_id)}
       </p>
 
@@ -2140,24 +1882,43 @@ async function loadAdminDeposits() {
 
       <p>
         Status:
-        ${safe(deposit.status)}
+        <span class="badge">
+          ${safe(deposit.status)}
+        </span>
       </p>
+
+      ${
+        deposit.proof_url
+        ?
+        `<a
+          href="${safe(deposit.proof_url)}"
+          target="_blank"
+        >
+          View Payment Proof
+        </a>`
+        :
+        ""
+      }
+
+      <br><br>
 
       ${
         deposit.status === "pending"
         ?
         `
-          <button
-            class="success"
-            onclick="approveDeposit('${deposit.id}')">
-            Approve
-          </button>
+        <button
+          class="success"
+          onclick="approveDeposit('${deposit.id}')"
+        >
+          Approve
+        </button>
 
-          <button
-            class="danger"
-            onclick="rejectDeposit('${deposit.id}')">
-            Reject
-          </button>
+        <button
+          class="danger"
+          onclick="rejectDeposit('${deposit.id}')"
+        >
+          Reject
+        </button>
         `
         :
         ""
@@ -2173,33 +1934,18 @@ async function loadAdminDeposits() {
 }
 
 
-/* =====================================================
-   APPROVE DEPOSIT
-===================================================== */
-
-async function approveDeposit(id) {
-
-  if (
-    !confirm(
-      "Approve this deposit?"
-    )
-  ) {
-
-    return;
-
-  }
-
+async function approveDeposit(id){
 
   const { error } =
     await supabaseClient.rpc(
       "approve_deposit",
       {
-        deposit_id:id
+        p_deposit_id:id
       }
     );
 
 
-  if (error) {
+  if(error){
 
     toast(
       "Approval failed: " +
@@ -2207,7 +1953,6 @@ async function approveDeposit(id) {
     );
 
     return;
-
   }
 
 
@@ -2221,11 +1966,7 @@ async function approveDeposit(id) {
 }
 
 
-/* =====================================================
-   REJECT DEPOSIT
-===================================================== */
-
-async function rejectDeposit(id) {
+async function rejectDeposit(id){
 
   const { error } =
     await supabaseClient
@@ -2233,14 +1974,18 @@ async function rejectDeposit(id) {
       .update({
         status:"rejected"
       })
-      .eq("id",id);
+      .eq("id",id)
+      .eq("status","pending");
 
 
-  if (error) {
+  if(error){
 
-    toast(error.message);
+    toast(
+      "Rejection failed: " +
+      error.message
+    );
+
     return;
-
   }
 
 
@@ -2254,42 +1999,41 @@ async function rejectDeposit(id) {
 }
 
 
-/* =====================================================
+/* ============================================================
    ADMIN ORDERS
-===================================================== */
+============================================================ */
 
-async function loadAdminOrders() {
+async function loadAdminOrders(){
 
   const box =
-    el("adminOrders");
+    $("adminOrders");
 
 
   const { data,error } =
     await supabaseClient
       .from("orders")
       .select("*")
-      .order("created_at",{
-        ascending:false
-      });
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
-  if (error) {
+  if(error){
 
     box.innerHTML =
       `<p>${safe(error.message)}</p>`;
 
     return;
-
   }
 
 
-  if (!data.length) {
+  if(!data || data.length === 0){
 
     box.innerHTML =
-      "<p>No orders.</p>";
+      "<p>No orders yet.</p>";
 
     return;
-
   }
 
 
@@ -2301,8 +2045,7 @@ async function loadAdminOrders() {
     const div =
       document.createElement("div");
 
-    div.className =
-      "card";
+    div.className = "order";
 
 
     div.innerHTML = `
@@ -2312,13 +2055,15 @@ async function loadAdminOrders() {
       </h3>
 
       <p>
-        User:
+        User ID:<br>
         ${safe(order.user_id)}
       </p>
 
       <p>
         Amount:
-        ${money(order.amount)}
+        <strong>
+          ${money(order.amount)}
+        </strong>
       </p>
 
       <p>
@@ -2327,17 +2072,7 @@ async function loadAdminOrders() {
       </p>
 
       <div class="delivery">
-
-        <strong>
-          Login / Delivery Information
-        </strong>
-
-        <br><br>
-
-        ${safe(
-          order.login_information || ""
-        )}
-
+        ${safe(order.login_information)}
       </div>
 
     `;
@@ -2350,24 +2085,48 @@ async function loadAdminOrders() {
 }
 
 
-/* =====================================================
-   CHECK EXISTING SESSION
-===================================================== */
+/* ============================================================
+   AUTH STATE
+============================================================ */
 
-async function checkSession() {
+supabaseClient.auth.onAuthStateChange(
+  async (event,session) => {
+
+    if(event === "PASSWORD_RECOVERY"){
+
+      $("authSection")
+        .classList.remove("hidden");
+
+      $("userApp")
+        .classList.add("hidden");
+
+      hideAuthBoxes();
+
+      $("resetBox")
+        .classList.remove("hidden");
+
+    }
+
+  }
+);
+
+
+/* ============================================================
+   INITIAL SESSION
+============================================================ */
+
+async function checkSession(){
 
   const { data } =
-    await supabaseClient
-      .auth
-      .getSession();
+    await supabaseClient.auth.getSession();
 
 
-  if (data.session) {
+  if(data.session){
 
     currentUser =
       data.session.user;
 
-    await startApp();
+    await startApplication();
 
   }
 
