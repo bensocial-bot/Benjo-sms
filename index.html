@@ -1,1795 +1,2826 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Benjo-SMS | Digital Marketplace</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      background:
-        radial-gradient(circle at 20% 10%, rgba(124,92,255,.18), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(0,180,255,.10), transparent 28%),
-        #08080d;
-      color: white;
-      min-height: 100vh;
-    }
-    button,
-    input {
-      font: inherit;
-    }
-    header {
-      background: rgba(12,12,18,.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #262631;
-      padding: 15px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: 800;
-    }
-    .logo span {
-      color: #8b70ff;
-    }
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    nav a,
-    nav button {
-      color: #ccc;
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    nav a:hover,
-    nav button:hover {
-      color: white;
-    }
-    .login-btn {
-      background: #7c5cff !important;
-      color: white !important;
-      padding: 10px 16px;
-      border-radius: 8px;
-    }
-    .logout-nav {
-      color: #ff6f91 !important;
-    }
-    .hero {
-      padding: 90px 5% 70px;
-      text-align: center;
-      background:
-        linear-gradient(rgba(8,8,13,.45), rgba(8,8,13,.9)),
-        radial-gradient(circle at 50% 0%, #32246b 0%, #10101a 42%, #08080d 75%);
-      border-bottom: 1px solid #1d1d27;
-    }
-    .hero-badge {
-      display: inline-block;
-      padding: 7px 13px;
-      border: 1px solid #3b335e;
-      background: rgba(124,92,255,.10);
-      color: #b8aaff;
-      border-radius: 30px;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: clamp(38px, 7vw, 70px);
-      margin-bottom: 20px;
-      line-height: 1.05;
-    }
-    .hero h1 span {
-      color: #8b70ff;
-    }
-    .hero p {
-      color: #aaa;
-      max-width: 680px;
-      margin: auto;
-      line-height: 1.7;
-      font-size: 17px;
-    }
-    .hero-buttons {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .primary-btn,
-    .secondary-btn {
-      padding: 13px 22px;
-      border-radius: 9px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .primary-btn {
-      background: #7c5cff;
-      color: white;
-      border: none;
-    }
-    .secondary-btn {
-      background: transparent;
-      border: 1px solid #383842;
-      color: white;
-    }
-    .primary-btn:hover,
-    .buy-btn:hover,
-    .auth-btn:hover {
-      opacity: .88;
-    }
-    .section {
-      padding: 55px 5%;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .section-title h2 {
-      font-size: 28px;
-    }
-    .section-title p {
-      color: #888;
-      font-size: 14px;
-      margin-top: 6px;
-    }
-    .search {
-      background: #15151d;
-      border: 1px solid #2b2b36;
-      color: white;
-      padding: 12px 15px;
-      border-radius: 8px;
-      width: 240px;
-      outline: none;
-    }
-    .search:focus,
-    .input:focus {
-      border-color: #7c5cff;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    .card {
-      background: rgba(19,19,26,.95);
-      border: 1px solid #282832;
-      border-radius: 14px;
-      padding: 20px;
-      transition: .2s;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #7c5cff;
-    }
-    .card-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: #211b40;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 18px;
-    }
-    .card h3 {
-      margin-bottom: 8px;
-    }
-    .card p {
-      color: #999;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-    .price {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-    .buy-btn {
-      width: 100%;
-      border: none;
-      background: #7c5cff;
-      color: white;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .buy-btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-    .service-grid,
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    .service-card,
-    .feature {
-      background: #13131a;
-      border: 1px solid #282832;
-      border-radius: 14px;
-      padding: 22px;
-    }
-    .service-card {
-      cursor: pointer;
-      transition: .2s;
-    }
-    .service-card:hover {
-      transform: translateY(-3px);
-      border-color: #7c5cff;
-    }
-    .service-card h3,
-    .feature h3 {
-      margin: 10px 0;
-    }
-    .service-card p,
-    .feature p {
-      color: #999;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-    .service-icon {
-      font-size: 30px;
-    }
-    .wallet-box {
-      background:
-        linear-gradient(135deg, rgba(124,92,255,.25), rgba(26,26,40,.95));
-      border: 1px solid #40356c;
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 25px;
-    }
-    .wallet-label {
-      color: #aaa;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-    .wallet-balance {
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
-    .wallet-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .wallet-btn {
-      border: none;
-      padding: 11px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #7c5cff;
-      color: white;
-      font-weight: bold;
-    }
-    .wallet-btn.secondary {
-      background: #252531;
-    }
-    .account-box {
-      display: none;
-      max-width: 900px;
-      margin: 30px auto 0;
-      background: rgba(19,19,26,.96);
-      border: 1px solid #292934;
-      border-radius: 14px;
-      padding: 22px;
-      text-align: left;
-    }
-    .account-box h2 {
-      margin-bottom: 15px;
-    }
-    .account-box p {
-      color: #aaa;
-      margin: 8px 0;
-    }
-    .account-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .small-btn {
-      padding: 10px 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #25252f;
-      color: white;
-    }
-    .whatsapp-btn {
-      background: #19a463;
-    }
-    footer {
-      border-top: 1px solid #25252d;
-      background: #0d0d12;
-      padding: 30px 5%;
-      text-align: center;
-      color: #777;
-      margin-top: 40px;
-    }
-    .cart {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background: #7c5cff;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(0,0,0,.4);
-      z-index: 50;
-    }
-    #cartCount {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ff3b6b;
-      width: 21px;
-      height: 21px;
-      border-radius: 50%;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.78);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-box {
-      width: 100%;
-      max-width: 460px;
-      max-height: 90vh;
-      overflow-y: auto;
-      background: #15151c;
-      border: 1px solid #30303b;
-      border-radius: 16px;
-      padding: 25px;
-      position: relative;
-    }
-    .modal-box h2 {
-      margin-bottom: 20px;
-    }
-    .close {
-      position: absolute;
-      right: 18px;
-      top: 15px;
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 25px;
-      cursor: pointer;
-    }
-    .input {
-      width: 100%;
-      padding: 13px;
-      margin-bottom: 12px;
-      background: #0d0d12;
-      color: white;
-      border: 1px solid #30303a;
-      border-radius: 8px;
-      outline: none;
-    }
-    .auth-btn {
-      width: 100%;
-      padding: 13px;
-      background: #7c5cff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-    .switch {
-      text-align: center;
-      margin-top: 15px;
-      color: #999;
-      font-size: 14px;
-    }
-    .switch span {
-      color: #9a82ff;
-      cursor: pointer;
-    }
-    .forgot {
-      text-align: right;
-      margin: 3px 0 10px;
-    }
-    .forgot span {
-      color: #9a82ff;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .message {
-      margin-bottom: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #ddd;
-    }
-    .success {
-      color: #5ee39b;
-    }
-    .error {
-      color: #ff7895;
-    }
-    .option-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    .option-btn {
-      background: #1d1d27;
-      border: 1px solid #30303b;
-      color: white;
-      border-radius: 10px;
-      padding: 15px 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .option-btn:hover {
-      border-color: #7c5cff;
-      background: #211b40;
-    }
-    .delivery-box {
-      background: #0d0d12;
-      border: 1px solid #343442;
-      border-radius: 12px;
-      padding: 18px;
-      margin-top: 15px;
-    }
-    .delivery-box p {
-      color: #bbb;
-      margin: 8px 0;
-      word-break: break-word;
-    }
-    .delivery-box strong {
-      color: white;
-    }
-    .notice {
-      background: #191923;
-      border: 1px solid #30303b;
-      border-radius: 10px;
-      padding: 12px;
-      color: #aaa;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-bottom: 15px;
-    }
-    @media (max-width: 650px) {
-      nav a:not(.login-btn) {
-        display: none;
-      }
-      .hero {
-        padding: 60px 5%;
-      }
-      .search {
-        width: 100%;
-      }
-      .option-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benjo-SMS | Digital Marketplace</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif
+}
+
+html{
+  scroll-behavior:smooth
+}
+
+body{
+  background:
+    radial-gradient(circle at 20% 10%,rgba(124,92,255,.18),transparent 30%),
+    radial-gradient(circle at 80% 20%,rgba(0,180,255,.1),transparent 28%),
+    #08080d;
+  color:#fff;
+  min-height:100vh
+}
+
+button,input,select,textarea{
+  font:inherit
+}
+
+header{
+  background:rgba(12,12,18,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #262631;
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800
+}
+
+.logo span,.link{
+  color:#8b70ff
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+nav a,nav button{
+  color:#ccc;
+  text-decoration:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:14px
+}
+
+.login-btn{
+  background:#7c5cff!important;
+  color:#fff!important;
+  padding:10px 16px;
+  border-radius:8px
+}
+
+.logout-nav{
+  color:#ff6f91!important
+}
+
+.hero{
+  padding:80px 5% 55px;
+  text-align:center;
+  background:
+    linear-gradient(rgba(8,8,13,.45),rgba(8,8,13,.9)),
+    radial-gradient(circle at 50% 0%,#32246b 0%,#10101a 42%,#08080d 75%);
+  border-bottom:1px solid #1d1d27
+}
+
+.hero-badge{
+  display:inline-block;
+  padding:7px 13px;
+  border:1px solid #3b335e;
+  background:rgba(124,92,255,.1);
+  color:#b8aaff;
+  border-radius:30px;
+  font-size:13px;
+  margin-bottom:20px
+}
+
+.hero h1{
+  font-size:clamp(38px,7vw,70px);
+  margin-bottom:20px;
+  line-height:1.05
+}
+
+.hero h1 span{
+  color:#8b70ff
+}
+
+.hero p{
+  color:#aaa;
+  max-width:680px;
+  margin:auto;
+  line-height:1.7;
+  font-size:17px
+}
+
+.hero-buttons{
+  margin-top:30px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap
+}
+
+.primary-btn,.secondary-btn{
+  padding:13px 22px;
+  border-radius:9px;
+  text-decoration:none;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.primary-btn{
+  background:#7c5cff;
+  color:#fff;
+  border:none
+}
+
+.secondary-btn{
+  background:transparent;
+  border:1px solid #383842;
+  color:#fff
+}
+
+.section{
+  padding:55px 5%;
+  max-width:1200px;
+  margin:auto
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+  gap:15px;
+  flex-wrap:wrap
+}
+
+.section-title h2{
+  font-size:28px
+}
+
+.section-title p{
+  color:#888;
+  font-size:14px;
+  margin-top:6px
+}
+
+.search{
+  background:#15151d;
+  border:1px solid #2b2b36;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:8px;
+  width:240px;
+  outline:none
+}
+
+.products,.service-grid,.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px
+}
+
+.card,.service-card,.feature{
+  background:rgba(19,19,26,.95);
+  border:1px solid #282832;
+  border-radius:14px;
+  padding:20px
+}
+
+.card:hover,.service-card:hover{
+  transform:translateY(-3px);
+  border-color:#7c5cff
+}
+
+.card-icon{
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  background:#211b40;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin-bottom:18px
+}
+
+.card h3{
+  margin-bottom:8px
+}
+
+.card p,.service-card p,.feature p{
+  color:#999;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:14px
+}
+
+.price{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:15px
+}
+
+.buy-btn,.auth-btn,.wallet-btn{
+  width:100%;
+  border:none;
+  background:#7c5cff;
+  color:#fff;
+  padding:12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold
+}
+
+.buy-btn:disabled{
+  opacity:.5;
+  cursor:not-allowed
+}
+
+.service-card{
+  cursor:pointer;
+  transition:.2s
+}
+
+.service-card h3{
+  margin:10px 0
+}
+
+.service-icon{
+  font-size:30px
+}
+
+.wallet-box{
+  background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(26,26,40,.95));
+  border:1px solid #40356c;
+  border-radius:16px;
+  padding:25px;
+  margin-bottom:25px
+}
+
+.wallet-label{
+  color:#aaa;
+  font-size:14px;
+  margin-bottom:8px
+}
+
+.wallet-balance{
+  font-size:32px;
+  font-weight:800;
+  margin-bottom:18px
+}
+
+.wallet-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.wallet-btn{
+  width:auto;
+  padding:11px 18px
+}
+
+.wallet-btn.secondary,.small-btn{
+  background:#252531
+}
+
+.account-box{
+  display:none;
+  max-width:900px;
+  margin:30px auto 0;
+  background:rgba(19,19,26,.96);
+  border:1px solid #292934;
+  border-radius:14px;
+  padding:22px;
+  text-align:left
+}
+
+.account-box h2{
+  margin-bottom:15px
+}
+
+.account-box p{
+  color:#aaa;
+  margin:8px 0
+}
+
+.account-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px
+}
+
+.small-btn{
+  padding:10px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  color:#fff
+}
+
+.whatsapp-btn{
+  background:#19a463
+}
+
+footer{
+  border-top:1px solid #25252d;
+  background:#0d0d12;
+  padding:30px 5%;
+  text-align:center;
+  color:#777;
+  margin-top:40px
+}
+
+.cart{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#7c5cff;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+  z-index:50
+}
+
+#cartCount{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:#ff3b6b;
+  width:21px;
+  height:21px;
+  border-radius:50%;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  z-index:999;
+  align-items:center;
+  justify-content:center;
+  padding:20px
+}
+
+.modal-box{
+  width:100%;
+  max-width:500px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:#15151c;
+  border:1px solid #30303b;
+  border-radius:16px;
+  padding:25px;
+  position:relative
+}
+
+.modal-box h2{
+  margin-bottom:20px
+}
+
+.close{
+  position:absolute;
+  right:18px;
+  top:15px;
+  background:none;
+  border:none;
+  color:#aaa;
+  font-size:25px;
+  cursor:pointer
+}
+
+.input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  background:#0d0d12;
+  color:#fff;
+  border:1px solid #30303a;
+  border-radius:8px;
+  outline:none
+}
+
+.input:focus{
+  border-color:#7c5cff
+}
+
+.forgot{
+  text-align:right;
+  margin:3px 0 10px
+}
+
+.forgot span,.switch span:last-child{
+  color:#9a82ff;
+  cursor:pointer
+}
+
+.switch{
+  text-align:center;
+  margin-top:15px;
+  color:#999;
+  font-size:14px
+}
+
+.message{
+  margin-bottom:12px;
+  font-size:14px;
+  line-height:1.5;
+  color:#ddd
+}
+
+.success{
+  color:#5ee39b
+}
+
+.error{
+  color:#ff7895
+}
+
+.notice{
+  background:#191923;
+  border:1px solid #30303b;
+  border-radius:10px;
+  padding:12px;
+  color:#aaa;
+  font-size:13px;
+  line-height:1.5;
+  margin-bottom:15px
+}
+
+.payment-card{
+  background:#0d0d12;
+  border:1px solid #343442;
+  border-radius:12px;
+  padding:15px;
+  margin:10px 0;
+  cursor:pointer;
+  transition:.2s
+}
+
+.payment-card:hover{
+  border-color:#7c5cff
+}
+
+.payment-card.active{
+  border-color:#7c5cff;
+  background:#211b40
+}
+
+.payment-card b{
+  display:block;
+  margin-bottom:6px
+}
+
+.payment-card small{
+  display:block;
+  color:#999;
+  margin-top:5px;
+  white-space:pre-line;
+  line-height:1.5
+}
+
+.delivery-box{
+  background:#0d0d12;
+  border:1px solid #343442;
+  border-radius:12px;
+  padding:18px;
+  margin-top:15px
+}
+
+.delivery-box p{
+  color:#bbb;
+  margin:8px 0;
+  word-break:break-word
+}
+
+.delivery-box strong{
+  color:#fff
+}
+
+.empty{
+  color:#999;
+  padding:20px;
+  text-align:center;
+  border:1px dashed #333;
+  border-radius:12px
+}
+
+@media(max-width:650px){
+  nav a:not(.login-btn){
+    display:none
+  }
+
+  .hero{
+    padding:60px 5%
+  }
+
+  .search{
+    width:100%
+  }
+}
+</style>
 </head>
+
 <body>
+
 <header>
   <div class="logo">Benjo<span>-SMS</span></div>
+
   <nav>
     <a href="#home">Home</a>
     <a href="#accounts">Accounts</a>
     <a href="#services">Services</a>
     <a href="#boosting">Boosting</a>
-    <a href="#wallet" id="walletNav" style="display:none;">Wallet</a>
-    <a href="#" id="accountNav" style="display:none;" onclick="scrollToAccount(); return false;">Account</a>
-    <a href="#" class="login-btn" id="loginNav" onclick="openAuth('login'); return false;">Login</a>
-    <button id="logoutNav" class="logout-nav" style="display:none;" onclick="logout()">Logout</button>
+
+    <a href="#wallet" id="walletNav" style="display:none">Wallet</a>
+
+    <a
+      href="#"
+      id="accountNav"
+      style="display:none"
+      onclick="scrollToAccount();return false"
+    >
+      Account
+    </a>
+
+    <a
+      href="#"
+      class="login-btn"
+      id="loginNav"
+      onclick="openAuth('login');return false"
+    >
+      Login
+    </a>
+
+    <button
+      id="logoutNav"
+      class="logout-nav"
+      style="display:none"
+      onclick="logout()"
+    >
+      Logout
+    </button>
   </nav>
 </header>
+
+
 <section class="hero" id="home">
-  <div class="hero-badge">🚀 Benjo-SMS Digital Marketplace</div>
+
+  <div class="hero-badge">
+    🚀 Benjo-SMS Digital Marketplace
+  </div>
+
   <h1>
     Welcome to <span>Benjo-SMS</span>
   </h1>
+
   <p>
-    Buy digital accounts, request verification numbers,
-    and access boosting services from one simple marketplace.
+    Buy digital accounts and access selected services from one simple marketplace.
   </p>
+
   <div class="hero-buttons">
-    <a href="#accounts" class="primary-btn">Browse Accounts</a>
-<button
-  class="secondary-btn"
-  id="createAccountBtn"
-  onclick="openAuth('register')">
-  Create Account
-</button>
+
+    <a href="#accounts" class="primary-btn">
+      Browse Accounts
+    </a>
+
+    <button
+      class="secondary-btn"
+      id="createAccountBtn"
+      onclick="openAuth('register')"
+    >
+      Create Account
+    </button>
+
   </div>
+
+
   <div class="account-box" id="accountBox">
-<h2>👤 My Account</h2>
-<p id="accountName">Name: -</p>
-<p id="accountEmail">Email: -</p>
-<div class="account-actions">
-  <button class="small-btn" onclick="scrollToWallet()">
-    💰 My Wallet
-  </button>
-  <button class="small-btn whatsapp-btn" onclick="chatAdmin('Hello Benjo-SMS admin, I need assistance.')">
-    💬 Chat Admin
-  </button>
-  <button class="small-btn" onclick="requestVerification()">
-    📱 Verification Number
-  </button>
-</div>
+
+    <h2>👤 My Account</h2>
+
+    <p id="accountName">
+      Name: -
+    </p>
+
+    <p id="accountEmail">
+      Email: -
+    </p>
+
+    <div class="account-actions">
+
+      <button
+        class="small-btn"
+        onclick="scrollToWallet()"
+      >
+        💰 My Wallet
+      </button>
+
+      <button
+        class="small-btn whatsapp-btn"
+        onclick="chatAdmin('Hello Benjo-SMS admin, I need assistance.')"
+      >
+        💬 Chat Admin
+      </button>
+
+      <button
+        class="small-btn"
+        onclick="requestVerification()"
+      >
+        📱 Verification Number
+      </button>
+
+    </div>
+
   </div>
+
 </section>
-<!-- WALLET -->
+
+
 <section class="section" id="wallet">
+
   <div class="section-title">
+
     <div>
       <h2>💰 Wallet</h2>
-      <p>Use your wallet balance to purchase available accounts.</p>
+
+      <p>
+        Fund your wallet and use your balance for marketplace purchases.
+      </p>
     </div>
+
   </div>
+
+
   <div class="wallet-box">
-<div class="wallet-label">Available Balance</div>
-<div class="wallet-balance" id="walletBalance">
-  ₦0
-</div>
-<div class="wallet-actions">
-  <button
-    class="wallet-btn"
-    onclick="fundWallet()">
-    💳 Fund Wallet
-  </button>
-  <button
-    class="wallet-btn secondary"
-    onclick="loadWallet()">
-    🔄 Refresh Balance
-  </button>
-</div>
+
+    <div class="wallet-label">
+      Available Balance
+    </div>
+
+    <div
+      class="wallet-balance"
+      id="walletBalance"
+    >
+      ₦0
+    </div>
+
+    <div class="wallet-actions">
+
+      <button
+        class="wallet-btn"
+        onclick="fundWallet()"
+      >
+        💳 Fund Wallet
+      </button>
+
+      <button
+        class="wallet-btn secondary"
+        onclick="loadWallet()"
+      >
+        🔄 Refresh Balance
+      </button>
+
+    </div>
+
   </div>
+
 </section>
-<!-- ACCOUNTS MARKETPLACE -->
+
+
 <section class="section" id="accounts">
+
   <div class="section-title">
-<div>
-  <h2>🛒 Accounts Marketplace</h2>
-  <p>Available accounts are delivered automatically after successful payment.</p>
-</div>
-<input
-  type="text"
-  class="search"
-  id="accountSearch"
-  placeholder="Search accounts..."
-  onkeyup="searchAccounts()">
+
+    <div>
+
+      <h2>
+        🛒 Accounts Marketplace
+      </h2>
+
+      <p>
+        Available accounts are delivered automatically after successful wallet payment.
+      </p>
+
+    </div>
+
+    <input
+      class="search"
+      id="accountSearch"
+      placeholder="Search accounts..."
+      onkeyup="searchAccounts()"
+    >
+
   </div>
-  <div class="products" id="accountProducts">
-<div class="card account-placeholder">
-  <div class="card-icon">⏳</div>
-  <h3>Loading Accounts...</h3>
-  <p>Checking available accounts.</p>
-</div>
-  </div>
+
+  <div
+    class="products"
+    id="accountProducts"
+  ></div>
+
 </section>
-<!-- SERVICES -->
+
+
 <section class="section" id="services">
+
   <div class="section-title">
+
     <div>
-      <h2>🛠️ Services</h2>
-      <p>Select a service to continue.</p>
+
+      <h2>
+        🛠️ Services
+      </h2>
+
+      <p>
+        Services configured by the Benjo-SMS admin.
+      </p>
+
     </div>
+
   </div>
-  <div class="service-grid" id="serviceGrid">
-<div
-  class="service-card"
-  onclick="openService('Facebook')">
-  <div class="service-icon">📘</div>
-  <h3>Facebook</h3>
-  <p>Facebook-related services.</p>
-</div>
-<div
-  class="service-card"
-  onclick="openService('Instagram')">
-  <div class="service-icon">📸</div>
-  <h3>Instagram</h3>
-  <p>Instagram-related services.</p>
-</div>
-<div
-  class="service-card"
-  onclick="openService('TikTok')">
-  <div class="service-icon">🎵</div>
-  <h3>TikTok</h3>
-  <p>TikTok-related services.</p>
-</div>
-<div
-  class="service-card"
-  onclick="openService('Twitter X')">
-  <div class="service-icon">𝕏</div>
-  <h3>Twitter X</h3>
-  <p>Twitter X-related services.</p>
-</div>
-<div
-  class="service-card"
-  onclick="openService('YouTube')">
-  <div class="service-icon">▶️</div>
-  <h3>YouTube</h3>
-  <p>YouTube-related services.</p>
-</div>
-  </div>
+
+  <div
+    class="service-grid"
+    id="serviceGrid"
+  ></div>
+
 </section>
-<!-- BOOSTING -->
+
+
 <section class="section" id="boosting">
+
   <div class="section-title">
+
     <div>
-      <h2>🚀 Boosting Service</h2>
-      <p>Choose what you want to boost, then chat directly with the admin.</p>
+
+      <h2>
+        🚀 Boosting Service
+      </h2>
+
+      <p>
+        Choose a platform to contact the admin directly.
+      </p>
+
     </div>
+
   </div>
+
+
   <div class="service-grid">
-<div class="service-card" onclick="boostingChat('Facebook')">
-  <div class="service-icon">📘</div>
-  <h3>Facebook Boosting</h3>
-  <p>Click to chat with admin about Facebook boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('Instagram')">
-  <div class="service-icon">📸</div>
-  <h3>Instagram Boosting</h3>
-  <p>Click to chat with admin about Instagram boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('TikTok')">
-  <div class="service-icon">🎵</div>
-  <h3>TikTok Boosting</h3>
-  <p>Click to chat with admin about TikTok boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('Twitter X')">
-  <div class="service-icon">𝕏</div>
-  <h3>Twitter X Boosting</h3>
-  <p>Click to chat with admin about Twitter X boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('YouTube')">
-  <div class="service-icon">▶️</div>
-  <h3>YouTube Boosting</h3>
-  <p>Click to chat with admin about YouTube boosting.</p>
-</div>
+
+    <div
+      class="service-card"
+      onclick="boostingChat('Facebook')"
+    >
+      <div class="service-icon">📘</div>
+      <h3>Facebook Boosting</h3>
+      <p>
+        Chat with admin about Facebook boosting.
+      </p>
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="boostingChat('Instagram')"
+    >
+      <div class="service-icon">📸</div>
+      <h3>Instagram Boosting</h3>
+      <p>
+        Chat with admin about Instagram boosting.
+      </p>
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="boostingChat('TikTok')"
+    >
+      <div class="service-icon">🎵</div>
+      <h3>TikTok Boosting</h3>
+      <p>
+        Chat with admin about TikTok boosting.
+      </p>
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="boostingChat('Twitter X')"
+    >
+      <div class="service-icon">𝕏</div>
+      <h3>Twitter X Boosting</h3>
+      <p>
+        Chat with admin about Twitter X boosting.
+      </p>
+    </div>
+
+
+    <div
+      class="service-card"
+      onclick="boostingChat('YouTube')"
+    >
+      <div class="service-icon">▶️</div>
+      <h3>YouTube Boosting</h3>
+      <p>
+        Chat with admin about YouTube boosting.
+      </p>
+    </div>
+
   </div>
+
 </section>
-<!-- VERIFICATION -->
+
+
 <section class="section">
-  <div class="service-card" onclick="requestVerification()">
-<div class="service-icon">📱</div>
-<h3>Verification Number</h3>
-<p>
-  Need a verification number?
-  Click here to message Benjo-SMS admin directly.
-</p>
+
+  <div
+    class="service-card"
+    onclick="requestVerification()"
+  >
+
+    <div class="service-icon">
+      📱
+    </div>
+
+    <h3>
+      Verification Number
+    </h3>
+
+    <p>
+      Need a verification number? Message Benjo-SMS admin directly.
+    </p>
+
   </div>
+
 </section>
-<!-- FEATURES -->
+
+
 <section class="section">
+
   <div class="section-title">
-    <h2>Why Benjo-SMS?</h2>
+
+    <h2>
+      Why Benjo-SMS?
+    </h2>
+
   </div>
+
   <div class="features">
-<div class="feature">
-  <div>🔐</div>
-  <h3>Secure</h3>
-  <p>Customer authentication and protected account information.</p>
-</div>
-<div class="feature">
-  <div>⚡</div>
-  <h3>Fast Delivery</h3>
-  <p>Eligible account purchases can be delivered automatically.</p>
-</div>
-<div class="feature">
-  <div>💰</div>
-  <h3>Wallet</h3>
-  <p>Fund your wallet and use your balance for marketplace purchases.</p>
-</div>
-<div class="feature">
-  <div>💬</div>
-  <h3>Direct Admin Support</h3>
-  <p>Contact Benjo-SMS admin directly through WhatsApp.</p>
-</div>
+
+    <div class="feature">
+      🔐
+      <h3>Secure</h3>
+      <p>
+        Customer authentication and protected account information.
+      </p>
+    </div>
+
+
+    <div class="feature">
+      ⚡
+      <h3>Fast Delivery</h3>
+      <p>
+        Eligible account purchases can be delivered automatically.
+      </p>
+    </div>
+
+
+    <div class="feature">
+      💰
+      <h3>Wallet</h3>
+      <p>
+        Fund your wallet and use your balance for purchases.
+      </p>
+    </div>
+
+
+    <div class="feature">
+      💬
+      <h3>Direct Admin Support</h3>
+      <p>
+        Contact Benjo-SMS admin through WhatsApp for boosting and verification.
+      </p>
+    </div>
+
   </div>
+
 </section>
+
+
 <footer>
-  <p>© 2026 Benjo-SMS. All rights reserved.</p>
+  © 2026 Benjo-SMS. All rights reserved.
 </footer>
-<!-- FLOATING CART -->
-<div class="cart" onclick="viewCart()">
+
+
+<div
+  class="cart"
+  onclick="viewCart()"
+>
   🛒
   <span id="cartCount">0</span>
 </div>
-<!-- AUTH MODAL -->
-<div class="modal" id="authModal">
+
+
+<!-- LOGIN / REGISTER -->
+
+<div
+  class="modal"
+  id="authModal"
+>
+
   <div class="modal-box">
-<button class="close" onclick="closeAuth()">×</button>
-<h2 id="authTitle">Login</h2>
-<div class="message" id="authMessage"></div>
-<form id="authForm">
-  <input
-    class="input"
-    id="fullName"
-    type="text"
-    placeholder="Full name"
-    style="display:none;">
-  <input
-    class="input"
-    id="email"
-    type="email"
-    placeholder="Email address"
-    required>
-  <input
-    class="input"
-    id="password"
-    type="password"
-    placeholder="Password"
-    minlength="6"
-    required>
-  <div
-    class="forgot"
-    id="forgotBox">
-    <span onclick="openForgotPassword()">
-      Forgot password?
-    </span>
+
+    <button
+      class="close"
+      onclick="closeAuth()"
+    >
+      ×
+    </button>
+
+    <h2 id="authTitle">
+      Login
+    </h2>
+
+    <div
+      class="message"
+      id="authMessage"
+    ></div>
+
+
+    <form id="authForm">
+
+      <input
+        class="input"
+        id="fullName"
+        placeholder="Full name"
+        style="display:none"
+      >
+
+      <input
+        class="input"
+        id="email"
+        type="email"
+        placeholder="Email address"
+        required
+      >
+
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Password"
+        minlength="6"
+        required
+      >
+
+
+      <div
+        class="forgot"
+        id="forgotBox"
+      >
+        <span onclick="openForgotPassword()">
+          Forgot password?
+        </span>
+      </div>
+
+
+      <button
+        class="auth-btn"
+        id="authSubmit"
+      >
+        Login
+      </button>
+
+    </form>
+
+
+    <div class="switch">
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <span
+        id="switchAction"
+        onclick="switchAuth()"
+      >
+        Register
+      </span>
+
+    </div>
+
   </div>
-  <button
-    class="auth-btn"
-    type="submit"
-    id="authSubmit">
-    Login
-  </button>
-</form>
-<div class="switch">
-  <span id="switchText">Don't have an account?</span>
-  <span id="switchAction" onclick="switchAuth()"> Register</span>
+
 </div>
-  </div>
-</div>
-<!-- SERVICE MODAL -->
-<div class="modal" id="serviceModal">
+
+
+<!-- FUND WALLET -->
+
+<div
+  class="modal"
+  id="fundModal"
+>
+
   <div class="modal-box">
-<button class="close" onclick="closeService()">×</button>
-<h2 id="serviceTitle">Service</h2>
-<div class="notice">
-  Select an option below. Your request will open directly in WhatsApp with the Benjo-SMS admin.
-</div>
-<div class="option-grid">
-  <button class="option-btn" onclick="serviceChat('Account')">
-    👤 Account
-  </button>
-  <button class="option-btn" onclick="serviceChat('General Service')">
-    🛠️ General Service
-  </button>
-  <button class="option-btn" onclick="serviceChat('Verification Number')">
-    📱 Verification
-  </button>
-  <button class="option-btn" onclick="serviceChat('Other')">
-    💬 Other
-  </button>
-</div>
+
+    <button
+      class="close"
+      onclick="closeFund()"
+    >
+      ×
+    </button>
+
+    <h2>
+      💳 Fund Wallet
+    </h2>
+
+    <div
+      class="message"
+      id="fundMessage"
+    ></div>
+
+
+    <input
+      class="input"
+      id="fundAmount"
+      type="number"
+      min="1"
+      step="0.01"
+      placeholder="Amount (₦)"
+    >
+
+
+    <div id="paymentMethods">
+
+      <div class="empty">
+        Loading payment methods...
+      </div>
+
+    </div>
+
+
+    <input
+      class="input"
+      id="proofUrl"
+      placeholder="Payment proof image URL (optional)"
+    >
+
+
+    <div class="notice">
+
+      After making payment, paste your proof image URL above and submit.
+      The admin will review your request before your wallet is credited.
+
+    </div>
+
+
+    <button
+      class="auth-btn"
+      onclick="submitFunding()"
+    >
+      Submit Funding Request
+    </button>
+
   </div>
+
 </div>
-<!-- DELIVERY MODAL -->
-<div class="modal" id="deliveryModal">
+
+
+<!-- DELIVERY -->
+
+<div
+  class="modal"
+  id="deliveryModal"
+>
+
   <div class="modal-box">
-<button class="close" onclick="closeDelivery()">×</button>
-<h2>🎉 Purchase Successful</h2>
-<div class="message success">
-  Your account has been delivered.
-</div>
-<div class="delivery-box">
-  <p>
-    <strong>Username:</strong>
-    <span id="deliveredUsername"></span>
-  </p>
-  <p>
-    <strong>Password:</strong>
-    <span id="deliveredPassword"></span>
-  </p>
-</div>
-<div class="notice" style="margin-top:15px;">
-  Keep these login details private. Your wallet has been charged for this purchase.
-</div>
-<button
-  class="auth-btn"
-  onclick="closeDelivery()">
-  Done
-</button>
+
+    <button
+      class="close"
+      onclick="closeDelivery()"
+    >
+      ×
+    </button>
+
+    <h2>
+      🎉 Purchase Successful
+    </h2>
+
+    <div class="message success">
+      Your account has been delivered.
+    </div>
+
+
+    <div class="delivery-box">
+
+      <p>
+        <strong>Username:</strong>
+        <span id="deliveredUsername"></span>
+      </p>
+
+      <p>
+        <strong>Password:</strong>
+        <span id="deliveredPassword"></span>
+      </p>
+
+    </div>
+
+
+    <div
+      class="notice"
+      style="margin-top:15px"
+    >
+      Keep these login details private.
+      Your wallet has been charged.
+    </div>
+
+
+    <button
+      class="auth-btn"
+      onclick="closeDelivery()"
+    >
+      Done
+    </button>
+
   </div>
+
 </div>
+
+
 <script>
-  /* =========================================================
-     SUPABASE
-  ========================================================= */
-  const SUPABASE_URL =
-    "https://zwefikwlxgphufilgcyc.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-  const {
-    createClient
-  } = window.supabase;
-  const supabaseClient =
-    createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-  /* =========================================================
-     SETTINGS
-  ========================================================= */
-  const ADMIN_WHATSAPP =
-    "2348165405921";
-  let authMode = "login";
-  let cart = [];
-  let selectedService = "";
-  /* =========================================================
-     AUTH
-  ========================================================= */
-  function openAuth(mode = "login") {
-    authMode = mode;
-    document
-      .getElementById("authModal")
-      .style.display = "flex";
-    updateAuthForm();
-    document
-      .getElementById("authMessage")
-      .textContent = "";
-  }
-  function closeAuth() {
-    document
-      .getElementById("authModal")
-      .style.display = "none";
-    document
-      .getElementById("authForm")
-      .reset();
-    document
-      .getElementById("authMessage")
-      .textContent = "";
-  }
-  function switchAuth() {
-    authMode =
-      authMode === "login"
-        ? "register"
-        : "login";
-    updateAuthForm();
-  }
-  function updateAuthForm() {
-    const title =
-      document.getElementById("authTitle");
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://zwefikwlxgphufilgcyc.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
+
+const {
+  createClient
+} = window.supabase;
+
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+const ADMIN_WHATSAPP =
+  "2348165405921";
+
+let authMode = "login";
+
+let cart = [];
+
+let selectedService = "";
+
+let selectedPayment = null;
+
+
+/* =========================
+   SHORT SELECTOR
+========================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+/* =========================
+   AUTH
+========================= */
+
+function openAuth(mode = "login") {
+
+  authMode = mode;
+
+  $("authModal").style.display = "flex";
+
+  updateAuthForm();
+
+  $("authMessage").textContent = "";
+}
+
+
+function closeAuth() {
+
+  $("authModal").style.display = "none";
+
+  $("authForm").reset();
+
+  $("authMessage").textContent = "";
+}
+
+
+function switchAuth() {
+
+  authMode =
+    authMode === "login"
+      ? "register"
+      : "login";
+
+  updateAuthForm();
+}
+
+
+function updateAuthForm() {
+
+  const reg =
+    authMode === "register";
+
+  $("authTitle").textContent =
+    reg
+      ? "Create Account"
+      : "Login";
+
+  $("fullName").style.display =
+    reg
+      ? "block"
+      : "none";
+
+  $("fullName").required =
+    reg;
+
+  $("authSubmit").textContent =
+    reg
+      ? "Create Account"
+      : "Login";
+
+  $("switchText").textContent =
+    reg
+      ? "Already have an account?"
+      : "Don't have an account?";
+
+  $("switchAction").textContent =
+    reg
+      ? "Login"
+      : "Register";
+
+  $("forgotBox").style.display =
+    reg
+      ? "none"
+      : "block";
+}
+
+
+/* =========================
+   LOGIN / REGISTER SUBMIT
+========================= */
+
+$("authForm").addEventListener(
+  "submit",
+  async e => {
+
+    e.preventDefault();
+
+    const email =
+      $("email").value.trim();
+
+    const password =
+      $("password").value;
+
     const fullName =
-      document.getElementById("fullName");
-    const submit =
-      document.getElementById("authSubmit");
-    const switchText =
-      document.getElementById("switchText");
-    const switchAction =
-      document.getElementById("switchAction");
-    const forgotBox =
-      document.getElementById("forgotBox");
-    if (authMode === "register") {
-      title.textContent =
-        "Create Account";
-      fullName.style.display =
-        "block";
-      fullName.required =
-        true;
-      submit.textContent =
-        "Create Account";
-      switchText.textContent =
-        "Already have an account?";
-      switchAction.textContent =
-        " Login";
-      forgotBox.style.display =
-        "none";
-    } else {
-      title.textContent =
-        "Login";
-      fullName.style.display =
-        "none";
-      fullName.required =
-        false;
-      submit.textContent =
-        "Login";
-      switchText.textContent =
-        "Don't have an account?";
-      switchAction.textContent =
-        " Register";
-      forgotBox.style.display =
-        "block";
-    }
-  }
-  document
-    .getElementById("authForm")
-    .addEventListener(
-      "submit",
-      async function(event) {
-        event.preventDefault();
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
-        const password =
-          document
-            .getElementById("password")
-            .value;
-        const fullName =
-          document
-            .getElementById("fullName")
-            .value
-            .trim();
-        const message =
-          document
-            .getElementById("authMessage");
-        const button =
-          document
-            .getElementById("authSubmit");
-        message.textContent = "";
-        message.className =
-          "message";
-        button.disabled = true;
-        button.textContent =
-          "Please wait...";
-        try {
-          if (authMode === "register") {
-            if (!fullName) {
-              throw new Error(
-                "Please enter your full name."
-              );
-            }
-            const {
-              data,
-              error
-            } =
-              await supabaseClient.auth.signUp({
-                email,
-                password,
-                options: {
-                  data: {
-                    full_name: fullName
-                  }
-                }
-              });
-            if (error) {
-              throw error;
-            }
-            if (
-              data.user &&
-              !data.session
-            ) {
-              message.textContent =
-                "Account created. Check your email and confirm your email address before logging in.";
-              message.className =
-                "message success";
-              return;
-            }
-            if (data.user) {
-              await createProfile(
-                data.user,
-                fullName
-              );
-              message.textContent =
-                "Account created successfully.";
-              message.className =
-                "message success";
-              closeAuth();
-              await loadAccount();
-              await loadWallet();
-            }
-          } else {
-            const {
-              data,
-              error
-            } =
-              await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-              });
-            if (error) {
-              throw error;
-            }
-            if (data.user) {
-              closeAuth();
-              await loadAccount();
-              await loadWallet();
-              alert(
-                "Login successful!"
-              );
-            }
-          }
-        } catch (error) {
-          message.textContent =
-            error.message ||
-            "Something went wrong.";
-          message.className =
-            "message error";
-        } finally {
-          button.disabled = false;
-          button.textContent =
-            authMode === "register"
-              ? "Create Account"
-              : "Login";
+      $("fullName").value.trim();
+
+    const msg =
+      $("authMessage");
+
+    const btn =
+      $("authSubmit");
+
+
+    btn.disabled = true;
+
+    btn.textContent =
+      "Please wait...";
+
+    msg.textContent = "";
+
+    msg.className =
+      "message";
+
+
+    try {
+
+      if (authMode === "register") {
+
+        if (!fullName) {
+
+          throw Error(
+            "Please enter your full name."
+          );
+
         }
-      }
-    );
-  async function createProfile(
-    user,
-    fullName
-  ) {
-    const name =
-      fullName ||
-      user.user_metadata?.full_name ||
-      "";
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("profiles")
-        .upsert(
-          {
-            id: user.id,
-            full_name: name,
-            email: user.email
-          },
-          {
-            onConflict: "id"
-          }
+
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signUp({
+
+            email,
+
+            password,
+
+            options: {
+
+              data: {
+                full_name: fullName
+              }
+
+            }
+
+          });
+
+
+        if (error)
+          throw error;
+
+
+        if (
+          data.user &&
+          !data.session
+        ) {
+
+          msg.textContent =
+            "Account created. Check your email to confirm it.";
+
+          msg.className =
+            "message success";
+
+          return;
+        }
+
+
+        if (data.user) {
+
+          await createProfile(
+            data.user,
+            fullName
+          );
+
+          closeAuth();
+
+          await loadAccount();
+
+          await loadWallet();
+
+        }
+
+      } else {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signInWithPassword({
+
+            email,
+
+            password
+
+          });
+
+
+        if (error)
+          throw error;
+
+
+        closeAuth();
+
+        await loadAccount();
+
+        await loadWallet();
+
+        alert(
+          "Login successful!"
         );
-    if (error) {
-      console.error(
-        "Profile error:",
-        error
-      );
-    }
-  }
-  async function loadAccount() {
-    const {
-      data: {
-        user
+
       }
-    } =
-      await supabaseClient.auth.getUser();
-    const loginNav =
-      document.getElementById(
-        "loginNav"
-      );
-    const logoutNav =
-      document.getElementById(
-        "logoutNav"
-      );
-    const accountNav =
-      document.getElementById(
-        "accountNav"
-      );
-    const walletNav =
-      document.getElementById(
-        "walletNav"
-      );
-    const accountBox =
-      document.getElementById(
-        "accountBox"
-      );
-    const createAccountBtn =
-      document.getElementById(
-        "createAccountBtn"
-      );
-    if (!user) {
-      loginNav.style.display =
-        "block";
-      logoutNav.style.display =
-        "none";
-      accountNav.style.display =
-        "none";
-      walletNav.style.display =
-        "none";
-      accountBox.style.display =
-        "none";
-      createAccountBtn.style.display =
-        "inline-block";
-      return;
+
+    } catch (err) {
+
+      msg.textContent =
+        err.message ||
+        "Something went wrong.";
+
+      msg.className =
+        "message error";
+
+    } finally {
+
+      btn.disabled = false;
+
+      btn.textContent =
+        authMode === "register"
+          ? "Create Account"
+          : "Login";
+
     }
-    loginNav.style.display =
-      "none";
-    logoutNav.style.display =
-      "block";
-    accountNav.style.display =
-      "block";
-    walletNav.style.display =
-      "block";
-    accountBox.style.display =
-      "block";
-    /*
-      Hide Create Account after login.
-    */
-    createAccountBtn.style.display =
-      "none";
-    document
-      .getElementById("accountName")
-      .textContent =
+
+  }
+);
+
+
+/* =========================
+   PROFILE
+========================= */
+
+async function createProfile(
+  user,
+  fullName
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .upsert(
+
+        {
+          id: user.id,
+
+          full_name:
+            fullName ||
+            user.user_metadata?.full_name ||
+            "",
+
+          email:
+            user.email
+
+        },
+
+        {
+          onConflict: "id"
+        }
+
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Profile error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   ACCOUNT
+========================= */
+
+async function loadAccount() {
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  $("loginNav").style.display =
+    user
+      ? "none"
+      : "block";
+
+  $("logoutNav").style.display =
+    user
+      ? "block"
+      : "none";
+
+  $("accountNav").style.display =
+    user
+      ? "block"
+      : "none";
+
+  $("walletNav").style.display =
+    user
+      ? "block"
+      : "none";
+
+  $("accountBox").style.display =
+    user
+      ? "block"
+      : "none";
+
+  $("createAccountBtn").style.display =
+    user
+      ? "none"
+      : "inline-block";
+
+
+  if (user) {
+
+    $("accountName").textContent =
       "Name: " +
       (
         user.user_metadata?.full_name ||
         "Customer"
       );
-    document
-      .getElementById("accountEmail")
-      .textContent =
+
+    $("accountEmail").textContent =
       "Email: " +
       (
-        user.email ||
-        ""
+        user.email || ""
       );
+
   }
-  async function logout() {
-    const {
-      error
-    } =
-      await supabaseClient.auth.signOut();
-    if (error) {
-      alert(
-        error.message
-      );
-      return;
-    }
-    await loadAccount();
-    document
-      .getElementById(
-        "walletBalance"
-      )
-      .textContent =
-      "₦0";
-    alert(
-      "You have been logged out."
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  await loadAccount();
+
+  $("walletBalance").textContent =
+    "₦0";
+
+  alert(
+    "You have been logged out."
+  );
+
+}
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+async function openForgotPassword() {
+
+  const email =
+    $("email").value.trim();
+
+
+  if (!email) {
+
+    return alert(
+      "Enter your email address first."
     );
+
   }
-  async function openForgotPassword() {
-    const email =
-      document
-        .getElementById("email")
-        .value
-        .trim();
-    if (!email) {
-      alert(
-        "Enter your email address first."
-      );
-      return;
-    }
-    const {
-      error
-    } =
-      await supabaseClient.auth.resetPasswordForEmail(
+
+
+  const {
+    error
+  } =
+    await supabaseClient.auth
+      .resetPasswordForEmail(
+
         email,
+
         {
           redirectTo:
             window.location.origin +
             window.location.pathname
         }
+
       );
-    if (error) {
-      alert(
-        error.message
-      );
-      return;
-    }
+
+
+  if (error) {
+
+    alert(
+      error.message
+    );
+
+  } else {
+
     alert(
       "Password reset instructions have been sent to your email."
     );
+
   }
-  /* =========================================================
-     WALLET
-  ========================================================= */
-  async function loadWallet() {
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient.auth.getUser();
-    if (!user) {
-      document
-        .getElementById(
-          "walletBalance"
-        )
-        .textContent =
-        "₦0";
-      return;
+
+}
+
+
+/* =========================
+   NAIRA FORMAT
+========================= */
+
+function formatNaira(n) {
+
+  return "₦" +
+    Number(n || 0)
+      .toLocaleString(
+        "en-NG",
+        {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        }
+      );
+
+}
+
+
+/* =========================
+   WALLET
+========================= */
+
+async function loadWallet() {
+
+  const {
+    data: {
+      user
     }
-    const {
-      data,
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    $("walletBalance").textContent =
+      "₦0";
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("wallets")
+      .select("balance")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Wallet error:",
       error
-    } =
-      await supabaseClient
-        .from("wallets")
-        .select("balance")
-        .eq("user_id", user.id)
-        .maybeSingle();
-    if (error) {
-      console.error(
-        "Wallet error:",
-        error
-      );
-      return;
-    }
-    const balance =
-      data?.balance || 0;
-    document
-      .getElementById(
-        "walletBalance"
-      )
-      .textContent =
-      formatNaira(balance);
-  }
-  function formatNaira(
-    amount
-  ) {
-    return "₦" +
-      Number(amount || 0)
-        .toLocaleString(
-          "en-NG",
-          {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-          }
-        );
-  }
-  function fundWallet() {
-    /*
-      Payment gateway connection comes next.
-      For now this opens WhatsApp so the user can contact admin.
-    */
-    chatAdmin(
-      "Hello Benjo-SMS admin, I want to fund my wallet. Please send me the payment instructions."
     );
+
+    return;
+
   }
-  /* =========================================================
-     ACCOUNT MARKETPLACE
-  ========================================================= */
-  async function loadAccounts() {
-    const container =
-      document.getElementById(
-        "accountProducts"
+
+
+  $("walletBalance").textContent =
+    formatNaira(
+      data?.balance || 0
+    );
+
+}
+
+
+/* =========================
+   FUND WALLET
+========================= */
+
+async function fundWallet() {
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    alert(
+      "Please login first."
+    );
+
+    openAuth("login");
+
+    return;
+
+  }
+
+
+  selectedPayment = null;
+
+  $("fundAmount").value = "";
+
+  $("proofUrl").value = "";
+
+  $("fundMessage").textContent = "";
+
+  $("fundModal").style.display =
+    "flex";
+
+
+  await loadPaymentMethods();
+
+}
+
+
+/* =========================
+   CLOSE FUND
+========================= */
+
+function closeFund() {
+
+  $("fundModal").style.display =
+    "none";
+
+}
+
+
+/* =========================
+   PAYMENT METHODS
+========================= */
+
+async function loadPaymentMethods() {
+
+  const box =
+    $("paymentMethods");
+
+
+  box.innerHTML =
+    '<div class="empty">Loading payment methods...</div>';
+
+
+  /*
+    IMPORTANT:
+    Your database uses is_active,
+    NOT active.
+  */
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("payment_methods")
+      .select(
+        "id,name,details,is_active,created_at"
+      )
+      .eq(
+        "is_active",
+        true
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
       );
-    container.innerHTML = `
+
+
+  if (error) {
+
+    console.error(
+      "Payment method error:",
+      error
+    );
+
+    box.innerHTML =
+      '<div class="message error">' +
+      escapeHtml(
+        error.message
+      ) +
+      '</div>';
+
+    return;
+
+  }
+
+
+  if (
+    !data ||
+    data.length === 0
+  ) {
+
+    box.innerHTML =
+      '<div class="empty">' +
+      'No payment method is available yet. Please contact admin.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  window._payments =
+    data;
+
+
+  box.innerHTML =
+    data.map(
+      p => `
+
+        <div
+          class="payment-card"
+          data-payment-id="${escapeHtml(p.id)}"
+          onclick="selectPayment('${escapeHtml(p.id)}', this)"
+        >
+
+          <b>
+            💳 ${escapeHtml(p.name)}
+          </b>
+
+          <small>
+            ${escapeHtml(p.details || "")}
+          </small>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+/* =========================
+   SELECT PAYMENT
+========================= */
+
+function selectPayment(
+  id,
+  element
+) {
+
+  selectedPayment =
+    (window._payments || [])
+      .find(
+        x => x.id === id
+      ) || null;
+
+
+  document
+    .querySelectorAll(
+      ".payment-card"
+    )
+    .forEach(
+      x =>
+        x.classList.remove(
+          "active"
+        )
+    );
+
+
+  if (element) {
+
+    element.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   SUBMIT FUNDING
+========================= */
+
+async function submitFunding() {
+
+  const amount =
+    Number(
+      $("fundAmount").value
+    );
+
+  const proof =
+    $("proofUrl").value.trim();
+
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    alert(
+      "Please login first."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !amount ||
+    amount <= 0
+  ) {
+
+    alert(
+      "Enter a valid amount."
+    );
+
+    return;
+
+  }
+
+
+  if (!selectedPayment) {
+
+    alert(
+      "Please select a payment method."
+    );
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("funding_requests")
+      .insert({
+
+        user_id:
+          user.id,
+
+        amount:
+          amount,
+
+        payment_method_id:
+          selectedPayment.id,
+
+        proof_url:
+          proof || null,
+
+        status:
+          "pending"
+
+      });
+
+
+  if (error) {
+
+    console.error(
+      "Funding error:",
+      error
+    );
+
+    alert(
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "Funding request submitted successfully. Admin will review your payment."
+  );
+
+
+  closeFund();
+
+}
+
+
+/* =========================
+   LOAD ACCOUNTS
+========================= */
+
+async function loadAccounts() {
+
+  const c =
+    $("accountProducts");
+
+
+  c.innerHTML =
+    `
       <div class="card">
-        <div class="card-icon">⏳</div>
-        <h3>Loading Accounts...</h3>
-        <p>Please wait while we load available accounts.</p>
+
+        <div class="card-icon">
+          ⏳
+        </div>
+
+        <h3>
+          Loading Accounts...
+        </h3>
+
+        <p>
+          Please wait.
+        </p>
+
       </div>
     `;
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("account_inventory")
-        .select(
-          "id,title,username,price,status"
-        )
-        .eq(
-          "status",
-          "available"
-        )
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
-    if (error) {
-      console.error(
-        "Account loading error:",
-        error
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("account_inventory")
+      .select(
+        "id,title,platform,username,price,status"
+      )
+      .eq(
+        "status",
+        "available"
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
       );
-      container.innerHTML = `
+
+
+  if (error) {
+
+    console.error(
+      error
+    );
+
+
+    c.innerHTML =
+      `
         <div class="card">
-          <div class="card-icon">⚠️</div>
-          <h3>Unable to load accounts</h3>
-          <p>${escapeHtml(error.message)}</p>
-          <button class="buy-btn" onclick="loadAccounts()">
+
+          <div class="card-icon">
+            ⚠️
+          </div>
+
+          <h3>
+            Unable to load accounts
+          </h3>
+
+          <p>
+            ${escapeHtml(error.message)}
+          </p>
+
+          <button
+            class="buy-btn"
+            onclick="loadAccounts()"
+          >
             Try Again
           </button>
+
         </div>
       `;
-      return;
-    }
-    if (!data || data.length === 0) {
-      container.innerHTML = `
-        <div class="card">
-          <div class="card-icon">📦</div>
-          <h3>No Accounts Available</h3>
-          <p>There are currently no accounts available for purchase.</p>
-        </div>
-      `;
-      return;
-    }
-    container.innerHTML =
-      data.map(
-        account => `
-          <div
-            class="card account-card"
-            data-name="${escapeHtml(account.title || "Account")}">
-            <div class="card-icon">
-              👤
-            </div>
-            <h3>
-              ${escapeHtml(
-                account.title || "Social Account"
-              )}
-            </h3>
-            <p>
-              Available account
-            </p>
-            <div class="price">
-              ${formatNaira(account.price)}
-            </div>
-            <button
-              class="buy-btn"
-              onclick="buyAccount('${account.id}', '${escapeJs(account.title || "Account")}', ${Number(account.price || 0)})">
-              Buy Now
-            </button>
-          </div>
-        `
-      ).join("");
+
+    return;
+
   }
-  async function buyAccount(
-    accountId,
-    title,
-    price
+
+
+  if (
+    !data ||
+    data.length === 0
   ) {
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient.auth.getUser();
-    if (!user) {
-      alert(
-        "Please login before purchasing an account."
-      );
-      openAuth("login");
-      return;
-    }
-    const confirmed =
-      confirm(
-        `${title}\n\nPrice: ${formatNaira(price)}\n\nPurchase this account using your wallet?`
-      );
-    if (!confirmed) {
-      return;
-    }
-    /*
-      IMPORTANT:
-      The browser does NOT deduct the wallet.
-      The purchase-account Edge Function calls
-      the atomic purchase_account RPC.
-    */
-    try {
-      const {
-        data: {
-          session
-        }
-      } =
-        await supabaseClient.auth.getSession();
-      if (!session?.access_token) {
-        alert(
-          "Your login session has expired. Please login again."
-        );
-        openAuth("login");
-        return;
-      }
-      const functionUrl =
-        SUPABASE_URL +
-        "/functions/v1/purchase-account";
-      const response =
-        await fetch(
-          functionUrl,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              "Authorization":
-                "Bearer " +
-                session.access_token
-            },
-            body: JSON.stringify({
-              account_id: accountId
-            })
-          }
-        );
-      const result =
-        await response.json()
-          .catch(
-            () => ({})
-          );
-      if (!response.ok) {
-        const code =
-          result?.error?.code ||
-          result?.error ||
-          "purchase_failed";
-        if (
-          code ===
-          "insufficient_wallet_balance"
-        ) {
-          alert(
-            "Insufficient wallet balance. Please fund your wallet first."
-          );
-          return;
-        }
-        if (
-          code ===
-          "account_unavailable"
-        ) {
-          alert(
-            "This account has already been purchased or is no longer available."
-          );
-          await loadAccounts();
-          return;
-        }
-        if (
-          code ===
-          "not_authenticated"
-        ) {
-          alert(
-            "Please login again."
-          );
-          openAuth("login");
-          return;
-        }
-        alert(
-          "Purchase failed. Please try again."
-        );
-        return;
-      }
-      /*
-        The RPC returns a TABLE, so depending on the
-        deployed Edge Function version, the response
-        may be either:
-          { username, password }
-        or:
-          { account: { username, password } }
-        or an array.
-      */
-      let accountData =
-        result?.account ||
-        result;
-      if (
-        Array.isArray(
-          accountData
-        )
-      ) {
-        accountData =
-          accountData[0];
-      }
-      const username =
-        accountData?.username;
-      const password =
-        accountData?.password;
-      if (
-        typeof username !== "string" ||
-        typeof password !== "string"
-      ) {
-        alert(
-          "Purchase completed, but the account details could not be displayed. Please contact admin."
-        );
-        await loadWallet();
-        await loadAccounts();
-        return;
-      }
-      document
-        .getElementById(
-          "deliveredUsername"
-        )
-        .textContent =
-        username;
-      document
-        .getElementById(
-          "deliveredPassword"
-        )
-        .textContent =
-        password;
-      document
-        .getElementById(
-          "deliveryModal"
-        )
-        .style.display =
-        "flex";
-      await loadWallet();
-      await loadAccounts();
-    } catch (error) {
-      console.error(
-        "Purchase error:",
-        error
-      );
-      alert(
-        "Unable to complete the purchase. Please check your connection and try again."
-      );
-    }
+
+    c.innerHTML =
+      '<div class="empty">No accounts available for purchase.</div>';
+
+    return;
+
   }
-  function closeDelivery() {
-    document
-      .getElementById(
-        "deliveryModal"
+
+
+  c.innerHTML =
+    data.map(
+      a => `
+
+        <div
+          class="card account-card"
+          data-name="${escapeHtml(
+            a.title ||
+            a.platform ||
+            "Account"
+          )}"
+        >
+
+          <div class="card-icon">
+            👤
+          </div>
+
+          <h3>
+            ${escapeHtml(
+              a.title ||
+              a.platform ||
+              "Social Account"
+            )}
+          </h3>
+
+          <p>
+            ${escapeHtml(
+              a.platform ||
+              "Available account"
+            )}
+          </p>
+
+          <div class="price">
+            ${formatNaira(a.price)}
+          </div>
+
+          <button
+            class="buy-btn"
+            onclick="buyAccount('${escapeHtml(a.id)}')"
+          >
+            Buy Now
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+/* =========================
+   BUY ACCOUNT
+========================= */
+
+async function buyAccount(id) {
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    openAuth("login");
+
+    return;
+
+  }
+
+
+  const {
+    data: a,
+    error
+  } =
+    await supabaseClient
+      .from("account_inventory")
+      .select(
+        "id,title,price,status"
       )
-      .style.display =
-      "none";
+      .eq(
+        "id",
+        id
+      )
+      .single();
+
+
+  if (
+    error ||
+    !a
+  ) {
+
+    alert(
+      "Account not found."
+    );
+
+    return;
+
   }
-  function searchAccounts() {
-    const query =
-      document
-        .getElementById(
-          "accountSearch"
-        )
-        .value
-        .toLowerCase();
-    const cards =
-      document.querySelectorAll(
-        ".account-card"
+
+
+  if (
+    a.status !==
+    "available"
+  ) {
+
+    alert(
+      "This account is no longer available."
+    );
+
+    await loadAccounts();
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      `${a.title || "Account"}
+
+Price: ${formatNaira(a.price)}
+
+Purchase using your wallet?`
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const {
+    data: {
+      session
+    }
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if (!session) {
+
+    alert(
+      "Your session has expired. Please login again."
+    );
+
+    openAuth("login");
+
+    return;
+
+  }
+
+
+  const response =
+    await fetch(
+
+      SUPABASE_URL +
+      "/functions/v1/purchase-account",
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type":
+            "application/json",
+
+          "Authorization":
+            "Bearer " +
+            session.access_token
+
+        },
+
+        body:
+          JSON.stringify({
+            account_id: id
+          })
+
+      }
+
+    );
+
+
+  const result =
+    await response
+      .json()
+      .catch(
+        () => ({})
       );
-    cards.forEach(
+
+
+  if (!response.ok) {
+
+    alert(
+
+      result?.error ===
+      "insufficient_wallet_balance"
+
+        ? "Insufficient wallet balance. Please fund your wallet first."
+
+        : result?.message ||
+          "Purchase failed."
+
+    );
+
+    return;
+
+  }
+
+
+  const d =
+    result.account ||
+    result;
+
+
+  const row =
+    Array.isArray(d)
+      ? d[0]
+      : d;
+
+
+  if (
+    !row?.username ||
+    !row?.password
+  ) {
+
+    alert(
+      "Purchase completed but details could not be displayed. Contact admin."
+    );
+
+    return;
+
+  }
+
+
+  $("deliveredUsername")
+    .textContent =
+      row.username;
+
+  $("deliveredPassword")
+    .textContent =
+      row.password;
+
+
+  $("deliveryModal")
+    .style.display =
+      "flex";
+
+
+  await loadWallet();
+
+  await loadAccounts();
+
+}
+
+
+/* =========================
+   DELIVERY
+========================= */
+
+function closeDelivery() {
+
+  $("deliveryModal")
+    .style.display =
+      "none";
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchAccounts() {
+
+  const q =
+    $("accountSearch")
+      .value
+      .toLowerCase();
+
+
+  document
+    .querySelectorAll(
+      ".account-card"
+    )
+    .forEach(
       card => {
+
         const name =
           (
             card.dataset.name ||
             ""
           ).toLowerCase();
+
+
         card.style.display =
-          name.includes(query)
+          name.includes(q)
             ? "block"
             : "none";
+
       }
     );
-  }
-  /* =========================================================
-     SERVICES
-  ========================================================= */
-  function openService(
-    service
-  ) {
-    selectedService =
-      service;
-    document
-      .getElementById(
-        "serviceTitle"
+
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+async function loadServices() {
+
+  const c =
+    $("serviceGrid");
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("services")
+      .select(
+        "id,name,description,icon,service_type,active"
       )
-      .textContent =
-      service +
-      " Service";
-    document
-      .getElementById(
-        "serviceModal"
+      .eq(
+        "active",
+        true
       )
-      .style.display =
-      "flex";
-  }
-  function closeService() {
-    document
-      .getElementById(
-        "serviceModal"
-      )
-      .style.display =
-      "none";
-  }
-  function serviceChat(
-    option
-  ) {
-    const message =
-      `Hello Benjo-SMS admin, I need ${selectedService} - ${option} service.`;
-    closeService();
-    chatAdmin(message);
-  }
-  /* =========================================================
-     BOOSTING
-  ========================================================= */
-  function boostingChat(
-    platform
-  ) {
-    const message =
-      `Hello Benjo-SMS admin, I want ${platform} Boosting Service. Please send me the available options and price.`;
-    chatAdmin(message);
-  }
-  /* =========================================================
-     VERIFICATION
-  ========================================================= */
-  function requestVerification() {
-    const message =
-      "Hello Benjo-SMS admin, I need a Verification Number. Please assist me.";
-    chatAdmin(message);
-  }
-  /* =========================================================
-     WHATSAPP
-  ========================================================= */
-  function chatAdmin(
-    message
-  ) {
-    const url =
-      "https://wa.me/" +
-      ADMIN_WHATSAPP +
-      "?text=" +
-      encodeURIComponent(
-        message
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
       );
-    window.open(
-      url,
-      "_blank"
+
+
+  if (error) {
+
+    console.error(
+      "Services error:",
+      error
     );
+
+    c.innerHTML =
+      `
+        <div class="empty">
+          Unable to load services.
+          <br><br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+
+    return;
+
   }
-  /* =========================================================
-     CART
-  ========================================================= */
-  function addToCart(
+
+
+  if (
+    !data ||
+    data.length === 0
+  ) {
+
+    c.innerHTML =
+      '<div class="empty">No services have been added yet.</div>';
+
+    return;
+
+  }
+
+
+  window._services =
+    data;
+
+
+  c.innerHTML =
+    data.map(
+      s => `
+
+        <div
+          class="service-card"
+          onclick="handleService('${escapeHtml(s.id)}')"
+        >
+
+          <div class="service-icon">
+            ${escapeHtml(
+              s.icon ||
+              "🛠️"
+            )}
+          </div>
+
+          <h3>
+            ${escapeHtml(
+              s.name
+            )}
+          </h3>
+
+          <p>
+            ${escapeHtml(
+              s.description ||
+              "Service available from Benjo-SMS."
+            )}
+          </p>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+/* =========================
+   HANDLE SERVICES
+========================= */
+
+function handleService(id) {
+
+  const s =
+    (window._services || [])
+      .find(
+        x => x.id === id
+      );
+
+
+  if (!s)
+    return;
+
+
+  /*
+    ONLY services marked
+    as WhatsApp go to WhatsApp.
+
+    Other services stay on
+    the website.
+  */
+
+  if (
+    s.service_type ===
+    "whatsapp"
+  ) {
+
+    chatAdmin(
+      "Hello Benjo-SMS admin, I need " +
+      s.name +
+      " service."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Website service:
+    keep the customer on the website.
+  */
+
+  alert(
+    s.name +
+    " is available through Benjo-SMS."
+  );
+
+}
+
+
+/* =========================
+   BOOSTING
+========================= */
+
+function boostingChat(
+  platform
+) {
+
+  chatAdmin(
+
+    `Hello Benjo-SMS admin, I want ${platform} Boosting Service. Please send me the available options and price.`
+
+  );
+
+}
+
+
+/* =========================
+   VERIFICATION
+========================= */
+
+function requestVerification() {
+
+  chatAdmin(
+    "Hello Benjo-SMS admin, I need a Verification Number. Please assist me."
+  );
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function chatAdmin(
+  message
+) {
+
+  const url =
+    "https://wa.me/" +
+    ADMIN_WHATSAPP +
+    "?text=" +
+    encodeURIComponent(
+      message
+    );
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================
+   CART
+========================= */
+
+function addToCart(
+  name,
+  price
+) {
+
+  cart.push({
     name,
     price
-  ) {
-    cart.push({
-      name,
-      price
-    });
-    updateCartCount();
-    alert(
-      `${name} added to cart!`
-    );
-  }
-  function updateCartCount() {
-    document
-      .getElementById(
-        "cartCount"
-      )
-      .textContent =
+  });
+
+
+  $("cartCount")
+    .textContent =
       cart.length;
-  }
-  function viewCart() {
-    if (
-      cart.length === 0
-    ) {
-      alert(
-        "Your cart is empty."
-      );
-      return;
-    }
-    const cartSummary =
-      cart.map(
-        (item, i) =>
-          `${i + 1}. ${item.name} - ${formatNaira(item.price)}`
-      ).join("\n");
-    const total =
-      cart.reduce(
-        (sum, item) =>
-          sum +
-          Number(item.price || 0),
-        0
-      );
+
+
+  alert(
+    `${name} added to cart!`
+  );
+
+}
+
+
+function viewCart() {
+
+  if (!cart.length) {
+
     alert(
-      `Your Cart:\n\n${cartSummary}\n\nTotal: ${formatNaira(total)}`
+      "Your cart is empty."
     );
+
+    return;
+
   }
-  /* =========================================================
-     NAVIGATION
-  ========================================================= */
-  function scrollToAccount() {
-    document
-      .getElementById(
-        "accountBox"
+
+
+  const total =
+    cart.reduce(
+      (
+        sum,
+        item
+      ) =>
+        sum +
+        Number(
+          item.price ||
+          0
+        ),
+      0
+    );
+
+
+  alert(
+
+    cart
+      .map(
+        (x, i) =>
+          `${i + 1}. ${x.name} - ${formatNaira(x.price)}`
       )
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-  }
-  function scrollToWallet() {
-    document
-      .getElementById(
-        "wallet"
-      )
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-  }
-  /* =========================================================
-     SECURITY / DISPLAY HELPERS
-  ========================================================= */
-  function escapeHtml(
-    value
-  ) {
-    return String(value ?? "")
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-  }
-  function escapeJs(
-    value
-  ) {
-    return String(value ?? "")
-      .replace(
-        /\\/g,
-        "\\\\"
-      )
-      .replace(
-        /'/g,
-        "\\'"
-      )
-      .replace(
-        /\n/g,
-        "\\n"
-      )
-      .replace(
-        /\r/g,
-        "\\r"
-      );
-  }
-  /* =========================================================
-     AUTH STATE
-  ========================================================= */
-  supabaseClient.auth.onAuthStateChange(
-    async () => {
-      await loadAccount();
-      await loadWallet();
+      .join("\n") +
+
+    "\n\nTotal: " +
+
+    formatNaira(total)
+
+  );
+
+}
+
+
+/* =========================
+   SCROLL
+========================= */
+
+function scrollToAccount() {
+
+  $("accountBox")
+    .scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+}
+
+
+function scrollToWallet() {
+
+  $("wallet")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   SECURITY / HTML ESCAPE
+========================= */
+
+function escapeHtml(v) {
+
+  return String(
+    v ?? ""
+  )
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+supabaseClient.auth
+  .onAuthStateChange(
+    () => {
+
+      loadAccount();
+
+      loadWallet();
+
     }
   );
-  /* =========================================================
-     START
-  ========================================================= */
-  document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
-      await loadAccount();
-      await loadWallet();
-      await loadAccounts();
-    }
-  );
+
+
+/* =========================
+   START WEBSITE
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    await loadAccount();
+
+    await loadWallet();
+
+    await loadAccounts();
+
+    await loadServices();
+
+  }
+);
+
 </script>
+
 </body>
-</h
+</html>
