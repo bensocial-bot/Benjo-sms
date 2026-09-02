@@ -33,6 +33,14 @@ function formatNaira(amount) {
     maximumFractionDigits: 2
   })}`;
 }
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 async function getCurrentUser() {
   const { data, error } = await supabaseClient.auth.getSession();
   if (error) {
@@ -246,7 +254,9 @@ async function fundWallet() {
   const amountInput = prompt("Enter amount to fund (NGN):");
   if (!amountInput) return;
   const amount = Number(
-    String(amountInput).replace(/,/g, "").trim()
+    String(amountInput)
+      .replace(/,/g, "")
+      .trim()
   );
   if (!Number.isFinite(amount) || amount <= 0) {
     alert("Please enter a valid amount.");
@@ -276,47 +286,38 @@ async function fundWallet() {
       return;
     }
     try {
-      /*
-       * Store each user's proof inside:
-       *
-       * payment-proofs/<user-id>/<unique-file>
-       *
-       * This matches the private storage policy.
-       */
       const safeName = file.name
         .replace(/[^a-zA-Z0-9._-]/g, "_")
         .substring(0, 100);
       const filePath =
         `${user.id}/${Date.now()}_${safeName}`;
-      const { data: uploadData, error: uploadError } =
-        await supabaseClient.storage
-          .from("payment-proofs")
-          .upload(filePath, file, {
-            cacheControl: "3600",
-            upsert: false
-          });
+      const {
+        data: uploadData,
+        error: uploadError
+      } = await supabaseClient.storage
+        .from("payment-proofs")
+        .upload(filePath, file, {
+          cacheControl: "3600",
+          upsert: false
+        });
       if (uploadError) {
         throw uploadError;
       }
-      const proofPath = uploadData?.path || filePath;
-      /*
-       * Create funding request through secure RPC.
-       */
-      const { data, error } =
-        await supabaseClient.rpc(
-          "create_funding_request_secure",
-          {
-            p_amount: amount,
-            p_payment_method: method.trim(),
-            p_payment_reference: reference.trim(),
-            p_proof_url: proofPath
-          }
-        );
+      const proofPath =
+        uploadData?.path || filePath;
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "create_funding_request_secure",
+        {
+          p_amount: amount,
+          p_payment_method: method.trim(),
+          p_payment_reference: reference.trim(),
+          p_proof_url: proofPath
+        }
+      );
       if (error) {
-        /*
-         * If the DB request fails, remove the uploaded proof
-         * so abandoned files don't remain unnecessarily.
-         */
         await supabaseClient.storage
           .from("payment-proofs")
           .remove([proofPath]);
@@ -357,7 +358,10 @@ async function loadServices() {
   if (!container) return;
   container.innerHTML =
     '<div class="empty">Loading services...</div>';
-  const { data, error } = await supabaseClient
+  const {
+    data,
+    error
+  } = await supabaseClient
     .from("services")
     .select(
       "id,name,description,price,delivery_information,available,category,platform,active,created_at"
@@ -419,8 +423,8 @@ async function loadServices() {
   });
 }
 /* =========================================================
-   SERVICES PURCHASE
-   Uses existing create_wallet_order RPC.
+   SERVICE PURCHASE
+   Uses create_wallet_order RPC
    ========================================================= */
 async function purchaseService(serviceId) {
   const user = await getCurrentUser();
@@ -434,32 +438,34 @@ async function purchaseService(serviceId) {
   );
   if (!confirmed) return;
   try {
-    const { data, error } =
-      await supabaseClient.rpc(
-        "create_wallet_order",
-        {
-          p_service_id: serviceId,
-          p_order_details: {}
-        }
-      );
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "create_wallet_order",
+      {
+        p_service_id: serviceId,
+        p_order_details: {}
+      }
+    );
     if (error) throw error;
     const result = Array.isArray(data)
       ? data[0]
       : data;
-    /*
-     * The existing RPC returns an order ID/result depending
-     * on the live database function definition.
-     * If it returned successfully, treat the transaction
-     * as successful.
-     */
-    console.log("Service purchase result:", result);
+    console.log(
+      "Service purchase result:",
+      result
+    );
     alert(
       "Service purchased successfully."
     );
     await loadWallet();
     await loadServices();
   } catch (err) {
-    console.error("Service purchase error:", err);
+    console.error(
+      "Service purchase error:",
+      err
+    );
     alert(
       "Purchase failed:\n" +
       (err?.message || "Unknown error")
@@ -468,98 +474,92 @@ async function purchaseService(serviceId) {
 }
 /* =========================================================
    ACCOUNTS
-   account_products has:
-   id
-   service_id
-   login
-   password
-   additional_login_info
-   status
-   sold_to
-   sold_at
-   created_at
-   Price/platform come from services.
+   IMPORTANT:
+   DO NOT query account_products directly.
+   Login/password must NEVER be exposed to normal users.
+   Uses secure:
+   get_available_accounts()
    ========================================================= */
 async function loadAccounts() {
   const container = q("accountProducts");
   if (!container) return;
   container.innerHTML =
     '<div class="empty">Loading accounts...</div>';
-  const { data, error } = await supabaseClient
-    .from("account_products")
-    .select(`
-      id,
-      service_id,
-      additional_login_info,
-      status,
-      created_at,
-      services (
-        id,
-        name,
-        platform,
-        category,
-        price,
-        description
-      )
-    `)
-    .eq("status", "available")
-    .order("created_at", {
-      ascending: false
+  try {
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "get_available_accounts"
+    );
+    if (error) {
+      throw error;
+    }
+    container.innerHTML = "";
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        '<div class="empty">No accounts available</div>';
+      return;
+    }
+    data.forEach((account) => {
+      const card =
+        document.createElement("div");
+      card.className = "card";
+      const title =
+        account.platform
+          ? `${account.platform} Account`
+          : account.service_name || "Account";
+      card.innerHTML = `
+        <div class="card-icon">💼</div>
+        <h3>
+          ${escapeHtml(title)}
+        </h3>
+        <p>
+          Price:
+          <strong>
+            ${formatNaira(account.price)}
+          </strong>
+        </p>
+        ${
+          account.description
+            ? `
+              <p>
+                ${escapeHtml(account.description)}
+              </p>
+            `
+            : ""
+        }
+        <button
+          class="buy-btn"
+          type="button"
+        >
+          Buy Account
+        </button>
+      `;
+      const button =
+        card.querySelector(".buy-btn");
+      if (button) {
+        button.addEventListener(
+          "click",
+          () => {
+            purchaseAccount(account.id);
+          }
+        );
+      }
+      container.appendChild(card);
     });
-  container.innerHTML = "";
-  if (error) {
-    console.error("Accounts error:", error.message);
+  } catch (err) {
+    console.error(
+      "Accounts error:",
+      err
+    );
     container.innerHTML =
       '<div class="empty">Error loading accounts</div>';
-    return;
   }
-  if (!data || data.length === 0) {
-    container.innerHTML =
-      '<div class="empty">No accounts available</div>';
-    return;
-  }
-  data.forEach((product) => {
-    const service = product.services;
-    if (!service) return;
-    const card = document.createElement("div");
-    card.className = "card";
-    const title =
-      service.platform
-        ? `${service.platform} Account`
-        : service.name || "Account";
-    card.innerHTML = `
-      <div class="card-icon">💼</div>
-      <h3>${escapeHtml(title)}</h3>
-      <p>
-        Price:
-        <strong>${formatNaira(service.price)}</strong>
-      </p>
-      ${
-        service.description
-          ? `<p>${escapeHtml(service.description)}</p>`
-          : ""
-      }
-      <button
-        class="buy-btn"
-        type="button"
-      >
-        Buy Account
-      </button>
-    `;
-    const button =
-      card.querySelector(".buy-btn");
-    if (button) {
-      button.addEventListener("click", () => {
-        purchaseAccount(product.id);
-      });
-    }
-    container.appendChild(card);
-  });
 }
 /* =========================================================
    ACCOUNT PURCHASE
    Uses purchase_account_secure()
-   Server calculates price and performs transaction.
    ========================================================= */
 async function purchaseAccount(productId) {
   const user = await getCurrentUser();
@@ -573,14 +573,16 @@ async function purchaseAccount(productId) {
   );
   if (!confirmed) return;
   try {
-    const { data, error } =
-      await supabaseClient.rpc(
-        "purchase_account_secure",
-        {
-          p_account_product_id: productId,
-          p_order_details: {}
-        }
-      );
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "purchase_account_secure",
+      {
+        p_account_product_id: productId,
+        p_order_details: {}
+      }
+    );
     if (error) throw error;
     const result = Array.isArray(data)
       ? data[0]
@@ -603,7 +605,10 @@ async function purchaseAccount(productId) {
     await loadWallet();
     await loadAccounts();
   } catch (err) {
-    console.error("Account purchase error:", err);
+    console.error(
+      "Account purchase error:",
+      err
+    );
     alert(
       "Purchase failed:\n" +
       (err?.message || "Unknown error")
@@ -625,15 +630,17 @@ async function adminApproveFunding(
   );
   if (!confirmed) return;
   try {
-    const { data, error } =
-      await supabaseClient.rpc(
-        "approve_funding_secure",
-        {
-          p_request_id: requestId,
-          p_approve: approve,
-          p_admin_note: adminNote
-        }
-      );
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "approve_funding_secure",
+      {
+        p_request_id: requestId,
+        p_approve: approve,
+        p_admin_note: adminNote
+      }
+    );
     if (error) throw error;
     const result = Array.isArray(data)
       ? data[0]
@@ -661,16 +668,8 @@ async function adminApproveFunding(
   }
 }
 /* =========================================================
-   UTILITIES
+   NAVIGATION / CHAT
    ========================================================= */
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
 function scrollToAccount() {
   location.hash = "#accounts";
 }
@@ -681,10 +680,6 @@ function chatAdmin(msg) {
   const message =
     msg ||
     "Hello Benjo-SMS, I need assistance.";
-  /*
-   * Replace the number below with your actual
-   * WhatsApp business number if you have one.
-   */
   const url =
     "https://wa.me/?text=" +
     encodeURIComponent(message);
