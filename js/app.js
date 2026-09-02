@@ -1,112 +1,739 @@
-/* js/app.js - safe Supabase client usage (do not shadow window.supabase) */
-const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]').content;
-const SUPABASE_ANON_KEY = document.querySelector('meta[name="supabase-anon-key"]').content;
-
+/* =========================================================
+   BENJO-SMS — js/app.js
+   Supabase-compatible frontend
+   ========================================================= */
+const SUPABASE_URL =
+  document.querySelector('meta[name="supabase-url"]')?.content?.trim();
+const SUPABASE_ANON_KEY =
+  document.querySelector('meta[name="supabase-anon-key"]')?.content?.trim();
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error('Supabase URL or ANON key not set. Please set meta tags in index.html');
+  console.error(
+    "Supabase URL or ANON key is missing. Check the meta tags in index.html."
+  );
 }
-
-/* Use a local variable name that will not shadow the global */
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-/* Helpers */
-function show(el){ if(el) el.style.display = '' }
-function hide(el){ if(el) el.style.display = 'none' }
-function q(id){ return document.getElementById(id) }
-
-/* Auth & session handling using supabaseClient */
-async function initAuth(){
-  const { data } = await supabaseClient.auth.getSession();
-  const session = data.session;
-  if(session) onLogin(session.user);
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if(session && session.user) onLogin(session.user);
-    else onLogout();
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function show(el) {
+  if (el) el.style.display = "";
+}
+function hide(el) {
+  if (el) el.style.display = "none";
+}
+function q(id) {
+  return document.getElementById(id);
+}
+function formatNaira(amount) {
+  return `₦${Number(amount || 0).toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  })}`;
+}
+async function getCurrentUser() {
+  const { data, error } = await supabaseClient.auth.getSession();
+  if (error) {
+    console.error("Session error:", error.message);
+    return null;
+  }
+  return data?.session?.user || null;
+}
+/* =========================================================
+   AUTH
+   ========================================================= */
+async function initAuth() {
+  const { data, error } = await supabaseClient.auth.getSession();
+  if (error) {
+    console.error("Auth session error:", error.message);
+    return;
+  }
+  const session = data?.session;
+  if (session?.user) {
+    await onLogin(session.user);
+  } else {
+    onLogout();
+  }
+  supabaseClient.auth.onAuthStateChange(async (event, newSession) => {
+    if (newSession?.user) {
+      await onLogin(newSession.user);
+    } else {
+      onLogout();
+    }
   });
 }
-
-async function onLogin(user){
-  show(q('accountNav')); show(q('walletNav')); hide(q('loginNav')); show(q('logoutNav'));
-  await loadProfile(); await loadWallet(); await loadServices(); await loadAccounts();
+async function onLogin(user) {
+  show(q("accountNav"));
+  show(q("walletNav"));
+  hide(q("loginNav"));
+  show(q("logoutNav"));
+  await loadProfile();
+  await loadWallet();
+  await loadServices();
+  await loadAccounts();
 }
-function onLogout(){
-  hide(q('accountNav')); hide(q('walletNav')); show(q('loginNav')); hide(q('logoutNav'));
-  if(q('walletBalance')) q('walletBalance').textContent = '₦0';
-  if(q('accountName')) q('accountName').textContent = 'Name: -';
-  if(q('accountEmail')) q('accountEmail').textContent = 'Email: -';
+function onLogout() {
+  hide(q("accountNav"));
+  hide(q("walletNav"));
+  show(q("loginNav"));
+  hide(q("logoutNav"));
+  if (q("walletBalance")) {
+    q("walletBalance").textContent = "₦0.00";
+  }
+  if (q("accountName")) {
+    q("accountName").textContent = "Name: -";
+  }
+  if (q("accountEmail")) {
+    q("accountEmail").textContent = "Email: -";
+  }
+  hide(q("accountBox"));
 }
-
-/* Auth forms */
-function openAuth(mode='login'){ const modal=q('authModal'), title=q('authTitle'), fullName=q('fullName'); if(mode==='register'){ title.textContent='Create account'; if(fullName) fullName.style.display=''; } else { title.textContent='Login'; if(fullName) fullName.style.display='none'; } if(modal) modal.style.display='flex'; }
-function closeAuth(){ if(q('authModal')) q('authModal').style.display='none' }
-async function submitAuth(e){
-  e.preventDefault();
-  const titleEl=q('authTitle'), title = titleEl ? titleEl.textContent : 'Login';
-  const email = q('email') ? q('email').value : '', password = q('password') ? q('password').value : '', name = q('fullName') ? q('fullName').value : '';
-  if(title.toLowerCase().includes('create')){
-    const { data, error } = await supabaseClient.auth.signUp({ email, password }, { data: { full_name: name }});
-    if(error){ if(q('authMessage')){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; } return }
-    if(q('authMessage')){ q('authMessage').textContent = 'Sign-up successful. Check your email.'; q('authMessage').className='message success'; }
+/* =========================================================
+   AUTH FORMS
+   ========================================================= */
+function openAuth(mode = "login") {
+  const modal = q("authModal");
+  const title = q("authTitle");
+  const fullName = q("fullName");
+  if (mode === "register") {
+    if (title) title.textContent = "Create account";
+    if (fullName) show(fullName);
   } else {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if(error){ if(q('authMessage')){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; } return }
-    if(q('authMessage')){ q('authMessage').textContent = 'Logged in'; q('authMessage').className='message success'; }
-    closeAuth();
+    if (title) title.textContent = "Login";
+    if (fullName) hide(fullName);
+  }
+  if (modal) {
+    modal.style.display = "flex";
   }
 }
-async function logout(){ await supabaseClient.auth.signOut(); }
-document.addEventListener('DOMContentLoaded', () => { initAuth(); const form = q('authForm'); if(form) form.addEventListener('submit', submitAuth); });
-
-/* Profile, Wallet, Services, Accounts use supabaseClient */
-async function loadProfile(){
-  const { data:{ session } } = await supabaseClient.auth.getSession();
-  if(!session) return;
-  const uid = session.user.id;
-  const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', uid).single();
-  if(error){ console.warn('No profile found:', error.message); return }
-  if(q('accountName')) q('accountName').textContent = `Name: ${data.full_name || '-'}`;
-  if(q('accountEmail')) q('accountEmail').textContent = `Email: ${data.email || session.user.email}`;
-  show(q('accountBox'));
+function closeAuth() {
+  if (q("authModal")) {
+    q("authModal").style.display = "none";
+  }
 }
-async function loadWallet(){
-  const { data:{ session } } = await supabaseClient.auth.getSession();
-  if(!session) return;
-  const uid = session.user.id;
-  const { data, error } = await supabaseClient.from('wallets').select('balance').eq('user_id', uid).single();
-  if(error){ console.warn('wallet load error', error.message); if(q('walletBalance')) q('walletBalance').textContent='₦0'; return }
-  if(q('walletBalance')) q('walletBalance').textContent = `₦${Number(data.balance).toFixed(2)}`;
+async function submitAuth(e) {
+  e.preventDefault();
+  const titleEl = q("authTitle");
+  const title = titleEl
+    ? titleEl.textContent || "Login"
+    : "Login";
+  const email = q("email")?.value?.trim() || "";
+  const password = q("password")?.value || "";
+  const name = q("fullName")?.value?.trim() || "";
+  const messageEl = q("authMessage");
+  if (!email || !password) {
+    if (messageEl) {
+      messageEl.textContent = "Enter your email and password.";
+      messageEl.className = "message error";
+    }
+    return;
+  }
+  try {
+    if (title.toLowerCase().includes("create")) {
+      const { error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name
+          }
+        }
+      });
+      if (error) throw error;
+      if (messageEl) {
+        messageEl.textContent =
+          "Sign-up successful. Check your email if email confirmation is enabled.";
+        messageEl.className = "message success";
+      }
+      return;
+    }
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+    if (error) throw error;
+    if (messageEl) {
+      messageEl.textContent = "Logged in successfully.";
+      messageEl.className = "message success";
+    }
+    closeAuth();
+  } catch (err) {
+    console.error("Authentication error:", err);
+    if (messageEl) {
+      messageEl.textContent =
+        err?.message || "Authentication failed.";
+      messageEl.className = "message error";
+    }
+  }
 }
-
-/* Funding flow: uploads to private bucket, inserts funding_requests WITHOUT user_id (DB trigger sets auth.uid()) */
-async function fundWallet(){
-  const amount = prompt('Enter amount to fund (NGN):'); if(!amount) return;
-  const method = prompt('Payment method (e.g. Bank transfer, USSD, Card):'); if(!method) return;
-  const reference = prompt('Payment reference or transaction ID:'); if(!reference) return;
-  const fileInput = document.createElement('input'); fileInput.type='file'; fileInput.accept='image/*'; fileInput.click();
+async function logout() {
+  const { error } = await supabaseClient.auth.signOut();
+  if (error) {
+    console.error("Logout error:", error.message);
+    alert("Logout failed: " + error.message);
+  }
+}
+/* =========================================================
+   PROFILE
+   ========================================================= */
+async function loadProfile() {
+  const user = await getCurrentUser();
+  if (!user) return;
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("id,email,full_name,username,is_admin,role")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (error) {
+    console.warn("Profile load error:", error.message);
+    return;
+  }
+  if (!data) {
+    console.warn("No profile found for user:", user.id);
+    return;
+  }
+  if (q("accountName")) {
+    q("accountName").textContent =
+      `Name: ${data.full_name || data.username || "-"}`;
+  }
+  if (q("accountEmail")) {
+    q("accountEmail").textContent =
+      `Email: ${data.email || user.email || "-"}`;
+  }
+  show(q("accountBox"));
+}
+/* =========================================================
+   WALLET
+   Source of truth: wallets.balance
+   ========================================================= */
+async function loadWallet() {
+  const user = await getCurrentUser();
+  if (!user) return;
+  const { data, error } = await supabaseClient
+    .from("wallets")
+    .select("balance")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (error) {
+    console.warn("Wallet load error:", error.message);
+    if (q("walletBalance")) {
+      q("walletBalance").textContent = "₦0.00";
+    }
+    return;
+  }
+  const balance = data?.balance || 0;
+  if (q("walletBalance")) {
+    q("walletBalance").textContent = formatNaira(balance);
+  }
+}
+/* =========================================================
+   FUND WALLET
+   Uses:
+   payment-proofs bucket
+   funding_requests table
+   create_funding_request_secure()
+   ========================================================= */
+async function fundWallet() {
+  const user = await getCurrentUser();
+  if (!user) {
+    alert("Please login first.");
+    openAuth("login");
+    return;
+  }
+  const amountInput = prompt("Enter amount to fund (NGN):");
+  if (!amountInput) return;
+  const amount = Number(
+    String(amountInput).replace(/,/g, "").trim()
+  );
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("Please enter a valid amount.");
+    return;
+  }
+  const method = prompt(
+    "Payment method (e.g. Bank Transfer, USSD, Card):"
+  );
+  if (!method || !method.trim()) {
+    alert("Payment method is required.");
+    return;
+  }
+  const reference = prompt(
+    "Payment reference / transaction ID:"
+  );
+  if (!reference || !reference.trim()) {
+    alert("Payment reference is required.");
+    return;
+  }
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*,.pdf";
   fileInput.onchange = async () => {
-    const file = fileInput.files[0]; if(!file) return alert('No file selected');
+    const file = fileInput.files?.[0];
+    if (!file) {
+      alert("No payment proof selected.");
+      return;
+    }
     try {
-      const filename = `${Date.now()}_${file.name}`;
-      const { data: uploadData, error: uploadError } = await supabaseClient.storage.from('payment_proofs').upload(filename, file);
-      if(uploadError) throw uploadError;
-      const proof_path = uploadData.path;
-      const { data, error } = await supabaseClient.from('funding_requests').insert([{ amount: parseFloat(amount), method, reference, proof_path }]);
-      if(error) throw error;
-      alert('Funding request submitted and is pending admin approval.');
-    } catch(err) { console.error(err); alert('Error submitting funding request: ' + err.message); }
+      /*
+       * Store each user's proof inside:
+       *
+       * payment-proofs/<user-id>/<unique-file>
+       *
+       * This matches the private storage policy.
+       */
+      const safeName = file.name
+        .replace(/[^a-zA-Z0-9._-]/g, "_")
+        .substring(0, 100);
+      const filePath =
+        `${user.id}/${Date.now()}_${safeName}`;
+      const { data: uploadData, error: uploadError } =
+        await supabaseClient.storage
+          .from("payment-proofs")
+          .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false
+          });
+      if (uploadError) {
+        throw uploadError;
+      }
+      const proofPath = uploadData?.path || filePath;
+      /*
+       * Create funding request through secure RPC.
+       */
+      const { data, error } =
+        await supabaseClient.rpc(
+          "create_funding_request_secure",
+          {
+            p_amount: amount,
+            p_payment_method: method.trim(),
+            p_payment_reference: reference.trim(),
+            p_proof_url: proofPath
+          }
+        );
+      if (error) {
+        /*
+         * If the DB request fails, remove the uploaded proof
+         * so abandoned files don't remain unnecessarily.
+         */
+        await supabaseClient.storage
+          .from("payment-proofs")
+          .remove([proofPath]);
+        throw error;
+      }
+      const result = Array.isArray(data)
+        ? data[0]
+        : data;
+      if (!result?.success) {
+        await supabaseClient.storage
+          .from("payment-proofs")
+          .remove([proofPath]);
+        throw new Error(
+          result?.message ||
+          "Funding request could not be created."
+        );
+      }
+      alert(
+        "Funding request submitted successfully.\n\n" +
+        "Your payment is now pending admin approval."
+      );
+      await loadWallet();
+    } catch (err) {
+      console.error("Funding error:", err);
+      alert(
+        "Error submitting funding request:\n" +
+        (err?.message || "Unknown error")
+      );
+    }
   };
+  fileInput.click();
 }
-
-/* Services & accounts */
-async function loadServices(){ const { data, error } = await supabaseClient.from('services').select('*').eq('is_active', true).order('created_at', { ascending: false }); const container=q('serviceGrid'); if(!container) return; container.innerHTML=''; if(error){ container.innerHTML='<div class="empty">Error loading services</div>'; return } if(!data || data.length===0){ container.innerHTML='<div class="empty">No services available</div>'; return } data.forEach(s=>{ const div=document.createElement('div'); div.className='service-card'; div.innerHTML=`<div class="service-icon">🔧</div><h3>${s.name}</h3><p>${s.description||''}</p><div class="price">₦${Number(s.price).toFixed(2)}</div>`; container.appendChild(div); }); }
-async function loadAccounts(){ const { data, error } = await supabaseClient.from('account_products').select('id,platform,price,is_sold,metadata').eq('is_sold', false).order('created_at', { ascending: false }); const container=q('accountProducts'); if(!container) return; container.innerHTML=''; if(error){ container.innerHTML='<div class="empty">Error loading accounts</div>'; return } if(!data || data.length===0){ container.innerHTML='<div class="empty">No accounts available</div>'; return } data.forEach(p=>{ const card=document.createElement('div'); card.className='card'; card.innerHTML=`<div class="card-icon">💼</div><h3>${p.platform} Account</h3><p>Price: ₦${Number(p.price).toFixed(2)}</p><button class="buy-btn">Buy</button>`; const btn=card.querySelector('button'); btn.addEventListener('click',()=>purchaseAccount(p.id)); container.appendChild(card); }); }
-
-/* Purchase: calls RPC that performs atomic DB-side work. Credentials retrieval is handled by a protected Edge Function. */
-async function purchaseAccount(productId){ if(!confirm('Confirm purchase from wallet?')) return; try{ const { data, error } = await supabaseClient.rpc('purchase_account_rpc', { account_product_id: productId }); if(error) throw error; alert('Purchase successful. Use the Orders page to retrieve credentials securely.'); console.log('purchase result', data); await loadWallet(); await loadAccounts(); }catch(err){ console.error(err); alert('Purchase failed: ' + (err.message || JSON.stringify(err))); } }
-
-/* Admin actions */
-async function adminApproveFunding(requestId, approve=true){ if(!confirm((approve ? 'Approve' : 'Reject') + ' funding request?')) return; try{ const { data, error } = await supabaseClient.rpc('approve_funding_rpc', { fid: requestId, approve: approve }); if(error) throw error; alert('Funding request processed.'); }catch(err){ console.error(err); alert('Error processing funding: ' + err.message); } }
-
-/* Utilities & exposure */
-function scrollToAccount(){ location.hash='#wallet'; } function scrollToWallet(){ location.hash='#wallet'; } function chatAdmin(msg){ window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank') } function boostingChat(platform){ chatAdmin('I want a '+platform+' boosting service'); }
-window.openAuth=openAuth; window.closeAuth=closeAuth; window.fundWallet=fundWallet; window.loadWallet=loadWallet; window.purchaseAccount=purchaseAccount; window.loadServices=loadServices; window.loadAccounts=loadAccounts; window.viewCart=() => alert('Cart not implemented'); window.logout=logout; window.chatAdmin=chatAdmin; window.boostingChat=boostingChat;
+/* =========================================================
+   SERVICES
+   ========================================================= */
+async function loadServices() {
+  const container = q("serviceGrid");
+  if (!container) return;
+  container.innerHTML =
+    '<div class="empty">Loading services...</div>';
+  const { data, error } = await supabaseClient
+    .from("services")
+    .select(
+      "id,name,description,price,delivery_information,available,category,platform,active,created_at"
+    )
+    .eq("active", true)
+    .eq("available", true)
+    .order("created_at", {
+      ascending: false
+    });
+  container.innerHTML = "";
+  if (error) {
+    console.error("Services error:", error.message);
+    container.innerHTML =
+      '<div class="empty">Error loading services</div>';
+    return;
+  }
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty">No services available</div>';
+    return;
+  }
+  data.forEach((service) => {
+    const div = document.createElement("div");
+    div.className = "service-card";
+    const platform =
+      service.platform
+        ? `<small>${escapeHtml(service.platform)}</small>`
+        : "";
+    const category =
+      service.category
+        ? `<small>${escapeHtml(service.category)}</small>`
+        : "";
+    div.innerHTML = `
+      <div class="service-icon">🔧</div>
+      <h3>${escapeHtml(service.name)}</h3>
+      <p>${escapeHtml(service.description || "")}</p>
+      <div class="service-meta">
+        ${platform}
+        ${category}
+      </div>
+      <div class="price">
+        ${formatNaira(service.price)}
+      </div>
+      <button
+        class="buy-service-btn"
+        type="button"
+      >
+        Buy
+      </button>
+    `;
+    const button =
+      div.querySelector(".buy-service-btn");
+    if (button) {
+      button.addEventListener("click", () => {
+        purchaseService(service.id);
+      });
+    }
+    container.appendChild(div);
+  });
+}
+/* =========================================================
+   SERVICES PURCHASE
+   Uses existing create_wallet_order RPC.
+   ========================================================= */
+async function purchaseService(serviceId) {
+  const user = await getCurrentUser();
+  if (!user) {
+    alert("Please login first.");
+    openAuth("login");
+    return;
+  }
+  const confirmed = confirm(
+    "Confirm purchase of this service using your wallet?"
+  );
+  if (!confirmed) return;
+  try {
+    const { data, error } =
+      await supabaseClient.rpc(
+        "create_wallet_order",
+        {
+          p_service_id: serviceId,
+          p_order_details: {}
+        }
+      );
+    if (error) throw error;
+    const result = Array.isArray(data)
+      ? data[0]
+      : data;
+    /*
+     * The existing RPC returns an order ID/result depending
+     * on the live database function definition.
+     * If it returned successfully, treat the transaction
+     * as successful.
+     */
+    console.log("Service purchase result:", result);
+    alert(
+      "Service purchased successfully."
+    );
+    await loadWallet();
+    await loadServices();
+  } catch (err) {
+    console.error("Service purchase error:", err);
+    alert(
+      "Purchase failed:\n" +
+      (err?.message || "Unknown error")
+    );
+  }
+}
+/* =========================================================
+   ACCOUNTS
+   account_products has:
+   id
+   service_id
+   login
+   password
+   additional_login_info
+   status
+   sold_to
+   sold_at
+   created_at
+   Price/platform come from services.
+   ========================================================= */
+async function loadAccounts() {
+  const container = q("accountProducts");
+  if (!container) return;
+  container.innerHTML =
+    '<div class="empty">Loading accounts...</div>';
+  const { data, error } = await supabaseClient
+    .from("account_products")
+    .select(`
+      id,
+      service_id,
+      additional_login_info,
+      status,
+      created_at,
+      services (
+        id,
+        name,
+        platform,
+        category,
+        price,
+        description
+      )
+    `)
+    .eq("status", "available")
+    .order("created_at", {
+      ascending: false
+    });
+  container.innerHTML = "";
+  if (error) {
+    console.error("Accounts error:", error.message);
+    container.innerHTML =
+      '<div class="empty">Error loading accounts</div>';
+    return;
+  }
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty">No accounts available</div>';
+    return;
+  }
+  data.forEach((product) => {
+    const service = product.services;
+    if (!service) return;
+    const card = document.createElement("div");
+    card.className = "card";
+    const title =
+      service.platform
+        ? `${service.platform} Account`
+        : service.name || "Account";
+    card.innerHTML = `
+      <div class="card-icon">💼</div>
+      <h3>${escapeHtml(title)}</h3>
+      <p>
+        Price:
+        <strong>${formatNaira(service.price)}</strong>
+      </p>
+      ${
+        service.description
+          ? `<p>${escapeHtml(service.description)}</p>`
+          : ""
+      }
+      <button
+        class="buy-btn"
+        type="button"
+      >
+        Buy Account
+      </button>
+    `;
+    const button =
+      card.querySelector(".buy-btn");
+    if (button) {
+      button.addEventListener("click", () => {
+        purchaseAccount(product.id);
+      });
+    }
+    container.appendChild(card);
+  });
+}
+/* =========================================================
+   ACCOUNT PURCHASE
+   Uses purchase_account_secure()
+   Server calculates price and performs transaction.
+   ========================================================= */
+async function purchaseAccount(productId) {
+  const user = await getCurrentUser();
+  if (!user) {
+    alert("Please login first.");
+    openAuth("login");
+    return;
+  }
+  const confirmed = confirm(
+    "Confirm purchase of this account using your wallet?"
+  );
+  if (!confirmed) return;
+  try {
+    const { data, error } =
+      await supabaseClient.rpc(
+        "purchase_account_secure",
+        {
+          p_account_product_id: productId,
+          p_order_details: {}
+        }
+      );
+    if (error) throw error;
+    const result = Array.isArray(data)
+      ? data[0]
+      : data;
+    if (!result?.success) {
+      throw new Error(
+        result?.message ||
+        "Account purchase failed."
+      );
+    }
+    alert(
+      "Account purchased successfully.\n\n" +
+      "Your order has been created. " +
+      "Credentials will be available through the secure order system."
+    );
+    console.log(
+      "Account purchase:",
+      result
+    );
+    await loadWallet();
+    await loadAccounts();
+  } catch (err) {
+    console.error("Account purchase error:", err);
+    alert(
+      "Purchase failed:\n" +
+      (err?.message || "Unknown error")
+    );
+  }
+}
+/* =========================================================
+   ADMIN FUNDING APPROVAL
+   Uses approve_funding_secure()
+   ========================================================= */
+async function adminApproveFunding(
+  requestId,
+  approve = true,
+  adminNote = null
+) {
+  const confirmed = confirm(
+    (approve ? "Approve" : "Reject") +
+    " this funding request?"
+  );
+  if (!confirmed) return;
+  try {
+    const { data, error } =
+      await supabaseClient.rpc(
+        "approve_funding_secure",
+        {
+          p_request_id: requestId,
+          p_approve: approve,
+          p_admin_note: adminNote
+        }
+      );
+    if (error) throw error;
+    const result = Array.isArray(data)
+      ? data[0]
+      : data;
+    if (!result?.success) {
+      throw new Error(
+        result?.message ||
+        "Funding request could not be processed."
+      );
+    }
+    alert(
+      result.message ||
+      "Funding request processed successfully."
+    );
+    await loadWallet();
+  } catch (err) {
+    console.error(
+      "Admin funding error:",
+      err
+    );
+    alert(
+      "Error processing funding:\n" +
+      (err?.message || "Unknown error")
+    );
+  }
+}
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+function scrollToAccount() {
+  location.hash = "#accounts";
+}
+function scrollToWallet() {
+  location.hash = "#wallet";
+}
+function chatAdmin(msg) {
+  const message =
+    msg ||
+    "Hello Benjo-SMS, I need assistance.";
+  /*
+   * Replace the number below with your actual
+   * WhatsApp business number if you have one.
+   */
+  const url =
+    "https://wa.me/?text=" +
+    encodeURIComponent(message);
+  window.open(url, "_blank");
+}
+function boostingChat(platform) {
+  chatAdmin(
+    `Hello Benjo-SMS, I want a ${platform} boosting service.`
+  );
+}
+/* =========================================================
+   DOM READY
+   ========================================================= */
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+    const form = q("authForm");
+    if (form) {
+      form.addEventListener(
+        "submit",
+        submitAuth
+      );
+    }
+    await initAuth();
+  }
+);
+/* =========================================================
+   GLOBAL FUNCTIONS FOR index.html
+   ========================================================= */
+window.openAuth = openAuth;
+window.closeAuth = closeAuth;
+window.fundWallet = fundWallet;
+window.loadWallet = loadWallet;
+window.loadServices = loadServices;
+window.loadAccounts = loadAccounts;
+window.purchaseAccount = purchaseAccount;
+window.purchaseService = purchaseService;
+window.adminApproveFunding = adminApproveFunding;
+window.logout = logout;
+window.chatAdmin = chatAdmin;
+window.boostingChat = boostingChat;
+window.scrollToAccount = scrollToAccount;
+window.scrollToWallet = scrollToWallet;
+/*
+ * Keep viewCart available so existing HTML does not break.
+ */
+window.viewCart = function () {
+  alert(
+    "Your wallet purchases do not require a shopping cart. " +
+    "Select the account/service you want and purchase directly."
+  );
+};
