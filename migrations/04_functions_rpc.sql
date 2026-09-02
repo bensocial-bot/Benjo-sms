@@ -1,9 +1,7 @@
 -- migrations/04_functions_rpc.sql
 -- Server-side functions (RPCs) to perform sensitive operations. All use auth.uid() to identify caller.
 
--- 1) credit_wallet_rpc(user_id UUID, amount NUMERIC, note TEXT)
--- Credits a user's wallet and creates a wallet_transaction. This function should be SECURITY DEFINER and restricted to admins or called from another admin-only function.
-
+-- 1) credit_wallet_rpc(target_user UUID, amt NUMERIC, note TEXT)
 CREATE OR REPLACE FUNCTION public.credit_wallet_rpc(
   target_user uuid,
   amt numeric,
@@ -37,9 +35,7 @@ BEGIN
   RETURN jsonb_build_object('status','ok');
 END; $$;
 
--- 2) approve_funding_rpc(funding_request_id bigint, approve boolean)
--- Admin approves/rejects funding. On approve => credit user's wallet via credit_wallet_rpc and mark funding request approved. Uses auth.uid() as admin.
-
+-- 2) approve_funding_rpc(fid bigint, approve boolean)
 CREATE OR REPLACE FUNCTION public.approve_funding_rpc(fid bigint, approve boolean)
 RETURNS jsonb
 LANGUAGE plpgsql
@@ -75,8 +71,6 @@ BEGIN
 END; $$;
 
 -- 3) purchase_account_rpc(account_product_id bigint)
--- Atomic purchase: uses auth.uid() as buyer, checks wallet balance, checks availability, deducts wallet, creates order, marks account sold, assigns buyer, inserts wallet transaction. Returns order and decrypted credentials.
-
 CREATE OR REPLACE FUNCTION public.purchase_account_rpc(account_product_id bigint)
 RETURNS jsonb
 LANGUAGE plpgsql
@@ -137,7 +131,6 @@ BEGIN
 END; $$;
 
 -- 4) refund_wallet_rpc(order_id bigint, reason text)
--- Admin refunds order amount back to user if not already refunded
 CREATE OR REPLACE FUNCTION public.refund_wallet_rpc(order_id_param bigint, reason text)
 RETURNS jsonb
 LANGUAGE plpgsql
@@ -165,7 +158,11 @@ BEGIN
   RETURN jsonb_build_object('status','ok');
 END; $$;
 
--- NOTE: SECURITY CONSIDERATIONS
--- These functions are SECURITY DEFINER and rely on current_setting('app.encryption_key') being set for encryption/decryption.
--- Keep the encryption key safe (do not store it in frontend). You can set it via Supabase SQL editor or environment for the database.
+-- Harden SECURITY DEFINER functions by setting search_path = public
+ALTER FUNCTION public.credit_wallet_rpc(uuid, numeric, text) SET search_path = public;
+ALTER FUNCTION public.approve_funding_rpc(bigint, boolean) SET search_path = public;
+ALTER FUNCTION public.purchase_account_rpc(bigint) SET search_path = public;
+ALTER FUNCTION public.refund_wallet_rpc(bigint, text) SET search_path = public;
 
+-- NOTE: Do NOT change function owners automatically; Supabase manages privileges. The important hardening step is setting search_path and relying on auth.uid() checks.
+-- Also ensure current_setting('app.encryption_key') is configured persistently via Supabase Secrets or Edge Function pattern, not as a transient session variable.

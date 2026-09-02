@@ -8,7 +8,8 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   console.error('Supabase URL or ANON key not set. Please set meta tags in index.html');
 }
 
-const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Fixed: use global `supabase` from the CDN (not supabaseJs)
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Basic UI helpers
 function show(el){ if(el) el.style.display = '' }
@@ -50,9 +51,9 @@ function onLogout(){
   hide(q('walletNav'));
   show(q('loginNav'));
   hide(q('logoutNav'));
-  q('walletBalance').textContent = '₦0';
-  q('accountName').textContent = 'Name: -';
-  q('accountEmail').textContent = 'Email: -';
+  if(q('walletBalance')) q('walletBalance').textContent = '₦0';
+  if(q('accountName')) q('accountName').textContent = 'Name: -';
+  if(q('accountEmail')) q('accountEmail').textContent = 'Email: -';
 }
 
 // Register / Login UI
@@ -62,33 +63,33 @@ function openAuth(mode='login'){
   const fullName = q('fullName');
   if(mode === 'register'){
     title.textContent = 'Create account';
-    fullName.style.display = '';
+    if(fullName) fullName.style.display = '';
   } else {
     title.textContent = 'Login';
-    fullName.style.display = 'none';
+    if(fullName) fullName.style.display = 'none';
   }
-  modal.style.display = 'flex';
+  if(modal) modal.style.display = 'flex';
 }
-function closeAuth(){ q('authModal').style.display = 'none' }
+function closeAuth(){ if(q('authModal')) q('authModal').style.display = 'none' }
 
 async function submitAuth(e){
   e.preventDefault();
-  const title = q('authTitle').textContent || 'Login';
-  const email = q('email').value;
-  const password = q('password').value;
-  const name = q('fullName').value;
+  const titleEl = q('authTitle');
+  const title = titleEl ? titleEl.textContent : 'Login';
+  const email = q('email') ? q('email').value : '';
+  const password = q('password') ? q('password').value : '';
+  const name = q('fullName') ? q('fullName').value : '';
 
   if(title.toLowerCase().includes('create')){
     // sign up
     const { data, error } = await supabase.auth.signUp({ email, password }, { data: { full_name: name }});
-    if(error){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; return }
-    q('authMessage').textContent = 'Sign-up successful. Check your email. You can log in after confirming.';
-    q('authMessage').className='message success';
+    if(error){ if(q('authMessage')){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; } return }
+    if(q('authMessage')){ q('authMessage').textContent = 'Sign-up successful. Check your email. You can log in after confirming.'; q('authMessage').className='message success'; }
   } else {
     // sign in
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if(error){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; return }
-    q('authMessage').textContent = 'Logged in'; q('authMessage').className='message success';
+    if(error){ if(q('authMessage')){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; } return }
+    if(q('authMessage')){ q('authMessage').textContent = 'Logged in'; q('authMessage').className='message success'; }
     closeAuth();
   }
 }
@@ -109,13 +110,10 @@ async function loadProfile(){
   const { data, error } = await supabase.from('profiles').select('*').eq('id', uid).single();
   if(error){ console.warn('No profile found:', error.message); return }
   const profile = data;
-  q('accountName').textContent = `Name: ${profile.full_name || '-'} `;
-  q('accountEmail').textContent = `Email: ${profile.email || session.user.email}`;
+  if(q('accountName')) q('accountName').textContent = `Name: ${profile.full_name || '-'} `;
+  if(q('accountEmail')) q('accountEmail').textContent = `Email: ${profile.email || session.user.email}`;
   // show account box
   show(q('accountBox'));
-  if(profile.is_admin){
-    // show admin UI link if you add one later
-  }
 }
 
 // Wallet
@@ -124,8 +122,8 @@ async function loadWallet(){
   if(!session) return;
   const uid = session.user.id;
   const { data, error } = await supabase.from('wallets').select('balance').eq('user_id', uid).single();
-  if(error){ console.warn('wallet load error', error.message); q('walletBalance').textContent = '₦0'; return }
-  q('walletBalance').textContent = `₦${Number(data.balance).toFixed(2)}`;
+  if(error){ console.warn('wallet load error', error.message); if(q('walletBalance')) q('walletBalance').textContent = '₦0'; return }
+  if(q('walletBalance')) q('walletBalance').textContent = `₦${Number(data.balance).toFixed(2)}`;
 }
 
 // Fund wallet via funding request
@@ -153,6 +151,7 @@ async function fundWallet(){
       if(uploadError){ throw uploadError }
       const proof_path = uploadData.path;
       // create funding request row
+      // Do NOT set user_id from client. The DB trigger sets user_id = auth.uid() server-side.
       const { data, error } = await supabase.from('funding_requests').insert([{
         amount: parseFloat(amount),
         method,
@@ -223,7 +222,7 @@ async function purchaseAccount(productId){
 async function adminApproveFunding(requestId, approve=true){
   if(!confirm((approve ? 'Approve' : 'Reject') + ' funding request?')) return;
   try{
-    const { data, error } = await supabase.rpc('approve_funding_rpc', { funding_request_id: requestId, approve: approve });
+    const { data, error } = await supabase.rpc('approve_funding_rpc', { fid: requestId, approve: approve });
     if(error) throw error;
     alert('Funding request processed.');
   }catch(err){
@@ -250,4 +249,3 @@ window.viewCart = () => alert('Cart not implemented in this integration.');
 window.logout = logout;
 window.chatAdmin = chatAdmin;
 window.boostingChat = boostingChat;
-
