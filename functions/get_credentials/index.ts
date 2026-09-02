@@ -3,7 +3,6 @@
 
 import { serve } from 'std/server';
 import { createClient } from '@supabase/supabase-js';
-import * as pgp from 'openpgp';
 
 // The following environment variables MUST be set as Edge Function secrets:
 // - SUPABASE_URL
@@ -44,7 +43,6 @@ serve(async (req) => {
 
     // Check ownership or admin
     if(ord.user_id !== userId) {
-      // check admin
       const { data: prof } = await supabaseAdmin.from('profiles').select('is_admin').eq('id', userId).single();
       if(!prof || !prof.is_admin) return new Response('Forbidden', { status: 403 });
     }
@@ -62,13 +60,8 @@ serve(async (req) => {
     // Decrypt using ENCRYPTION_KEY. The encrypted data is expected to be pgp-symmetric encrypted binary.
     // Here we assume password_encrypted was stored using pgp_sym_encrypt and is transferable.
 
-    // Convert stored bytea to base64 string if necessary and use openpgp to decrypt.
-    // NOTE: Implementation detail depends on how encryption was performed. This example assumes the encryption used OpenPGP symmetric encryption compatible with openpgp.js.
-
-    const encrypted = prod.password_encrypted; // may need conversion depending on driver
-
     // For clarity we will return the encrypted blob and leave exact decryption implementation to deployer.
-    return new Response(JSON.stringify({ username: prod.username, password_encrypted: encrypted }), { status: 200 });
+    return new Response(JSON.stringify({ username: prod.username, password_encrypted: prod.password_encrypted }), { status: 200 });
 
   } catch (err) {
     console.error(err);
