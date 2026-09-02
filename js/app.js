@@ -8,8 +8,8 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   console.error('Supabase URL or ANON key not set. Please set meta tags in index.html');
 }
 
-// Fixed: use global `supabase` from the CDN (not supabaseJs)
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Use a safe client variable (avoid shadowing the global) and reference it everywhere
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Basic UI helpers
 function show(el){ if(el) el.style.display = '' }
@@ -19,7 +19,7 @@ function q(id){ return document.getElementById(id) }
 // Auth & session handling
 async function initAuth(){
   // Check session
-  const { data } = await supabase.auth.getSession();
+  const { data } = await supabaseClient.auth.getSession();
   const session = data.session;
   if(session){
     onLogin(session.user);
@@ -27,7 +27,7 @@ async function initAuth(){
     // try to recover stored session via onAuthStateChange
   }
 
-  supabase.auth.onAuthStateChange((event, session) => {
+  supabaseClient.auth.onAuthStateChange((event, session) => {
     if(session && session.user) onLogin(session.user);
     else onLogout();
   });
@@ -82,19 +82,19 @@ async function submitAuth(e){
 
   if(title.toLowerCase().includes('create')){
     // sign up
-    const { data, error } = await supabase.auth.signUp({ email, password }, { data: { full_name: name }});
+    const { data, error } = await supabaseClient.auth.signUp({ email, password }, { data: { full_name: name }});
     if(error){ if(q('authMessage')){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; } return }
     if(q('authMessage')){ q('authMessage').textContent = 'Sign-up successful. Check your email. You can log in after confirming.'; q('authMessage').className='message success'; }
   } else {
     // sign in
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
     if(error){ if(q('authMessage')){ q('authMessage').textContent = error.message; q('authMessage').className='message error'; } return }
     if(q('authMessage')){ q('authMessage').textContent = 'Logged in'; q('authMessage').className='message success'; }
     closeAuth();
   }
 }
 
-async function logout(){ await supabase.auth.signOut(); }
+async function logout(){ await supabaseClient.auth.signOut(); }
 
 document.addEventListener('DOMContentLoaded', () => {
   initAuth();
@@ -104,10 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Profiles
 async function loadProfile(){
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
   if(!session) return;
   const uid = session.user.id;
-  const { data, error } = await supabase.from('profiles').select('*').eq('id', uid).single();
+  const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', uid).single();
   if(error){ console.warn('No profile found:', error.message); return }
   const profile = data;
   if(q('accountName')) q('accountName').textContent = `Name: ${profile.full_name || '-'} `;
@@ -118,10 +118,10 @@ async function loadProfile(){
 
 // Wallet
 async function loadWallet(){
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
   if(!session) return;
   const uid = session.user.id;
-  const { data, error } = await supabase.from('wallets').select('balance').eq('user_id', uid).single();
+  const { data, error } = await supabaseClient.from('wallets').select('balance').eq('user_id', uid).single();
   if(error){ console.warn('wallet load error', error.message); if(q('walletBalance')) q('walletBalance').textContent = '₦0'; return }
   if(q('walletBalance')) q('walletBalance').textContent = `₦${Number(data.balance).toFixed(2)}`;
 }
@@ -147,12 +147,12 @@ async function fundWallet(){
     try{
       // upload to storage
       const filename = `${Date.now()}_${file.name}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage.from('payment_proofs').upload(filename, file);
+      const { data: uploadData, error: uploadError } = await supabaseClient.storage.from('payment_proofs').upload(filename, file);
       if(uploadError){ throw uploadError }
       const proof_path = uploadData.path;
       // create funding request row
       // Do NOT set user_id from client. The DB trigger sets user_id = auth.uid() server-side.
-      const { data, error } = await supabase.from('funding_requests').insert([{
+      const { data, error } = await supabaseClient.from('funding_requests').insert([{
         amount: parseFloat(amount),
         method,
         reference,
@@ -169,7 +169,7 @@ async function fundWallet(){
 
 // Services & accounts
 async function loadServices(){
-  const { data, error } = await supabase.from('services').select('*').eq('is_active', true).order('created_at', { ascending: false });
+  const { data, error } = await supabaseClient.from('services').select('*').eq('is_active', true).order('created_at', { ascending: false });
   const container = q('serviceGrid');
   if(!container) return;
   container.innerHTML = '';
@@ -184,7 +184,7 @@ async function loadServices(){
 }
 
 async function loadAccounts(){
-  const { data, error } = await supabase.from('account_products').select('id,platform,price,is_sold,metadata').eq('is_sold', false).order('created_at', { ascending: false });
+  const { data, error } = await supabaseClient.from('account_products').select('id,platform,price,is_sold,metadata').eq('is_sold', false).order('created_at', { ascending: false });
   const container = q('accountProducts');
   if(!container) return;
   container.innerHTML = '';
@@ -204,10 +204,10 @@ async function loadAccounts(){
 async function purchaseAccount(productId){
   if(!confirm('Confirm purchase from wallet?')) return;
   try{
-    const { data, error } = await supabase.rpc('purchase_account_rpc', { account_product_id: productId });
+    const { data, error } = await supabaseClient.rpc('purchase_account_rpc', { account_product_id: productId });
     if(error) throw error;
-    // RPC returns order details and credentials
-    alert('Purchase successful. Credentials will be displayed (if eligible).');
+    // RPC returns order details (order_id). Credentials must be retrieved via a secure Edge Function after purchase.
+    alert('Purchase successful. Use the Orders page to retrieve credentials securely.');
     console.log('purchase result', data);
     // refresh lists and wallet
     await loadWallet();
@@ -222,7 +222,7 @@ async function purchaseAccount(productId){
 async function adminApproveFunding(requestId, approve=true){
   if(!confirm((approve ? 'Approve' : 'Reject') + ' funding request?')) return;
   try{
-    const { data, error } = await supabase.rpc('approve_funding_rpc', { fid: requestId, approve: approve });
+    const { data, error } = await supabaseClient.rpc('approve_funding_rpc', { fid: requestId, approve: approve });
     if(error) throw error;
     alert('Funding request processed.');
   }catch(err){

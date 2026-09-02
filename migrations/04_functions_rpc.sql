@@ -81,7 +81,6 @@ DECLARE
   prod record;
   buyer_wallet record;
   order_id bigint;
-  decrypted_credentials text;
 BEGIN
   IF buyer IS NULL THEN
     RAISE EXCEPTION 'not_authenticated';
@@ -118,16 +117,9 @@ BEGIN
   -- mark account sold
   UPDATE public.account_products SET is_sold = true, buyer_id = buyer, sold_at = now() WHERE id = account_product_id;
 
-  -- attempt to decrypt credentials if password_encrypted present. Requires pgp_sym_decrypt and an encryption key stored in a config var 'app.encryption_key'.
-  IF prod.password_encrypted IS NOT NULL THEN
-    BEGIN
-      decrypted_credentials := pgp_sym_decrypt(prod.password_encrypted, current_setting('app.encryption_key'));
-    EXCEPTION WHEN OTHERS THEN
-      decrypted_credentials := null;
-    END;
-  END IF;
+  -- IMPORTANT: Do NOT decrypt credentials here. Decryption is moved to a protected Edge Function that holds the encryption secret.
 
-  RETURN jsonb_build_object('status','ok','order_id',order_id,'credentials', decrypted_credentials);
+  RETURN jsonb_build_object('status','ok','order_id',order_id);
 END; $$;
 
 -- 4) refund_wallet_rpc(order_id bigint, reason text)
@@ -164,5 +156,4 @@ ALTER FUNCTION public.approve_funding_rpc(bigint, boolean) SET search_path = pub
 ALTER FUNCTION public.purchase_account_rpc(bigint) SET search_path = public;
 ALTER FUNCTION public.refund_wallet_rpc(bigint, text) SET search_path = public;
 
--- NOTE: Do NOT change function owners automatically; Supabase manages privileges. The important hardening step is setting search_path and relying on auth.uid() checks.
--- Also ensure current_setting('app.encryption_key') is configured persistently via Supabase Secrets or Edge Function pattern, not as a transient session variable.
+-- NOTE: Decryption of credentials has been moved to a secure Edge Function. See functions/get_credentials/README.md for deployment & configuration instructions.
