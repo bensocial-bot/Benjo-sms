@@ -280,6 +280,7 @@ tr:last-child td{border-bottom:0}
           <div class="stat-grid">
             <div class="stat-card"><div class="stat-label">Customers</div><div class="stat-value" id="adminCustomersCount">0</div></div>
             <div class="stat-card"><div class="stat-label">Services</div><div class="stat-value" id="adminServicesCount">0</div></div>
+            <div class="stat-card"><div class="stat-label">Available Accounts</div><div class="stat-value" id="adminAvailableAccountsCount">0</div></div>
             <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-value" id="adminOrdersCount">0</div></div>
             <div class="stat-card"><div class="stat-label">Pending Funding</div><div class="stat-value" id="adminPendingFundingCount">0</div></div>
           </div>
@@ -1243,14 +1244,16 @@ function adminPage(name){
 async function updateAdminStats(){
   if(!isAdmin()) return;
   try{
-    const [usersResult, servicesResult, ordersResult, fundingResult] = await Promise.all([
+    const [usersResult, servicesResult, availableAccountsResult, ordersResult, fundingResult] = await Promise.all([
       supabaseClient.from("profiles").select("id",{count:"exact",head:true}),
       supabaseClient.from("services").select("id",{count:"exact",head:true}),
+      supabaseClient.from("account_products").select("id",{count:"exact",head:true}).eq("status","available"),
       supabaseClient.from("orders").select("id",{count:"exact",head:true}),
       supabaseClient.from("funding_requests").select("id",{count:"exact",head:true}).eq("status","pending")
     ]);
     document.getElementById("adminCustomersCount").textContent = usersResult.count || 0;
     document.getElementById("adminServicesCount").textContent = servicesResult.count || 0;
+    document.getElementById("adminAvailableAccountsCount").textContent = availableAccountsResult.count || 0;
     document.getElementById("adminOrdersCount").textContent = ordersResult.count || 0;
     document.getElementById("adminPendingFundingCount").textContent = fundingResult.count || 0;
   }catch(error){
@@ -1463,7 +1466,7 @@ async function loadAdminAccounts(){
   if(!container) return;
   container.innerHTML = '<div class="empty"><span class="loading"><span class="spinner"></span> Loading accounts...</span></div>';
   try{
-    const {data, error} = await supabaseClient.from("account_products").select(`*, services(name, platform, category)`).order("created_at",{ascending:false}).limit(500);
+    const {data, error} = await supabaseClient.from("account_products").select(`*, services(name, platform, category, price)`).order("created_at",{ascending:false}).limit(500);
     if(error) throw error;
     adminAccountsCache = data || [];
     if(!data?.length){
@@ -1476,10 +1479,10 @@ async function loadAdminAccounts(){
         <tbody>
           ${data.map(a=>`
             <tr>
-              <td>${escapeHtml(a.services?.name || a.service_name || "-")}</td>
+              <td>${escapeHtml(a.services?.name || "-")}</td>
               <td>${escapeHtml(a.login || "-")}</td>
-              <td>${naira(a.price)}</td>
-              <td><span class="badge ${a.available && !a.sold ? "badge-success" : "badge-danger"}">${a.sold ? "Sold" : (a.available ? "Available" : "Unavailable")}</span></td>
+              <td>${naira(a.services?.price || 0)}</td>
+              <td><span class="badge ${a.status === "available" ? "badge-success" : "badge-danger"}">${escapeHtml(a.status || "unknown")}</span></td>
               <td><button class="btn btn-small" onclick='openAccountModal(${JSON.stringify(a)})'>Edit</button></td>
             </tr>
           `).join("")}
@@ -1497,7 +1500,7 @@ async function openAccountModal(account=null){
   document.getElementById("accountLogin").value = account?.login || "";
   document.getElementById("accountPassword").value = account?.password || "";
   document.getElementById("accountAdditionalInfo").value = account?.additional_login_info || "";
-  document.getElementById("accountStatus").value = account?.sold ? "sold" : "available";
+  document.getElementById("accountStatus").value = account?.status === "sold" ? "sold" : "available";
   const select = document.getElementById("accountService");
   select.innerHTML = '<option value="">Loading...</option>';
   openModal("accountModal");
@@ -1530,15 +1533,17 @@ async function saveAccount(event){
     login,
     password,
     additional_login_info: additional || null,
-    available: status === "available",
-    sold: status === "sold"
+    status: status === "sold" ? "sold" : "available"
   };
   button.disabled = true;
   button.innerHTML = `<span class="loading"><span class="spinner"></span> Saving...</span>`;
   try{
     let result;
-    if(id) result = await supabaseClient.from("account_products").update(payload).eq("id",id);
-    else result = await supabaseClient.from("account_products").insert({...payload, sold:false});
+    if(id){
+      result = await supabaseClient.from("account_products").update(payload).eq("id",id);
+    }else{
+      result = await supabaseClient.from("account_products").insert(payload);
+    }
     if(result.error) throw result.error;
     closeModal("accountModal");
     showToast(id ? "Account updated successfully." : "Account added successfully.","success");
