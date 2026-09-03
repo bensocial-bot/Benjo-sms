@@ -233,14 +233,14 @@
     <!-- LOGIN -->
     <section id="section-login" class="card">
       <h2>Login</h2>
-      <form onsubmit="handleLogin(event)">
+      <form id="login-form" onsubmit="handleLogin(event)">
         <label>Email</label>
-        <input type="email" id="login-email" required />
+        <input type="email" id="login-email" required autocomplete="email" />
         <label>Password</label>
-        <input type="password" id="login-password" required />
-        <button type="submit" class="btn">Login</button>
+        <input type="password" id="login-password" required autocomplete="current-password" />
+        <button type="submit" class="btn" id="login-btn">Login</button>
       </form>
-      <p class="muted mt-2 text-sm">Don't have an account? <a href="#" onclick="showSection('register')" style="color:var(--primary)">Register</a></p>
+      <p class="muted mt-2 text-sm">Don't have an account? <a href="#" onclick="showSection('register'); return false;" style="color:var(--primary)">Register</a></p>
     </section>
 
     <!-- REGISTER -->
@@ -255,7 +255,7 @@
         <input type="password" id="reg-password2" required />
         <button type="submit" class="btn">Register</button>
       </form>
-      <p class="muted mt-2 text-sm">Already have an account? <a href="#" onclick="showSection('login')" style="color:var(--primary)">Login</a></p>
+      <p class="muted mt-2 text-sm">Already have an account? <a href="#" onclick="showSection('login'); return false;" style="color:var(--primary)">Login</a></p>
     </section>
 
     <!-- DASHBOARD -->
@@ -396,7 +396,7 @@
 
   <a href="https://wa.me/2348165405921" target="_blank" class="whatsapp-float" title="WhatsApp Support">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134 prec-.111.297-.391.372-.586.173-.198-.074-.867-.322-1.653-.822-.244-.043-.49-.066-.738-.066-.248 0-.493.023-.738.066-.786.5-1.455 1.144-1.653 1.475-.173.297-.018.458.13.606.134.111.297.391.586.173.198.074.867.322 1.653.822z"/>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.111.297-.391.586.173.198.074.867.322 1.653.822z"/>
       <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.078-1.115l-.29-.172-3.037.905.91-2.97-.19-.304A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
     </svg>
   </a>
@@ -404,17 +404,25 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    // ============== CONFIG ==============
+    // ============== CONFIG – REPLACE THESE ==============
     const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
     const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        storage: window.localStorage
+      }
+    });
 
-    // Admin emails (replace with your admin email(s))
+    // Admin emails
     const ADMIN_EMAILS = ['admin@benjosms.com', 'your-admin@email.com'];
 
     let currentUser = null;
     let userProfile = null;
     let pendingRejectId = null;
+    let authReady = false;
 
     // ============== UTILS ==============
     function toast(msg, type = 'info') {
@@ -424,7 +432,7 @@
       if (type === 'error') el.style.borderLeft = '4px solid var(--danger)';
       else if (type === 'success') el.style.borderLeft = '4px solid var(--success)';
       else el.style.borderLeft = '4px solid var(--primary)';
-      setTimeout(() => el.classList.remove('show'), 3500);
+      setTimeout(() => el.classList.remove('show'), 4000);
     }
 
     function formatNaira(amount) {
@@ -437,9 +445,17 @@
     }
 
     function showSection(name) {
+      // Guard: never show protected sections when not logged in
+      const protected = ['dashboard', 'services', 'wallet', 'history', 'admin'];
+      if (protected.includes(name) && !currentUser) {
+        showSection('login');
+        return;
+      }
+
       document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
       const el = document.getElementById('section-' + name);
       if (el) el.classList.remove('hidden');
+
       if (name === 'dashboard') loadDashboard();
       if (name === 'services') { loadServices(); loadMyNumbers(); }
       if (name === 'wallet') { loadWallet(); loadFundingHistory(); }
@@ -447,39 +463,84 @@
       if (name === 'admin') loadAdminFunding();
     }
 
-    // ============== AUTH ==============
+    // ============== AUTH (fixed bounce) ==============
+    async function handleLogin(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const btn = document.getElementById('login-btn');
+      const email = document.getElementById('login-email').value.trim();
+      const pass = document.getElementById('login-password').value;
+
+      if (!email || !pass) {
+        toast('Enter email and password', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Logging in...';
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password: pass
+        });
+
+        if (error) {
+          toast(error.message, 'error');
+          return;
+        }
+
+        if (!data?.user) {
+          toast('Login failed – no user returned', 'error');
+          return;
+        }
+
+        // Set state immediately
+        currentUser = data.user;
+        await loadProfile();          // non-blocking for UI
+        updateNav();
+        showSection('dashboard');     // force dashboard
+        toast('Welcome back!', 'success');
+
+      } catch (err) {
+        console.error(err);
+        toast('Login error: ' + (err.message || 'Unknown'), 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Login';
+      }
+    }
+
     async function handleRegister(e) {
       e.preventDefault();
       const email = document.getElementById('reg-email').value.trim();
       const pass = document.getElementById('reg-password').value;
       const pass2 = document.getElementById('reg-password2').value;
-      if (pass !== pass2) return toast('Passwords do not match', 'error');
+
+      if (pass !== pass2) {
+        toast('Passwords do not match', 'error');
+        return;
+      }
+
       const { data, error } = await supabase.auth.signUp({ email, password: pass });
-      if (error) return toast(error.message, 'error');
-      // Create profile
+      if (error) {
+        toast(error.message, 'error');
+        return;
+      }
+
       if (data.user) {
+        // Create profile (ignore error if already exists)
         await supabase.from('profiles').upsert({
           id: data.user.id,
           email: email,
           balance: 0,
-          is_admin: false
-        });
+          is_admin: ADMIN_EMAILS.includes(email)
+        }, { onConflict: 'id' });
       }
-      toast('Registration successful! Please check your email or login.', 'success');
-      showSection('login');
-    }
 
-    async function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const pass = document.getElementById('login-password').value;
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
-      if (error) return toast(error.message, 'error');
-      currentUser = data.user;
-      await loadProfile();
-      updateNav();
-      showSection('dashboard');
-      toast('Welcome back!', 'success');
+      toast('Registration successful! You can now login.', 'success');
+      showSection('login');
     }
 
     async function logout() {
@@ -488,26 +549,43 @@
       userProfile = null;
       updateNav();
       showSection('login');
+      toast('Logged out', 'success');
     }
 
     async function loadProfile() {
       if (!currentUser) return;
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', currentUser.id)
-        .single();
-      if (!error && data) userProfile = data;
-      else {
-        // create if missing
-        await supabase.from('profiles').upsert({
-          id: currentUser.id,
-          email: currentUser.email,
-          balance: 0,
-          is_admin: ADMIN_EMAILS.includes(currentUser.email)
-        });
-        const { data: d2 } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
-        userProfile = d2;
+
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', currentUser.id)
+          .maybeSingle();
+
+        if (data) {
+          userProfile = data;
+          return;
+        }
+
+        // Create missing profile
+        const { data: created, error: upErr } = await supabase
+          .from('profiles')
+          .upsert({
+            id: currentUser.id,
+            email: currentUser.email,
+            balance: 0,
+            is_admin: ADMIN_EMAILS.includes(currentUser.email)
+          }, { onConflict: 'id' })
+          .select()
+          .maybeSingle();
+
+        if (created) userProfile = created;
+        else if (upErr) console.warn('Profile upsert warning:', upErr.message);
+
+      } catch (err) {
+        console.warn('loadProfile error (non-fatal):', err);
+        // Still keep the user logged in even if profile fails
+        userProfile = userProfile || { balance: 0, email: currentUser.email };
       }
     }
 
@@ -515,15 +593,13 @@
       const navAuth = document.getElementById('nav-auth');
       const navUser = document.getElementById('nav-user');
       const adminBtn = document.getElementById('admin-btn');
+
       if (currentUser) {
         navAuth.classList.add('hidden');
         navUser.classList.remove('hidden');
-        document.getElementById('user-email').textContent = currentUser.email;
-        if (userProfile && (userProfile.is_admin || ADMIN_EMAILS.includes(currentUser.email))) {
-          adminBtn.classList.remove('hidden');
-        } else {
-          adminBtn.classList.add('hidden');
-        }
+        document.getElementById('user-email').textContent = currentUser.email || '';
+        const isAdmin = (userProfile && userProfile.is_admin) || ADMIN_EMAILS.includes(currentUser.email);
+        adminBtn.classList.toggle('hidden', !isAdmin);
       } else {
         navAuth.classList.remove('hidden');
         navUser.classList.add('hidden');
@@ -535,26 +611,27 @@
       if (!currentUser) return;
       await loadProfile();
       document.getElementById('dash-balance').textContent = formatNaira(userProfile?.balance || 0);
-      // numbers count
+
       const { count: numCount } = await supabase
         .from('user_numbers')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', currentUser.id)
         .eq('status', 'active');
       document.getElementById('dash-numbers').textContent = numCount || 0;
-      // purchases
+
       const { count: pCount } = await supabase
         .from('purchases')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', currentUser.id);
       document.getElementById('dash-purchases').textContent = pCount || 0;
-      // recent
+
       const { data: recent } = await supabase
         .from('purchases')
         .select('*, services(name)')
         .eq('user_id', currentUser.id)
         .order('created_at', { ascending: false })
         .limit(5);
+
       const container = document.getElementById('dash-recent');
       if (!recent || recent.length === 0) {
         container.innerHTML = '<div class="empty">No recent activity</div>';
@@ -587,7 +664,7 @@
           <p class="muted text-sm">${s.description || ''}</p>
           <div class="flex space-between mt-2">
             <strong style="color:var(--success)">${formatNaira(s.price)}</strong>
-            <button class="btn btn-sm" onclick="buyService('${s.id}', ${s.price}, '${s.name.replace(/'/g, "\\'")}')">Buy</button>
+            <button class="btn btn-sm" onclick="buyService('${s.id}', ${s.price}, '${(s.name || '').replace(/'/g, "\\'")}')">Buy</button>
           </div>
         </div>
       `).join('');
@@ -600,24 +677,31 @@
         return toast('Insufficient balance. Please fund your wallet.', 'error');
       }
       if (!confirm(`Buy ${name} for ${formatNaira(price)}?`)) return;
-      // Deduct balance + create purchase + assign number (simplified – adapt to your RPC if any)
-      const { error: balErr } = await supabase.rpc('deduct_balance', {
-        p_user_id: currentUser.id,
-        p_amount: price
-      }).catch(() => ({ error: { message: 'RPC not found – using fallback' } }));
-      // Fallback direct update if no RPC
-      if (balErr) {
+
+      // Prefer RPC if you have one, otherwise direct update
+      let deducted = false;
+      try {
+        const { error } = await supabase.rpc('deduct_balance', {
+          p_user_id: currentUser.id,
+          p_amount: price
+        });
+        if (!error) deducted = true;
+      } catch (_) {}
+
+      if (!deducted) {
         const newBal = (userProfile.balance || 0) - price;
-        await supabase.from('profiles').update({ balance: newBal }).eq('id', currentUser.id);
+        const { error } = await supabase.from('profiles').update({ balance: newBal }).eq('id', currentUser.id);
+        if (error) return toast(error.message, 'error');
       }
-      const { data: purchase, error } = await supabase.from('purchases').insert({
+
+      const { error } = await supabase.from('purchases').insert({
         user_id: currentUser.id,
         service_id: serviceId,
         amount: price,
         status: 'completed'
-      }).select().single();
+      });
       if (error) return toast(error.message, 'error');
-      // Optionally create a user_number entry
+
       await supabase.from('user_numbers').insert({
         user_id: currentUser.id,
         service_id: serviceId,
@@ -625,6 +709,7 @@
         status: 'active',
         expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
       });
+
       toast('Purchase successful!', 'success');
       loadMyNumbers();
       loadDashboard();
@@ -661,37 +746,37 @@
     async function submitFunding(e) {
       e.preventDefault();
       if (!currentUser) return toast('Please login', 'error');
+
       const amount = parseFloat(document.getElementById('fund-amount').value);
       const method = document.getElementById('fund-method').value;
       const note = document.getElementById('fund-note').value.trim();
       const fileInput = document.getElementById('fund-proof');
       const file = fileInput.files[0];
+
       if (!file) return toast('Please upload proof of payment', 'error');
       if (amount < 100) return toast('Minimum funding is ₦100', 'error');
 
-      // Upload proof to storage
       const ext = file.name.split('.').pop();
       const filePath = `proofs/${currentUser.id}/${Date.now()}.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from('funding-proofs')
-        .upload(filePath, file, { upsert: false });
-      if (upErr) {
-        // try public bucket name fallback
-        const { error: upErr2 } = await supabase.storage
-          .from('proofs')
-          .upload(filePath, file, { upsert: false });
-        if (upErr2) return toast('Upload failed: ' + upErr2.message, 'error');
+
+      // Try common bucket names
+      let uploaded = false;
+      for (const bucket of ['funding-proofs', 'proofs', 'funding', 'deposits']) {
+        const { error } = await supabase.storage.from(bucket).upload(filePath, file, { upsert: false });
+        if (!error) { uploaded = true; break; }
       }
+      if (!uploaded) return toast('Upload failed – check storage bucket & policies', 'error');
 
       const { error } = await supabase.from('funding_requests').insert({
         user_id: currentUser.id,
-        amount: amount,
-        method: method,
+        amount,
+        method,
         proof_url: filePath,
         note: note || null,
         status: 'pending'
       });
       if (error) return toast(error.message, 'error');
+
       toast('Funding request submitted! Awaiting admin approval.', 'success');
       e.target.reset();
       loadFundingHistory();
@@ -719,22 +804,14 @@
       </tbody></table>`;
     }
 
-    // ============== PROOF VIEW (Storage) ==============
+    // ============== PROOF VIEW ==============
     async function viewProof(path) {
       if (!path) return toast('No proof available', 'error');
-      // Get public URL or signed URL from Supabase Storage
+
       let url = null;
-      // Try common bucket names
       const buckets = ['funding-proofs', 'proofs', 'funding', 'deposits'];
-      for (const bucket of buckets) {
-        const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-        if (data?.publicUrl) {
-          // Verify it might exist by attempting signed if public fails later
-          url = data.publicUrl;
-          break;
-        }
-      }
-      // Prefer signed URL for private buckets
+
+      // Prefer signed URL (works for private buckets)
       for (const bucket of buckets) {
         const { data: signed, error } = await supabase.storage
           .from(bucket)
@@ -744,17 +821,31 @@
           break;
         }
       }
-      // Fallback: if path already looks like full URL
+
+      // Fallback public URL
+      if (!url) {
+        for (const bucket of buckets) {
+          const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+          if (data?.publicUrl) {
+            url = data.publicUrl;
+            break;
+          }
+        }
+      }
+
+      // Last resort if path is already a full URL
       if (!url && (path.startsWith('http://') || path.startsWith('https://'))) {
         url = path;
       }
+
       if (!url) {
-        // last resort construct
         url = `${SUPABASE_URL}/storage/v1/object/public/funding-proofs/${path}`;
       }
+
       const content = document.getElementById('proof-content');
       content.innerHTML = `
-        <img src="${url}" alt="Proof of deposit" class="proof-img" onerror="this.outerHTML='<p class=\\'danger\\'>Could not load image. Path: ${path}</p>'" />
+        <img src="${url}" alt="Proof of deposit" class="proof-img"
+             onerror="this.outerHTML='<p class=\\'danger\\'>Could not load image.<br>Path: ${path}</p>'" />
         <p class="muted text-sm mt-2">Path: ${path}</p>
       `;
       document.getElementById('proof-modal').classList.remove('hidden');
@@ -869,10 +960,10 @@
       </tbody></table>`;
     }
 
-    // ============== FIXED RPC CALLS ==============
+    // ============== FIXED RPC ==============
     async function approveFunding(requestId) {
       if (!confirm('Approve this funding request and credit the user wallet?')) return;
-      const { data, error } = await supabase.rpc('approve_funding_secure', {
+      const { error } = await supabase.rpc('approve_funding_secure', {
         p_request_id: requestId,
         p_approve: true,
         p_admin_note: null
@@ -899,7 +990,7 @@
     async function confirmReject() {
       if (!pendingRejectId) return;
       const adminNote = document.getElementById('reject-note').value.trim();
-      const { data, error } = await supabase.rpc('approve_funding_secure', {
+      const { error } = await supabase.rpc('approve_funding_secure', {
         p_request_id: pendingRejectId,
         p_approve: false,
         p_admin_note: adminNote || null
@@ -946,30 +1037,49 @@
       </tbody></table>`;
     }
 
-    // ============== INIT ==============
+    // ============== INIT (prevents bounce) ==============
     async function init() {
+      // Single source of truth for session
       const { data: { session } } = await supabase.auth.getSession();
+
       if (session?.user) {
         currentUser = session.user;
         await loadProfile();
         updateNav();
         showSection('dashboard');
       } else {
+        currentUser = null;
+        userProfile = null;
+        updateNav();
         showSection('login');
       }
+
+      authReady = true;
+
+      // Listen for future changes only
       supabase.auth.onAuthStateChange(async (event, session) => {
+        if (!authReady) return; // ignore first fire
+
         if (event === 'SIGNED_IN' && session?.user) {
           currentUser = session.user;
           await loadProfile();
           updateNav();
+          // Only auto-navigate if we are still on login/register
+          const loginVisible = !document.getElementById('section-login').classList.contains('hidden');
+          const regVisible = !document.getElementById('section-register').classList.contains('hidden');
+          if (loginVisible || regVisible) {
+            showSection('dashboard');
+          }
         } else if (event === 'SIGNED_OUT') {
           currentUser = null;
           userProfile = null;
           updateNav();
+          showSection('login');
         }
       });
     }
 
+    // Start
     init();
   </script>
 </body>
