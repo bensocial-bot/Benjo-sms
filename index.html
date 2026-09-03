@@ -1533,37 +1533,8 @@ async function submitAuth(event){
           "Login failed. Please try again."
         );
       }
-      const user =
-        data.user;
-      /*
-        Confirm email verification.
-        Supabase normally exposes:
-        email_confirmed_at
-        confirmed_at is also checked for compatibility.
-      */
-      const confirmed =
-        !!(
-          user.email_confirmed_at ||
-          user.confirmed_at
-        );
-      if(!confirmed){
-        /*
-          Immediately remove the local session.
-          The customer must verify their email first.
-        */
-        await supabaseClient.auth.signOut({
-          scope:"local"
-        });
-        currentUser = null;
-        currentProfile = null;
-        updateHeader();
-        showVerificationRequired(
-          email
-        );
-        return;
-      }
       currentUser =
-        user;
+        data.user;
       await loadCurrentProfile();
       closeModal(
         "authModal"
@@ -1617,28 +1588,40 @@ async function submitAuth(event){
       );
     }
     /*
-      When Confirm Email is enabled,
-      Supabase normally returns a user but
-      no active session.
-      Do NOT treat that as logged in.
+      Email confirmation is disabled in Supabase.
+      Sign the user in immediately and ensure profile.
     */
-    if(!data.session){
-      currentUser = null;
-      currentProfile = null;
-      updateHeader();
-      showVerificationSent(
-        email
-      );
-      return;
+    if(data.session){
+      currentUser =
+        data.user;
+    }else{
+      /*
+        Fallback: attempt password sign-in so the
+        user is logged in even if session was not
+        returned on signUp.
+      */
+      const {
+        data:loginData,
+        error:loginError
+      } =
+        await supabaseClient.auth
+          .signInWithPassword({
+            email,
+            password
+          });
+      if(loginError){
+        throw loginError;
+      }
+      if(!loginData?.user){
+        throw new Error(
+          "Account created but login failed. Please try logging in."
+        );
+      }
+      currentUser =
+        loginData.user;
     }
-    /*
-      If email confirmation is disabled,
-      Supabase may return a live session.
-    */
-    currentUser =
-      data.user;
     await ensureProfile(
-      data.user,
+      currentUser,
       fullName,
       phone
     );
@@ -1650,7 +1633,7 @@ async function submitAuth(event){
       "home"
     );
     showToast(
-      "✅ Account created successfully! You are now logged in.",
+      "🎉 Account created successfully!",
       "success"
     );
   }catch(error){
@@ -1672,25 +1655,11 @@ async function submitAuth(event){
       message =
         "Incorrect email or password.";
     }
-    if(
-      message
-        .toLowerCase()
-        .includes("email not confirmed")
-    ){
-      showVerificationRequired(
-        email
-      );
-      return;
-    }
     showToast(
       "❌ " + message,
       "error"
     );
   }finally{
-    /*
-      If the verification screen replaced
-      the form, this safely does nothing.
-    */
     setAuthLoading(false);
   }
 }
@@ -4617,24 +4586,7 @@ supabaseClient.auth.onAuthStateChange(
       currentUser =
         session?.user || null;
       if(currentUser){
-        /*
-          Do not expose an unverified session
-          if one somehow exists.
-        */
-        const confirmed =
-          !!(
-            currentUser.email_confirmed_at ||
-            currentUser.confirmed_at
-          );
-        if(!confirmed){
-          currentUser = null;
-          currentProfile = null;
-          await supabaseClient.auth.signOut({
-            scope:"local"
-          });
-        }else{
-          await loadCurrentProfile();
-        }
+        await loadCurrentProfile();
       }else{
         currentProfile = null;
       }
@@ -4656,20 +4608,7 @@ async function initialize(){
     currentUser =
       session?.user || null;
     if(currentUser){
-      const confirmed =
-        !!(
-          currentUser.email_confirmed_at ||
-          currentUser.confirmed_at
-        );
-      if(!confirmed){
-        currentUser = null;
-        currentProfile = null;
-        await supabaseClient.auth.signOut({
-          scope:"local"
-        });
-      }else{
-        await loadCurrentProfile();
-      }
+      await loadCurrentProfile();
     }else{
       currentProfile = null;
     }
