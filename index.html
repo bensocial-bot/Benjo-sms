@@ -124,6 +124,10 @@ tr:last-child td{border-bottom:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .footer{border-top:1px solid var(--border);padding:25px 0;color:var(--muted);text-align:center;font-size:13px}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.password-hint{font-size:12px;margin-top:8px;line-height:1.4;display:flex;align-items:center;gap:6px}
+.password-hint.not-met{color:#ff7886}
+.password-hint.met{color:#55e89b}
+.password-hint .hint-icon{font-size:13px;flex-shrink:0}
 @media(max-width:900px){
   .grid{grid-template-columns:repeat(2,1fr)}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
@@ -358,7 +362,14 @@ tr:last-child td{border-bottom:0}
         <div class="form-group"><label>Phone Number</label><input id="authPhone" type="tel" placeholder="08012345678"></div>
       </div>
       <div class="form-group"><label>Email</label><input id="authEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>
-      <div class="form-group"><label>Password</label><input id="authPassword" type="password" required autocomplete="current-password" placeholder="Enter your password"></div>
+      <div class="form-group">
+        <label>Password</label>
+        <input id="authPassword" type="password" required autocomplete="current-password" placeholder="Enter your password" oninput="updatePasswordHint()">
+        <div id="passwordHint" class="password-hint not-met hidden">
+          <span class="hint-icon">✗</span>
+          <span>Password must be at least 6 characters.</span>
+        </div>
+      </div>
       <div id="forgotPasswordArea" style="text-align:right;margin-top:-5px;margin-bottom:14px">
         <button type="button" style="background:none;border:0;color:var(--primary);padding:0;font-size:13px" onclick="forgotPassword()">Forgot password?</button>
       </div>
@@ -619,18 +630,22 @@ function updateAuthUI(){
   const switchBtn = document.getElementById("authSwitch");
   const registerFields = document.getElementById("registerFields");
   const forgot = document.getElementById("forgotPasswordArea");
+  const passwordHint = document.getElementById("passwordHint");
   if(authMode === "register"){
     title.textContent = "Create Account";
     submit.textContent = "Register";
     switchBtn.textContent = "Already have an account? Login";
     registerFields.classList.remove("hidden");
     if(forgot) forgot.classList.add("hidden");
+    if(passwordHint) passwordHint.classList.remove("hidden");
+    updatePasswordHint();
   }else{
     title.textContent = "Login";
     submit.textContent = "Login";
     switchBtn.textContent = "Create an account";
     registerFields.classList.add("hidden");
     if(forgot) forgot.classList.remove("hidden");
+    if(passwordHint) passwordHint.classList.add("hidden");
   }
 }
 function setAuthLoading(loading){
@@ -641,6 +656,24 @@ function setAuthLoading(loading){
     button.innerHTML = `<span class="loading"><span class="spinner"></span>${authMode==="login"?"Logging in...":"Creating account..."}</span>`;
   }else{
     button.textContent = authMode === "login" ? "Login" : "Register";
+  }
+}
+function updatePasswordHint(){
+  const hint = document.getElementById("passwordHint");
+  if(!hint || authMode !== "register") return;
+  const password = document.getElementById("authPassword").value;
+  const icon = hint.querySelector(".hint-icon");
+  const text = hint.querySelector("span:last-child");
+  if(password.length >= 6){
+    hint.classList.remove("not-met");
+    hint.classList.add("met");
+    if(icon) icon.textContent = "✓";
+    if(text) text.textContent = "Password meets the minimum requirement.";
+  }else{
+    hint.classList.remove("met");
+    hint.classList.add("not-met");
+    if(icon) icon.textContent = "✗";
+    if(text) text.textContent = "Password must be at least 6 characters.";
   }
 }
 
@@ -656,6 +689,12 @@ async function submitAuth(event){
   const password = document.getElementById("authPassword").value;
   if(!email || !password){
     showToast("Please enter your email and password.","error");
+    return;
+  }
+
+  if(authMode === "register" && password.length < 6){
+    showToast("Password must be at least 6 characters.","error");
+    updatePasswordHint();
     return;
   }
 
