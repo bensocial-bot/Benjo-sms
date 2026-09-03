@@ -2,424 +2,447 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#0b1020">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Benjo-SMS | Digital Marketplace</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
-  --bg:#0b1020;
-  --card:#121a2d;
-  --card2:#18223a;
-  --text:#f5f7fb;
-  --muted:#9aa7bd;
-  --line:#293653;
-  --primary:#5b8cff;
-  --success:#20c997;
-  --danger:#ff5c7a;
-  --warning:#ffc857;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
+*{
+  box-sizing:border-box;
   margin:0;
-  background:linear-gradient(180deg,#080d19,#10182a 50%,#0b1020);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+  padding:0;
 }
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.container{width:min(1120px,92%);margin:auto}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b0f14;
+  color:#fff;
+  min-height:100vh;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
 
 header{
   position:sticky;
   top:0;
-  z-index:50;
-  background:rgba(8,13,25,.94);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
+  z-index:100;
+  background:#111720;
+  border-bottom:1px solid #222b36;
 }
+
 .nav{
-  min-height:70px;
+  min-height:68px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:15px;
 }
+
 .logo{
   font-size:23px;
   font-weight:900;
 }
-.logo span{color:var(--primary)}
-nav{
+
+.logo span{
+  color:#25d366;
+}
+
+.nav-links{
   display:flex;
-  align-items:center;
   gap:7px;
   flex-wrap:wrap;
+  justify-content:center;
 }
-nav button{
+
+.nav-links button{
   background:transparent;
-  color:var(--muted);
+  color:#d9e0e8;
   border:0;
-  padding:9px 11px;
+  padding:10px 12px;
   border-radius:9px;
 }
-nav button:hover{
-  background:var(--card2);
+
+.nav-links button:hover{
+  background:#1b2430;
+}
+
+.user-area{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.balance{
+  background:#17231c;
+  color:#55e487;
+  padding:9px 12px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:700;
+}
+
+.btn-primary{
+  background:#25d366;
+  color:#061109;
+}
+
+.btn-secondary{
+  background:#26313e;
   color:#fff;
 }
 
-.wallet-pill{
-  background:#17233d!important;
-  color:#fff!important;
-  border:1px solid #2c4069!important;
-  font-weight:800;
+.btn-danger{
+  background:#e5484d;
+  color:#fff;
 }
 
-.hero{padding:70px 0 45px}
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:28px;
-  align-items:center;
+.btn-warning{
+  background:#f5a524;
+  color:#111;
 }
-.eyebrow{
-  color:#8eacff;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
+
+.btn-small{
+  padding:7px 10px;
+  font-size:13px;
 }
+
+.hero{
+  padding:75px 0;
+  background:
+    radial-gradient(circle at top right,#123b29 0,transparent 35%),
+    radial-gradient(circle at bottom left,#182d3f 0,transparent 35%);
+}
+
 .hero h1{
-  font-size:clamp(40px,7vw,68px);
+  font-size:clamp(35px,7vw,65px);
   line-height:1;
-  margin:13px 0 18px;
-}
-.hero p{
-  color:var(--muted);
-  line-height:1.7;
-  font-size:17px;
-}
-.hero-card{
-  background:linear-gradient(145deg,#182542,#10182a);
-  border:1px solid #2a3a5e;
-  border-radius:22px;
-  padding:25px;
-}
-
-section{padding:45px 0}
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:end;
   margin-bottom:20px;
 }
-.section-head h2{margin:0;font-size:28px}
-.section-head p{color:var(--muted)}
+
+.hero h1 span{
+  color:#25d366;
+}
+
+.hero p{
+  color:#aab5c1;
+  max-width:650px;
+  font-size:17px;
+  line-height:1.7;
+}
+
+.hero-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+
+section{
+  padding:45px 0;
+}
+
+.section-title{
+  margin-bottom:25px;
+}
+
+.section-title h2{
+  font-size:29px;
+  margin-bottom:7px;
+}
+
+.section-title p{
+  color:#8e9aa8;
+}
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:17px;
 }
 
-.card,.panel{
-  background:rgba(18,26,45,.95);
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:19px;
+.card{
+  background:#111720;
+  border:1px solid #222b36;
+  border-radius:15px;
+  padding:20px;
 }
-.card h3{margin:10px 0 6px}
-.card p{
-  color:var(--muted);
-  line-height:1.55;
+
+.card h3{
+  margin-bottom:9px;
 }
+
+.muted{
+  color:#8995a3;
+}
+
 .price{
   font-size:22px;
   font-weight:900;
   margin:15px 0;
-}
-.muted{color:var(--muted)}
-
-.btn{
-  border:0;
-  padding:11px 15px;
-  border-radius:10px;
-  font-weight:800;
-}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-secondary{background:#202b45;color:#fff}
-.btn-success{background:var(--success);color:#06130f}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-warning{background:var(--warning);color:#211900}
-.btn:hover{filter:brightness(1.08)}
-
-.actions{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-top:18px;
+  color:#54e487;
 }
 
-.status{
-  display:inline-flex;
+.badge{
+  display:inline-block;
   padding:5px 9px;
-  border-radius:999px;
-  background:rgba(32,201,151,.13);
-  color:#63e7bb;
-  font-size:11px;
-  font-weight:900;
-}
-.status.sold{
-  background:rgba(255,92,122,.13);
-  color:#ff8298;
-}
-.status.pending{
-  background:rgba(255,200,87,.13);
-  color:#ffd779;
+  border-radius:20px;
+  background:#1c2934;
+  color:#b9c5d1;
+  font-size:12px;
 }
 
-.account-group{margin-bottom:28px}
-.account-group-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-.account-group-title h3{margin:0}
-
-.account-list{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-}
-.account-row{
-  background:#0f1729;
-  border:1px solid #263452;
-  border-radius:14px;
-  padding:15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
-.account-login{
-  font-weight:900;
-  word-break:break-all;
-}
-.account-row small{color:var(--muted)}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:13px;
-}
-.field{
+.account-card{
   display:flex;
   flex-direction:column;
-  gap:7px;
-}
-.field.full{grid-column:1/-1}
-.field label{
-  color:#bdc8dc;
-  font-size:13px;
-  font-weight:700;
-}
-.field input,
-.field textarea,
-.field select{
-  width:100%;
-  background:#0c1425;
-  border:1px solid #293653;
-  color:#fff;
-  padding:12px;
-  border-radius:10px;
-  outline:none;
-}
-.field textarea{
-  min-height:95px;
-  resize:vertical;
-}
-.field input:focus,
-.field textarea:focus,
-.field select:focus{
-  border-color:var(--primary);
+  gap:10px;
 }
 
-.notice{
-  background:#0d1930;
-  border:1px solid #294067;
-  border-radius:12px;
-  padding:13px;
-  color:#c7d4ea;
-  line-height:1.55;
-  margin-bottom:15px;
+.account-login{
+  background:#0b0f14;
+  border:1px solid #27313d;
+  padding:11px;
+  border-radius:8px;
+  word-break:break-all;
 }
 
-.empty{
-  padding:30px;
+.wallet-box{
   text-align:center;
-  color:var(--muted);
-  border:1px dashed #33415e;
-  border-radius:14px;
+  padding:35px;
 }
 
-.hidden{display:none!important}
+.wallet-balance{
+  font-size:42px;
+  font-weight:900;
+  color:#54e487;
+  margin:15px 0 25px;
+}
 
 .admin-tabs{
   display:flex;
-  gap:8px;
-  overflow:auto;
-  margin-bottom:18px;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
 }
-.admin-tabs button{
-  white-space:nowrap;
-  background:#151f35;
-  color:#aebbd0;
-  border:0;
-  padding:10px 13px;
-  border-radius:10px;
-}
-.admin-tabs button.active{
-  background:var(--primary);
-  color:#fff;
-}
-.admin-section{display:none}
-.admin-section.active{display:block}
 
-.table-wrap{overflow:auto}
-.table{
+.admin-tabs button{
+  background:#1b2430;
+  border:0;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:8px;
+}
+
+.admin-tabs button.active{
+  background:#25d366;
+  color:#071109;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
   width:100%;
   border-collapse:collapse;
-  min-width:750px;
+  min-width:700px;
 }
-.table th,.table td{
-  text-align:left;
+
+th,td{
+  border-bottom:1px solid #26303b;
   padding:12px;
-  border-bottom:1px solid var(--line);
+  text-align:left;
   vertical-align:top;
 }
-.table th{
-  color:#b9c5d9;
-  font-size:12px;
-  text-transform:uppercase;
+
+th{
+  color:#8f9baa;
+  font-size:13px;
 }
 
-.modal-bg{
+.form-group{
+  margin-bottom:15px;
+}
+
+label{
+  display:block;
+  color:#aab5c1;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+input,textarea,select{
+  width:100%;
+  background:#0b0f14;
+  border:1px solid #303b48;
+  color:#fff;
+  border-radius:8px;
+  padding:12px;
+  outline:none;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+input:focus,textarea:focus,select:focus{
+  border-color:#25d366;
+}
+
+.modal{
   position:fixed;
   inset:0;
-  z-index:100;
-  background:rgba(0,0,0,.74);
+  background:rgba(0,0,0,.75);
+  z-index:500;
   display:flex;
-  justify-content:center;
   align-items:center;
-  padding:18px;
+  justify-content:center;
+  padding:15px;
 }
-.modal{
-  width:min(620px,100%);
-  max-height:92vh;
+
+.modal-box{
+  background:#111720;
+  border:1px solid #2a3440;
+  width:min(520px,100%);
+  max-height:90vh;
   overflow:auto;
-  background:#121a2d;
-  border:1px solid #30405f;
-  border-radius:18px;
+  border-radius:15px;
   padding:22px;
 }
-.modal-close{
-  float:right;
-  background:#222d45;
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close{
+  background:#202a35;
   color:#fff;
   border:0;
-  border-radius:8px;
-  padding:7px 10px;
-}
-.credentials{
-  background:#08111f;
-  border:1px solid #294067;
-  border-radius:14px;
-  padding:17px;
-}
-.cred-line{
-  padding:10px 0;
-  border-bottom:1px solid #1e2c45;
-}
-.cred-line:last-child{border-bottom:0}
-.cred-line b{
-  display:block;
-  color:#94a9c8;
-  font-size:12px;
-  margin-bottom:4px;
-}
-.code{
-  font-family:monospace;
-  word-break:break-all;
+  width:35px;
+  height:35px;
+  border-radius:50%;
 }
 
-.toast{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:200;
-  max-width:360px;
-  background:#18233a;
-  border:1px solid #314363;
-  color:#fff;
-  padding:13px 15px;
+.alert{
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:14px;
+  line-height:1.5;
+}
+
+.alert-error{
+  background:#32191b;
+  color:#ff9b9f;
+}
+
+.alert-success{
+  background:#132c1d;
+  color:#7cf0a2;
+}
+
+.alert-warning{
+  background:#302715;
+  color:#ffd17b;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#7e8a97;
+  border:1px dashed #2c3641;
   border-radius:12px;
 }
-.toast.error{border-color:#713148}
-.toast.success{border-color:#236c58}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  color:#8995a3;
+}
 
 footer{
-  padding:35px 0 55px;
-  color:var(--muted);
-  border-top:1px solid var(--line);
-  margin-top:30px;
+  border-top:1px solid #222b36;
+  margin-top:40px;
+  padding:25px 0;
+  color:#778391;
+  text-align:center;
 }
 
-.feature-grid{
+.actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.admin-section{
+  margin-top:20px;
+}
+
+.stats{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+  margin-bottom:20px;
 }
-.feature{
+
+.stat{
+  background:#111720;
+  border:1px solid #222b36;
+  border-radius:12px;
   padding:18px;
-  background:#111a2e;
-  border:1px solid var(--line);
-  border-radius:15px;
-}
-.feature b{display:block;margin-bottom:6px}
-.feature span{
-  color:var(--muted);
-  line-height:1.5;
-  font-size:14px;
 }
 
-@media(max-width:850px){
-  .hero-grid{grid-template-columns:1fr}
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .feature-grid{grid-template-columns:1fr}
-  .account-list{grid-template-columns:1fr}
+.stat-number{
+  font-size:26px;
+  font-weight:900;
+  margin-top:7px;
 }
 
-@media(max-width:600px){
+@media(max-width:750px){
   .nav{
-    padding:10px 0;
-    align-items:flex-start;
-  }
-  nav{justify-content:flex-end}
-  .grid{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr}
-  .field.full{grid-column:auto}
-  .section-head{
-    align-items:flex-start;
     flex-direction:column;
+    padding:12px 0;
   }
-  .account-row{
-    align-items:flex-start;
-    flex-direction:column;
+
+  .hero{
+    padding:50px 0;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+
+  .nav-links{
+    width:100%;
   }
 }
 </style>
@@ -428,1125 +451,551 @@ footer{
 <body>
 
 <header>
-<div class="container nav">
+  <div class="container nav">
 
-<div class="logo">
-Benjo<span>-SMS</span>
-</div>
+    <div class="logo">
+      Benjo-<span>SMS</span>
+    </div>
 
-<nav>
-<button onclick="showSection('home')">Home</button>
-<button onclick="showSection('services')">Services</button>
-<button onclick="showSection('accounts')">Accounts</button>
+    <div class="nav-links">
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('services')">Services</button>
+      <button onclick="showPage('accounts')">Accounts</button>
+      <button onclick="showPage('wallet')">Wallet</button>
+      <button id="adminNav" class="hidden" onclick="showPage('admin')">Admin</button>
+    </div>
 
-<button
-id="walletNav"
-class="wallet-pill hidden"
-onclick="showSection('wallet')">
-₦0.00
-</button>
+    <div class="user-area">
+      <div id="balanceDisplay" class="balance hidden">₦0</div>
+      <button id="loginBtn" class="btn btn-primary btn-small" onclick="openAuth()">Login</button>
+      <button id="logoutBtn" class="btn btn-danger btn-small hidden" onclick="logout()">Logout</button>
+    </div>
 
-<button
-id="adminNav"
-class="hidden"
-onclick="showSection('admin')">
-Admin
-</button>
-
-<button
-id="authNav"
-class="btn btn-primary"
-onclick="openAuth()">
-Login
-</button>
-</nav>
-
-</div>
+  </div>
 </header>
 
 
 <main>
 
 <!-- HOME -->
-<section id="home">
+<div id="page-home">
 
-<div class="container hero">
-<div class="hero-grid">
+<section class="hero">
+  <div class="container">
+    <h1>Welcome to <span>Benjo-SMS</span></h1>
 
-<div>
+    <p>
+      Buy digital services and individual account products.
+      Fund your wallet, choose what you need and receive your purchased
+      digital product securely.
+    </p>
 
-<div class="eyebrow">
-Digital Marketplace
-</div>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="showPage('services')">
+        Browse Services
+      </button>
 
-<h1>
-Welcome to Benjo-SMS
-</h1>
+      <button class="btn btn-secondary" onclick="showPage('accounts')">
+        Browse Accounts
+      </button>
 
-<p>
-Buy digital services and individual social-media accounts securely
-using your Benjo-SMS wallet.
-Available accounts are delivered automatically after successful payment.
-</p>
-
-<div class="actions">
-
-<button
-class="btn btn-primary"
-onclick="showSection('accounts')">
-Browse Accounts
-</button>
-
-<button
-class="btn btn-secondary"
-onclick="showSection('services')">
-Browse Services
-</button>
-
-</div>
-
-</div>
-
-<div class="hero-card">
-
-<h3>How it works</h3>
-
-<p class="muted">
-1. Create an account or log in.
-</p>
-
-<p class="muted">
-2. Fund your wallet and wait for admin approval.
-</p>
-
-<p class="muted">
-3. Select an available account or service.
-</p>
-
-<p class="muted">
-4. Pay from your wallet and receive your delivery.
-</p>
-
-</div>
-
-</div>
-</div>
-
+      <button class="btn btn-secondary" onclick="showPage('wallet')">
+        Fund Wallet
+      </button>
+    </div>
+  </div>
 </section>
+
+<section>
+  <div class="container">
+
+    <div class="section-title">
+      <h2>How it works</h2>
+      <p>Simple and fast.</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>1. Create account</h3>
+        <p class="muted">Register and log into your Benjo-SMS account.</p>
+      </div>
+
+      <div class="card">
+        <h3>2. Fund wallet</h3>
+        <p class="muted">Make a bank transfer and upload your payment proof.</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Buy</h3>
+        <p class="muted">Use your wallet balance to purchase available products.</p>
+      </div>
+
+      <div class="card">
+        <h3>4. Receive</h3>
+        <p class="muted">Your purchased account credentials or service information are displayed after payment.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+</div>
 
 
 <!-- SERVICES -->
-<section id="services">
+<div id="page-services" class="hidden">
 
-<div class="container">
+<section>
+  <div class="container">
 
-<div class="section-head">
+    <div class="section-title">
+      <h2>Services</h2>
+      <p>Available digital services.</p>
+    </div>
 
-<div>
-<h2>Services</h2>
-<p>Digital services currently available.</p>
-</div>
+    <div id="servicesGrid" class="grid">
+      <div class="loading">Loading services...</div>
+    </div>
 
-<button
-class="btn btn-secondary"
-onclick="loadServices()">
-Refresh
-</button>
-
-</div>
-
-<div id="servicesList" class="grid">
-<div class="empty">
-Loading services...
-</div>
-</div>
-
-</div>
-
+  </div>
 </section>
+
+</div>
 
 
 <!-- ACCOUNTS -->
-<section id="accounts">
+<div id="page-accounts" class="hidden">
 
-<div class="container">
+<section>
+  <div class="container">
 
-<div class="section-head">
+    <div class="section-title">
+      <h2>Account Marketplace</h2>
+      <p>Each account is an individual stock item.</p>
+    </div>
 
-<div>
-<h2>Account Marketplace</h2>
+    <div id="accountsGrid">
+      <div class="loading">Loading accounts...</div>
+    </div>
 
-<p>
-Choose the exact individual account you want.
-Passwords are never shown before purchase.
-</p>
-</div>
-
-<button
-class="btn btn-secondary"
-onclick="loadAccounts()">
-Refresh
-</button>
-
-</div>
-
-<div id="accountsList">
-<div class="empty">
-Loading account stock...
-</div>
-</div>
-
-</div>
-
+  </div>
 </section>
+
+</div>
 
 
 <!-- WALLET -->
-<section id="wallet">
+<div id="page-wallet" class="hidden">
 
-<div class="container">
+<section>
+  <div class="container">
 
-<div class="section-head">
-<div>
-<h2>My Wallet</h2>
-<p>Fund your wallet to purchase products.</p>
-</div>
-</div>
+    <div class="section-title">
+      <h2>My Wallet</h2>
+      <p>Manage your wallet and funding requests.</p>
+    </div>
 
-<div class="grid">
+    <div class="card wallet-box">
 
-<div class="card">
+      <div class="muted">Current Balance</div>
 
-<div class="muted">
-Current Balance
-</div>
+      <div id="walletBigBalance" class="wallet-balance">
+        ₦0
+      </div>
 
-<div
-id="walletBalance"
-class="price">
-₦0.00
-</div>
+      <button class="btn btn-primary" onclick="openFunding()">
+        Fund Wallet
+      </button>
 
-<button
-class="btn btn-primary"
-onclick="openFunding()">
-Fund Wallet
-</button>
+    </div>
 
-</div>
+    <div style="margin-top:25px">
 
+      <div class="section-title">
+        <h2>My Funding Requests</h2>
+      </div>
 
-<div class="card">
+      <div id="myFunding">
+        <div class="loading">Loading...</div>
+      </div>
 
-<div class="muted">
-Account
-</div>
+    </div>
 
-<h3 id="walletEmail">
-Not logged in
-</h3>
-
-<p>
-Approved deposits are added to your wallet automatically.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="muted">
-Support
-</div>
-
-<h3>
-Need help?
-</h3>
-
-<p>
-Contact Benjo-SMS support through WhatsApp.
-</p>
-
-<button
-class="btn btn-success"
-onclick="openWhatsApp()">
-WhatsApp Support
-</button>
-
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
+
+</div>
 
 
 <!-- ADMIN -->
-<section id="admin" class="hidden">
+<div id="page-admin" class="hidden">
 
-<div class="container">
+<section>
+  <div class="container">
 
-<div class="section-head">
+    <div class="section-title">
+      <h2>Admin Panel</h2>
+      <p>Manage Benjo-SMS.</p>
+    </div>
 
-<div>
-<h2>Admin Panel</h2>
+    <div id="adminAccessMessage"></div>
 
-<p>
-Manage services, individual account stock,
-funding, wallets and orders.
-</p>
+    <div id="adminContent" class="hidden">
 
-</div>
+      <div class="stats">
 
-</div>
+        <div class="stat">
+          <div class="muted">Services</div>
+          <div id="statServices" class="stat-number">0</div>
+        </div>
 
+        <div class="stat">
+          <div class="muted">Available Accounts</div>
+          <div id="statAccounts" class="stat-number">0</div>
+        </div>
 
-<div class="admin-tabs">
+        <div class="stat">
+          <div class="muted">Pending Funding</div>
+          <div id="statFunding" class="stat-number">0</div>
+        </div>
 
-<button
-data-tab="adminServices"
-onclick="openAdminTab('adminServices')">
-Services
-</button>
+        <div class="stat">
+          <div class="muted">Orders</div>
+          <div id="statOrders" class="stat-number">0</div>
+        </div>
 
-<button
-data-tab="adminAccounts"
-onclick="openAdminTab('adminAccounts')">
-Account Stock
-</button>
+      </div>
 
-<button
-data-tab="adminFunding"
-onclick="openAdminTab('adminFunding')">
-Funding
-</button>
+      <div class="admin-tabs">
+        <button onclick="adminTab('services')">Services</button>
+        <button onclick="adminTab('accounts')">Account Stock</button>
+        <button onclick="adminTab('funding')">Funding</button>
+        <button onclick="adminTab('wallets')">Wallets</button>
+        <button onclick="adminTab('orders')">Orders</button>
+      </div>
 
-<button
-data-tab="adminWallets"
-onclick="openAdminTab('adminWallets')">
-Wallets
-</button>
+      <div id="admin-services"></div>
+      <div id="admin-accounts" class="hidden"></div>
+      <div id="admin-funding" class="hidden"></div>
+      <div id="admin-wallets" class="hidden"></div>
+      <div id="admin-orders" class="hidden"></div>
 
-<button
-data-tab="adminOrders"
-onclick="openAdminTab('adminOrders')">
-Orders
-</button>
+    </div>
 
-</div>
-
-
-<!-- ADMIN SERVICES -->
-<div
-id="adminServices"
-class="admin-section active">
-
-<div class="panel">
-
-<h3>
-Add Service
-</h3>
-
-<div class="form-grid">
-
-<div class="field">
-<label>Service Name</label>
-<input
-id="serviceName"
-placeholder="Facebook Account">
-</div>
-
-<div class="field">
-<label>Platform</label>
-<input
-id="servicePlatform"
-placeholder="Facebook">
-</div>
-
-<div class="field">
-<label>Category</label>
-<input
-id="serviceCategory"
-placeholder="Account">
-</div>
-
-<div class="field">
-<label>Price (₦)</label>
-<input
-id="servicePrice"
-type="number"
-min="0"
-step="0.01">
-</div>
-
-<div class="field full">
-<label>Description</label>
-<textarea
-id="serviceDescription"
-placeholder="Service description"></textarea>
-</div>
-
-<div class="field full">
-<label>
-Delivery Information
-</label>
-
-<textarea
-id="serviceDelivery"
-placeholder="Optional for normal services"></textarea>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<button
-class="btn btn-success"
-onclick="addService()">
-➕ Add Service
-</button>
-
-</div>
-
-</div>
-
-<br>
-
-<div id="adminServicesList">
-<div class="empty">
-Loading...
-</div>
-</div>
-
-</div>
-
-
-<!-- ADMIN ACCOUNT STOCK -->
-<div
-id="adminAccounts"
-class="admin-section">
-
-<div class="panel">
-
-<h3>
-Add Individual Account Stock
-</h3>
-
-<div class="notice">
-
-Each account is a separate stock item.
-
-Example:
-
-<br><br>
-
-Facebook Account
-<br>
-• login1 — Available
-<br>
-• login2 — Available
-<br>
-• login3 — Available
-<br>
-• login4 — Available
-
-<br><br>
-
-When a customer buys login2,
-only login2 becomes SOLD.
-The other accounts remain available.
-
-</div>
-
-
-<div class="form-grid">
-
-<div class="field full">
-
-<label>
-Service
-</label>
-
-<select id="accountServiceSelect">
-<option value="">
-Loading services...
-</option>
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Login / Username / Email
-</label>
-
-<input
-id="newAccountLogin"
-placeholder="login@example.com">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Password
-</label>
-
-<input
-id="newAccountPassword"
-placeholder="Password">
-
-</div>
-
-
-<div class="field full">
-
-<label>
-Additional Login Information
-</label>
-
-<textarea
-id="newAccountAdditional"
-placeholder="2FA, recovery details, notes, etc."></textarea>
-
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="btn btn-success"
-onclick="addAccountProduct()">
-➕ Add Account
-</button>
-
-</div>
-
-</div>
-
-<br>
-
-<div id="adminAccountsList">
-<div class="empty">
-Loading...
-</div>
-</div>
-
-</div>
-
-
-<!-- FUNDING -->
-<div
-id="adminFunding"
-class="admin-section">
-
-<div class="panel">
-
-<h3>
-Customer Deposit / Funding Requests
-</h3>
-
-<div class="notice">
-
-Review the payment proof before approving.
-
-<br>
-
-<strong>Approve</strong>
-automatically credits the customer's wallet.
-
-<br>
-
-<strong>Reject</strong>
-does not credit the wallet.
-
-</div>
-
-<div id="adminFundingList">
-<div class="empty">
-Loading...
-</div>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- WALLETS -->
-<div
-id="adminWallets"
-class="admin-section">
-
-<div class="panel">
-
-<h3>
-Customer Wallets
-</h3>
-
-<div id="adminWalletsList">
-<div class="empty">
-Loading...
-</div>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ORDERS -->
-<div
-id="adminOrders"
-class="admin-section">
-
-<div class="panel">
-
-<h3>
-Orders
-</h3>
-
-<div id="adminOrdersList">
-<div class="empty">
-Loading...
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
+
+</div>
 
 </main>
 
 
-<footer>
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal hidden">
 
-<div class="container">
+  <div class="modal-box">
 
-<div class="feature-grid">
+    <div class="modal-header">
+      <h2 id="authTitle">Login</h2>
+      <button class="close" onclick="closeModal('authModal')">×</button>
+    </div>
 
-<div class="feature">
-<b>🔐 Secure Delivery</b>
-<span>
-Credentials are delivered only after successful purchase.
-</span>
-</div>
+    <div id="authMessage"></div>
 
-<div class="feature">
-<b>💰 Wallet Payments</b>
-<span>
-Fund your wallet and use your balance to purchase products.
-</span>
-</div>
+    <div class="form-group">
+      <label>Email</label>
+      <input id="authEmail" type="email" placeholder="Email">
+    </div>
 
-<div class="feature">
-<b>⚡ Individual Stock</b>
-<span>
-Each account is tracked separately and becomes sold after purchase.
-</span>
-</div>
+    <div class="form-group">
+      <label>Password</label>
+      <input id="authPassword" type="password" placeholder="Password">
+    </div>
 
-</div>
+    <div id="registerNameGroup" class="form-group hidden">
+      <label>Full Name</label>
+      <input id="registerName" type="text" placeholder="Full name">
+    </div>
 
-<p style="margin-top:28px">
-© 2026 Benjo-SMS. All rights reserved.
-</p>
+    <button id="authSubmit" class="btn btn-primary" style="width:100%" onclick="submitAuth()">
+      Login
+    </button>
 
-</div>
+    <div style="text-align:center;margin-top:15px">
+      <button class="btn btn-secondary btn-small" onclick="toggleAuthMode()">
+        <span id="authToggleText">Create account</span>
+      </button>
+    </div>
 
-</footer>
-
-
-<!-- LOGIN MODAL -->
-<div
-id="authModal"
-class="modal-bg hidden">
-
-<div class="modal">
-
-<button
-class="modal-close"
-onclick="closeModal('authModal')">
-✕
-</button>
-
-<h2 id="authTitle">
-Login
-</h2>
-
-<div class="form-grid">
-
-<div class="field full">
-
-<label>Email</label>
-
-<input
-id="authEmail"
-type="email"
-autocomplete="email">
-
-</div>
-
-
-<div class="field full">
-
-<label>Password</label>
-
-<input
-id="authPassword"
-type="password"
-autocomplete="current-password">
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<button
-id="authSubmit"
-class="btn btn-primary"
-onclick="submitAuth()">
-Login
-</button>
-
-<button
-class="btn btn-secondary"
-onclick="toggleAuthMode()">
-Create account
-</button>
-
-</div>
-
-<p
-id="authMessage"
-class="muted">
-</p>
-
-</div>
+  </div>
 
 </div>
 
 
 <!-- FUNDING MODAL -->
-<div
-id="fundingModal"
-class="modal-bg hidden">
+<div id="fundingModal" class="modal hidden">
 
-<div class="modal">
+  <div class="modal-box">
 
-<button
-class="modal-close"
-onclick="closeModal('fundingModal')">
-✕
-</button>
+    <div class="modal-header">
+      <h2>Fund Wallet</h2>
+      <button class="close" onclick="closeModal('fundingModal')">×</button>
+    </div>
 
-<h2>
-Fund Wallet
-</h2>
+    <div id="fundingMessage"></div>
 
-<div
-id="paymentMethodBox"
-class="notice">
-Loading payment method...
-</div>
+    <div id="paymentDetails" class="alert alert-warning">
+      Loading payment details...
+    </div>
 
-<div class="form-grid">
+    <div class="form-group">
+      <label>Amount</label>
+      <input id="fundAmount" type="number" min="1" placeholder="Enter amount">
+    </div>
 
-<div class="field">
+    <div class="form-group">
+      <label>Payment Reference</label>
+      <input id="fundReference" type="text" placeholder="Optional">
+    </div>
 
-<label>
-Amount (₦)
-</label>
+    <div class="form-group">
+      <label>Payment Proof Screenshot</label>
+      <input id="fundProof" type="file" accept="image/*">
+    </div>
 
-<input
-id="fundAmount"
-type="number"
-min="1"
-step="0.01"
-placeholder="5000">
+    <button class="btn btn-primary" style="width:100%" onclick="submitFunding()">
+      Submit Funding Request
+    </button>
 
-</div>
-
-
-<div class="field">
-
-<label>
-Payment Reference
-</label>
-
-<input
-id="fundReference"
-placeholder="Transaction reference">
+  </div>
 
 </div>
 
 
-<div class="field full">
+<!-- SERVICE EDIT MODAL -->
+<div id="serviceModal" class="modal hidden">
 
-<label>
-Payment Proof Screenshot
-</label>
+  <div class="modal-box">
 
-<input
-id="fundProof"
-type="file"
-accept="image/*">
+    <div class="modal-header">
+      <h2 id="serviceModalTitle">Add Service</h2>
+      <button class="close" onclick="closeModal('serviceModal')">×</button>
+    </div>
 
-</div>
+    <div id="serviceMessage"></div>
 
-</div>
+    <input id="serviceId" type="hidden">
 
-<div class="actions">
+    <div class="form-group">
+      <label>Service Name</label>
+      <input id="serviceName" type="text">
+    </div>
 
-<button
-class="btn btn-primary"
-onclick="submitFunding()">
-Submit Funding Request
-</button>
+    <div class="form-group">
+      <label>Category</label>
+      <input id="serviceCategory" type="text" placeholder="Account / Boosting / Other">
+    </div>
 
-</div>
+    <div class="form-group">
+      <label>Platform</label>
+      <input id="servicePlatform" type="text" placeholder="Facebook / Instagram / TikTok">
+    </div>
 
-<p
-id="fundMessage"
-class="muted">
-</p>
+    <div class="form-group">
+      <label>Price</label>
+      <input id="servicePrice" type="number" min="0">
+    </div>
 
-</div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="serviceDescription"></textarea>
+    </div>
 
-</div>
+    <div class="form-group">
+      <label>Delivery Information</label>
+      <textarea id="serviceDelivery"></textarea>
+    </div>
 
+    <button class="btn btn-primary" style="width:100%" onclick="saveService()">
+      Save Service
+    </button>
 
-<!-- ACCOUNT DELIVERY -->
-<div
-id="credentialsModal"
-class="modal-bg hidden">
-
-<div class="modal">
-
-<button
-class="modal-close"
-onclick="closeModal('credentialsModal')">
-✕
-</button>
-
-<h2>
-Purchase Successful 🎉
-</h2>
-
-<p class="muted">
-These are the exact credentials for the account you purchased.
-Save them securely.
-</p>
-
-<div
-id="credentialsBox"
-class="credentials">
-</div>
-
-</div>
+  </div>
 
 </div>
 
 
-<!-- SERVICE DELIVERY -->
-<div
-id="serviceDeliveryModal"
-class="modal-bg hidden">
+<!-- ACCOUNT EDIT MODAL -->
+<div id="accountModal" class="modal hidden">
 
-<div class="modal">
+  <div class="modal-box">
 
-<button
-class="modal-close"
-onclick="closeModal('serviceDeliveryModal')">
-✕
-</button>
+    <div class="modal-header">
+      <h2 id="accountModalTitle">Add Account</h2>
+      <button class="close" onclick="closeModal('accountModal')">×</button>
+    </div>
 
-<h2>
-Service Purchased 🎉
-</h2>
+    <div id="accountMessage"></div>
 
-<div
-id="serviceDeliveryBox"
-class="credentials">
-</div>
+    <input id="accountId" type="hidden">
 
-</div>
+    <div class="form-group">
+      <label>Service</label>
+      <select id="accountService"></select>
+    </div>
 
-</div>
+    <div class="form-group">
+      <label>Login / Username / Email</label>
+      <input id="accountLogin" type="text">
+    </div>
 
+    <div class="form-group">
+      <label>Password</label>
+      <input id="accountPassword" type="text">
+    </div>
 
-<!-- EDIT SERVICE -->
-<div
-id="editServiceModal"
-class="modal-bg hidden">
+    <div class="form-group">
+      <label>Additional Login Information</label>
+      <textarea id="accountAdditional"></textarea>
+    </div>
 
-<div class="modal">
+    <button class="btn btn-primary" style="width:100%" onclick="saveAccount()">
+      Save Account
+    </button>
 
-<button
-class="modal-close"
-onclick="closeModal('editServiceModal')">
-✕
-</button>
-
-<h2>
-Edit Service
-</h2>
-
-<input
-id="editServiceId"
-type="hidden">
-
-<div class="form-grid">
-
-<div class="field">
-
-<label>Name</label>
-
-<input id="editServiceName">
+  </div>
 
 </div>
 
 
-<div class="field">
+<!-- CREDENTIAL MODAL -->
+<div id="credentialModal" class="modal hidden">
 
-<label>Price</label>
+  <div class="modal-box">
 
-<input
-id="editServicePrice"
-type="number"
-min="0"
-step="0.01">
+    <div class="modal-header">
+      <h2>Purchase Successful</h2>
+      <button class="close" onclick="closeModal('credentialModal')">×</button>
+    </div>
 
-</div>
+    <div class="alert alert-success">
+      Your account has been purchased successfully.
+    </div>
 
+    <div class="form-group">
+      <label>Login</label>
+      <input id="resultLogin" readonly>
+    </div>
 
-<div class="field">
+    <div class="form-group">
+      <label>Password</label>
+      <input id="resultPassword" readonly>
+    </div>
 
-<label>Platform</label>
+    <div class="form-group">
+      <label>Additional Information</label>
+      <textarea id="resultAdditional" readonly></textarea>
+    </div>
 
-<input id="editServicePlatform">
-
-</div>
-
-
-<div class="field">
-
-<label>Category</label>
-
-<input id="editServiceCategory">
-
-</div>
-
-
-<div class="field full">
-
-<label>Description</label>
-
-<textarea id="editServiceDescription"></textarea>
+  </div>
 
 </div>
 
 
-<div class="field full">
+<!-- SERVICE DELIVERY MODAL -->
+<div id="deliveryModal" class="modal hidden">
 
-<label>Delivery Information</label>
+  <div class="modal-box">
 
-<textarea id="editServiceDelivery"></textarea>
+    <div class="modal-header">
+      <h2>Purchase Successful</h2>
+      <button class="close" onclick="closeModal('deliveryModal')">×</button>
+    </div>
 
-</div>
+    <div class="alert alert-success">
+      Your service has been purchased.
+    </div>
 
-</div>
+    <textarea id="deliveryResult" readonly></textarea>
 
-<div class="actions">
-
-<button
-class="btn btn-primary"
-onclick="saveServiceEdit()">
-Save Changes
-</button>
-
-</div>
-
-</div>
+  </div>
 
 </div>
 
 
-<!-- EDIT ACCOUNT -->
-<div
-id="editAccountModal"
-class="modal-bg hidden">
-
-<div class="modal">
-
-<button
-class="modal-close"
-onclick="closeModal('editAccountModal')">
-✕
-</button>
-
-<h2>
-Edit Account
-</h2>
-
-<input
-id="editAccountId"
-type="hidden">
-
-<div class="form-grid">
-
-<div class="field full">
-
-<label>Login</label>
-
-<input id="editAccountLogin">
-
-</div>
-
-
-<div class="field full">
-
-<label>Password</label>
-
-<input id="editAccountPassword">
-
-</div>
-
-
-<div class="field full">
-
-<label>Additional Information</label>
-
-<textarea id="editAccountAdditional"></textarea>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<button
-class="btn btn-primary"
-onclick="saveAccountEdit()">
-Save Changes
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div
-id="toast"
-class="toast hidden">
-</div>
+<footer>
+  <div class="container">
+    Benjo-SMS © 2026
+    <br><br>
+    <a href="https://wa.me/2348165405921" target="_blank">
+      WhatsApp Support
+    </a>
+  </div>
+</footer>
 
 
 <script>
+const SUPABASE_URL = "https://zwefikwlxgphufilgcyc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
 
-/* =========================
-   SUPABASE CONFIG
-========================= */
-
-const SUPABASE_URL =
-"https://zwefikwlxgphufilgcyc.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-
-const {createClient}=window.supabase;
-
-const supabaseClient =
-createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_KEY
 );
 
-const ADMIN_WHATSAPP =
-"2348165405921";
-
-const PAYMENT_PROOF_BUCKET =
-"payment-proofs";
-
-
-/* =========================
-   GLOBAL STATE
-========================= */
-
-let currentUser=null;
-let currentProfile=null;
-let authMode="login";
-let activePaymentMethod=null;
+let currentUser = null;
+let currentProfile = null;
+let authMode = "login";
+let activePaymentMethod = null;
+let cachedServices = [];
 
 
 /* =========================
    HELPERS
 ========================= */
 
-function $(id){
-  return document.getElementById(id);
+function naira(value){
+  return "₦" + Number(value || 0).toLocaleString("en-NG");
 }
 
 function escapeHtml(value){
-  return String(value ?? "")
-    .replace(/[&<>"']/g,function(m){
-      return {
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-      }[m];
-    });
+  if(value === null || value === undefined) return "";
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-function formatNaira(value){
-  return "₦"+Number(value||0).toLocaleString(
-    "en-NG",
-    {
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    }
-  );
-}
+function showMessage(elementId,message,type="error"){
+  const el=document.getElementById(elementId);
 
-function showToast(message,type=""){
-  const el=$("toast");
+  if(!el)return;
 
-  el.textContent=message;
-
-  el.className="toast "+type;
-
-  el.classList.remove("hidden");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer=setTimeout(
-    ()=>el.classList.add("hidden"),
-    4500
-  );
-}
-
-function openModal(id){
-  $(id).classList.remove("hidden");
+  el.innerHTML=
+    `<div class="alert alert-${type}">
+      ${escapeHtml(message)}
+    </div>`;
 }
 
 function closeModal(id){
-  $(id).classList.add("hidden");
+  document.getElementById(id).classList.add("hidden");
+}
+
+function openModal(id){
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function requireLogin(){
+  if(!currentUser){
+    openAuth();
+    return false;
+  }
+
+  return true;
 }
 
 
@@ -1554,30 +1003,37 @@ function closeModal(id){
    NAVIGATION
 ========================= */
 
-function showSection(id){
+function showPage(page){
 
-  document
-    .querySelectorAll("main section")
-    .forEach(section=>{
-      section.classList.add("hidden");
-    });
+  document.querySelectorAll("[id^='page-']").forEach(el=>{
+    el.classList.add("hidden");
+  });
 
-  $(id).classList.remove("hidden");
+  const target=document.getElementById("page-"+page);
 
-  if(id==="services"){
+  if(target){
+    target.classList.remove("hidden");
+  }
+
+  if(page==="services"){
     loadServices();
   }
 
-  if(id==="accounts"){
+  if(page==="accounts"){
     loadAccounts();
   }
 
-  if(id==="wallet"){
-    loadWallet();
+  if(page==="wallet"){
+    if(requireLogin()){
+      loadWallet();
+      loadMyFunding();
+    }
   }
 
-  if(id==="admin"){
-    loadAdmin();
+  if(page==="admin"){
+    if(requireLogin()){
+      loadAdmin();
+    }
   }
 
   window.scrollTo({
@@ -1588,234 +1044,119 @@ function showSection(id){
 
 
 /* =========================
-   ADMIN CHECK
+   AUTH
 ========================= */
-
-async function checkAdmin(){
-
-  if(!currentUser){
-    return false;
-  }
-
-  const {data,error} =
-    await supabaseClient
-      .from("profiles")
-      .select("is_admin,role")
-      .eq("id",currentUser.id)
-      .maybeSingle();
-
-  if(error){
-    console.error(error);
-    return false;
-  }
-
-  return (
-    data?.is_admin===true ||
-    data?.role==="admin"
-  );
-}
-
-
-/* =========================
-   ACCOUNT / AUTH
-========================= */
-
-async function loadAccount(){
-
-  const {
-    data:{user}
-  }=await supabaseClient.auth.getUser();
-
-  currentUser=user || null;
-
-  if(!currentUser){
-
-    currentProfile=null;
-
-    $("authNav").textContent="Login";
-    $("authNav").onclick=openAuth;
-
-    $("walletNav")
-      .classList
-      .add("hidden");
-
-    $("adminNav")
-      .classList
-      .add("hidden");
-
-    return;
-  }
-
-  const {
-    data:profile
-  }=
-    await supabaseClient
-      .from("profiles")
-      .select("*")
-      .eq("id",currentUser.id)
-      .maybeSingle();
-
-  currentProfile=profile || null;
-
-  $("authNav").textContent="Logout";
-  $("authNav").onclick=logout;
-
-  $("walletNav")
-    .classList
-    .remove("hidden");
-
-  $("walletEmail").textContent =
-    currentUser.email || "";
-
-  await loadWallet();
-
-  const admin=await checkAdmin();
-
-  $("adminNav")
-    .classList
-    .toggle("hidden",!admin);
-}
-
 
 function openAuth(){
-
-  if(currentUser){
-    logout();
-    return;
-  }
-
-  authMode="login";
-
-  $("authTitle").textContent="Login";
-
-  $("authSubmit").textContent="Login";
-
-  $("authMessage").textContent="";
-
+  document.getElementById("authMessage").innerHTML="";
   openModal("authModal");
 }
 
-
 function toggleAuthMode(){
 
-  authMode =
-    authMode==="login"
-    ? "register"
-    : "login";
+  if(authMode==="login"){
+    authMode="register";
 
-  $("authTitle").textContent =
-    authMode==="login"
-    ? "Login"
-    : "Create account";
+    document.getElementById("authTitle").textContent="Create Account";
+    document.getElementById("authSubmit").textContent="Create Account";
+    document.getElementById("authToggleText").textContent="Already have an account? Login";
+    document.getElementById("registerNameGroup").classList.remove("hidden");
 
-  $("authSubmit").textContent =
-    authMode==="login"
-    ? "Login"
-    : "Create account";
+  }else{
 
-  $("authMessage").textContent="";
+    authMode="login";
+
+    document.getElementById("authTitle").textContent="Login";
+    document.getElementById("authSubmit").textContent="Login";
+    document.getElementById("authToggleText").textContent="Create account";
+    document.getElementById("registerNameGroup").classList.add("hidden");
+  }
 }
-
 
 async function submitAuth(){
 
-  const email =
-    $("authEmail").value.trim();
-
-  const password =
-    $("authPassword").value;
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+  const fullName=document.getElementById("registerName").value.trim();
 
   if(!email || !password){
-
-    $("authMessage").textContent =
-      "Enter your email and password.";
-
+    showMessage("authMessage","Enter your email and password.");
     return;
   }
 
-  $("authMessage").textContent =
-    "Please wait...";
+  document.getElementById("authSubmit").disabled=true;
 
+  try{
 
-  if(authMode==="login"){
+    if(authMode==="register"){
 
-    const {error} =
-      await supabaseClient.auth
-        .signInWithPassword({
-          email,
-          password
-        });
+      const {data,error}=await supabaseClient.auth.signUp({
+        email,
+        password,
+        options:{
+          data:{
+            full_name:fullName
+          }
+        }
+      });
 
-    if(error){
+      if(error)throw error;
 
-      $("authMessage").textContent =
-        error.message;
+      if(data.user){
 
-      return;
-    }
+        const {error:profileError}=await supabaseClient
+          .from("profiles")
+          .upsert({
+            id:data.user.id,
+            email:email,
+            full_name:fullName || null
+          });
 
-    closeModal("authModal");
+        if(profileError){
+          console.warn(profileError);
+        }
+      }
 
-    showToast(
-      "Login successful",
-      "success"
-    );
+      showMessage(
+        "authMessage",
+        "Account created. Check your email if confirmation is required.",
+        "success"
+      );
 
-    await loadAccount();
+      authMode="login";
 
-    return;
-  }
+      document.getElementById("authTitle").textContent="Login";
+      document.getElementById("authSubmit").textContent="Login";
+      document.getElementById("authToggleText").textContent="Create account";
+      document.getElementById("registerNameGroup").classList.add("hidden");
 
+    }else{
 
-  const {data,error} =
-    await supabaseClient.auth
-      .signUp({
+      const {error}=await supabaseClient.auth.signInWithPassword({
         email,
         password
       });
 
-  if(error){
-
-    $("authMessage").textContent =
-      error.message;
-
-    return;
-  }
-
-  if(data.user){
-
-    await supabaseClient
-      .from("profiles")
-      .upsert(
-        {
-          id:data.user.id,
-          email:data.user.email
-        },
-        {
-          onConflict:"id"
-        }
-      );
-
-    if(data.session){
+      if(error)throw error;
 
       closeModal("authModal");
-
-      await loadAccount();
-
-      showToast(
-        "Account created",
-        "success"
-      );
-
-    }else{
-
-      $("authMessage").textContent =
-        "Account created. Check your email if confirmation is enabled, then log in.";
-
+      await initializeUser();
     }
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "authMessage",
+      error.message || "Authentication failed."
+    );
+
+  }finally{
+
+    document.getElementById("authSubmit").disabled=false;
   }
 }
-
 
 async function logout(){
 
@@ -1824,11 +1165,92 @@ async function logout(){
   currentUser=null;
   currentProfile=null;
 
-  showToast("Logged out");
+  updateHeader();
 
-  showSection("home");
+  showPage("home");
+}
 
-  await loadAccount();
+
+/* =========================
+   USER
+========================= */
+
+async function initializeUser(){
+
+  const {data,error}=await supabaseClient.auth.getUser();
+
+  if(error || !data.user){
+    currentUser=null;
+    updateHeader();
+    return;
+  }
+
+  currentUser=data.user;
+
+  await loadProfile();
+
+  updateHeader();
+}
+
+async function loadProfile(){
+
+  if(!currentUser)return;
+
+  const {data,error}=await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  currentProfile=data;
+}
+
+function isAdmin(){
+
+  return !!(
+    currentProfile &&
+    (
+      currentProfile.is_admin===true ||
+      currentProfile.role==="admin"
+    )
+  );
+}
+
+function updateHeader(){
+
+  const loginBtn=document.getElementById("loginBtn");
+  const logoutBtn=document.getElementById("logoutBtn");
+  const balance=document.getElementById("balanceDisplay");
+  const adminNav=document.getElementById("adminNav");
+
+  if(currentUser){
+
+    loginBtn.classList.add("hidden");
+    logoutBtn.classList.remove("hidden");
+    balance.classList.remove("hidden");
+
+    balance.textContent=naira(
+      currentProfile?.wallet_balance || 0
+    );
+
+    if(isAdmin()){
+      adminNav.classList.remove("hidden");
+    }else{
+      adminNav.classList.add("hidden");
+    }
+
+  }else{
+
+    loginBtn.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
+    balance.classList.add("hidden");
+    adminNav.classList.add("hidden");
+  }
 }
 
 
@@ -1838,50 +1260,234 @@ async function logout(){
 
 async function loadWallet(){
 
-  if(!currentUser){
+  if(!currentUser)return;
 
-    $("walletBalance").textContent="₦0.00";
+  await loadProfile();
 
-    return;
-  }
+  const balance=Number(currentProfile?.wallet_balance || 0);
 
-  /*
-    IMPORTANT:
-    Wallet is read from profiles.wallet_balance
-    because the secure purchase/funding functions
-    use profiles.wallet_balance.
-  */
+  document.getElementById("walletBigBalance").textContent=naira(balance);
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("profiles")
-      .select("wallet_balance,email")
-      .eq("id",currentUser.id)
-      .maybeSingle();
+  document.getElementById("balanceDisplay").textContent=naira(balance);
+}
+
+async function loadMyFunding(){
+
+  if(!currentUser)return;
+
+  const box=document.getElementById("myFunding");
+
+  box.innerHTML='<div class="loading">Loading funding requests...</div>';
+
+  const {data,error}=await supabaseClient
+    .from("funding_requests")
+    .select("*")
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false});
 
   if(error){
 
-    console.error(error);
+    box.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
-  const balance =
-    Number(data?.wallet_balance || 0);
+  if(!data || !data.length){
 
-  $("walletBalance").textContent =
-    formatNaira(balance);
+    box.innerHTML=
+      `<div class="empty">No funding requests yet.</div>`;
 
-  $("walletNav").textContent =
-    formatNaira(balance);
+    return;
+  }
 
-  $("walletEmail").textContent =
-    data?.email ||
-    currentUser.email ||
-    "";
+  box.innerHTML=`
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Admin Note</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          ${data.map(row=>`
+
+            <tr>
+              <td>${naira(row.amount)}</td>
+              <td>${escapeHtml(row.payment_method || "-")}</td>
+              <td>
+                <span class="badge">
+                  ${escapeHtml(row.status || "pending")}
+                </span>
+              </td>
+              <td>${new Date(row.created_at).toLocaleString()}</td>
+              <td>${escapeHtml(row.admin_note || "-")}</td>
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+
+/* =========================
+   PAYMENT / FUNDING
+========================= */
+
+async function openFunding(){
+
+  if(!requireLogin())return;
+
+  document.getElementById("fundingMessage").innerHTML="";
+
+  openModal("fundingModal");
+
+  const details=document.getElementById("paymentDetails");
+
+  details.innerHTML="Loading payment details...";
+
+  const {data,error}=await supabaseClient
+    .from("payment_methods")
+    .select("*")
+    .eq("is_active",true)
+    .order("created_at",{ascending:true})
+    .limit(1);
+
+  if(error){
+
+    details.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+  if(!data || !data.length){
+
+    activePaymentMethod=null;
+
+    details.innerHTML=
+      `<div class="alert alert-error">
+        No active payment method is currently available.
+      </div>`;
+
+    return;
+  }
+
+  activePaymentMethod=data[0];
+
+  details.innerHTML=`
+    <strong>${escapeHtml(activePaymentMethod.name)}</strong>
+    <br><br>
+    ${escapeHtml(activePaymentMethod.details || "").replace(/\n/g,"<br>")}
+  `;
+}
+
+async function submitFunding(){
+
+  if(!requireLogin())return;
+
+  const amount=Number(
+    document.getElementById("fundAmount").value
+  );
+
+  const reference=document
+    .getElementById("fundReference")
+    .value
+    .trim();
+
+  const file=document.getElementById("fundProof").files[0];
+
+  if(!amount || amount<=0){
+    showMessage("fundingMessage","Enter a valid amount.");
+    return;
+  }
+
+  if(!activePaymentMethod){
+    showMessage("fundingMessage","No payment method is available.");
+    return;
+  }
+
+  if(!file){
+    showMessage("fundingMessage","Upload your payment proof.");
+    return;
+  }
+
+  const button=document.querySelector(
+    "#fundingModal .btn-primary"
+  );
+
+  button.disabled=true;
+
+  try{
+
+    const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+
+    const filePath=
+      `${currentUser.id}/${Date.now()}_${safeName}`;
+
+    const {error:uploadError}=await supabaseClient.storage
+      .from("payment-proofs")
+      .upload(filePath,file,{
+        upsert:false
+      });
+
+    if(uploadError)throw uploadError;
+
+    const {data:publicData}=supabaseClient.storage
+      .from("payment-proofs")
+      .getPublicUrl(filePath);
+
+    const proofUrl=publicData?.publicUrl || null;
+
+    const {error}=await supabaseClient.rpc(
+      "create_funding_request_secure",
+      {
+        p_amount:amount,
+        p_payment_method:activePaymentMethod.name,
+        p_payment_reference:reference || null,
+        p_proof_url:proofUrl
+      }
+    );
+
+    if(error)throw error;
+
+    showMessage(
+      "fundingMessage",
+      "Funding request submitted successfully. Wait for admin approval.",
+      "success"
+    );
+
+    document.getElementById("fundAmount").value="";
+    document.getElementById("fundReference").value="";
+    document.getElementById("fundProof").value="";
+
+    await loadMyFunding();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "fundingMessage",
+      error.message || "Unable to submit funding request."
+    );
+
+  }finally{
+
+    button.disabled=false;
+  }
 }
 
 
@@ -1891,84 +1497,62 @@ async function loadWallet(){
 
 async function loadServices(){
 
-  const box=$("servicesList");
+  const grid=document.getElementById("servicesGrid");
 
-  box.innerHTML =
-    '<div class="empty">Loading services...</div>';
+  grid.innerHTML='<div class="loading">Loading services...</div>';
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("services")
-      .select(
-        "id,name,description,price,delivery_information,available,active,platform,category,created_at"
-      )
-      .eq("active",true)
-      .eq("available",true)
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+  const {data,error}=await supabaseClient
+    .from("services")
+    .select("*")
+    .eq("active",true)
+    .eq("available",true)
+    .order("created_at",{ascending:false});
 
   if(error){
 
-    box.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
+    grid.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
-  if(!data?.length){
+  cachedServices=data || [];
 
-    box.innerHTML =
-      '<div class="empty">'+
-      'No services are currently available.'+
-      '</div>';
+  if(!cachedServices.length){
+
+    grid.innerHTML=
+      `<div class="empty">No services available.</div>`;
 
     return;
   }
 
-  box.innerHTML=data.map(service=>`
+  grid.innerHTML=cachedServices.map(service=>`
 
     <div class="card">
 
-      <span class="status">
-        AVAILABLE
+      <span class="badge">
+        ${escapeHtml(service.platform || service.category || "Service")}
       </span>
 
-      <h3>
+      <h3 style="margin-top:12px">
         ${escapeHtml(service.name)}
       </h3>
 
-      <p>
-        ${escapeHtml(
-          service.description ||
-          service.platform ||
-          "Digital service"
-        )}
+      <p class="muted">
+        ${escapeHtml(service.description || "Digital service")}
       </p>
 
-      <div class="muted">
-        ${escapeHtml(
-          service.category ||
-          "Service"
-        )}
-      </div>
-
       <div class="price">
-        ${formatNaira(service.price)}
+        ${naira(service.price)}
       </div>
 
       <button
         class="btn btn-primary"
+        style="width:100%"
         onclick="purchaseService('${service.id}')">
-
-        Buy Service
-
+        Buy Now
       </button>
 
     </div>
@@ -1976,678 +1560,219 @@ async function loadServices(){
   `).join("");
 }
 
+async function purchaseService(serviceId){
+
+  if(!requireLogin())return;
+
+  const service=cachedServices.find(x=>x.id===serviceId);
+
+  if(!service)return;
+
+  if(!confirm(
+    `Buy ${service.name} for ${naira(service.price)}?`
+  )){
+    return;
+  }
+
+  try{
+
+    const {data,error}=await supabaseClient.rpc(
+      "purchase_service_secure",
+      {
+        p_service_id:serviceId,
+        p_order_details:{
+          source:"website"
+        }
+      }
+    );
+
+    if(error)throw error;
+
+    const result=Array.isArray(data) ? data[0] : data;
+
+    document.getElementById("deliveryResult").value=
+      result?.delivery_information ||
+      result?.login_information ||
+      service.delivery_information ||
+      "Purchase completed successfully.";
+
+    openModal("deliveryModal");
+
+    await loadWallet();
+    await loadServices();
+
+  }catch(error){
+
+    alert(error.message || "Purchase failed.");
+  }
+}
+
 
 /* =========================
-   INDIVIDUAL ACCOUNT STOCK
+   ACCOUNTS
 ========================= */
 
 async function loadAccounts(){
 
-  const box=$("accountsList");
+  const box=document.getElementById("accountsGrid");
 
-  box.innerHTML =
-    '<div class="empty">Loading account stock...</div>';
+  box.innerHTML='<div class="loading">Loading accounts...</div>';
 
-  /*
-    This RPC returns each individual account_products
-    row that is available.
-  */
-
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .rpc("get_available_accounts");
+  const {data,error}=await supabaseClient.rpc(
+    "get_available_accounts"
+  );
 
   if(error){
 
-    box.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
+    box.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
-  if(!data?.length){
+  if(!data || !data.length){
 
-    box.innerHTML =
-      '<div class="empty">'+
-      'No individual accounts are available right now.'+
-      '</div>';
+    box.innerHTML=
+      `<div class="empty">
+        No individual accounts are currently available.
+      </div>`;
 
     return;
   }
-
-
-  /*
-    Group individual accounts by service.
-  */
 
   const groups={};
 
   data.forEach(account=>{
 
-    if(!groups[account.service_id]){
-      groups[account.service_id]=[];
+    const key=account.service_id;
+
+    if(!groups[key]){
+      groups[key]={
+        service_id:key,
+        service_name:account.service_name,
+        platform:account.platform,
+        price:account.price,
+        description:account.description,
+        accounts:[]
+      };
     }
 
-    groups[account.service_id].push(account);
-
+    groups[key].accounts.push(account);
   });
 
+  box.innerHTML=Object.values(groups).map(group=>`
 
-  box.innerHTML =
-    Object.entries(groups)
-    .map(([serviceId,accounts])=>{
+    <div class="card" style="margin-bottom:20px">
 
-      const service=accounts[0];
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
 
-      return `
+        <div>
+          <span class="badge">
+            ${escapeHtml(group.platform || "Account")}
+          </span>
 
-      <div class="account-group">
+          <h3 style="margin-top:10px">
+            ${escapeHtml(group.service_name)}
+          </h3>
 
-        <div class="account-group-title">
+          <p class="muted">
+            ${escapeHtml(group.description || "")}
+          </p>
+        </div>
 
-          <div>
+        <div class="price">
+          ${naira(group.price)}
+        </div>
 
-            <h3>
-              ${escapeHtml(
-                service.service_name ||
-                "Account Service"
-              )}
-            </h3>
+      </div>
 
-            <div class="muted">
+      <div class="grid" style="margin-top:15px">
 
-              ${accounts.length}
-              available account
-              ${accounts.length===1?"":"s"}
+        ${group.accounts.map((account,index)=>`
 
-              ·
+          <div class="account-card card">
 
-              ${formatNaira(service.price)}
-              each
+            <span class="badge">
+              Available
+            </span>
 
+            <strong>
+              Account #${index+1}
+            </strong>
+
+            <div class="account-login">
+              ${escapeHtml(account.login)}
             </div>
+
+            <p class="muted">
+              Password hidden until purchase.
+            </p>
+
+            <button
+              class="btn btn-primary"
+              onclick="buyAccount('${account.id}')">
+              Buy for ${naira(account.price)}
+            </button>
 
           </div>
 
-        </div>
-
-
-        <div class="account-list">
-
-          ${accounts.map((account,index)=>`
-
-            <div class="account-row">
-
-              <div>
-
-                <div class="account-login">
-
-                  Account #${index+1}
-
-                  ${
-                    account.login
-                    ? " — "+escapeHtml(account.login)
-                    : ""
-                  }
-
-                </div>
-
-                <small>
-
-                  ${
-                    escapeHtml(
-                      account.platform ||
-                      account.description ||
-                      "Credentials delivered after purchase"
-                    )
-                  }
-
-                </small>
-
-              </div>
-
-
-              <div
-                style="
-                  display:flex;
-                  align-items:center;
-                  gap:9px;
-                  flex-wrap:wrap;
-                ">
-
-                <span class="status">
-                  AVAILABLE
-                </span>
-
-                <button
-                  class="btn btn-primary"
-                  onclick="buyAccount('${account.id}')">
-
-                  Buy ${formatNaira(account.price)}
-
-                </button>
-
-              </div>
-
-            </div>
-
-          `).join("")}
-
-        </div>
+        `).join("")}
 
       </div>
 
-      `;
+    </div>
 
-    })
-    .join("");
+  `).join("");
 }
-
-
-/* =========================
-   BUY INDIVIDUAL ACCOUNT
-========================= */
 
 async function buyAccount(accountId){
 
-  if(!currentUser){
+  if(!requireLogin())return;
 
-    openAuth();
-
-    showToast(
-      "Please log in first"
-    );
-
+  if(!confirm("Purchase this exact account?")){
     return;
   }
 
-  if(!confirm(
-    "Buy this specific account using your wallet?"
-  )){
-    return;
-  }
+  try{
 
-  showToast(
-    "Processing purchase..."
-  );
-
-
-  /*
-    Secure RPC:
-    - Locks selected account
-    - Checks availability
-    - Checks wallet balance
-    - Deducts wallet
-    - Creates order
-    - Marks ONLY selected account sold
-    - Returns credentials
-  */
-
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .rpc(
-        "purchase_account_secure",
-        {
-          p_account_product_id:accountId,
-
-          p_order_details:{
-            source:"website"
-          }
+    const {data,error}=await supabaseClient.rpc(
+      "purchase_account_secure",
+      {
+        p_account_product_id:accountId,
+        p_order_details:{
+          source:"website"
         }
-      );
-
-
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
+      }
     );
 
-    return;
+    if(error)throw error;
+
+    const result=Array.isArray(data) ? data[0] : data;
+
+    document.getElementById("resultLogin").value=
+      result?.login ||
+      result?.username ||
+      "";
+
+    document.getElementById("resultPassword").value=
+      result?.password ||
+      "";
+
+    document.getElementById("resultAdditional").value=
+      result?.additional_login_info ||
+      "";
+
+    openModal("credentialModal");
+
+    await loadWallet();
+    await loadAccounts();
+
+  }catch(error){
+
+    alert(error.message || "Account purchase failed.");
   }
-
-
-  const result =
-    Array.isArray(data)
-    ? data[0]
-    : data;
-
-
-  if(!result){
-
-    showToast(
-      "Purchase completed but no credentials were returned.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  $("credentialsBox").innerHTML=`
-
-    <div class="cred-line">
-
-      <b>
-        Username / Login
-      </b>
-
-      <div class="code">
-        ${escapeHtml(
-          result.login ||
-          result.username ||
-          ""
-        )}
-      </div>
-
-    </div>
-
-
-    <div class="cred-line">
-
-      <b>
-        Password
-      </b>
-
-      <div class="code">
-        ${escapeHtml(
-          result.password ||
-          ""
-        )}
-      </div>
-
-    </div>
-
-
-    ${
-      result.additional_login_info
-      ?
-      `
-      <div class="cred-line">
-
-        <b>
-          Additional Information
-        </b>
-
-        <div>
-          ${escapeHtml(
-            result.additional_login_info
-          ).replace(/\n/g,"<br>")}
-        </div>
-
-      </div>
-      `
-      :
-      ""
-    }
-
-  `;
-
-
-  openModal(
-    "credentialsModal"
-  );
-
-
-  /*
-    Refresh wallet and stock.
-    The purchased account disappears.
-  */
-
-  await loadWallet();
-
-  await loadAccounts();
-}
-
-
-/* =========================
-   NORMAL SERVICE PURCHASE
-========================= */
-
-async function purchaseService(serviceId){
-
-  if(!currentUser){
-
-    openAuth();
-
-    showToast(
-      "Please log in first"
-    );
-
-    return;
-  }
-
-  if(!confirm(
-    "Buy this service using your wallet?"
-  )){
-    return;
-  }
-
-  showToast(
-    "Processing purchase..."
-  );
-
-
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .rpc(
-        "purchase_service_secure",
-        {
-          p_service_id:serviceId,
-
-          p_order_details:{
-            source:"website"
-          }
-        }
-      );
-
-
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  const result =
-    Array.isArray(data)
-    ? data[0]
-    : data;
-
-
-  const delivery =
-    result?.delivery_information ||
-    result?.login_information ||
-    result?.message ||
-    "Your service purchase has been completed.";
-
-
-  $("serviceDeliveryBox").innerHTML=`
-
-    <div class="cred-line">
-
-      <b>
-        Delivery
-      </b>
-
-      <div>
-        ${escapeHtml(
-          delivery
-        ).replace(/\n/g,"<br>")}
-      </div>
-
-    </div>
-
-  `;
-
-
-  openModal(
-    "serviceDeliveryModal"
-  );
-
-  await loadWallet();
-
-  await loadServices();
-}
-
-
-/* =========================
-   FUNDING
-========================= */
-
-async function openFunding(){
-
-  if(!currentUser){
-
-    openAuth();
-
-    return;
-  }
-
-  $("fundAmount").value="";
-  $("fundReference").value="";
-  $("fundProof").value="";
-  $("fundMessage").textContent="";
-
-  await loadPaymentMethods();
-
-  openModal(
-    "fundingModal"
-  );
-}
-
-
-async function loadPaymentMethods(){
-
-  const box=
-    $("paymentMethodBox");
-
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("payment_methods")
-      .select(
-        "id,name,details"
-      )
-      .eq(
-        "is_active",
-        true
-      )
-      .order(
-        "created_at",
-        {ascending:true}
-      )
-      .limit(1);
-
-
-  if(error){
-
-    box.textContent =
-      error.message;
-
-    activePaymentMethod=null;
-
-    return;
-  }
-
-
-  activePaymentMethod =
-    data?.[0] || null;
-
-
-  if(!activePaymentMethod){
-
-    box.innerHTML =
-      "<b>No payment method is currently available.</b>";
-
-    return;
-  }
-
-
-  box.innerHTML=`
-
-    <b>
-      ${escapeHtml(
-        activePaymentMethod.name
-      )}
-    </b>
-
-    <br><br>
-
-    ${escapeHtml(
-      activePaymentMethod.details || ""
-    ).replace(/\n/g,"<br>")}
-
-  `;
-}
-
-
-async function submitFunding(){
-
-  if(!currentUser){
-
-    showToast(
-      "Please log in first",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(!activePaymentMethod){
-
-    $("fundMessage").textContent =
-      "No payment method is available.";
-
-    return;
-  }
-
-
-  const amount =
-    Number(
-      $("fundAmount").value
-    );
-
-  const reference =
-    $("fundReference")
-      .value
-      .trim() || null;
-
-  const file =
-    $("fundProof")
-      .files[0];
-
-
-  if(!amount || amount<=0){
-
-    $("fundMessage").textContent =
-      "Enter a valid amount.";
-
-    return;
-  }
-
-
-  if(!file){
-
-    $("fundMessage").textContent =
-      "Upload your payment proof screenshot.";
-
-    return;
-  }
-
-
-  $("fundMessage").textContent =
-    "Uploading proof...";
-
-
-  const safeName =
-    file.name.replace(
-      /[^a-zA-Z0-9._-]/g,
-      "_"
-    );
-
-
-  const path =
-    currentUser.id +
-    "/" +
-    Date.now() +
-    "_" +
-    safeName;
-
-
-  const upload =
-    await supabaseClient
-      .storage
-      .from(PAYMENT_PROOF_BUCKET)
-      .upload(
-        path,
-        file,
-        {
-          upsert:false,
-          contentType:file.type
-        }
-      );
-
-
-  if(upload.error){
-
-    $("fundMessage").textContent =
-      upload.error.message;
-
-    return;
-  }
-
-
-  $("fundMessage").textContent =
-    "Submitting request...";
-
-
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .rpc(
-        "create_funding_request_secure",
-        {
-          p_amount:amount,
-
-          p_payment_method:
-            activePaymentMethod.name,
-
-          p_payment_reference:
-            reference,
-
-          p_proof_url:
-            path
-        }
-      );
-
-
-  if(error){
-
-    $("fundMessage").textContent =
-      error.message;
-
-    return;
-  }
-
-
-  $("fundMessage").textContent =
-    "Funding request submitted successfully. Wait for admin approval.";
-
-
-  showToast(
-    "Funding request submitted",
-    "success"
-  );
-
-
-  setTimeout(
-    ()=>{
-      closeModal("fundingModal");
-    },
-    1200
-  );
 }
 
 
@@ -2657,87 +1782,43 @@ async function submitFunding(){
 
 async function loadAdmin(){
 
-  const admin =
-    await checkAdmin();
+  if(!isAdmin()){
 
-  if(!admin){
+    document.getElementById("adminAccessMessage").innerHTML=
+      `<div class="alert alert-error">
+        Admin access required.
+      </div>`;
 
-    $("adminNav")
-      .classList
-      .add("hidden");
-
-    showToast(
-      "Admin access required",
-      "error"
-    );
-
-    showSection("home");
+    document.getElementById("adminContent").classList.add("hidden");
 
     return;
   }
 
+  document.getElementById("adminAccessMessage").innerHTML="";
+  document.getElementById("adminContent").classList.remove("hidden");
 
-  const activeTab =
-    document.querySelector(
-      ".admin-tabs button.active"
-    )?.dataset.tab ||
-    "adminServices";
+  adminTab("services");
 
-
-  openAdminTab(
-    activeTab
-  );
+  await updateAdminStats();
 }
 
+function adminTab(tab){
 
-function openAdminTab(id){
-
-  document
-    .querySelectorAll(".admin-section")
-    .forEach(section=>{
-      section.classList.remove("active");
-    });
-
+  ["services","accounts","funding","wallets","orders"].forEach(name=>{
+    document
+      .getElementById("admin-"+name)
+      .classList.add("hidden");
+  });
 
   document
-    .querySelectorAll(".admin-tabs button")
-    .forEach(button=>{
-      button.classList.remove("active");
-    });
+    .getElementById("admin-"+tab)
+    .classList.remove("hidden");
 
-
-  $(id)
-    ?.classList
-    .add("active");
-
-
-  document
-    .querySelector(
-      `.admin-tabs button[data-tab="${id}"]`
-    )
-    ?.classList
-    .add("active");
-
-
-  if(id==="adminServices"){
-    loadAdminServices();
-  }
-
-  if(id==="adminAccounts"){
-    loadAdminAccounts();
-  }
-
-  if(id==="adminFunding"){
-    loadAdminFunding();
-  }
-
-  if(id==="adminWallets"){
-    loadAdminWallets();
-  }
-
-  if(id==="adminOrders"){
-    loadAdminOrders();
-  }
+  if(tab==="services")loadAdminServices();
+  if(tab==="accounts")loadAdminAccounts();
+  if(tab==="funding")loadAdminFunding();
+  if(tab==="wallets")loadAdminWallets();
+  if(tab==="orders")loadAdminOrders();
 }
 
 
@@ -2747,500 +1828,420 @@ function openAdminTab(id){
 
 async function loadAdminServices(){
 
-  const list =
-    $("adminServicesList");
+  const box=document.getElementById("admin-services");
 
+  box.innerHTML=
+    `<div class="admin-section">
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("services")
-      .select("*")
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap">
 
+        <h3>Services</h3>
 
-  if(error){
-
-    list.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
-
-    return;
-  }
-
-
-  if(!data?.length){
-
-    list.innerHTML =
-      '<div class="empty">No services yet.</div>';
-
-    populateAccountServiceSelect([]);
-
-    return;
-  }
-
-
-  populateAccountServiceSelect(
-    data
-  );
-
-
-  list.innerHTML =
-    data.map(service=>`
-
-      <div class="card">
-
-        <span class="status ${
-          service.active &&
-          service.available
-          ? ""
-          : "sold"
-        }">
-
-          ${
-            service.active &&
-            service.available
-            ? "ACTIVE"
-            : "HIDDEN"
-          }
-
-        </span>
-
-
-        <h3>
-          ${escapeHtml(
-            service.name
-          )}
-        </h3>
-
-
-        <p>
-          ${escapeHtml(
-            service.description || ""
-          )}
-        </p>
-
-
-        <div class="price">
-          ${formatNaira(
-            service.price
-          )}
-        </div>
-
-
-        <div class="muted">
-
-          ${escapeHtml(
-            service.platform || ""
-          )}
-
-          ·
-
-          ${escapeHtml(
-            service.category || ""
-          )}
-
-        </div>
-
-
-        <div class="actions">
-
-          <button
-            class="btn btn-secondary"
-            onclick='editService(${JSON.stringify(service)})'>
-            Edit
-          </button>
-
-
-          <button
-            class="btn ${
-              service.active &&
-              service.available
-              ? "btn-warning"
-              : "btn-success"
-            }"
-            onclick="toggleService(
-              '${service.id}',
-              ${service.active &&
-                service.available}
-            )">
-
-            ${
-              service.active &&
-              service.available
-              ? "Hide"
-              : "Activate"
-            }
-
-          </button>
-
-
-          <button
-            class="btn btn-danger"
-            onclick="deleteService('${service.id}')">
-
-            Delete
-
-          </button>
-
-        </div>
+        <button class="btn btn-primary btn-small" onclick="openAddService()">
+          + Add Service
+        </button>
 
       </div>
 
-    `).join("");
-}
+      <div class="loading">Loading...</div>
 
+    </div>`;
 
-function populateAccountServiceSelect(
-  services
-){
-
-  $("accountServiceSelect").innerHTML =
-
-    services
-      .filter(service=>service.active)
-      .map(service=>`
-
-        <option value="${service.id}">
-
-          ${escapeHtml(service.name)}
-
-          —
-
-          ${formatNaira(service.price)}
-
-        </option>
-
-      `).join("")
-
-      ||
-
-      '<option value="">No active services</option>';
-}
-
-
-async function addService(){
-
-  if(!(await checkAdmin())){
-
-    showToast(
-      "Admin access required",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const name =
-    $("serviceName")
-      .value
-      .trim();
-
-  const platform =
-    $("servicePlatform")
-      .value
-      .trim();
-
-  const category =
-    $("serviceCategory")
-      .value
-      .trim();
-
-  const price =
-    Number(
-      $("servicePrice").value
-    );
-
-  const description =
-    $("serviceDescription")
-      .value
-      .trim();
-
-  const delivery =
-    $("serviceDelivery")
-      .value
-      .trim();
-
-
-  if(!name || price<0){
-
-    showToast(
-      "Enter service name and valid price",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("services")
-      .insert({
-
-        name,
-
-        platform:
-          platform || null,
-
-        category:
-          category || null,
-
-        price,
-
-        description:
-          description || null,
-
-        delivery_information:
-          delivery || null,
-
-        active:true,
-
-        available:true
-
-      });
-
+  const {data,error}=await supabaseClient
+    .from("services")
+    .select("*")
+    .order("created_at",{ascending:false});
 
   if(error){
 
-    showToast(
-      error.message,
-      "error"
-    );
+    box.innerHTML+=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
+  if(!data || !data.length){
 
-  [
-    "serviceName",
-    "servicePlatform",
-    "serviceCategory",
-    "servicePrice",
-    "serviceDescription",
-    "serviceDelivery"
-  ].forEach(id=>{
-    $(id).value="";
-  });
+    box.innerHTML+=
+      `<div class="empty">No services found.</div>`;
 
+    return;
+  }
 
-  showToast(
-    "Service added",
-    "success"
-  );
+  box.innerHTML=`
 
+    <div class="admin-section">
 
-  loadAdminServices();
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap">
+
+        <h3>Services</h3>
+
+        <button class="btn btn-primary btn-small" onclick="openAddService()">
+          + Add Service
+        </button>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Platform</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${data.map(service=>`
+
+              <tr>
+
+                <td>
+                  <strong>${escapeHtml(service.name)}</strong>
+                </td>
+
+                <td>${naira(service.price)}</td>
+
+                <td>${escapeHtml(service.category || "-")}</td>
+
+                <td>${escapeHtml(service.platform || "-")}</td>
+
+                <td>
+                  ${service.active && service.available
+                    ? '<span class="badge">Active</span>'
+                    : '<span class="badge">Hidden</span>'
+                  }
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="btn btn-secondary btn-small"
+                      onclick='editService(${JSON.stringify(service)})'>
+                      Edit
+                    </button>
+
+                    <button
+                      class="btn btn-warning btn-small"
+                      onclick="toggleService('${service.id}',${service.active && service.available})">
+                      ${service.active && service.available ? "Hide" : "Activate"}
+                    </button>
+
+                    <button
+                      class="btn btn-danger btn-small"
+                      onclick="deleteService('${service.id}','${escapeHtml(service.name).replaceAll("'","\\'")}')">
+                      Delete
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  `;
 }
 
 
 /* =========================
-   EDIT SERVICE
+   FIXED SERVICE DELETE
 ========================= */
+
+async function deleteService(serviceId,serviceName){
+
+  if(!isAdmin()){
+    alert("Admin access required.");
+    return;
+  }
+
+  const confirmed=confirm(
+    `Delete "${serviceName}"?\n\n` +
+    `This will first remove the account stock attached to this service.\n\n` +
+    `Existing orders will be protected. If PostgreSQL detects existing order history, the service will NOT be destroyed.`
+  );
+
+  if(!confirmed)return;
+
+  try{
+
+    /*
+      STEP 1
+      Check whether account products exist.
+    */
+
+    const {data:accounts,error:accountsError}=await supabaseClient
+      .from("account_products")
+      .select("id,status")
+      .eq("service_id",serviceId);
+
+    if(accountsError)throw accountsError;
+
+    /*
+      STEP 2
+      If account products exist, delete them first.
+
+      This fixes:
+      account_products_service_id_fkey
+    */
+
+    if(accounts && accounts.length){
+
+      const {error:deleteAccountsError}=await supabaseClient
+        .from("account_products")
+        .delete()
+        .eq("service_id",serviceId);
+
+      if(deleteAccountsError){
+
+        /*
+          IMPORTANT:
+          Do not delete the service if existing order history
+          prevents deleting account products.
+        */
+
+        console.error(deleteAccountsError);
+
+        const {error:hiddenError}=await supabaseClient
+          .from("services")
+          .update({
+            active:false,
+            available:false,
+            updated_at:new Date().toISOString()
+          })
+          .eq("id",serviceId);
+
+        if(hiddenError){
+
+          alert(
+            "The service could not be deleted because existing account/order records depend on it.\n\n" +
+            "The service also could not be hidden automatically.\n\n" +
+            hiddenError.message
+          );
+
+        }else{
+
+          alert(
+            "The service has existing records that cannot be safely deleted.\n\n" +
+            "I have hidden/deactivated the service instead so customers cannot buy from it."
+          );
+        }
+
+        await loadAdminServices();
+        return;
+      }
+    }
+
+    /*
+      STEP 3
+      Now that account_products are gone,
+      delete the service.
+    */
+
+    const {error:serviceError}=await supabaseClient
+      .from("services")
+      .delete()
+      .eq("id",serviceId);
+
+    if(serviceError){
+
+      console.error(serviceError);
+
+      /*
+        Final safety fallback:
+        never destroy related history just to force deletion.
+      */
+
+      await supabaseClient
+        .from("services")
+        .update({
+          active:false,
+          available:false,
+          updated_at:new Date().toISOString()
+        })
+        .eq("id",serviceId);
+
+      alert(
+        "The service could not be permanently deleted because another database record depends on it.\n\n" +
+        "The service has been hidden instead.\n\n" +
+        serviceError.message
+      );
+
+      await loadAdminServices();
+      return;
+    }
+
+    alert(
+      `"${serviceName}" was deleted successfully.`
+    );
+
+    await loadAdminServices();
+    await updateAdminStats();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Delete failed:\n\n" +
+      (error.message || "Unknown database error")
+    );
+
+    await loadAdminServices();
+  }
+}
+
+
+/* =========================
+   ADD / EDIT SERVICE
+========================= */
+
+function openAddService(){
+
+  document.getElementById("serviceModalTitle").textContent="Add Service";
+
+  document.getElementById("serviceId").value="";
+  document.getElementById("serviceName").value="";
+  document.getElementById("serviceCategory").value="";
+  document.getElementById("servicePlatform").value="";
+  document.getElementById("servicePrice").value="";
+  document.getElementById("serviceDescription").value="";
+  document.getElementById("serviceDelivery").value="";
+
+  document.getElementById("serviceMessage").innerHTML="";
+
+  openModal("serviceModal");
+}
 
 function editService(service){
 
-  $("editServiceId").value =
-    service.id;
+  document.getElementById("serviceModalTitle").textContent="Edit Service";
 
-  $("editServiceName").value =
-    service.name || "";
+  document.getElementById("serviceId").value=service.id;
+  document.getElementById("serviceName").value=service.name || "";
+  document.getElementById("serviceCategory").value=service.category || "";
+  document.getElementById("servicePlatform").value=service.platform || "";
+  document.getElementById("servicePrice").value=service.price || "";
+  document.getElementById("serviceDescription").value=service.description || "";
+  document.getElementById("serviceDelivery").value=service.delivery_information || "";
 
-  $("editServicePrice").value =
-    service.price || 0;
+  document.getElementById("serviceMessage").innerHTML="";
 
-  $("editServicePlatform").value =
-    service.platform || "";
-
-  $("editServiceCategory").value =
-    service.category || "";
-
-  $("editServiceDescription").value =
-    service.description || "";
-
-  $("editServiceDelivery").value =
-    service.delivery_information || "";
-
-
-  openModal(
-    "editServiceModal"
-  );
+  openModal("serviceModal");
 }
 
+async function saveService(){
 
-async function saveServiceEdit(){
+  if(!isAdmin()){
+    showMessage("serviceMessage","Admin access required.");
+    return;
+  }
 
-  const id =
-    $("editServiceId").value;
-
+  const id=document.getElementById("serviceId").value;
 
   const payload={
-
-    name:
-      $("editServiceName")
-        .value
-        .trim(),
-
-    price:
-      Number(
-        $("editServicePrice").value
-      ),
-
-    platform:
-      $("editServicePlatform")
-        .value
-        .trim() || null,
-
-    category:
-      $("editServiceCategory")
-        .value
-        .trim() || null,
-
-    description:
-      $("editServiceDescription")
-        .value
-        .trim() || null,
-
-    delivery_information:
-      $("editServiceDelivery")
-        .value
-        .trim() || null
-
+    name:document.getElementById("serviceName").value.trim(),
+    category:document.getElementById("serviceCategory").value.trim() || null,
+    platform:document.getElementById("servicePlatform").value.trim() || null,
+    price:Number(document.getElementById("servicePrice").value || 0),
+    description:document.getElementById("serviceDescription").value.trim() || null,
+    delivery_information:document.getElementById("serviceDelivery").value.trim() || null,
+    updated_at:new Date().toISOString()
   };
 
-
-  if(!payload.name ||
-     payload.price<0){
-
-    showToast(
-      "Invalid service details",
-      "error"
-    );
-
+  if(!payload.name){
+    showMessage("serviceMessage","Service name is required.");
     return;
   }
 
+  try{
 
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("services")
-      .update(payload)
-      .eq("id",id);
+    let error;
 
+    if(id){
 
-  if(error){
+      const result=await supabaseClient
+        .from("services")
+        .update(payload)
+        .eq("id",id);
 
-    showToast(
-      error.message,
-      "error"
+      error=result.error;
+
+    }else{
+
+      const result=await supabaseClient
+        .from("services")
+        .insert({
+          ...payload,
+          active:true,
+          available:true
+        });
+
+      error=result.error;
+    }
+
+    if(error)throw error;
+
+    showMessage(
+      "serviceMessage",
+      "Service saved successfully.",
+      "success"
     );
 
-    return;
+    setTimeout(async()=>{
+      closeModal("serviceModal");
+      await loadAdminServices();
+      await updateAdminStats();
+    },500);
+
+  }catch(error){
+
+    showMessage(
+      "serviceMessage",
+      error.message || "Unable to save service."
+    );
   }
-
-
-  closeModal(
-    "editServiceModal"
-  );
-
-
-  showToast(
-    "Service updated",
-    "success"
-  );
-
-
-  loadAdminServices();
 }
 
+async function toggleService(id,currentActive){
 
-async function toggleService(
-  id,
-  isActive
-){
+  if(!isAdmin())return;
 
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("services")
-      .update({
-        active:!isActive,
-        available:!isActive
-      })
-      .eq("id",id);
-
+  const {error}=await supabaseClient
+    .from("services")
+    .update({
+      active:!currentActive,
+      available:!currentActive,
+      updated_at:new Date().toISOString()
+    })
+    .eq("id",id);
 
   if(error){
-
-    showToast(
-      error.message,
-      "error"
-    );
-
+    alert(error.message);
     return;
   }
 
-
-  showToast(
-    isActive
-      ? "Service hidden"
-      : "Service activated",
-    "success"
-  );
-
-
-  loadAdminServices();
-}
-
-
-async function deleteService(id){
-
-  if(!confirm(
-    "Delete this service? If it has account stock or orders linked to it, deletion may fail. Hiding the service is safer."
-  )){
-    return;
-  }
-
-
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("services")
-      .delete()
-      .eq("id",id);
-
-
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  showToast(
-    "Service deleted",
-    "success"
-  );
-
-
-  loadAdminServices();
+  await loadAdminServices();
+  await updateAdminStats();
 }
 
 
@@ -3248,357 +2249,287 @@ async function deleteService(id){
    ADMIN ACCOUNT STOCK
 ========================= */
 
-async function addAccountProduct(){
-
-  if(!(await checkAdmin())){
-
-    showToast(
-      "Admin access required",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const service_id =
-    $("accountServiceSelect")
-      .value;
-
-  const login =
-    $("newAccountLogin")
-      .value
-      .trim();
-
-  const password =
-    $("newAccountPassword")
-      .value;
-
-  const additional =
-    $("newAccountAdditional")
-      .value
-      .trim();
-
-
-  if(!service_id ||
-     !login ||
-     !password){
-
-    showToast(
-      "Select a service and enter login/password",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("account_products")
-      .insert({
-
-        service_id,
-
-        login,
-
-        password,
-
-        additional_login_info:
-          additional || null,
-
-        status:"available"
-
-      });
-
-
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  $("newAccountLogin").value="";
-  $("newAccountPassword").value="";
-  $("newAccountAdditional").value="";
-
-
-  showToast(
-    "Account added to inventory",
-    "success"
-  );
-
-
-  loadAdminAccounts();
-
-  loadAccounts();
-}
-
-
-/* =========================
-   ADMIN ACCOUNT LIST
-========================= */
-
 async function loadAdminAccounts(){
 
-  const list =
-    $("adminAccountsList");
+  const box=document.getElementById("admin-accounts");
 
+  box.innerHTML=
+    `<div class="admin-section">
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("account_products")
-      .select(
-        "id,service_id,login,password,additional_login_info,status,sold_to,sold_at,created_at,services(name,price)"
-      )
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap">
 
+        <h3>Account Stock</h3>
+
+        <button class="btn btn-primary btn-small" onclick="openAddAccount()">
+          + Add Account
+        </button>
+
+      </div>
+
+      <div class="loading">Loading...</div>
+
+    </div>`;
+
+  const {data,error}=await supabaseClient
+    .from("account_products")
+    .select("*")
+    .order("created_at",{ascending:false});
 
   if(error){
 
-    list.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
+    box.innerHTML+=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
+  if(!data || !data.length){
 
-  if(!data?.length){
-
-    list.innerHTML =
-      '<div class="empty">No account stock yet.</div>';
+    box.innerHTML+=
+      `<div class="empty">No account stock found.</div>`;
 
     return;
   }
 
+  const serviceMap={};
 
-  list.innerHTML=`
+  const {data:services}=await supabaseClient
+    .from("services")
+    .select("id,name");
 
-    <div class="table-wrap">
+  (services || []).forEach(s=>{
+    serviceMap[s.id]=s.name;
+  });
 
-      <table class="table">
+  box.innerHTML=`
 
-        <thead>
+    <div class="admin-section">
 
-          <tr>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap">
 
-            <th>Service</th>
-            <th>Login</th>
-            <th>Password</th>
-            <th>Status</th>
-            <th>Sold To</th>
-            <th>Actions</th>
+        <h3>Account Stock</h3>
 
-          </tr>
+        <button class="btn btn-primary btn-small" onclick="openAddAccount()">
+          + Add Account
+        </button>
 
-        </thead>
+      </div>
 
+      <div class="table-wrap">
 
-        <tbody>
+        <table>
 
-          ${data.map(account=>`
-
+          <thead>
             <tr>
-
-              <td>
-                ${escapeHtml(
-                  account.services?.name ||
-                  ""
-                )}
-              </td>
-
-
-              <td class="code">
-                ${escapeHtml(
-                  account.login
-                )}
-              </td>
-
-
-              <td class="code">
-                ${escapeHtml(
-                  account.password
-                )}
-              </td>
-
-
-              <td>
-
-                <span class="status ${
-                  account.status!=="available"
-                  ? "sold"
-                  : ""
-                }">
-
-                  ${escapeHtml(
-                    account.status ||
-                    ""
-                  )}
-
-                </span>
-
-              </td>
-
-
-              <td class="code">
-                ${escapeHtml(
-                  account.sold_to ||
-                  "—"
-                )}
-              </td>
-
-
-              <td>
-
-                <button
-                  class="btn btn-secondary"
-                  onclick='editAccount(${JSON.stringify(account)})'>
-
-                  Edit
-
-                </button>
-
-
-                <button
-                  class="btn btn-danger"
-                  onclick="deleteAccount('${account.id}')">
-
-                  Delete
-
-                </button>
-
-              </td>
-
+              <th>Service</th>
+              <th>Login</th>
+              <th>Password</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
+          </thead>
 
-          `).join("")}
+          <tbody>
 
-        </tbody>
+            ${data.map(account=>`
 
-      </table>
+              <tr>
+
+                <td>
+                  ${escapeHtml(serviceMap[account.service_id] || "Unknown")}
+                </td>
+
+                <td>
+                  ${escapeHtml(account.login)}
+                </td>
+
+                <td>
+                  ${escapeHtml(account.password)}
+                </td>
+
+                <td>
+                  <span class="badge">
+                    ${escapeHtml(account.status || "available")}
+                  </span>
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="btn btn-secondary btn-small"
+                      onclick='editAccount(${JSON.stringify(account)})'>
+                      Edit
+                    </button>
+
+                    <button
+                      class="btn btn-danger btn-small"
+                      onclick="deleteAccount('${account.id}')">
+                      Delete
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
 
     </div>
-
   `;
 }
 
+async function openAddAccount(){
 
-/* =========================
-   EDIT ACCOUNT
-========================= */
-
-function editAccount(account){
-
-  $("editAccountId").value =
-    account.id;
-
-  $("editAccountLogin").value =
-    account.login || "";
-
-  $("editAccountPassword").value =
-    account.password || "";
-
-  $("editAccountAdditional").value =
-    account.additional_login_info ||
-    "";
-
-
-  openModal(
-    "editAccountModal"
-  );
-}
-
-
-async function saveAccountEdit(){
-
-  const id =
-    $("editAccountId").value;
-
-
-  const payload={
-
-    login:
-      $("editAccountLogin")
-        .value
-        .trim(),
-
-    password:
-      $("editAccountPassword")
-        .value,
-
-    additional_login_info:
-      $("editAccountAdditional")
-        .value
-        .trim() || null
-
-  };
-
-
-  if(!payload.login ||
-     !payload.password){
-
-    showToast(
-      "Login and password are required",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("account_products")
-      .update(payload)
-      .eq("id",id);
-
+  const {data,error}=await supabaseClient
+    .from("services")
+    .select("id,name")
+    .order("name");
 
   if(error){
+    alert(error.message);
+    return;
+  }
 
-    showToast(
-      error.message,
-      "error"
+  document.getElementById("accountModalTitle").textContent="Add Account";
+
+  document.getElementById("accountId").value="";
+  document.getElementById("accountLogin").value="";
+  document.getElementById("accountPassword").value="";
+  document.getElementById("accountAdditional").value="";
+  document.getElementById("accountMessage").innerHTML="";
+
+  document.getElementById("accountService").innerHTML=
+    (data || []).map(service=>`
+      <option value="${service.id}">
+        ${escapeHtml(service.name)}
+      </option>
+    `).join("");
+
+  openModal("accountModal");
+}
+
+async function editAccount(account){
+
+  const {data,error}=await supabaseClient
+    .from("services")
+    .select("id,name")
+    .order("name");
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  document.getElementById("accountModalTitle").textContent="Edit Account";
+
+  document.getElementById("accountId").value=account.id;
+  document.getElementById("accountLogin").value=account.login || "";
+  document.getElementById("accountPassword").value=account.password || "";
+  document.getElementById("accountAdditional").value=account.additional_login_info || "";
+
+  document.getElementById("accountService").innerHTML=
+    (data || []).map(service=>`
+      <option
+        value="${service.id}"
+        ${service.id===account.service_id ? "selected" : ""}>
+        ${escapeHtml(service.name)}
+      </option>
+    `).join("");
+
+  document.getElementById("accountMessage").innerHTML="";
+
+  openModal("accountModal");
+}
+
+async function saveAccount(){
+
+  if(!isAdmin()){
+    showMessage("accountMessage","Admin access required.");
+    return;
+  }
+
+  const id=document.getElementById("accountId").value;
+
+  const payload={
+    service_id:document.getElementById("accountService").value,
+    login:document.getElementById("accountLogin").value.trim(),
+    password:document.getElementById("accountPassword").value,
+    additional_login_info:
+      document.getElementById("accountAdditional").value.trim() || null
+  };
+
+  if(!payload.service_id || !payload.login || !payload.password){
+
+    showMessage(
+      "accountMessage",
+      "Service, login and password are required."
     );
 
     return;
   }
 
+  try{
 
-  closeModal(
-    "editAccountModal"
-  );
+    let error;
 
+    if(id){
 
-  showToast(
-    "Account updated",
-    "success"
-  );
+      const result=await supabaseClient
+        .from("account_products")
+        .update(payload)
+        .eq("id",id);
 
+      error=result.error;
 
-  loadAdminAccounts();
+    }else{
 
-  loadAccounts();
+      const result=await supabaseClient
+        .from("account_products")
+        .insert({
+          ...payload,
+          status:"available"
+        });
+
+      error=result.error;
+    }
+
+    if(error)throw error;
+
+    showMessage(
+      "accountMessage",
+      "Account saved successfully.",
+      "success"
+    );
+
+    setTimeout(async()=>{
+      closeModal("accountModal");
+      await loadAdminAccounts();
+      await updateAdminStats();
+    },500);
+
+  }catch(error){
+
+    showMessage(
+      "accountMessage",
+      error.message || "Unable to save account."
+    );
+  }
 }
 
-
 async function deleteAccount(id){
+
+  if(!isAdmin())return;
 
   if(!confirm(
     "Delete this account stock item?"
@@ -3606,36 +2537,23 @@ async function deleteAccount(id){
     return;
   }
 
-
-  const {
-    error
-  }=
-    await supabaseClient
-      .from("account_products")
-      .delete()
-      .eq("id",id);
-
+  const {error}=await supabaseClient
+    .from("account_products")
+    .delete()
+    .eq("id",id);
 
   if(error){
 
-    showToast(
-      error.message,
-      "error"
+    alert(
+      "This account cannot be deleted because another record depends on it.\n\n" +
+      error.message
     );
 
     return;
   }
 
-
-  showToast(
-    "Account deleted",
-    "success"
-  );
-
-
-  loadAdminAccounts();
-
-  loadAccounts();
+  await loadAdminAccounts();
+  await updateAdminStats();
 }
 
 
@@ -3645,298 +2563,193 @@ async function deleteAccount(id){
 
 async function loadAdminFunding(){
 
-  const list =
-    $("adminFundingList");
+  const box=document.getElementById("admin-funding");
 
+  box.innerHTML=
+    `<div class="admin-section">
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .rpc(
-        "get_admin_funding_requests"
-      );
+      <h3 style="margin-bottom:15px">
+        Funding Requests
+      </h3>
 
+      <div class="loading">Loading...</div>
+
+    </div>`;
+
+  const {data,error}=await supabaseClient.rpc(
+    "get_admin_funding_requests"
+  );
 
   if(error){
 
-    list.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
+    box.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
+  if(!data || !data.length){
 
-  if(!data?.length){
-
-    list.innerHTML =
-      '<div class="empty">No funding requests.</div>';
+    box.innerHTML=
+      `<div class="empty">
+        No funding requests found.
+      </div>`;
 
     return;
   }
 
+  box.innerHTML=`
 
-  list.innerHTML=`
+    <div class="admin-section">
 
-    <div class="table-wrap">
+      <h3 style="margin-bottom:15px">
+        Funding Requests
+      </h3>
 
-      <table class="table">
+      <div class="table-wrap">
 
-        <thead>
+        <table>
 
-          <tr>
-
-            <th>Date</th>
-            <th>User</th>
-            <th>Amount</th>
-            <th>Method</th>
-            <th>Reference</th>
-            <th>Status</th>
-            <th>Proof</th>
-            <th>Action</th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          ${data.map(request=>`
-
+          <thead>
             <tr>
-
-              <td>
-                ${new Date(
-                  request.created_at
-                ).toLocaleString()}
-              </td>
-
-
-              <td class="code">
-                ${escapeHtml(
-                  request.user_id
-                )}
-              </td>
-
-
-              <td>
-                ${formatNaira(
-                  request.amount
-                )}
-              </td>
-
-
-              <td>
-                ${escapeHtml(
-                  request.payment_method ||
-                  ""
-                )}
-              </td>
-
-
-              <td>
-                ${escapeHtml(
-                  request.payment_reference ||
-                  "—"
-                )}
-              </td>
-
-
-              <td>
-
-                <span class="status ${
-                  request.status!=="pending"
-                  ? "sold"
-                  : "pending"
-                }">
-
-                  ${escapeHtml(
-                    request.status
-                  )}
-
-                </span>
-
-              </td>
-
-
-              <td>
-
-                ${
-                  request.proof_url
-
-                  ?
-
-                  `
-                  <button
-                    class="btn btn-secondary"
-                    onclick="viewPaymentProof('${encodeURIComponent(request.proof_url)}')">
-
-                    View
-
-                  </button>
-                  `
-
-                  :
-
-                  "—"
-                }
-
-              </td>
-
-
-              <td>
-
-                ${
-                  request.status==="pending"
-
-                  ?
-
-                  `
-                  <button
-                    class="btn btn-success"
-                    onclick="approveFunding('${request.id}',true)">
-
-                    Approve
-
-                  </button>
-
-                  <button
-                    class="btn btn-danger"
-                    onclick="approveFunding('${request.id}',false)">
-
-                    Reject
-
-                  </button>
-                  `
-
-                  :
-
-                  "Processed"
-                }
-
-              </td>
-
+              <th>Amount</th>
+              <th>User</th>
+              <th>Method</th>
+              <th>Reference</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Action</th>
             </tr>
+          </thead>
 
-          `).join("")}
+          <tbody>
 
-        </tbody>
+            ${data.map(row=>`
 
-      </table>
+              <tr>
+
+                <td>
+                  <strong>${naira(row.amount)}</strong>
+                </td>
+
+                <td>
+                  ${escapeHtml(row.user_id)}
+                </td>
+
+                <td>
+                  ${escapeHtml(row.payment_method || "-")}
+                </td>
+
+                <td>
+                  ${escapeHtml(row.payment_reference || "-")}
+                </td>
+
+                <td>
+                  <span class="badge">
+                    ${escapeHtml(row.status || "pending")}
+                  </span>
+                </td>
+
+                <td>
+                  ${new Date(row.created_at).toLocaleString()}
+                </td>
+
+                <td>
+
+                  ${
+                    row.status==="pending"
+                    ?
+                    `<div class="actions">
+
+                      <button
+                        class="btn btn-primary btn-small"
+                        onclick="processFunding('${row.id}',true)">
+                        Approve
+                      </button>
+
+                      <button
+                        class="btn btn-danger btn-small"
+                        onclick="processFunding('${row.id}',false)">
+                        Reject
+                      </button>
+
+                    </div>`
+                    :
+                    "-"
+                  }
+
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
 
     </div>
-
   `;
 }
 
+async function processFunding(id,approve){
 
-async function viewPaymentProof(
-  encodedPath
-){
+  if(!isAdmin())return;
 
-  const path =
-    decodeURIComponent(
-      encodedPath
-    );
+  let note="";
 
+  if(!approve){
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .storage
-      .from(PAYMENT_PROOF_BUCKET)
-      .createSignedUrl(
-        path,
-        600
-      );
+    note=prompt(
+      "Optional rejection note:"
+    ) || "";
+  }
 
+  const message=approve
+    ? "Approve this funding request?"
+    : "Reject this funding request?";
 
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
-    );
-
+  if(!confirm(message)){
     return;
   }
 
+  try{
 
-  window.open(
-    data.signedUrl,
-    "_blank",
-    "noopener"
-  );
-}
+    const {data,error}=await supabaseClient.rpc(
+      "approve_funding_secure",
+      {
+        p_request_id:id,
+        p_approve:approve,
+        p_admin_note:note || null
+      }
+    );
 
+    if(error)throw error;
 
-async function approveFunding(
-  id,
-  approve
-){
+    const result=Array.isArray(data) ? data[0] : data;
 
-  const note =
-    prompt(
+    alert(
       approve
-      ? "Admin note (optional):"
-      : "Reason for rejection (optional):"
-    ) || null;
-
-
-  if(!confirm(
-    approve
-    ? "Approve this funding request and credit the wallet?"
-    : "Reject this funding request?"
-  )){
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .rpc(
-        "approve_funding_secure",
-        {
-          p_request_id:id,
-
-          p_approve:approve,
-
-          p_admin_note:note
-        }
-      );
-
-
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
+        ? `Funding approved.\nAmount: ${naira(result?.amount || 0)}`
+        : "Funding request rejected."
     );
 
-    return;
+    await loadAdminFunding();
+    await updateAdminStats();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Funding action failed:\n\n" +
+      (error.message || "Unknown error")
+    );
   }
-
-
-  showToast(
-    approve
-      ? "Funding approved and wallet credited"
-      : "Funding rejected",
-    "success"
-  );
-
-
-  loadAdminFunding();
-
-  loadAdminWallets();
 }
 
 
@@ -3946,188 +2759,145 @@ async function approveFunding(
 
 async function loadAdminWallets(){
 
-  const list =
-    $("adminWalletsList");
+  const box=document.getElementById("admin-wallets");
 
+  box.innerHTML=
+    `<div class="loading">Loading wallets...</div>`;
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("profiles")
-      .select(
-        "id,email,full_name,wallet_balance"
-      )
-      .order("email");
-
+  const {data,error}=await supabaseClient
+    .from("profiles")
+    .select("id,email,full_name,wallet_balance")
+    .order("created_at",{ascending:false});
 
   if(error){
 
-    list.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
+    box.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
+  if(!data || !data.length){
 
-  list.innerHTML=`
+    box.innerHTML=
+      `<div class="empty">No profiles found.</div>`;
 
-    <div class="table-wrap">
+    return;
+  }
 
-      <table class="table">
+  box.innerHTML=`
 
-        <thead>
+    <div class="admin-section">
 
-          <tr>
+      <h3 style="margin-bottom:15px">
+        Customer Wallets
+      </h3>
 
-            <th>Email</th>
-            <th>Name</th>
-            <th>Balance</th>
-            <th>Adjust</th>
+      <div class="table-wrap">
 
-          </tr>
+        <table>
 
-        </thead>
-
-
-        <tbody>
-
-          ${(data||[]).map(profile=>`
-
+          <thead>
             <tr>
-
-              <td>
-                ${escapeHtml(
-                  profile.email || ""
-                )}
-              </td>
-
-
-              <td>
-                ${escapeHtml(
-                  profile.full_name || ""
-                )}
-              </td>
-
-
-              <td>
-                ${formatNaira(
-                  profile.wallet_balance
-                )}
-              </td>
-
-
-              <td>
-
-                <button
-                  class="btn btn-secondary"
-                  onclick="adjustWallet(
-                    '${profile.id}',
-                    ${Number(
-                      profile.wallet_balance || 0
-                    )}
-                  )">
-
-                  Adjust
-
-                </button>
-
-              </td>
-
+              <th>Email</th>
+              <th>Name</th>
+              <th>Balance</th>
+              <th>Action</th>
             </tr>
+          </thead>
 
-          `).join("")}
+          <tbody>
 
-        </tbody>
+            ${data.map(user=>`
 
-      </table>
+              <tr>
+
+                <td>
+                  ${escapeHtml(user.email || "-")}
+                </td>
+
+                <td>
+                  ${escapeHtml(user.full_name || "-")}
+                </td>
+
+                <td>
+                  <strong>${naira(user.wallet_balance)}</strong>
+                </td>
+
+                <td>
+
+                  <button
+                    class="btn btn-primary btn-small"
+                    onclick="adjustWallet('${user.id}','${escapeHtml(user.email || user.id).replaceAll("'","\\'")}')">
+                    Adjust
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
 
     </div>
-
   `;
 }
 
+async function adjustWallet(userId,label){
 
-async function adjustWallet(
-  userId,
-  balance
-){
+  if(!isAdmin())return;
 
-  const amount =
-    prompt(
-      "Enter adjustment amount. Use a negative number to deduct:",
-      "0"
-    );
-
-
-  if(amount===null){
-    return;
-  }
-
-
-  const n=Number(amount);
-
-
-  if(
-    !Number.isFinite(n) ||
-    n===0
-  ){
-
-    showToast(
-      "Enter a valid non-zero amount",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const description =
-    prompt(
-      "Description:",
-      "Admin wallet adjustment"
-    ) ||
-    "Admin wallet adjustment";
-
-
-  const {
-    error
-  }=
-    await supabaseClient
-      .rpc(
-        "admin_adjust_wallet",
-        {
-          p_user_id:userId,
-          p_amount:n,
-          p_description:description,
-          p_reference:null
-        }
-      );
-
-
-  if(error){
-
-    showToast(
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  showToast(
-    "Wallet adjusted",
-    "success"
+  const amountInput=prompt(
+    `Enter wallet adjustment for ${label}.\n\n` +
+    `Use a positive number to credit.\n` +
+    `Use a negative number to debit.`
   );
 
+  if(amountInput===null)return;
 
-  loadAdminWallets();
+  const amount=Number(amountInput);
 
-  loadWallet();
+  if(!Number.isFinite(amount) || amount===0){
+
+    alert("Enter a valid non-zero amount.");
+    return;
+  }
+
+  const description=prompt(
+    "Reason for this wallet adjustment:"
+  ) || "Admin wallet adjustment";
+
+  try{
+
+    const {error}=await supabaseClient.rpc(
+      "admin_adjust_wallet",
+      {
+        p_user_id:userId,
+        p_amount:amount,
+        p_description:description,
+        p_reference:null
+      }
+    );
+
+    if(error)throw error;
+
+    alert("Wallet updated successfully.");
+
+    await loadAdminWallets();
+
+  }catch(error){
+
+    alert(
+      error.message || "Wallet adjustment failed."
+    );
+  }
 }
 
 
@@ -4137,173 +2907,183 @@ async function adjustWallet(
 
 async function loadAdminOrders(){
 
-  const list =
-    $("adminOrdersList");
+  const box=document.getElementById("admin-orders");
 
+  box.innerHTML=
+    `<div class="loading">Loading orders...</div>`;
 
-  const {
-    data,
-    error
-  }=
-    await supabaseClient
-      .from("orders")
-      .select(
-        "id,user_id,product_name,amount,payment_method,status,login_information,created_at,service_id,account_product_id,completed_at"
-      )
-      .order(
-        "created_at",
-        {ascending:false}
-      );
-
+  const {data,error}=await supabaseClient
+    .from("orders")
+    .select("*")
+    .order("created_at",{ascending:false});
 
   if(error){
 
-    list.innerHTML =
-      '<div class="empty">'+
-      escapeHtml(error.message)+
-      '</div>';
+    box.innerHTML=
+      `<div class="alert alert-error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
 
+  if(!data || !data.length){
 
-  if(!data?.length){
-
-    list.innerHTML =
-      '<div class="empty">No orders yet.</div>';
+    box.innerHTML=
+      `<div class="empty">No orders found.</div>`;
 
     return;
   }
 
+  box.innerHTML=`
 
-  list.innerHTML=`
+    <div class="admin-section">
 
-    <div class="table-wrap">
+      <h3 style="margin-bottom:15px">
+        Orders
+      </h3>
 
-      <table class="table">
+      <div class="table-wrap">
 
-        <thead>
+        <table>
 
-          <tr>
-
-            <th>Date</th>
-            <th>User</th>
-            <th>Product</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Account Product</th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          ${data.map(order=>`
-
+          <thead>
             <tr>
-
-              <td>
-                ${new Date(
-                  order.created_at
-                ).toLocaleString()}
-              </td>
-
-
-              <td class="code">
-                ${escapeHtml(
-                  order.user_id
-                )}
-              </td>
-
-
-              <td>
-                ${escapeHtml(
-                  order.product_name || ""
-                )}
-              </td>
-
-
-              <td>
-                ${formatNaira(
-                  order.amount
-                )}
-              </td>
-
-
-              <td>
-                ${escapeHtml(
-                  order.status || ""
-                )}
-              </td>
-
-
-              <td class="code">
-                ${escapeHtml(
-                  order.account_product_id ||
-                  "—"
-                )}
-              </td>
-
+              <th>Product</th>
+              <th>Amount</th>
+              <th>User</th>
+              <th>Status</th>
+              <th>Date</th>
             </tr>
+          </thead>
 
-          `).join("")}
+          <tbody>
 
-        </tbody>
+            ${data.map(order=>`
 
-      </table>
+              <tr>
+
+                <td>
+                  ${escapeHtml(order.product_name || "-")}
+                </td>
+
+                <td>
+                  ${naira(order.amount)}
+                </td>
+
+                <td>
+                  ${escapeHtml(order.user_id || "-")}
+                </td>
+
+                <td>
+                  <span class="badge">
+                    ${escapeHtml(order.status || "-")}
+                  </span>
+                </td>
+
+                <td>
+                  ${new Date(order.created_at).toLocaleString()}
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
 
     </div>
-
   `;
 }
 
 
 /* =========================
-   SUPPORT
+   ADMIN STATS
 ========================= */
 
-function openWhatsApp(){
+async function updateAdminStats(){
 
-  window.open(
-    "https://wa.me/"+ADMIN_WHATSAPP,
-    "_blank",
-    "noopener"
-  );
+  if(!isAdmin())return;
+
+  const {count:services}=await supabaseClient
+    .from("services")
+    .select("*",{count:"exact",head:true});
+
+  const {count:accounts}=await supabaseClient
+    .from("account_products")
+    .select("*",{count:"exact",head:true})
+    .eq("status","available");
+
+  const {count:funding}=await supabaseClient
+    .from("funding_requests")
+    .select("*",{count:"exact",head:true})
+    .eq("status","pending");
+
+  const {count:orders}=await supabaseClient
+    .from("orders")
+    .select("*",{count:"exact",head:true});
+
+  document.getElementById("statServices").textContent=
+    services || 0;
+
+  document.getElementById("statAccounts").textContent=
+    accounts || 0;
+
+  document.getElementById("statFunding").textContent=
+    funding || 0;
+
+  document.getElementById("statOrders").textContent=
+    orders || 0;
 }
 
 
 /* =========================
-   AUTH LISTENER
+   START
 ========================= */
+
+async function start(){
+
+  const {
+    data:{
+      session
+    }
+  }=await supabaseClient.auth.getSession();
+
+  if(session){
+    currentUser=session.user;
+    await loadProfile();
+  }
+
+  updateHeader();
+
+  showPage("home");
+}
 
 supabaseClient.auth.onAuthStateChange(
-  ()=>{
-    setTimeout(
-      loadAccount,
-      0
-    );
+  async(event,session)=>{
+
+    if(session){
+
+      currentUser=session.user;
+
+      setTimeout(async()=>{
+        await loadProfile();
+        updateHeader();
+      },0);
+
+    }else{
+
+      currentUser=null;
+      currentProfile=null;
+      updateHeader();
+    }
   }
 );
 
-
-/* =========================
-   INITIAL LOAD
-========================= */
-
-window.addEventListener(
-  "load",
-  async()=>{
-
-    await loadAccount();
-
-    await loadServices();
-
-    await loadAccounts();
-
-  }
-);
+start();
 
 </script>
 
