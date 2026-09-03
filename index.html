@@ -125,8 +125,15 @@ main{
 }
 
 @keyframes fade{
-  from{opacity:0;transform:translateY(4px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(4px)
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0)
+  }
 }
 
 .hero{
@@ -220,12 +227,14 @@ main{
 }
 
 @media(max-width:900px){
+
   .grid{
     grid-template-columns:repeat(2,1fr);
   }
 }
 
 @media(max-width:600px){
+
   .grid{
     grid-template-columns:1fr;
   }
@@ -398,6 +407,7 @@ textarea{
 }
 
 @media(max-width:800px){
+
   .stat-grid{
     grid-template-columns:repeat(2,1fr);
   }
@@ -518,6 +528,7 @@ hr{
 <body>
 
 <header>
+
   <div class="container navbar">
 
     <div class="logo">
@@ -585,9 +596,12 @@ hr{
     </div>
 
   </div>
+
 </header>
 
+
 <main class="container">
+
 
 <section id="page-home" class="page">
 
@@ -629,32 +643,50 @@ hr{
 
   </div>
 
+
   <div class="section-title">
+
     <h2>Why Benjo-SMS?</h2>
-    <p>Simple digital marketplace experience.</p>
+
+    <p>
+      Simple digital marketplace experience.
+    </p>
+
   </div>
+
 
   <div class="grid">
 
     <div class="card">
+
       <h3>⚡ Fast Delivery</h3>
+
       <p>
         Purchase available digital products directly from your wallet.
       </p>
+
     </div>
 
+
     <div class="card">
+
       <h3>🔐 Secure Wallet</h3>
+
       <p>
         Your purchases are processed through your wallet balance.
       </p>
+
     </div>
 
+
     <div class="card">
+
       <h3>📜 Purchase History</h3>
+
       <p>
         Keep track of your orders and wallet transactions.
       </p>
+
     </div>
 
   </div>
@@ -665,14 +697,21 @@ hr{
 <section id="page-services" class="page hidden">
 
   <div class="section-title">
+
     <h2>Services</h2>
+
     <p>
       Choose a service to view its available stock.
     </p>
+
   </div>
 
   <div id="servicesList" class="grid">
-    <div class="loading">Loading services...</div>
+
+    <div class="loading">
+      Loading services...
+    </div>
+
   </div>
 
 </section>
@@ -683,11 +722,13 @@ hr{
   <div class="section-title">
 
     <div class="actions">
+
       <button
         class="btn btn-secondary btn-small"
         onclick="showPage('services')">
         ← Back to Services
       </button>
+
     </div>
 
     <h2 id="selectedServiceTitle">
@@ -700,10 +741,13 @@ hr{
 
   </div>
 
+
   <div id="serviceAccountsList" class="grid">
+
     <div class="loading">
       Loading accounts...
     </div>
+
   </div>
 
 </section>
@@ -712,13 +756,21 @@ hr{
 <section id="page-wallet" class="page hidden">
 
   <div class="section-title">
+
     <h2>Wallet</h2>
-    <p>Fund your wallet and view your wallet activity.</p>
+
+    <p>
+      Fund your wallet and view your wallet activity.
+    </p>
+
   </div>
+
 
   <div class="card" style="margin-bottom:18px">
 
-    <h3>Current Balance</h3>
+    <h3>
+      Current Balance
+    </h3>
 
     <div
       id="walletBalanceLarge"
@@ -734,14 +786,22 @@ hr{
 
   </div>
 
+
   <div class="section-title">
-    <h2>Wallet Transactions</h2>
+
+    <h2>
+      Wallet Transactions
+    </h2>
+
   </div>
 
+
   <div id="walletTransactions">
+
     <div class="loading">
       Loading transactions...
     </div>
+
   </div>
 
 </section>
@@ -750,16 +810,24 @@ hr{
 <section id="page-history" class="page hidden">
 
   <div class="section-title">
-    <h2>Purchase History</h2>
+
+    <h2>
+      Purchase History
+    </h2>
+
     <p>
       Your previous purchases and order details.
     </p>
+
   </div>
 
+
   <div id="historyList">
+
     <div class="loading">
       Loading history...
     </div>
+
   </div>
 
 </section>
@@ -768,30 +836,69 @@ hr{
 <section id="page-admin" class="page hidden">
 
   <div class="section-title">
-    <h2>Admin Panel</h2>
-    <p>Manage services, accounts, deposits and orders.</p>
+
+    <h2>
+      Admin Panel
+    </h2>
+
+    <p>
+      Manage services, accounts, deposits and orders.
+    </p>
+
   </div>
+
 
   <div class="stat-grid">
 
     <div class="stat">
-      <small>Services</small>
-      <strong id="statServices">0</strong>
+
+      <small>
+        Services
+      </small>
+
+      <strong id="statServices">
+        0
+      </strong>
+
     </div>
 
-    <div class="stat">
-      <small>Available Accounts</small>
-      <strong id="statAvailableAccounts">0</strong>
-    </div>
 
     <div class="stat">
-      <small>Sold Accounts</small>
-      <strong id="statSoldAccounts">0</strong>
+
+      <small>
+        Available Accounts
+      </small>
+
+      <strong id="statAvailableAccounts">
+        0
+      </strong>
+
     </div>
 
+
     <div class="stat">
-      <small>Pending Funding</small>
-      <strong id="statPendingFunding">0</strong>
+
+      <small>
+        Sold Accounts
+      </small>
+
+      <strong id="statSoldAccounts">
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+      <small>
+        Pending Funding
+      </small>
+
+      <strong id="statPendingFunding">
+        0
+      </strong>
+
     </div>
 
   </div>
@@ -800,11 +907,17 @@ hr{
   <div class="card" style="margin-bottom:18px">
 
     <div class="section-title">
-      <h2>Service Management</h2>
+
+      <h2>
+        Service Management
+      </h2>
+
       <p>
         Hide services without deleting them.
       </p>
+
     </div>
+
 
     <button
       class="btn"
@@ -812,12 +925,15 @@ hr{
       + Add Service
     </button>
 
+
     <div
       id="adminServicesList"
       style="margin-top:18px">
+
       <div class="loading">
         Loading services...
       </div>
+
     </div>
 
   </div>
@@ -826,12 +942,18 @@ hr{
   <div class="card" style="margin-bottom:18px">
 
     <div class="section-title">
-      <h2>Account Stock</h2>
+
+      <h2>
+        Account Stock
+      </h2>
+
       <p>
         Accounts belong to a specific service.
         Sold accounts remain recorded.
       </p>
+
     </div>
+
 
     <button
       class="btn"
@@ -839,12 +961,15 @@ hr{
       + Add Account
     </button>
 
+
     <div
       id="adminAccountsList"
       style="margin-top:18px">
+
       <div class="loading">
         Loading account stock...
       </div>
+
     </div>
 
   </div>
@@ -853,16 +978,24 @@ hr{
   <div class="card" style="margin-bottom:18px">
 
     <div class="section-title">
-      <h2>Funding Requests</h2>
+
+      <h2>
+        Funding Requests
+      </h2>
+
       <p>
         Approve or reject customer wallet funding.
       </p>
+
     </div>
 
+
     <div id="adminFundingList">
+
       <div class="loading">
         Loading funding requests...
       </div>
+
     </div>
 
   </div>
@@ -871,16 +1004,24 @@ hr{
   <div class="card" style="margin-bottom:18px">
 
     <div class="section-title">
-      <h2>Orders</h2>
+
+      <h2>
+        Orders
+      </h2>
+
       <p>
         View customer purchases.
       </p>
+
     </div>
 
+
     <div id="adminOrdersList">
+
       <div class="loading">
         Loading orders...
       </div>
+
     </div>
 
   </div>
@@ -889,16 +1030,24 @@ hr{
   <div class="card">
 
     <div class="section-title">
-      <h2>Payment Method</h2>
+
+      <h2>
+        Payment Method
+      </h2>
+
       <p>
         Active payment method shown to customers when funding.
       </p>
+
     </div>
 
+
     <div id="adminPaymentMethod">
+
       <div class="loading">
         Loading payment method...
       </div>
+
     </div>
 
   </div>
@@ -909,18 +1058,26 @@ hr{
 
 
 <footer>
+
   <div class="container">
+
     Benjo-SMS © 2026 · Support:
+
     <a
       href="https://wa.me/2348165405921"
       target="_blank"
       style="color:#6f9cff">
       WhatsApp
     </a>
+
     · Telegram @benjosms
+
   </div>
+
 </footer>
 
+
+<!-- AUTH MODAL -->
 
 <div
   id="authModal"
@@ -929,14 +1086,19 @@ hr{
   <div class="modal-box">
 
     <div class="modal-header">
-      <h2 id="authTitle">Login</h2>
+
+      <h2 id="authTitle">
+        Login
+      </h2>
 
       <button
         class="close"
         onclick="closeModal('authModal')">
         ×
       </button>
+
     </div>
+
 
     <form
       id="authForm"
@@ -944,43 +1106,69 @@ hr{
       onsubmit="submitAuth(event)">
 
       <div>
-        <label>Email</label>
+
+        <label>
+          Email
+        </label>
+
         <input
           id="authEmail"
           type="email"
           required
           placeholder="you@example.com">
+
       </div>
 
+
       <div>
-        <label>Password</label>
+
+        <label>
+          Password
+        </label>
+
         <input
           id="authPassword"
           type="password"
           required
           minlength="6"
           placeholder="••••••••">
+
       </div>
 
-      <div id="registerFields" class="hidden">
+
+      <div
+        id="registerFields"
+        class="hidden">
 
         <div style="margin-bottom:12px">
-          <label>Full Name</label>
+
+          <label>
+            Full Name
+          </label>
+
           <input
             id="authName"
             type="text"
             placeholder="Your name">
+
         </div>
 
+
         <div>
-          <label>Phone</label>
+
+          <label>
+            Phone
+          </label>
+
           <input
             id="authPhone"
             type="tel"
             placeholder="08012345678">
+
         </div>
 
       </div>
+
 
       <button
         id="authSubmit"
@@ -990,6 +1178,7 @@ hr{
       </button>
 
     </form>
+
 
     <div style="text-align:center;margin-top:15px">
 
@@ -1003,8 +1192,11 @@ hr{
     </div>
 
   </div>
+
 </div>
 
+
+<!-- FUNDING MODAL -->
 
 <div
   id="fundingModal"
@@ -1013,14 +1205,19 @@ hr{
   <div class="modal-box">
 
     <div class="modal-header">
-      <h2>Fund Wallet</h2>
+
+      <h2>
+        Fund Wallet
+      </h2>
 
       <button
         class="close"
         onclick="closeModal('fundingModal')">
         ×
       </button>
+
     </div>
+
 
     <div
       id="paymentMethodBox"
@@ -1028,12 +1225,16 @@ hr{
       Loading payment details...
     </div>
 
+
     <form
       class="form"
       onsubmit="submitFunding(event)">
 
       <div>
-        <label>Amount (₦)</label>
+
+        <label>
+          Amount (₦)
+        </label>
 
         <input
           id="fundAmount"
@@ -1042,26 +1243,38 @@ hr{
           step="1"
           required
           placeholder="5000">
+
       </div>
 
+
       <div>
-        <label>Payment Reference</label>
+
+        <label>
+          Payment Reference
+        </label>
 
         <input
           id="fundReference"
           type="text"
           placeholder="Optional transaction reference">
+
       </div>
 
+
       <div>
-        <label>Payment Proof Screenshot</label>
+
+        <label>
+          Payment Proof Screenshot
+        </label>
 
         <input
           id="fundProof"
           type="file"
           accept="image/*"
           required>
+
       </div>
+
 
       <button
         class="btn"
@@ -1072,8 +1285,11 @@ hr{
     </form>
 
   </div>
+
 </div>
 
+
+<!-- PURCHASE MODAL -->
 
 <div
   id="purchaseModal"
@@ -1082,16 +1298,22 @@ hr{
   <div class="modal-box">
 
     <div class="modal-header">
-      <h2>Confirm Purchase</h2>
+
+      <h2>
+        Confirm Purchase
+      </h2>
 
       <button
         class="close"
         onclick="closeModal('purchaseModal')">
         ×
       </button>
+
     </div>
 
+
     <div id="purchaseDetails"></div>
+
 
     <div class="actions">
 
@@ -1101,18 +1323,22 @@ hr{
         Cancel
       </button>
 
+
       <button
         id="confirmPurchaseBtn"
         class="btn btn-success"
         onclick="confirmAccountPurchase()">
-        Buy Account
+        Pay & Get Account
       </button>
 
     </div>
 
   </div>
+
 </div>
 
+
+<!-- SERVICE MODAL -->
 
 <div
   id="serviceModal"
@@ -1121,6 +1347,7 @@ hr{
   <div class="modal-box">
 
     <div class="modal-header">
+
       <h2 id="serviceModalTitle">
         Add Service
       </h2>
@@ -1130,7 +1357,9 @@ hr{
         onclick="closeModal('serviceModal')">
         ×
       </button>
+
     </div>
+
 
     <form
       class="form"
@@ -1140,33 +1369,52 @@ hr{
         id="serviceId"
         type="hidden">
 
+
       <div>
-        <label>Service Name</label>
+
+        <label>
+          Service Name
+        </label>
 
         <input
           id="serviceName"
           required
           placeholder="Facebook Account">
+
       </div>
 
+
       <div>
-        <label>Platform</label>
+
+        <label>
+          Platform
+        </label>
 
         <input
           id="servicePlatform"
           placeholder="Facebook">
+
       </div>
 
+
       <div>
-        <label>Category</label>
+
+        <label>
+          Category
+        </label>
 
         <input
           id="serviceCategory"
           placeholder="Account">
+
       </div>
 
+
       <div>
-        <label>Price (₦)</label>
+
+        <label>
+          Price (₦)
+        </label>
 
         <input
           id="servicePrice"
@@ -1175,23 +1423,35 @@ hr{
           step="0.01"
           required
           placeholder="5000">
+
       </div>
 
+
       <div>
-        <label>Description</label>
+
+        <label>
+          Description
+        </label>
 
         <textarea
           id="serviceDescription"
           placeholder="Service description"></textarea>
+
       </div>
 
+
       <div>
-        <label>Delivery Information</label>
+
+        <label>
+          Delivery Information
+        </label>
 
         <textarea
           id="serviceDelivery"
           placeholder="Delivery information"></textarea>
+
       </div>
+
 
       <button
         class="btn"
@@ -1202,8 +1462,11 @@ hr{
     </form>
 
   </div>
+
 </div>
 
+
+<!-- ACCOUNT MODAL -->
 
 <div
   id="accountModal"
@@ -1225,6 +1488,7 @@ hr{
 
     </div>
 
+
     <form
       class="form"
       onsubmit="saveAccount(event)">
@@ -1233,43 +1497,66 @@ hr{
         id="accountId"
         type="hidden">
 
+
       <div>
-        <label>Service</label>
+
+        <label>
+          Service
+        </label>
 
         <select
           id="accountService"
           required>
+
           <option value="">
             Select service
           </option>
+
         </select>
+
       </div>
 
+
       <div>
-        <label>Login / Email / Username</label>
+
+        <label>
+          Login / Email / Username
+        </label>
 
         <input
           id="accountLogin"
           required
           placeholder="login@example.com">
+
       </div>
 
+
       <div>
-        <label>Password</label>
+
+        <label>
+          Password
+        </label>
 
         <input
           id="accountPassword"
           required
           placeholder="password">
+
       </div>
 
+
       <div>
-        <label>Additional Login Information</label>
+
+        <label>
+          Additional Login Information
+        </label>
 
         <textarea
           id="accountAdditional"
           placeholder="Optional information"></textarea>
+
       </div>
+
 
       <button
         class="btn"
@@ -1280,8 +1567,11 @@ hr{
     </form>
 
   </div>
+
 </div>
 
+
+<!-- PROOF MODAL -->
 
 <div
   id="proofModal"
@@ -1291,7 +1581,9 @@ hr{
 
     <div class="modal-header">
 
-      <h2>Payment Proof</h2>
+      <h2>
+        Payment Proof
+      </h2>
 
       <button
         class="close"
@@ -1301,13 +1593,17 @@ hr{
 
     </div>
 
+
     <div id="proofContent">
       Loading...
     </div>
 
   </div>
+
 </div>
 
+
+<!-- ORDER MODAL -->
 
 <div
   id="orderModal"
@@ -1317,7 +1613,9 @@ hr{
 
     <div class="modal-header">
 
-      <h2>Order Details</h2>
+      <h2>
+        Order Details
+      </h2>
 
       <button
         class="close"
@@ -1327,9 +1625,11 @@ hr{
 
     </div>
 
+
     <div id="orderContent"></div>
 
   </div>
+
 </div>
 
 
@@ -1360,7 +1660,12 @@ let selectedService = null;
 let selectedAccount = null;
 
 
+/* =========================================================
+   HELPERS
+========================================================= */
+
 function naira(value){
+
   return new Intl.NumberFormat(
     "en-NG",
     {
@@ -1369,11 +1674,16 @@ function naira(value){
       minimumFractionDigits:2
     }
   ).format(Number(value || 0));
+
 }
 
 
 function escapeHtml(value){
-  if(value === null || value === undefined){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
     return "";
   }
 
@@ -1383,11 +1693,15 @@ function escapeHtml(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 
 function formatDate(value){
-  if(!value) return "-";
+
+  if(!value){
+    return "-";
+  }
 
   return new Date(value).toLocaleString(
     "en-NG",
@@ -1396,6 +1710,7 @@ function formatDate(value){
       timeStyle:"short"
     }
   );
+
 }
 
 
@@ -1404,31 +1719,40 @@ function showToast(message){
   const toast =
     document.getElementById("toast");
 
-  toast.textContent = message;
+  toast.textContent =
+    message;
 
   toast.classList.add("show");
 
   setTimeout(() => {
+
     toast.classList.remove("show");
+
   },4000);
+
 }
 
 
 function closeModal(id){
+
   document
     .getElementById(id)
     ?.classList.add("hidden");
+
 }
 
 
 function openModal(id){
+
   document
     .getElementById(id)
     ?.classList.remove("hidden");
+
 }
 
 
 function isAdmin(){
+
   return !!(
     currentProfile &&
     (
@@ -1436,6 +1760,7 @@ function isAdmin(){
       currentProfile.role === "admin"
     )
   );
+
 }
 
 
@@ -1457,15 +1782,25 @@ function showPage(page){
     protectedPages.includes(page) &&
     !currentUser
   ){
+
     showPage("home");
+
     openAuth();
+
     return;
   }
 
-  if(page === "admin" && !isAdmin()){
+
+  if(
+    page === "admin" &&
+    !isAdmin()
+  ){
+
     showPage("home");
+
     return;
   }
+
 
   document
     .querySelectorAll("[id^='page-']")
@@ -1473,40 +1808,62 @@ function showPage(page){
       el.classList.add("hidden")
     );
 
+
   const target =
     document.getElementById(
       "page-" + page
     );
 
+
   if(target){
+
     target.classList.remove("hidden");
+
   }
+
 
   if(page === "home"){
+
     updateHomeButtons();
+
   }
+
 
   if(page === "services"){
+
     loadServices();
+
   }
+
 
   if(page === "wallet"){
+
     loadWallet();
+
     loadMyFunding();
+
   }
+
 
   if(page === "history"){
+
     loadHistory();
+
   }
 
+
   if(page === "admin"){
+
     loadAdmin();
+
   }
+
 
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
+
 }
 
 
@@ -1537,6 +1894,7 @@ function updateHeader(){
   const adminNav =
     document.getElementById("adminNav");
 
+
   if(currentUser){
 
     loginBtn.classList.add("hidden");
@@ -1551,11 +1909,17 @@ function updateHeader(){
 
     historyNav.classList.remove("hidden");
 
+
     if(isAdmin()){
+
       adminNav.classList.remove("hidden");
+
     }else{
+
       adminNav.classList.add("hidden");
+
     }
+
 
     balance.textContent =
       naira(
@@ -1577,9 +1941,12 @@ function updateHeader(){
     historyNav.classList.add("hidden");
 
     adminNav.classList.add("hidden");
+
   }
 
+
   updateHomeButtons();
+
 }
 
 
@@ -1600,18 +1967,25 @@ function updateHomeButtons(){
       "homeFundButton"
     );
 
+
   if(currentUser){
 
     login.classList.add("hidden");
+
     services.classList.remove("hidden");
+
     fund.classList.remove("hidden");
 
   }else{
 
     login.classList.remove("hidden");
+
     services.classList.add("hidden");
+
     fund.classList.add("hidden");
+
   }
+
 }
 
 
@@ -1620,7 +1994,9 @@ function updateHomeButtons(){
 ========================================================= */
 
 function openAuth(){
+
   openModal("authModal");
+
 }
 
 
@@ -1630,6 +2006,7 @@ function toggleAuthMode(){
     authMode === "login"
       ? "register"
       : "login";
+
 
   const title =
     document.getElementById("authTitle");
@@ -1642,6 +2019,7 @@ function toggleAuthMode(){
 
   const registerFields =
     document.getElementById("registerFields");
+
 
   if(authMode === "register"){
 
@@ -1672,7 +2050,9 @@ function toggleAuthMode(){
     registerFields.classList.add(
       "hidden"
     );
+
   }
+
 }
 
 
@@ -1680,15 +2060,18 @@ async function submitAuth(event){
 
   event.preventDefault();
 
+
   const email =
     document.getElementById(
       "authEmail"
     ).value.trim();
 
+
   const password =
     document.getElementById(
       "authPassword"
     ).value;
+
 
   try{
 
@@ -1700,12 +2083,18 @@ async function submitAuth(event){
           password
         });
 
-      if(error) throw error;
+
+      if(error){
+        throw error;
+      }
+
 
       currentUser =
         data.user;
 
+
       await loadCurrentProfile();
+
 
       closeModal("authModal");
 
@@ -1713,7 +2102,10 @@ async function submitAuth(event){
 
       showPage("home");
 
-      showToast("Login successful.");
+      showToast(
+        "Login successful."
+      );
+
 
     }else{
 
@@ -1722,10 +2114,12 @@ async function submitAuth(event){
           "authName"
         ).value.trim();
 
+
       const phone =
         document.getElementById(
           "authPhone"
         ).value.trim();
+
 
       const {data,error} =
         await supabaseClient.auth.signUp({
@@ -1739,19 +2133,26 @@ async function submitAuth(event){
           }
         });
 
-      if(error) throw error;
+
+      if(error){
+        throw error;
+      }
+
 
       if(data.user){
 
         currentUser =
           data.user;
 
+
         await ensureProfile(
           data.user,
           fullName,
           phone
         );
+
       }
+
 
       closeModal("authModal");
 
@@ -1762,7 +2163,9 @@ async function submitAuth(event){
       showToast(
         "Registration successful. Check your email if verification is required."
       );
+
     }
+
 
   }catch(error){
 
@@ -1772,7 +2175,9 @@ async function submitAuth(event){
       error.message ||
       "Authentication failed."
     );
+
   }
+
 }
 
 
@@ -1791,13 +2196,16 @@ async function ensureProfile(
         .eq("id",user.id)
         .maybeSingle();
 
+
     if(existing){
 
       currentProfile =
         existing;
 
       return;
+
     }
+
 
     const {data,error} =
       await supabaseClient
@@ -1814,10 +2222,15 @@ async function ensureProfile(
         .select()
         .single();
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     currentProfile =
       data;
+
 
   }catch(error){
 
@@ -1826,17 +2239,24 @@ async function ensureProfile(
       error
     );
 
+
     await loadCurrentProfile();
+
   }
+
 }
 
 
 async function loadCurrentProfile(){
 
   if(!currentUser){
+
     currentProfile = null;
+
     return;
+
   }
+
 
   const {data,error} =
     await supabaseClient
@@ -1845,21 +2265,31 @@ async function loadCurrentProfile(){
       .eq("id",currentUser.id)
       .maybeSingle();
 
+
   if(error){
+
     console.error(error);
+
     return;
+
   }
+
 
   currentProfile =
     data || null;
 
+
   if(!currentProfile){
+
     await ensureProfile(
       currentUser
     );
+
   }
 
+
   updateHeader();
+
 }
 
 
@@ -1874,23 +2304,28 @@ async function logout(){
   }catch(error){
 
     console.error(error);
+
   }
 
+
   currentUser = null;
+
   currentProfile = null;
+
   selectedService = null;
+
   selectedAccount = null;
+
 
   updateHeader();
 
   showPage("home");
+
 }
 
 
 /* =========================================================
-   SERVICES - CUSTOMER
-   FIXED: uses secure RPC instead of querying
-   account_products directly.
+   CUSTOMER SERVICES
 ========================================================= */
 
 async function loadServices(){
@@ -1900,8 +2335,10 @@ async function loadServices(){
       "servicesList"
     );
 
+
   container.innerHTML =
     '<div class="loading">Loading services...</div>';
+
 
   try{
 
@@ -1915,7 +2352,11 @@ async function loadServices(){
           ascending:false
         });
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -1923,34 +2364,28 @@ async function loadServices(){
         '<div class="empty">No services are available right now.</div>';
 
       return;
+
     }
 
-    /*
-      IMPORTANT FIX
-
-      Customers cannot directly SELECT from
-      account_products because of RLS.
-
-      We therefore call the SECURITY DEFINER RPC
-      for each visible service.
-
-      The RPC only returns safe customer-facing
-      account information.
-    */
 
     const servicesWithStock =
       await Promise.all(
+
         data.map(async service => {
 
           try{
 
-            const {data:accounts,error:rpcError} =
+            const {
+              data:accounts,
+              error:rpcError
+            } =
               await supabaseClient.rpc(
                 "get_available_accounts_for_service",
                 {
                   p_service_id:service.id
                 }
               );
+
 
             if(rpcError){
 
@@ -1960,20 +2395,30 @@ async function loadServices(){
                 rpcError
               );
 
+
               return {
                 service,
                 count:0,
-                stockError:rpcError.message
+                stockError:
+                  rpcError.message
               };
+
             }
 
+
             return {
+
               service,
-              count:Array.isArray(accounts)
-                ? accounts.length
-                : 0,
+
+              count:
+                Array.isArray(accounts)
+                  ? accounts.length
+                  : 0,
+
               stockError:null
+
             };
+
 
           }catch(error){
 
@@ -1983,14 +2428,24 @@ async function loadServices(){
               error
             );
 
+
             return {
+
               service,
+
               count:0,
-              stockError:error.message
+
+              stockError:
+                error.message
+
             };
+
           }
+
         })
+
       );
+
 
     container.innerHTML =
       servicesWithStock.map(item => {
@@ -2001,36 +2456,52 @@ async function loadServices(){
         const count =
           item.count;
 
+
         return `
+
           <div class="card">
 
             <h3>
               ${escapeHtml(service.name)}
             </h3>
 
+
             <div class="meta">
 
               ${
                 service.platform
-                  ? `<span class="badge">${escapeHtml(service.platform)}</span>`
-                  : ""
+                  ?
+                  `<span class="badge">
+                    ${escapeHtml(service.platform)}
+                  </span>`
+                  :
+                  ""
               }
+
 
               ${
                 service.category
-                  ? `<span class="badge">${escapeHtml(service.category)}</span>`
-                  : ""
+                  ?
+                  `<span class="badge">
+                    ${escapeHtml(service.category)}
+                  </span>`
+                  :
+                  ""
               }
+
 
               <span class="badge ${
                 count > 0
                   ? "badge-success"
                   : "badge-danger"
               }">
+
                 ${count} available
+
               </span>
 
             </div>
+
 
             <p>
               ${escapeHtml(
@@ -2039,50 +2510,69 @@ async function loadServices(){
               )}
             </p>
 
+
             <div class="price">
               ${naira(service.price)}
             </div>
+
 
             <div class="actions">
 
               ${
                 count > 0
+
                 ?
+
                 `<button
                   class="btn"
                   onclick='openServiceAccounts(${JSON.stringify(service)})'>
                   View Accounts
                 </button>`
+
                 :
+
                 `<button
                   class="btn btn-secondary"
                   disabled>
                   Out of Stock
                 </button>`
+
               }
 
             </div>
 
           </div>
+
         `;
+
       }).join("");
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        Failed to load services.<br><br>
+
+        Failed to load services.
+
+        <br><br>
+
         ${escapeHtml(error.message)}
+
       </div>`;
+
   }
+
 }
 
 
 /* =========================================================
-   CUSTOMER SERVICE ACCOUNTS
-   FIXED: uses get_available_accounts_for_service()
+   CUSTOMER ACCOUNT STOCK
+   IMPORTANT:
+   NO LOGIN OR PASSWORD IS RETURNED/SHOWN.
 ========================================================= */
 
 async function openServiceAccounts(service){
@@ -2090,10 +2580,12 @@ async function openServiceAccounts(service){
   selectedService =
     service;
 
+
   document.getElementById(
     "selectedServiceTitle"
   ).textContent =
     service.name;
+
 
   document.getElementById(
     "selectedServiceDescription"
@@ -2101,11 +2593,16 @@ async function openServiceAccounts(service){
     service.description ||
     `Available ${service.name} accounts.`;
 
-  showPage("service-accounts");
+
+  showPage(
+    "service-accounts"
+  );
+
 
   await loadServiceAccounts(
     service.id
   );
+
 }
 
 
@@ -2118,31 +2615,25 @@ async function loadServiceAccounts(
       "serviceAccountsList"
     );
 
+
   container.innerHTML =
     '<div class="loading">Loading available accounts...</div>';
+
 
   try{
 
     /*
-      IMPORTANT FIX:
+      SECURE RPC
 
-      Do NOT do:
+      This RPC MUST return only:
 
-      .from("account_products")
-
-      here.
-
-      Customers are blocked by RLS.
-
-      The secure RPC returns:
       id
       service_id
       service_name
-      login
       created_at
       price
 
-      Password is intentionally NOT returned.
+      It MUST NOT return login/password.
     */
 
     const {data,error} =
@@ -2153,80 +2644,117 @@ async function loadServiceAccounts(
         }
       );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
       container.innerHTML =
         `<div class="empty">
-          No accounts are currently available for this service.
+
+          No accounts are currently available
+          for this service.
+
         </div>`;
 
       return;
+
     }
+
 
     container.innerHTML =
       data.map((account,index) => {
 
         return `
+
           <div class="card">
 
             <h3>
               Account #${index + 1}
             </h3>
 
+
             <div class="meta">
 
               <span class="badge badge-success">
-                Available
+                🟢 Available
+              </span>
+
+
+              <span class="badge">
+                🔒 Login Hidden
               </span>
 
             </div>
 
+
             <p>
-              Login:
-              <strong style="color:white">
-                ${escapeHtml(account.login)}
-              </strong>
+
+              Login details are private.
+
+              <br>
+
+              You will receive the login and password
+              only after successful payment.
+
             </p>
 
+
             <div class="price">
+
               ${naira(
                 account.price ??
                 selectedService?.price
               )}
+
             </div>
+
 
             <button
               class="btn"
               onclick='openPurchase(${JSON.stringify({
                 id:account.id,
-                login:account.login,
-                service_id:account.service_id
+                service_id:account.service_id,
+                price:account.price
               })})'>
+
               Buy Account
+
             </button>
 
           </div>
+
         `;
 
       }).join("");
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        Failed to load accounts.<br><br>
+
+        Failed to load accounts.
+
+        <br><br>
+
         ${escapeHtml(error.message)}
+
       </div>`;
+
   }
+
 }
 
 
 /* =========================================================
-   PURCHASE
+   PURCHASE CONFIRMATION
 ========================================================= */
 
 function openPurchase(account){
@@ -2236,20 +2764,27 @@ function openPurchase(account){
     openAuth();
 
     return;
+
   }
+
 
   selectedAccount =
     account;
+
 
   const balance =
     Number(
       currentProfile?.wallet_balance || 0
     );
 
+
   const price =
     Number(
-      selectedService?.price || 0
+      account.price ??
+      selectedService?.price ??
+      0
     );
+
 
   document.getElementById(
     "purchaseDetails"
@@ -2259,46 +2794,74 @@ function openPurchase(account){
 
       <strong>
         ${escapeHtml(
-          selectedService?.name || "Account"
+          selectedService?.name ||
+          "Account"
         )}
       </strong>
 
+
       <br><br>
 
-      Login:
-      <strong>
-        ${escapeHtml(account.login)}
+
+      🔒 <strong>
+        Login details are hidden
       </strong>
 
+
       <br><br>
 
+
+      The account login and password
+      will only be revealed after the
+      payment is successfully completed.
+
+
+      <br><br>
+
+
       Price:
+
       <strong>
         ${naira(price)}
       </strong>
 
+
       <br><br>
 
+
       Wallet balance:
+
       <strong>
         ${naira(balance)}
       </strong>
 
+
       <br><br>
+
 
       ${
         balance >= price
-          ? "You have enough balance to complete this purchase."
-          : "Insufficient wallet balance. Please fund your wallet first."
+
+          ?
+
+          "You have enough balance to complete this purchase."
+
+          :
+
+          "Insufficient wallet balance. Please fund your wallet first."
+
       }
 
     </div>
+
   `;
+
 
   const btn =
     document.getElementById(
       "confirmPurchaseBtn"
     );
+
 
   if(balance < price){
 
@@ -2312,46 +2875,77 @@ function openPurchase(account){
     btn.disabled = false;
 
     btn.textContent =
-      "Buy Account";
+      "Pay & Get Account";
+
   }
 
-  openModal("purchaseModal");
+
+  openModal(
+    "purchaseModal"
+  );
+
 }
 
+
+/* =========================================================
+   SECURE ACCOUNT PURCHASE
+========================================================= */
 
 async function confirmAccountPurchase(){
 
   if(!currentUser){
 
-    alert("Please login first.");
+    alert(
+      "Please login first."
+    );
 
     return;
+
   }
+
 
   if(!selectedAccount){
 
-    alert("No account selected.");
+    alert(
+      "No account selected."
+    );
 
     return;
+
   }
+
 
   const btn =
     document.getElementById(
       "confirmPurchaseBtn"
     );
 
+
   btn.disabled = true;
 
   btn.textContent =
-    "Processing...";
+    "Processing Payment...";
+
 
   try{
 
     /*
-      Secure database purchase.
+      IMPORTANT
 
-      This performs the wallet deduction,
-      order creation and stock update atomically.
+      The browser does NOT deduct the wallet.
+
+      Supabase RPC performs everything securely:
+
+      1. Locks the account
+      2. Checks account availability
+      3. Gets service price
+      4. Locks customer profile
+      5. Checks wallet balance
+      6. Deducts wallet
+      7. Creates order
+      8. Marks account sold
+      9. Creates wallet transaction
+      10. Returns credentials
     */
 
     const {data,error} =
@@ -2369,12 +2963,17 @@ async function confirmAccountPurchase(){
         }
       );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     const result =
       Array.isArray(data)
         ? data[0]
         : data;
+
 
     if(!result?.success){
 
@@ -2382,22 +2981,78 @@ async function confirmAccountPurchase(){
         result?.message ||
         "Purchase failed."
       );
+
     }
+
+
+    /*
+      Refresh profile so the new wallet
+      balance appears immediately.
+    */
 
     await loadCurrentProfile();
 
-    closeModal("purchaseModal");
 
-    showPurchaseResult(result);
+    /*
+      Update header balance.
+    */
+
+    updateHeader();
+
+
+    /*
+      Close payment confirmation.
+    */
+
+    closeModal(
+      "purchaseModal"
+    );
+
+
+    /*
+      Show credentials ONLY NOW,
+      because payment has succeeded.
+    */
+
+    showPurchaseResult(
+      result
+    );
+
+
+    /*
+      Refresh available stock.
+    */
 
     if(selectedService){
 
       await loadServiceAccounts(
         selectedService.id
       );
+
     }
 
+
     await loadServices();
+
+
+    /*
+      Refresh customer history.
+    */
+
+    await loadHistory();
+
+
+    /*
+      Refresh wallet transactions.
+    */
+
+    await loadWalletTransactions();
+
+
+    showToast(
+      "Purchase successful. Wallet deducted."
+    );
+
 
   }catch(error){
 
@@ -2406,20 +3061,28 @@ async function confirmAccountPurchase(){
       error
     );
 
+
     alert(
       error.message ||
-      "Purchase failed."
+      "Purchase failed. Your wallet was not charged."
     );
+
 
   }finally{
 
     btn.disabled = false;
 
     btn.textContent =
-      "Buy Account";
+      "Pay & Get Account";
+
   }
+
 }
 
+
+/* =========================================================
+   PURCHASE SUCCESS
+========================================================= */
 
 function showPurchaseResult(result){
 
@@ -2431,77 +3094,127 @@ function showPurchaseResult(result){
         🎉 Purchase Successful
       </strong>
 
+
       <br><br>
+
 
       ${escapeHtml(
         result.service_name || ""
       )}
 
+
       <br><br>
 
+
       Amount paid:
+
       <strong>
         ${naira(result.price)}
       </strong>
 
+
       <br><br>
 
+
       New wallet balance:
+
       <strong>
         ${naira(result.balance_after)}
       </strong>
 
     </div>
 
+
     <div class="credential">
 
       <div>
-        <b>Login:</b>
-        ${escapeHtml(result.login)}
+
+        <b>
+          🔐 Login:
+        </b>
+
+        ${escapeHtml(
+          result.login
+        )}
+
       </div>
 
+
       <div>
-        <b>Password:</b>
-        ${escapeHtml(result.password)}
+
+        <b>
+          🔑 Password:
+        </b>
+
+        ${escapeHtml(
+          result.password
+        )}
+
       </div>
+
 
       ${
         result.additional_login_info
+
           ?
+
           `<div>
-            <b>Additional Information:</b><br>
+
+            <b>
+              Additional Information:
+            </b>
+
+            <br>
+
             ${escapeHtml(
               result.additional_login_info
             )}
+
           </div>`
+
           :
+
           ""
+
       }
 
     </div>
+
 
     <div class="actions">
 
       <button
         class="btn"
         onclick="closeModal('orderModal');showPage('history')">
+
         View History
+
       </button>
+
 
       <button
         class="btn btn-secondary"
         onclick="closeModal('orderModal')">
+
         Close
+
       </button>
 
     </div>
+
   `;
+
 
   document.getElementById(
     "orderContent"
-  ).innerHTML = content;
+  ).innerHTML =
+    content;
 
-  openModal("orderModal");
+
+  openModal(
+    "orderModal"
+  );
+
 }
 
 
@@ -2513,6 +3226,7 @@ async function loadWallet(){
 
   await loadCurrentProfile();
 
+
   document.getElementById(
     "walletBalanceLarge"
   ).textContent =
@@ -2520,16 +3234,24 @@ async function loadWallet(){
       currentProfile?.wallet_balance || 0
     );
 
+
   await loadWalletTransactions();
+
 }
 
 
 async function loadWalletTransactions(){
 
+  if(!currentUser){
+    return;
+  }
+
+
   const container =
     document.getElementById(
       "walletTransactions"
     );
+
 
   try{
 
@@ -2542,7 +3264,11 @@ async function loadWalletTransactions(){
           ascending:false
         });
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -2550,7 +3276,9 @@ async function loadWalletTransactions(){
         '<div class="empty">No wallet transactions yet.</div>';
 
       return;
+
     }
+
 
     container.innerHTML = `
 
@@ -2559,15 +3287,37 @@ async function loadWalletTransactions(){
         <table>
 
           <thead>
+
             <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Before</th>
-              <th>After</th>
-              <th>Description</th>
+
+              <th>
+                Date
+              </th>
+
+              <th>
+                Type
+              </th>
+
+              <th>
+                Amount
+              </th>
+
+              <th>
+                Before
+              </th>
+
+              <th>
+                After
+              </th>
+
+              <th>
+                Description
+              </th>
+
             </tr>
+
           </thead>
+
 
           <tbody>
 
@@ -2576,36 +3326,61 @@ async function loadWalletTransactions(){
               <tr>
 
                 <td>
-                  ${formatDate(tx.created_at)}
+                  ${formatDate(
+                    tx.created_at
+                  )}
                 </td>
 
+
                 <td>
+
                   <span class="badge ${
                     tx.type === "deposit"
+
                       ? "badge-success"
+
                       : tx.type === "purchase"
+
                       ? "badge-warning"
+
                       : ""
                   }">
-                    ${escapeHtml(tx.type)}
+
+                    ${escapeHtml(
+                      tx.type
+                    )}
+
                   </span>
+
                 </td>
 
+
                 <td>
+
                   ${
                     Number(tx.amount) >= 0
                       ? "+"
                       : ""
-                  }${naira(tx.amount)}
+                  }
+
+                  ${naira(tx.amount)}
+
                 </td>
 
-                <td>
-                  ${naira(tx.balance_before)}
-                </td>
 
                 <td>
-                  ${naira(tx.balance_after)}
+                  ${naira(
+                    tx.balance_before
+                  )}
                 </td>
+
+
+                <td>
+                  ${naira(
+                    tx.balance_after
+                  )}
+                </td>
+
 
                 <td>
                   ${escapeHtml(
@@ -2622,17 +3397,26 @@ async function loadWalletTransactions(){
         </table>
 
       </div>
+
     `;
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
@@ -2647,11 +3431,17 @@ async function openFunding(){
     openAuth();
 
     return;
+
   }
+
 
   await loadPaymentMethod();
 
-  openModal("fundingModal");
+
+  openModal(
+    "fundingModal"
+  );
+
 }
 
 
@@ -2661,6 +3451,7 @@ async function loadPaymentMethod(){
     document.getElementById(
       "paymentMethodBox"
     );
+
 
   const {data,error} =
     await supabaseClient
@@ -2673,13 +3464,16 @@ async function loadPaymentMethod(){
       .limit(1)
       .maybeSingle();
 
+
   if(error){
 
     box.textContent =
       "Unable to load payment method.";
 
     return;
+
   }
+
 
   if(!data){
 
@@ -2687,10 +3481,13 @@ async function loadPaymentMethod(){
       "No active payment method is available. Please contact support.";
 
     return;
+
   }
+
 
   box.textContent =
     data.details;
+
 }
 
 
@@ -2698,12 +3495,17 @@ async function submitFunding(event){
 
   event.preventDefault();
 
+
   if(!currentUser){
 
-    alert("Please login first.");
+    alert(
+      "Please login first."
+    );
 
     return;
+
   }
+
 
   const amount =
     Number(
@@ -2712,38 +3514,54 @@ async function submitFunding(event){
       ).value
     );
 
+
   const reference =
     document.getElementById(
       "fundReference"
     ).value.trim();
+
 
   const file =
     document.getElementById(
       "fundProof"
     ).files[0];
 
+
   if(!amount || amount <= 0){
 
-    alert("Enter a valid amount.");
+    alert(
+      "Enter a valid amount."
+    );
 
     return;
+
   }
+
 
   if(!file){
 
-    alert("Please upload payment proof.");
+    alert(
+      "Please upload payment proof."
+    );
 
     return;
+
   }
+
 
   try{
 
     const safeName =
       file.name
-        .replace(/[^a-zA-Z0-9._-]/g,"_");
+        .replace(
+          /[^a-zA-Z0-9._-]/g,
+          "_"
+        );
+
 
     const filePath =
       `${currentUser.id}/${Date.now()}_${safeName}`;
+
 
     const {error:uploadError} =
       await supabaseClient
@@ -2758,8 +3576,11 @@ async function submitFunding(event){
           }
         );
 
-    if(uploadError)
+
+    if(uploadError){
       throw uploadError;
+    }
+
 
     const {data:method} =
       await supabaseClient
@@ -2772,34 +3593,58 @@ async function submitFunding(event){
         .limit(1)
         .maybeSingle();
 
+
     const {error} =
       await supabaseClient
         .from("funding_requests")
         .insert({
-          user_id:currentUser.id,
-          amount:amount,
+
+          user_id:
+            currentUser.id,
+
+          amount:
+            amount,
+
           payment_method:
             method?.name ||
             "Bank Transfer",
+
           payment_reference:
             reference || null,
-          proof_url:filePath,
-          status:"pending"
+
+          proof_url:
+            filePath,
+
+          status:
+            "pending"
+
         });
 
-    if(error) throw error;
 
-    closeModal("fundingModal");
+    if(error){
+      throw error;
+    }
+
+
+    closeModal(
+      "fundingModal"
+    );
+
 
     document
-      .querySelector("#fundingModal form")
+      .querySelector(
+        "#fundingModal form"
+      )
       ?.reset();
+
 
     alert(
       "Funding request submitted successfully. Please wait for admin approval."
     );
 
+
     await loadMyFunding();
+
 
   }catch(error){
 
@@ -2808,17 +3653,22 @@ async function submitFunding(event){
       error
     );
 
+
     alert(
       error.message ||
       "Failed to submit funding request."
     );
+
   }
+
 }
 
 
 async function loadMyFunding(){
 
-  if(!currentUser) return;
+  if(!currentUser){
+    return;
+  }
 
 }
 
@@ -2829,13 +3679,20 @@ async function loadMyFunding(){
 
 async function loadHistory(){
 
+  if(!currentUser){
+    return;
+  }
+
+
   const container =
     document.getElementById(
       "historyList"
     );
 
+
   container.innerHTML =
     '<div class="loading">Loading purchase history...</div>';
+
 
   try{
 
@@ -2848,7 +3705,11 @@ async function loadHistory(){
           ascending:false
         });
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -2856,13 +3717,18 @@ async function loadHistory(){
         '<div class="empty">You have no purchases yet.</div>';
 
       return;
+
     }
+
 
     container.innerHTML =
       data.map(order => {
 
         return `
-          <div class="card" style="margin-bottom:12px">
+
+          <div
+            class="card"
+            style="margin-bottom:12px">
 
             <div style="
               display:flex;
@@ -2871,90 +3737,133 @@ async function loadHistory(){
               flex-wrap:wrap;
             ">
 
+
               <div>
 
                 <h3>
+
                   ${escapeHtml(
                     order.product_name ||
                     "Order"
                   )}
+
                 </h3>
 
+
                 <p>
-                  ${formatDate(order.created_at)}
+
+                  ${formatDate(
+                    order.created_at
+                  )}
+
                 </p>
 
               </div>
 
+
               <div style="text-align:right">
 
                 <div class="price">
-                  ${naira(order.amount)}
+
+                  ${naira(
+                    order.amount
+                  )}
+
                 </div>
+
 
                 <span class="badge ${
                   order.status === "completed"
+
                     ? "badge-success"
+
                     : order.status === "refunded"
+
                     ? "badge-warning"
+
                     : ""
                 }">
+
                   ${escapeHtml(
                     order.status
                   )}
+
                 </span>
 
               </div>
 
             </div>
 
+
             <div class="meta">
 
               <span class="badge">
+
                 ${escapeHtml(
                   order.payment_method ||
                   "wallet"
                 )}
+
               </span>
+
 
               ${
                 order.account_product_id
+
                   ?
+
                   `<span class="badge">
                     Account Purchase
                   </span>`
+
                   :
+
                   ""
+
               }
 
             </div>
 
+
             <button
               class="btn btn-secondary btn-small"
               onclick='viewOrder(${JSON.stringify(order)})'>
+
               View Details
+
             </button>
 
           </div>
+
         `;
 
       }).join("");
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
 async function viewOrder(order){
 
-  let credentials = null;
+  let credentials =
+    null;
+
 
   if(order.account_product_id){
 
@@ -2964,9 +3873,11 @@ async function viewOrder(order){
         await supabaseClient.rpc(
           "get_my_account_credentials",
           {
-            p_order_id:order.id
+            p_order_id:
+              order.id
           }
         );
+
 
       if(!error){
 
@@ -2974,6 +3885,7 @@ async function viewOrder(order){
           Array.isArray(data)
             ? data[0]
             : data;
+
       }
 
     }catch(error){
@@ -2982,8 +3894,11 @@ async function viewOrder(order){
         "Credential loading:",
         error
       );
+
     }
+
   }
+
 
   document.getElementById(
     "orderContent"
@@ -2992,96 +3907,181 @@ async function viewOrder(order){
     <div class="info-box">
 
       <strong>
+
         ${escapeHtml(
-          order.product_name || "Order"
+          order.product_name ||
+          "Order"
         )}
+
       </strong>
 
+
       <br><br>
+
 
       Order ID:
-      ${escapeHtml(order.id)}
 
-      <br><br>
-
-      Amount:
-      ${naira(order.amount)}
-
-      <br><br>
-
-      Status:
-      ${escapeHtml(order.status)}
-
-      <br><br>
-
-      Payment:
       ${escapeHtml(
-        order.payment_method || "wallet"
+        order.id
       )}
 
+
       <br><br>
 
+
+      Amount:
+
+      ${naira(
+        order.amount
+      )}
+
+
+      <br><br>
+
+
+      Status:
+
+      ${escapeHtml(
+        order.status
+      )}
+
+
+      <br><br>
+
+
+      Payment:
+
+      ${escapeHtml(
+        order.payment_method ||
+        "wallet"
+      )}
+
+
+      <br><br>
+
+
       Date:
-      ${formatDate(order.created_at)}
+
+      ${formatDate(
+        order.created_at
+      )}
 
     </div>
 
+
     ${
       credentials
+
       ?
+
       `
+
         <div class="credential">
 
           <div>
-            <b>Login:</b>
-            ${escapeHtml(credentials.login)}
+
+            <b>
+              Login:
+            </b>
+
+            ${escapeHtml(
+              credentials.login
+            )}
+
           </div>
 
+
           <div>
-            <b>Password:</b>
-            ${escapeHtml(credentials.password)}
+
+            <b>
+              Password:
+            </b>
+
+            ${escapeHtml(
+              credentials.password
+            )}
+
           </div>
+
 
           ${
             credentials.additional_login_info
+
               ?
+
               `<div>
-                <b>Additional Information:</b><br>
+
+                <b>
+                  Additional Information:
+                </b>
+
+                <br>
+
                 ${escapeHtml(
                   credentials.additional_login_info
                 )}
+
               </div>`
+
               :
+
               ""
+
           }
 
         </div>
+
       `
+
       :
+
       ""
+
     }
+
 
     ${
       order.order_details
+
       ?
-      `<hr>
-       <div class="info-box">
-         <strong>Order Details</strong><br><br>
-         ${escapeHtml(
-           JSON.stringify(
-             order.order_details,
-             null,
-             2
-           )
-         )}
-       </div>`
+
+      `
+
+        <hr>
+
+        <div class="info-box">
+
+          <strong>
+            Order Details
+          </strong>
+
+          <br><br>
+
+          ${escapeHtml(
+            JSON.stringify(
+              order.order_details,
+              null,
+              2
+            )
+          )}
+
+        </div>
+
+      `
+
       :
+
       ""
+
     }
 
   `;
 
-  openModal("orderModal");
+
+  openModal(
+    "orderModal"
+  );
+
 }
 
 
@@ -3096,17 +4096,27 @@ async function loadAdmin(){
     showPage("home");
 
     return;
+
   }
 
+
   await Promise.all([
+
     loadAdminServices(),
+
     loadAdminAccounts(),
+
     loadAdminFunding(),
+
     loadAdminOrders(),
+
     loadAdminPaymentMethod()
+
   ]);
 
+
   await updateAdminStats();
+
 }
 
 
@@ -3121,6 +4131,7 @@ async function loadAdminServices(){
       "adminServicesList"
     );
 
+
   try{
 
     const {data,error} =
@@ -3131,7 +4142,11 @@ async function loadAdminServices(){
           ascending:false
         });
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -3139,7 +4154,9 @@ async function loadAdminServices(){
         '<div class="empty">No services found.</div>';
 
       return;
+
     }
+
 
     container.innerHTML =
       data.map(service => {
@@ -3148,9 +4165,12 @@ async function loadAdminServices(){
           service.active === true &&
           service.available === true;
 
+
         return `
 
-          <div class="card" style="margin-bottom:10px">
+          <div
+            class="card"
+            style="margin-bottom:10px">
 
             <div style="
               display:flex;
@@ -3162,16 +4182,25 @@ async function loadAdminServices(){
               <div>
 
                 <h3>
-                  ${escapeHtml(service.name)}
+
+                  ${escapeHtml(
+                    service.name
+                  )}
+
                 </h3>
 
+
                 <p>
+
                   ${escapeHtml(
-                    service.description || ""
+                    service.description ||
+                    ""
                   )}
+
                 </p>
 
               </div>
+
 
               <div>
 
@@ -3180,48 +4209,79 @@ async function loadAdminServices(){
                     ? "badge-success"
                     : "badge-danger"
                 }">
-                  ${active ? "VISIBLE" : "HIDDEN"}
+
+                  ${
+                    active
+                      ? "VISIBLE"
+                      : "HIDDEN"
+                  }
+
                 </span>
 
               </div>
 
             </div>
 
+
             <div class="meta">
 
               <span class="badge">
-                ${naira(service.price)}
+
+                ${naira(
+                  service.price
+                )}
+
               </span>
+
 
               ${
                 service.platform
+
                   ?
+
                   `<span class="badge">
-                    ${escapeHtml(service.platform)}
+                    ${escapeHtml(
+                      service.platform
+                    )}
                   </span>`
+
                   :
+
                   ""
+
               }
+
 
               ${
                 service.category
+
                   ?
+
                   `<span class="badge">
-                    ${escapeHtml(service.category)}
+                    ${escapeHtml(
+                      service.category
+                    )}
                   </span>`
+
                   :
+
                   ""
+
               }
 
             </div>
+
 
             <div class="actions">
 
               <button
                 class="btn btn-small"
                 onclick='editService(${JSON.stringify(service)})'>
+
                 Edit
+
               </button>
+
 
               <button
                 class="btn ${
@@ -3230,35 +4290,49 @@ async function loadAdminServices(){
                     : "btn-success"
                 } btn-small"
                 onclick='toggleService(${JSON.stringify(service)})'>
+
                 ${
                   active
                     ? "Hide Service"
                     : "Activate Service"
                 }
+
               </button>
+
 
               <button
                 class="btn btn-danger btn-small"
                 onclick='deleteService("${service.id}","${escapeHtml(service.name).replace(/"/g,"&quot;")}")'>
+
                 Delete
+
               </button>
 
             </div>
 
           </div>
+
         `;
 
       }).join("");
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
@@ -3269,35 +4343,46 @@ function openServiceModal(){
   ).textContent =
     "Add Service";
 
+
   document.getElementById(
     "serviceId"
   ).value = "";
+
 
   document.getElementById(
     "serviceName"
   ).value = "";
 
+
   document.getElementById(
     "servicePlatform"
   ).value = "";
+
 
   document.getElementById(
     "serviceCategory"
   ).value = "";
 
+
   document.getElementById(
     "servicePrice"
   ).value = "";
+
 
   document.getElementById(
     "serviceDescription"
   ).value = "";
 
+
   document.getElementById(
     "serviceDelivery"
   ).value = "";
 
-  openModal("serviceModal");
+
+  openModal(
+    "serviceModal"
+  );
+
 }
 
 
@@ -3308,42 +4393,53 @@ function editService(service){
   ).textContent =
     "Edit Service";
 
+
   document.getElementById(
     "serviceId"
   ).value =
     service.id;
+
 
   document.getElementById(
     "serviceName"
   ).value =
     service.name || "";
 
+
   document.getElementById(
     "servicePlatform"
   ).value =
     service.platform || "";
+
 
   document.getElementById(
     "serviceCategory"
   ).value =
     service.category || "";
 
+
   document.getElementById(
     "servicePrice"
   ).value =
     service.price || "";
+
 
   document.getElementById(
     "serviceDescription"
   ).value =
     service.description || "";
 
+
   document.getElementById(
     "serviceDelivery"
   ).value =
     service.delivery_information || "";
 
-  openModal("serviceModal");
+
+  openModal(
+    "serviceModal"
+  );
+
 }
 
 
@@ -3351,17 +4447,23 @@ async function saveService(event){
 
   event.preventDefault();
 
+
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   const id =
     document.getElementById(
       "serviceId"
     ).value;
+
 
   const payload = {
 
@@ -3373,12 +4475,14 @@ async function saveService(event){
     platform:
       document.getElementById(
         "servicePlatform"
-      ).value.trim() || null,
+      ).value.trim() ||
+      null,
 
     category:
       document.getElementById(
         "serviceCategory"
-      ).value.trim() || null,
+      ).value.trim() ||
+      null,
 
     price:
       Number(
@@ -3390,16 +4494,20 @@ async function saveService(event){
     description:
       document.getElementById(
         "serviceDescription"
-      ).value.trim() || null,
+      ).value.trim() ||
+      null,
 
     delivery_information:
       document.getElementById(
         "serviceDelivery"
-      ).value.trim() || null,
+      ).value.trim() ||
+      null,
 
     updated_at:
       new Date().toISOString()
+
   };
+
 
   try{
 
@@ -3411,9 +4519,16 @@ async function saveService(event){
           .update(payload)
           .eq("id",id);
 
-      if(error) throw error;
 
-      showToast("Service updated.");
+      if(error){
+        throw error;
+      }
+
+
+      showToast(
+        "Service updated."
+      );
+
 
     }else{
 
@@ -3421,31 +4536,52 @@ async function saveService(event){
         await supabaseClient
           .from("services")
           .insert({
+
             ...payload,
+
             active:true,
+
             available:true
+
           });
 
-      if(error) throw error;
 
-      showToast("Service created.");
+      if(error){
+        throw error;
+      }
+
+
+      showToast(
+        "Service created."
+      );
+
     }
 
-    closeModal("serviceModal");
+
+    closeModal(
+      "serviceModal"
+    );
+
 
     await loadAdminServices();
+
     await loadServices();
+
     await updateAdminStats();
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Failed to save service:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -3457,28 +4593,38 @@ async function toggleService(service){
 
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   const currentlyVisible =
     service.active === true &&
     service.available === true;
 
+
   const newValue =
     !currentlyVisible;
+
 
   const action =
     newValue
       ? "activate"
       : "hide";
 
+
   if(!confirm(
     `Are you sure you want to ${action} "${service.name}"?`
   )){
+
     return;
+
   }
+
 
   try{
 
@@ -3486,14 +4632,27 @@ async function toggleService(service){
       await supabaseClient
         .from("services")
         .update({
-          active:newValue,
-          available:newValue,
+
+          active:
+            newValue,
+
+          available:
+            newValue,
+
           updated_at:
             new Date().toISOString()
-        })
-        .eq("id",service.id);
 
-    if(error) throw error;
+        })
+        .eq(
+          "id",
+          service.id
+        );
+
+
+    if(error){
+      throw error;
+    }
+
 
     showToast(
       newValue
@@ -3501,18 +4660,24 @@ async function toggleService(service){
         : "Service hidden."
     );
 
+
     await loadAdminServices();
+
     await loadServices();
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Failed to update service:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -3527,18 +4692,25 @@ async function deleteService(
 
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   if(!confirm(
     `Delete "${serviceName}"?\n\n` +
     `If the service has previous orders, it will NOT be destroyed. ` +
     `It will be safely hidden instead.`
   )){
+
     return;
+
   }
+
 
   try{
 
@@ -3546,16 +4718,22 @@ async function deleteService(
       await supabaseClient.rpc(
         "admin_delete_service",
         {
-          p_service_id:serviceId
+          p_service_id:
+            serviceId
         }
       );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     const result =
       Array.isArray(data)
         ? data[0]
         : data;
+
 
     if(result?.deleted === true){
 
@@ -3563,11 +4741,15 @@ async function deleteService(
         `"${serviceName}" was permanently deleted.`
       );
 
-    }else if(result?.deactivated === true){
+
+    }else if(
+      result?.deactivated === true
+    ){
 
       alert(
         `"${serviceName}" has previous orders, so it was safely hidden instead of deleted.`
       );
+
 
     }else{
 
@@ -3575,11 +4757,16 @@ async function deleteService(
         result?.message ||
         "Service action completed."
       );
+
     }
 
+
     await loadAdminServices();
+
     await loadServices();
+
     await updateAdminStats();
+
 
   }catch(error){
 
@@ -3588,11 +4775,14 @@ async function deleteService(
       error
     );
 
+
     alert(
       "Service deletion failed:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -3606,6 +4796,7 @@ async function loadAdminAccounts(){
     document.getElementById(
       "adminAccountsList"
     );
+
 
   try{
 
@@ -3623,7 +4814,11 @@ async function loadAdminAccounts(){
           ascending:false
         });
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -3631,7 +4826,9 @@ async function loadAdminAccounts(){
         '<div class="empty">No account stock yet.</div>';
 
       return;
+
     }
+
 
     container.innerHTML = `
 
@@ -3642,16 +4839,39 @@ async function loadAdminAccounts(){
           <thead>
 
             <tr>
-              <th>Service</th>
-              <th>Login</th>
-              <th>Password</th>
-              <th>Status</th>
-              <th>Sold To</th>
-              <th>Sold At</th>
-              <th>Actions</th>
+
+              <th>
+                Service
+              </th>
+
+              <th>
+                Login
+              </th>
+
+              <th>
+                Password
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Sold To
+              </th>
+
+              <th>
+                Sold At
+              </th>
+
+              <th>
+                Actions
+              </th>
+
             </tr>
 
           </thead>
+
 
           <tbody>
 
@@ -3660,29 +4880,40 @@ async function loadAdminAccounts(){
               <tr>
 
                 <td>
+
                   ${escapeHtml(
                     account.services?.name ||
                     "-"
                   )}
+
                 </td>
 
+
                 <td>
+
                   ${escapeHtml(
                     account.login
                   )}
+
                 </td>
 
+
                 <td>
+
                   ${escapeHtml(
                     account.password
                   )}
+
                 </td>
+
 
                 <td>
 
                   <span class="badge ${
                     account.status === "available"
+
                       ? "badge-success"
+
                       : "badge-danger"
                   }">
 
@@ -3694,23 +4925,35 @@ async function loadAdminAccounts(){
 
                 </td>
 
+
                 <td>
+
                   ${
                     account.sold_to
+
                       ?
+
                       escapeHtml(
                         account.sold_to
                       )
+
                       :
+
                       "-"
+
                   }
+
                 </td>
 
+
                 <td>
+
                   ${formatDate(
                     account.sold_at
                   )}
+
                 </td>
+
 
                 <td>
 
@@ -3719,13 +4962,18 @@ async function loadAdminAccounts(){
                     <button
                       class="btn btn-small"
                       onclick='editAccount(${JSON.stringify(account)})'>
+
                       Edit
+
                     </button>
+
 
                     <button
                       class="btn btn-danger btn-small"
                       onclick='deleteAccount("${account.id}")'>
+
                       Delete
+
                     </button>
 
                   </div>
@@ -3741,17 +4989,26 @@ async function loadAdminAccounts(){
         </table>
 
       </div>
+
     `;
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
@@ -3762,28 +5019,40 @@ async function loadServiceOptions(){
       "accountService"
     );
 
+
   const {data,error} =
     await supabaseClient
       .from("services")
       .select("id,name")
       .order("name");
 
+
   if(error){
 
     console.error(error);
 
     return;
+
   }
+
 
   select.innerHTML =
     `<option value="">
       Select service
     </option>` +
+
     (data || []).map(service => `
+
       <option value="${service.id}">
-        ${escapeHtml(service.name)}
+
+        ${escapeHtml(
+          service.name
+        )}
+
       </option>
+
     `).join("");
+
 }
 
 
@@ -3791,32 +5060,42 @@ async function openAccountModal(){
 
   await loadServiceOptions();
 
+
   document.getElementById(
     "accountModalTitle"
   ).textContent =
     "Add Account";
 
+
   document.getElementById(
     "accountId"
   ).value = "";
+
 
   document.getElementById(
     "accountService"
   ).value = "";
 
+
   document.getElementById(
     "accountLogin"
   ).value = "";
+
 
   document.getElementById(
     "accountPassword"
   ).value = "";
 
+
   document.getElementById(
     "accountAdditional"
   ).value = "";
 
-  openModal("accountModal");
+
+  openModal(
+    "accountModal"
+  );
+
 }
 
 
@@ -3824,37 +5103,48 @@ async function editAccount(account){
 
   await loadServiceOptions();
 
+
   document.getElementById(
     "accountModalTitle"
   ).textContent =
     "Edit Account";
+
 
   document.getElementById(
     "accountId"
   ).value =
     account.id;
 
+
   document.getElementById(
     "accountService"
   ).value =
     account.service_id;
+
 
   document.getElementById(
     "accountLogin"
   ).value =
     account.login || "";
 
+
   document.getElementById(
     "accountPassword"
   ).value =
     account.password || "";
 
+
   document.getElementById(
     "accountAdditional"
   ).value =
-    account.additional_login_info || "";
+    account.additional_login_info ||
+    "";
 
-  openModal("accountModal");
+
+  openModal(
+    "accountModal"
+  );
+
 }
 
 
@@ -3862,17 +5152,23 @@ async function saveAccount(event){
 
   event.preventDefault();
 
+
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   const id =
     document.getElementById(
       "accountId"
     ).value;
+
 
   const payload = {
 
@@ -3894,8 +5190,11 @@ async function saveAccount(event){
     additional_login_info:
       document.getElementById(
         "accountAdditional"
-      ).value.trim() || null
+      ).value.trim() ||
+      null
+
   };
+
 
   try{
 
@@ -3907,9 +5206,16 @@ async function saveAccount(event){
           .update(payload)
           .eq("id",id);
 
-      if(error) throw error;
 
-      showToast("Account updated.");
+      if(error){
+        throw error;
+      }
+
+
+      showToast(
+        "Account updated."
+      );
+
 
     }else{
 
@@ -3917,30 +5223,51 @@ async function saveAccount(event){
         await supabaseClient
           .from("account_products")
           .insert({
+
             ...payload,
-            status:"available"
+
+            status:
+              "available"
+
           });
 
-      if(error) throw error;
 
-      showToast("Account added.");
+      if(error){
+        throw error;
+      }
+
+
+      showToast(
+        "Account added."
+      );
+
     }
 
-    closeModal("accountModal");
+
+    closeModal(
+      "accountModal"
+    );
+
 
     await loadAdminAccounts();
+
     await loadServices();
+
     await updateAdminStats();
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Failed to save account:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -3948,17 +5275,24 @@ async function deleteAccount(id){
 
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   if(!confirm(
     "Delete this account from inventory?\n\n" +
     "This is a manual admin deletion. Sold accounts are NOT automatically deleted."
   )){
+
     return;
+
   }
+
 
   try{
 
@@ -3968,23 +5302,36 @@ async function deleteAccount(id){
         .delete()
         .eq("id",id);
 
-    if(error) throw error;
 
-    showToast("Account deleted.");
+    if(error){
+      throw error;
+    }
+
+
+    showToast(
+      "Account deleted."
+    );
+
 
     await loadAdminAccounts();
+
     await loadServices();
+
     await updateAdminStats();
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Failed to delete account:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -3999,6 +5346,7 @@ async function loadAdminFunding(){
       "adminFundingList"
     );
 
+
   try{
 
     const {data,error} =
@@ -4006,7 +5354,11 @@ async function loadAdminFunding(){
         "get_admin_funding_requests"
       );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -4014,7 +5366,9 @@ async function loadAdminFunding(){
         '<div class="empty">No funding requests.</div>';
 
       return;
+
     }
+
 
     container.innerHTML = `
 
@@ -4025,17 +5379,43 @@ async function loadAdminFunding(){
           <thead>
 
             <tr>
-              <th>Date</th>
-              <th>User</th>
-              <th>Amount</th>
-              <th>Method</th>
-              <th>Reference</th>
-              <th>Status</th>
-              <th>Proof</th>
-              <th>Action</th>
+
+              <th>
+                Date
+              </th>
+
+              <th>
+                User
+              </th>
+
+              <th>
+                Amount
+              </th>
+
+              <th>
+                Method
+              </th>
+
+              <th>
+                Reference
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Proof
+              </th>
+
+              <th>
+                Action
+              </th>
+
             </tr>
 
           </thead>
+
 
           <tbody>
 
@@ -4044,42 +5424,63 @@ async function loadAdminFunding(){
               <tr>
 
                 <td>
+
                   ${formatDate(
                     request.created_at
                   )}
+
                 </td>
 
+
                 <td>
+
                   ${escapeHtml(
                     request.user_id
                   )}
+
                 </td>
 
-                <td>
-                  ${naira(request.amount)}
-                </td>
 
                 <td>
+
+                  ${naira(
+                    request.amount
+                  )}
+
+                </td>
+
+
+                <td>
+
                   ${escapeHtml(
                     request.payment_method ||
                     "-"
                   )}
+
                 </td>
 
+
                 <td>
+
                   ${escapeHtml(
                     request.payment_reference ||
                     "-"
                   )}
+
                 </td>
+
 
                 <td>
 
                   <span class="badge ${
                     request.status === "approved"
+
                       ? "badge-success"
+
                       : request.status === "rejected"
+
                       ? "badge-danger"
+
                       : "badge-warning"
                   }">
 
@@ -4091,46 +5492,67 @@ async function loadAdminFunding(){
 
                 </td>
 
+
                 <td>
 
                   ${
                     request.proof_url
+
                       ?
+
                       `<button
                         class="btn btn-secondary btn-small"
                         onclick='viewProof("${request.proof_url}")'>
+
                         View Proof
+
                       </button>`
+
                       :
+
                       "-"
+
                   }
 
                 </td>
+
 
                 <td>
 
                   ${
                     request.status === "pending"
+
                       ?
+
                       `
+
                         <div class="actions">
 
                           <button
                             class="btn btn-success btn-small"
                             onclick='processFunding("${request.id}",true)'>
+
                             Approve
+
                           </button>
+
 
                           <button
                             class="btn btn-danger btn-small"
                             onclick='processFunding("${request.id}",false)'>
+
                             Reject
+
                           </button>
 
                         </div>
+
                       `
+
                       :
+
                       "-"
+
                   }
 
                 </td>
@@ -4144,18 +5566,30 @@ async function loadAdminFunding(){
         </table>
 
       </div>
+
     `;
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        Failed to load funding requests.<br><br>
-        ${escapeHtml(error.message)}
+
+        Failed to load funding requests.
+
+        <br><br>
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
@@ -4166,10 +5600,14 @@ async function processFunding(
 
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   const note =
     prompt(
@@ -4178,22 +5616,27 @@ async function processFunding(
         : "Reason for rejection:"
     );
 
+
   if(
     !approve &&
     note === null
   ){
+
     return;
+
   }
 
-  if(
-    !confirm(
-      approve
-        ? "Approve this funding request?"
-        : "Reject this funding request?"
-    )
-  ){
+
+  if(!confirm(
+    approve
+      ? "Approve this funding request?"
+      : "Reject this funding request?"
+  )){
+
     return;
+
   }
+
 
   try{
 
@@ -4201,14 +5644,23 @@ async function processFunding(
       await supabaseClient.rpc(
         "approve_funding_secure",
         {
-          p_request_id:requestId,
-          p_approve:approve,
+          p_request_id:
+            requestId,
+
+          p_approve:
+            approve,
+
           p_admin_note:
             note || null
+
         }
       );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     showToast(
       approve
@@ -4216,18 +5668,24 @@ async function processFunding(
         : "Funding rejected."
     );
 
+
     await loadAdminFunding();
+
     await updateAdminStats();
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Funding action failed:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -4239,10 +5697,14 @@ async function viewProof(path){
 
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   try{
 
@@ -4255,7 +5717,11 @@ async function viewProof(path){
           3600
         );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     document.getElementById(
       "proofContent"
@@ -4277,17 +5743,24 @@ async function viewProof(path){
 
     `;
 
-    openModal("proofModal");
+
+    openModal(
+      "proofModal"
+    );
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Unable to view payment proof:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -4302,6 +5775,7 @@ async function loadAdminOrders(){
       "adminOrdersList"
     );
 
+
   try{
 
     const {data,error} =
@@ -4313,7 +5787,11 @@ async function loadAdminOrders(){
         })
         .limit(200);
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -4321,7 +5799,9 @@ async function loadAdminOrders(){
         '<div class="empty">No orders yet.</div>';
 
       return;
+
     }
+
 
     container.innerHTML = `
 
@@ -4332,17 +5812,43 @@ async function loadAdminOrders(){
           <thead>
 
             <tr>
-              <th>Date</th>
-              <th>User</th>
-              <th>Product</th>
-              <th>Amount</th>
-              <th>Payment</th>
-              <th>Status</th>
-              <th>Details</th>
-              <th>Refund</th>
+
+              <th>
+                Date
+              </th>
+
+              <th>
+                User
+              </th>
+
+              <th>
+                Product
+              </th>
+
+              <th>
+                Amount
+              </th>
+
+              <th>
+                Payment
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Details
+              </th>
+
+              <th>
+                Refund
+              </th>
+
             </tr>
 
           </thead>
+
 
           <tbody>
 
@@ -4351,64 +5857,96 @@ async function loadAdminOrders(){
               <tr>
 
                 <td>
+
                   ${formatDate(
                     order.created_at
                   )}
+
                 </td>
 
+
                 <td>
+
                   ${escapeHtml(
                     order.user_id
                   )}
+
                 </td>
 
+
                 <td>
+
                   ${escapeHtml(
                     order.product_name
                   )}
+
                 </td>
 
-                <td>
-                  ${naira(order.amount)}
-                </td>
 
                 <td>
+
+                  ${naira(
+                    order.amount
+                  )}
+
+                </td>
+
+
+                <td>
+
                   ${escapeHtml(
                     order.payment_method ||
                     "-"
                   )}
+
                 </td>
 
+
                 <td>
+
                   <span class="badge">
+
                     ${escapeHtml(
                       order.status
                     )}
+
                   </span>
+
                 </td>
+
 
                 <td>
 
                   <button
                     class="btn btn-secondary btn-small"
                     onclick='viewAdminOrder(${JSON.stringify(order)})'>
+
                     View
+
                   </button>
 
                 </td>
+
 
                 <td>
 
                   ${
                     order.status === "completed"
+
                       ?
+
                       `<button
                         class="btn btn-warning btn-small"
                         onclick='refundOrder("${order.id}")'>
+
                         Refund
+
                       </button>`
+
                       :
+
                       "-"
+
                   }
 
                 </td>
@@ -4422,17 +5960,26 @@ async function loadAdminOrders(){
         </table>
 
       </div>
+
     `;
+
 
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
@@ -4445,69 +5992,126 @@ function viewAdminOrder(order){
     <div class="info-box">
 
       <strong>
+
         ${escapeHtml(
           order.product_name
         )}
+
       </strong>
 
+
       <br><br>
+
 
       Order ID:
-      ${escapeHtml(order.id)}
+
+      ${escapeHtml(
+        order.id
+      )}
+
 
       <br><br>
+
 
       Customer:
-      ${escapeHtml(order.user_id)}
+
+      ${escapeHtml(
+        order.user_id
+      )}
+
 
       <br><br>
+
 
       Amount:
-      ${naira(order.amount)}
+
+      ${naira(
+        order.amount
+      )}
+
 
       <br><br>
+
 
       Status:
-      ${escapeHtml(order.status)}
+
+      ${escapeHtml(
+        order.status
+      )}
+
 
       <br><br>
 
+
       Created:
-      ${formatDate(order.created_at)}
+
+      ${formatDate(
+        order.created_at
+      )}
 
     </div>
 
+
     ${
       order.login_information
+
         ?
+
         `<div class="credential">
-          <b>Login Information</b>
+
+          <b>
+            Login Information
+          </b>
+
           <div style="margin-top:8px">
+
             ${escapeHtml(
               order.login_information
             )}
+
           </div>
+
         </div>`
+
         :
+
         ""
+
     }
+
 
     ${
       order.admin_note
+
         ?
+
         `<div class="info-box">
-          <b>Admin Note</b><br>
+
+          <b>
+            Admin Note
+          </b>
+
+          <br>
+
           ${escapeHtml(
             order.admin_note
           )}
+
         </div>`
+
         :
+
         ""
+
     }
 
   `;
 
-  openModal("orderModal");
+
+  openModal(
+    "orderModal"
+  );
+
 }
 
 
@@ -4519,21 +6123,29 @@ async function refundOrder(orderId){
 
   if(!isAdmin()){
 
-    alert("Admin access required.");
+    alert(
+      "Admin access required."
+    );
 
     return;
+
   }
+
 
   if(!confirm(
     "Refund this order to the customer's wallet?"
   )){
+
     return;
+
   }
+
 
   const note =
     prompt(
       "Refund note (optional):"
     );
+
 
   try{
 
@@ -4541,29 +6153,42 @@ async function refundOrder(orderId){
       await supabaseClient.rpc(
         "admin_refund_order",
         {
-          p_order_id:orderId,
-          p_note:note || null
+          p_order_id:
+            orderId,
+
+          p_note:
+            note || null
         }
       );
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     showToast(
       "Order refunded successfully."
     );
 
+
     await loadAdminOrders();
+
     await updateAdminStats();
+
 
   }catch(error){
 
     console.error(error);
 
+
     alert(
       "Refund failed:\n\n" +
       error.message
     );
+
   }
+
 }
 
 
@@ -4578,6 +6203,7 @@ async function loadAdminPaymentMethod(){
       "adminPaymentMethod"
     );
 
+
   try{
 
     const {data,error} =
@@ -4588,7 +6214,11 @@ async function loadAdminPaymentMethod(){
           ascending:false
         });
 
-    if(error) throw error;
+
+    if(error){
+      throw error;
+    }
+
 
     if(!data || !data.length){
 
@@ -4596,12 +6226,16 @@ async function loadAdminPaymentMethod(){
         '<div class="empty">No payment methods.</div>';
 
       return;
+
     }
+
 
     container.innerHTML =
       data.map(method => `
 
-        <div class="card" style="margin-bottom:10px">
+        <div
+          class="card"
+          style="margin-bottom:10px">
 
           <div style="
             display:flex;
@@ -4610,21 +6244,28 @@ async function loadAdminPaymentMethod(){
             flex-wrap:wrap;
           ">
 
+
             <div>
 
               <h3>
+
                 ${escapeHtml(
                   method.name
                 )}
+
               </h3>
 
+
               <div class="info-box">
+
                 ${escapeHtml(
                   method.details
                 )}
+
               </div>
 
             </div>
+
 
             <div>
 
@@ -4633,11 +6274,13 @@ async function loadAdminPaymentMethod(){
                   ? "badge-success"
                   : "badge-danger"
               }">
+
                 ${
                   method.is_active
                     ? "ACTIVE"
                     : "INACTIVE"
                 }
+
               </span>
 
             </div>
@@ -4648,15 +6291,23 @@ async function loadAdminPaymentMethod(){
 
       `).join("");
 
+
   }catch(error){
 
     console.error(error);
 
+
     container.innerHTML =
       `<div class="empty">
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>`;
+
   }
+
 }
 
 
@@ -4666,7 +6317,10 @@ async function loadAdminPaymentMethod(){
 
 async function updateAdminStats(){
 
-  if(!isAdmin()) return;
+  if(!isAdmin()){
+    return;
+  }
+
 
   try{
 
@@ -4678,6 +6332,7 @@ async function updateAdminStats(){
           head:true
         });
 
+
     const {count:availableCount} =
       await supabaseClient
         .from("account_products")
@@ -4685,7 +6340,11 @@ async function updateAdminStats(){
           count:"exact",
           head:true
         })
-        .eq("status","available");
+        .eq(
+          "status",
+          "available"
+        );
+
 
     const {count:soldCount} =
       await supabaseClient
@@ -4694,7 +6353,11 @@ async function updateAdminStats(){
           count:"exact",
           head:true
         })
-        .eq("status","sold");
+        .eq(
+          "status",
+          "sold"
+        );
+
 
     const {count:pendingCount} =
       await supabaseClient
@@ -4703,27 +6366,35 @@ async function updateAdminStats(){
           count:"exact",
           head:true
         })
-        .eq("status","pending");
+        .eq(
+          "status",
+          "pending"
+        );
+
 
     document.getElementById(
       "statServices"
     ).textContent =
       servicesCount || 0;
 
+
     document.getElementById(
       "statAvailableAccounts"
     ).textContent =
       availableCount || 0;
+
 
     document.getElementById(
       "statSoldAccounts"
     ).textContent =
       soldCount || 0;
 
+
     document.getElementById(
       "statPendingFunding"
     ).textContent =
       pendingCount || 0;
+
 
   }catch(error){
 
@@ -4731,7 +6402,9 @@ async function updateAdminStats(){
       "Admin stats:",
       error
     );
+
   }
+
 }
 
 
@@ -4747,6 +6420,7 @@ supabaseClient.auth.onAuthStateChange(
       currentUser =
         session?.user || null;
 
+
       if(currentUser){
 
         await loadCurrentProfile();
@@ -4754,11 +6428,14 @@ supabaseClient.auth.onAuthStateChange(
       }else{
 
         currentProfile = null;
+
       }
+
 
       updateHeader();
 
     },0);
+
   }
 );
 
@@ -4778,8 +6455,10 @@ async function initialize(){
     } =
       await supabaseClient.auth.getSession();
 
+
     currentUser =
       session?.user || null;
+
 
     if(currentUser){
 
@@ -4788,11 +6467,14 @@ async function initialize(){
     }else{
 
       currentProfile = null;
+
     }
+
 
     updateHeader();
 
     showPage("home");
+
 
   }catch(error){
 
@@ -4801,14 +6483,20 @@ async function initialize(){
       error
     );
 
+
     currentUser = null;
+
     currentProfile = null;
+
 
     updateHeader();
 
     showPage("home");
+
   }
+
 }
+
 
 initialize();
 
