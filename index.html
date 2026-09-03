@@ -4,10 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Benjo-SMS | Digital Marketplace</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif
+}
+
 html{scroll-behavior:smooth}
+
 body{
   background:
     radial-gradient(circle at 20% 10%,rgba(124,92,255,.18),transparent 30%),
@@ -16,7 +25,9 @@ body{
   color:#fff;
   min-height:100vh
 }
+
 button,input,select,textarea{font:inherit}
+
 header{
   background:rgba(12,12,18,.96);
   backdrop-filter:blur(12px);
@@ -29,10 +40,25 @@ header{
   top:0;
   z-index:100
 }
-.logo{font-size:24px;font-weight:800}
-.logo span,.link{color:#8b70ff}
-nav{display:flex;align-items:center;gap:12px}
-nav a,nav button{
+
+.logo{
+  font-size:24px;
+  font-weight:800
+}
+
+.logo span,
+.link{
+  color:#8b70ff
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+nav a,
+nav button{
   color:#ccc;
   text-decoration:none;
   background:none;
@@ -40,13 +66,18 @@ nav a,nav button{
   cursor:pointer;
   font-size:14px
 }
+
 .login-btn{
   background:#7c5cff!important;
   color:#fff!important;
   padding:10px 16px;
   border-radius:8px
 }
-.logout-nav{color:#ff6f91!important}
+
+.logout-nav{
+  color:#ff6f91!important
+}
+
 .hero{
   padding:80px 5% 55px;
   text-align:center;
@@ -55,6 +86,7 @@ nav a,nav button{
     radial-gradient(circle at 50% 0%,#32246b 0%,#10101a 42%,#08080d 75%);
   border-bottom:1px solid #1d1d27
 }
+
 .hero-badge{
   display:inline-block;
   padding:7px 13px;
@@ -65,12 +97,17 @@ nav a,nav button{
   font-size:13px;
   margin-bottom:20px
 }
+
 .hero h1{
   font-size:clamp(38px,7vw,70px);
   margin-bottom:20px;
   line-height:1.05
 }
-.hero h1 span{color:#8b70ff}
+
+.hero h1 span{
+  color:#8b70ff
+}
+
 .hero p{
   color:#aaa;
   max-width:680px;
@@ -78,6 +115,7 @@ nav a,nav button{
   line-height:1.7;
   font-size:17px
 }
+
 .hero-buttons{
   margin-top:30px;
   display:flex;
@@ -85,20 +123,34 @@ nav a,nav button{
   gap:12px;
   flex-wrap:wrap
 }
-.primary-btn,.secondary-btn{
+
+.primary-btn,
+.secondary-btn{
   padding:13px 22px;
   border-radius:9px;
   text-decoration:none;
   font-weight:bold;
   cursor:pointer
 }
-.primary-btn{background:#7c5cff;color:#fff;border:none}
-.secondary-btn{background:transparent;border:1px solid #383842;color:#fff}
+
+.primary-btn{
+  background:#7c5cff;
+  color:#fff;
+  border:none
+}
+
+.secondary-btn{
+  background:transparent;
+  border:1px solid #383842;
+  color:#fff
+}
+
 .section{
   padding:55px 5%;
   max-width:1200px;
   margin:auto
 }
+
 .section-title{
   display:flex;
   justify-content:space-between;
@@ -107,8 +159,17 @@ nav a,nav button{
   gap:15px;
   flex-wrap:wrap
 }
-.section-title h2{font-size:28px}
-.section-title p{color:#888;font-size:14px;margin-top:6px}
+
+.section-title h2{
+  font-size:28px
+}
+
+.section-title p{
+  color:#888;
+  font-size:14px;
+  margin-top:6px
+}
+
 .search{
   background:#15151d;
   border:1px solid #2b2b36;
@@ -118,21 +179,31 @@ nav a,nav button{
   width:240px;
   outline:none
 }
-.products,.service-grid,.features{
+
+.products,
+.service-grid,
+.features{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px
 }
-.card,.service-card,.feature{
+
+.card,
+.service-card,
+.feature{
   background:rgba(19,19,26,.95);
   border:1px solid #282832;
   border-radius:14px;
-  padding:20px
+  padding:20px;
+  transition:.2s
 }
-.card:hover,.service-card:hover{
+
+.card:hover,
+.service-card:hover{
   transform:translateY(-3px);
   border-color:#7c5cff
 }
+
 .card-icon{
   width:50px;
   height:50px;
@@ -144,15 +215,29 @@ nav a,nav button{
   font-size:22px;
   margin-bottom:18px
 }
-.card h3{margin-bottom:8px}
-.card p,.service-card p,.feature p{
+
+.card h3{
+  margin-bottom:8px
+}
+
+.card p,
+.service-card p,
+.feature p{
   color:#999;
   font-size:14px;
   line-height:1.5;
   margin-bottom:14px
 }
-.price{font-size:20px;font-weight:bold;margin-bottom:15px}
-.buy-btn,.auth-btn,.wallet-btn{
+
+.price{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:15px
+}
+
+.buy-btn,
+.auth-btn,
+.wallet-btn{
   width:100%;
   border:none;
   background:#7c5cff;
@@ -162,10 +247,25 @@ nav a,nav button{
   cursor:pointer;
   font-weight:bold
 }
-.buy-btn:disabled{opacity:.5;cursor:not-allowed}
-.service-card{cursor:pointer;transition:.2s}
-.service-card h3{margin:10px 0}
-.service-icon{font-size:30px}
+
+.buy-btn:disabled,
+.auth-btn:disabled{
+  opacity:.5;
+  cursor:not-allowed
+}
+
+.service-card{
+  cursor:pointer
+}
+
+.service-icon{
+  font-size:30px
+}
+
+.service-card h3{
+  margin:10px 0
+}
+
 .wallet-box{
   background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(26,26,40,.95));
   border:1px solid #40356c;
@@ -173,11 +273,35 @@ nav a,nav button{
   padding:25px;
   margin-bottom:25px
 }
-.wallet-label{color:#aaa;font-size:14px;margin-bottom:8px}
-.wallet-balance{font-size:32px;font-weight:800;margin-bottom:18px}
-.wallet-actions{display:flex;gap:10px;flex-wrap:wrap}
-.wallet-btn{width:auto;padding:11px 18px}
-.wallet-btn.secondary,.small-btn{background:#252531}
+
+.wallet-label{
+  color:#aaa;
+  font-size:14px;
+  margin-bottom:8px
+}
+
+.wallet-balance{
+  font-size:32px;
+  font-weight:800;
+  margin-bottom:18px
+}
+
+.wallet-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.wallet-btn{
+  width:auto;
+  padding:11px 18px
+}
+
+.wallet-btn.secondary,
+.small-btn{
+  background:#252531
+}
+
 .account-box{
   display:none;
   max-width:900px;
@@ -188,14 +312,23 @@ nav a,nav button{
   padding:22px;
   text-align:left
 }
-.account-box h2{margin-bottom:15px}
-.account-box p{color:#aaa;margin:8px 0}
+
+.account-box h2{
+  margin-bottom:15px
+}
+
+.account-box p{
+  color:#aaa;
+  margin:8px 0
+}
+
 .account-actions{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   margin-top:18px
 }
+
 .small-btn{
   padding:10px 14px;
   border:none;
@@ -203,7 +336,11 @@ nav a,nav button{
   cursor:pointer;
   color:#fff
 }
-.whatsapp-btn{background:#19a463}
+
+.whatsapp-btn{
+  background:#19a463
+}
+
 footer{
   border-top:1px solid #25252d;
   background:#0d0d12;
@@ -212,6 +349,7 @@ footer{
   color:#777;
   margin-top:40px
 }
+
 .cart{
   position:fixed;
   right:20px;
@@ -228,6 +366,7 @@ footer{
   box-shadow:0 8px 25px rgba(0,0,0,.4);
   z-index:50
 }
+
 #cartCount{
   position:absolute;
   top:-5px;
@@ -241,6 +380,7 @@ footer{
   align-items:center;
   justify-content:center
 }
+
 .modal{
   display:none;
   position:fixed;
@@ -251,6 +391,7 @@ footer{
   justify-content:center;
   padding:20px
 }
+
 .modal-box{
   width:100%;
   max-width:500px;
@@ -262,7 +403,11 @@ footer{
   padding:25px;
   position:relative
 }
-.modal-box h2{margin-bottom:20px}
+
+.modal-box h2{
+  margin-bottom:20px
+}
+
 .close{
   position:absolute;
   right:18px;
@@ -273,6 +418,7 @@ footer{
   font-size:25px;
   cursor:pointer
 }
+
 .input{
   width:100%;
   padding:13px;
@@ -283,7 +429,11 @@ footer{
   border-radius:8px;
   outline:none
 }
-.input:focus{border-color:#7c5cff}
+
+.input:focus{
+  border-color:#7c5cff
+}
+
 .file-input{
   width:100%;
   padding:12px;
@@ -294,12 +444,40 @@ footer{
   border-radius:8px;
   cursor:pointer
 }
-.forgot{text-align:right;margin:3px 0 10px}
-.forgot span,.switch span:last-child{color:#9a82ff;cursor:pointer}
-.switch{text-align:center;margin-top:15px;color:#999;font-size:14px}
-.message{margin-bottom:12px;font-size:14px;line-height:1.5;color:#ddd}
-.success{color:#5ee39b}
-.error{color:#ff7895}
+
+.forgot{
+  text-align:right;
+  margin:3px 0 10px
+}
+
+.forgot span,
+.switch span:last-child{
+  color:#9a82ff;
+  cursor:pointer
+}
+
+.switch{
+  text-align:center;
+  margin-top:15px;
+  color:#999;
+  font-size:14px
+}
+
+.message{
+  margin-bottom:12px;
+  font-size:14px;
+  line-height:1.5;
+  color:#ddd
+}
+
+.success{
+  color:#5ee39b
+}
+
+.error{
+  color:#ff7895
+}
+
 .notice{
   background:#191923;
   border:1px solid #30303b;
@@ -310,20 +488,28 @@ footer{
   line-height:1.5;
   margin-bottom:15px
 }
+
 .payment-card{
   background:#0d0d12;
   border:1px solid #343442;
   border-radius:12px;
   padding:15px;
   margin:10px 0;
+  cursor:pointer;
   transition:.2s
 }
-.payment-card:hover{border-color:#7c5cff}
+
+.payment-card:hover,
 .payment-card.active{
   border-color:#7c5cff;
   background:#211b40
 }
-.payment-card b{display:block;margin-bottom:8px}
+
+.payment-card b{
+  display:block;
+  margin-bottom:8px
+}
+
 .payment-card small{
   display:block;
   color:#999;
@@ -331,17 +517,20 @@ footer{
   white-space:pre-line;
   line-height:1.5
 }
+
 .payment-detail-row{
   display:flex;
   gap:8px;
   align-items:center;
   margin-top:10px
 }
+
 .payment-detail-text{
   flex:1;
   color:#ddd;
   word-break:break-word
 }
+
 .copy-btn{
   background:#7c5cff;
   border:none;
@@ -352,12 +541,14 @@ footer{
   font-size:12px;
   white-space:nowrap
 }
+
 .file-name{
   color:#8f83c7;
   font-size:13px;
   margin:-4px 0 12px;
   word-break:break-word
 }
+
 .delivery-box{
   background:#0d0d12;
   border:1px solid #343442;
@@ -365,8 +556,26 @@ footer{
   padding:18px;
   margin-top:15px
 }
-.delivery-box p{color:#bbb;margin:8px 0;word-break:break-word}
-.delivery-box strong{color:#fff}
+
+.delivery-box p{
+  color:#bbb;
+  margin:10px 0;
+  word-break:break-word
+}
+
+.delivery-box strong{
+  color:#fff
+}
+
+.credential{
+  background:#191923;
+  border:1px solid #343442;
+  padding:12px;
+  border-radius:8px;
+  margin-top:8px;
+  word-break:break-word
+}
+
 .empty{
   color:#999;
   padding:20px;
@@ -374,386 +583,809 @@ footer{
   border:1px dashed #333;
   border-radius:12px
 }
+
+.status{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:11px;
+  background:#211b40;
+  color:#b8aaff;
+  margin-bottom:12px
+}
+
 @media(max-width:650px){
-  nav a:not(.login-btn){display:none}
-  .hero{padding:60px 5%}
-  .search{width:100%}
+  nav a:not(.login-btn){
+    display:none
+  }
+
+  .hero{
+    padding:60px 5%
+  }
+
+  .search{
+    width:100%
+  }
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <div class="logo">Benjo<span>-SMS</span></div>
+
   <nav>
     <a href="#home">Home</a>
     <a href="#accounts">Accounts</a>
     <a href="#services">Services</a>
     <a href="#boosting">Boosting</a>
-<a href="#wallet" id="walletNav" style="display:none">Wallet</a>
-<a href="#" id="accountNav" style="display:none"
-   onclick="scrollToAccount();return false">
-  Account
-</a>
-<a href="#" class="login-btn" id="loginNav"
-   onclick="openAuth('login');return false">
-  Login
-</a>
-<button id="logoutNav" class="logout-nav"
-        style="display:none" onclick="logout()">
-  Logout
-</button>
+
+    <a href="#wallet" id="walletNav" style="display:none">
+      Wallet
+    </a>
+
+    <a href="#" id="accountNav" style="display:none"
+       onclick="scrollToAccount();return false">
+      Account
+    </a>
+
+    <a href="#" class="login-btn" id="loginNav"
+       onclick="openAuth('login');return false">
+      Login
+    </a>
+
+    <button id="logoutNav"
+            class="logout-nav"
+            style="display:none"
+            onclick="logout()">
+      Logout
+    </button>
   </nav>
 </header>
+
 <section class="hero" id="home">
+
   <div class="hero-badge">
     🚀 Benjo-SMS Digital Marketplace
   </div>
-  <h1>Welcome to <span>Benjo-SMS</span></h1>
+
+  <h1>
+    Welcome to <span>Benjo-SMS</span>
+  </h1>
+
   <p>
     Buy digital accounts and access selected services from one simple marketplace.
   </p>
+
   <div class="hero-buttons">
-<a href="#accounts" class="primary-btn">
-  Browse Accounts
-</a>
-<button class="secondary-btn" id="createAccountBtn"
-        onclick="openAuth('register')">
-  Create Account
-</button>
+    <a href="#accounts" class="primary-btn">
+      Browse Accounts
+    </a>
+
+    <button class="secondary-btn"
+            id="createAccountBtn"
+            onclick="openAuth('register')">
+      Create Account
+    </button>
   </div>
+
   <div class="account-box" id="accountBox">
-<h2>👤 My Account</h2>
-<p id="accountName">Name: -</p>
-<p id="accountEmail">Email: -</p>
-<div class="account-actions">
-  <button class="small-btn" onclick="scrollToWallet()">
-    💰 My Wallet
-  </button>
-  <button class="small-btn whatsapp-btn"
-          onclick="chatAdmin('Hello Benjo-SMS admin, I need assistance.')">
-    💬 Chat Admin
-  </button>
-  <button class="small-btn" onclick="requestVerification()">
-    📱 Verification Number
-  </button>
-</div>
+
+    <h2>👤 My Account</h2>
+
+    <p id="accountName">
+      Name: -
+    </p>
+
+    <p id="accountEmail">
+      Email: -
+    </p>
+
+    <div class="account-actions">
+
+      <button class="small-btn"
+              onclick="scrollToWallet()">
+        💰 My Wallet
+      </button>
+
+      <button class="small-btn whatsapp-btn"
+              onclick="chatAdmin('Hello Benjo-SMS admin, I need assistance.')">
+        💬 Chat Admin
+      </button>
+
+      <button class="small-btn"
+              onclick="requestVerification()">
+        📱 Verification Number
+      </button>
+
+    </div>
   </div>
 </section>
+
 <section class="section" id="wallet">
+
   <div class="section-title">
     <div>
       <h2>💰 Wallet</h2>
-      <p>Fund your wallet and use your balance for marketplace purchases.</p>
+      <p>
+        Fund your wallet and use your balance for marketplace purchases.
+      </p>
     </div>
   </div>
+
   <div class="wallet-box">
-<div class="wallet-label">Available Balance</div>
-<div class="wallet-balance" id="walletBalance">
-  ₦0
-</div>
-<div class="wallet-actions">
-  <button class="wallet-btn" onclick="fundWallet()">
-    💳 Fund Wallet
-  </button>
-  <button class="wallet-btn secondary" onclick="loadWallet()">
-    🔄 Refresh Balance
-  </button>
-</div>
+
+    <div class="wallet-label">
+      Available Balance
+    </div>
+
+    <div class="wallet-balance" id="walletBalance">
+      ₦0
+    </div>
+
+    <div class="wallet-actions">
+
+      <button class="wallet-btn"
+              onclick="fundWallet()">
+        💳 Fund Wallet
+      </button>
+
+      <button class="wallet-btn secondary"
+              onclick="loadWallet()">
+        🔄 Refresh Balance
+      </button>
+
+    </div>
   </div>
 </section>
+
 <section class="section" id="accounts">
+
   <div class="section-title">
-<div>
-  <h2>🛒 Accounts Marketplace</h2>
-  <p>Available accounts are delivered after successful wallet payment.</p>
-</div>
-<input class="search" id="accountSearch"
-       placeholder="Search accounts..."
-       onkeyup="searchAccounts()">
+
+    <div>
+      <h2>🛒 Accounts Marketplace</h2>
+      <p>
+        Available accounts are delivered after successful wallet payment.
+      </p>
+    </div>
+
+    <input class="search"
+           id="accountSearch"
+           placeholder="Search accounts..."
+           onkeyup="searchAccounts()">
   </div>
-  <div class="products" id="accountProducts"></div>
+
+  <div class="products" id="accountProducts">
+    <div class="empty">
+      Loading accounts...
+    </div>
+  </div>
 </section>
+
 <section class="section" id="services">
+
   <div class="section-title">
-<div>
-  <h2>🛠️ Services</h2>
-  <p>Services configured by the Benjo-SMS admin.</p>
-</div>
+    <div>
+      <h2>🛠️ Services</h2>
+      <p>
+        Services configured by the Benjo-SMS admin.
+      </p>
+    </div>
   </div>
-  <div class="service-grid" id="serviceGrid"></div>
+
+  <div class="service-grid" id="serviceGrid">
+    <div class="empty">
+      Loading services...
+    </div>
+  </div>
+
 </section>
+
 <section class="section" id="boosting">
+
   <div class="section-title">
-<div>
-  <h2>🚀 Boosting Service</h2>
-  <p>Choose a platform to contact the admin directly.</p>
-</div>
+    <div>
+      <h2>🚀 Boosting Service</h2>
+      <p>
+        Choose a platform to contact the admin directly.
+      </p>
+    </div>
   </div>
+
   <div class="service-grid">
-<div class="service-card" onclick="boostingChat('Facebook')">
-  <div class="service-icon">📘</div>
-  <h3>Facebook Boosting</h3>
-  <p>Chat with admin about Facebook boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('Instagram')">
-  <div class="service-icon">📸</div>
-  <h3>Instagram Boosting</h3>
-  <p>Chat with admin about Instagram boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('TikTok')">
-  <div class="service-icon">🎵</div>
-  <h3>TikTok Boosting</h3>
-  <p>Chat with admin about TikTok boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('Twitter X')">
-  <div class="service-icon">𝕏</div>
-  <h3>Twitter X Boosting</h3>
-  <p>Chat with admin about Twitter X boosting.</p>
-</div>
-<div class="service-card" onclick="boostingChat('YouTube')">
-  <div class="service-icon">▶️</div>
-  <h3>YouTube Boosting</h3>
-  <p>Chat with admin about YouTube boosting.</p>
-</div>
+
+    <div class="service-card"
+         onclick="boostingChat('Facebook')">
+      <div class="service-icon">📘</div>
+      <h3>Facebook Boosting</h3>
+      <p>
+        Chat with admin about Facebook boosting.
+      </p>
+    </div>
+
+    <div class="service-card"
+         onclick="boostingChat('Instagram')">
+      <div class="service-icon">📸</div>
+      <h3>Instagram Boosting</h3>
+      <p>
+        Chat with admin about Instagram boosting.
+      </p>
+    </div>
+
+    <div class="service-card"
+         onclick="boostingChat('TikTok')">
+      <div class="service-icon">🎵</div>
+      <h3>TikTok Boosting</h3>
+      <p>
+        Chat with admin about TikTok boosting.
+      </p>
+    </div>
+
+    <div class="service-card"
+         onclick="boostingChat('Twitter X')">
+      <div class="service-icon">𝕏</div>
+      <h3>Twitter X Boosting</h3>
+      <p>
+        Chat with admin about Twitter X boosting.
+      </p>
+    </div>
+
+    <div class="service-card"
+         onclick="boostingChat('YouTube')">
+      <div class="service-icon">▶️</div>
+      <h3>YouTube Boosting</h3>
+      <p>
+        Chat with admin about YouTube boosting.
+      </p>
+    </div>
+
   </div>
 </section>
+
 <section class="section">
-  <div class="service-card" onclick="requestVerification()">
-<div class="service-icon">📱</div>
-<h3>Verification Number</h3>
-<p>
-  Need a verification number? Message Benjo-SMS admin directly.
-</p>
+
+  <div class="service-card"
+       onclick="requestVerification()">
+
+    <div class="service-icon">📱</div>
+
+    <h3>
+      Verification Number
+    </h3>
+
+    <p>
+      Need a verification number? Message Benjo-SMS admin directly.
+    </p>
+
   </div>
+
 </section>
+
 <section class="section">
+
   <div class="section-title">
     <h2>Why Benjo-SMS?</h2>
   </div>
+
   <div class="features">
-<div class="feature">
-  🔐
-  <h3>Secure</h3>
-  <p>Customer authentication and protected account information.</p>
-</div>
-<div class="feature">
-  ⚡
-  <h3>Fast Delivery</h3>
-  <p>Eligible account purchases can be delivered automatically.</p>
-</div>
-<div class="feature">
-  💰
-  <h3>Wallet</h3>
-  <p>Fund your wallet and use your balance for purchases.</p>
-</div>
-<div class="feature">
-  💬
-  <h3>Direct Admin Support</h3>
-  <p>Contact Benjo-SMS admin through WhatsApp for support.</p>
-</div>
+
+    <div class="feature">
+      🔐
+      <h3>Secure</h3>
+      <p>
+        Customer authentication and protected account information.
+      </p>
+    </div>
+
+    <div class="feature">
+      ⚡
+      <h3>Fast Delivery</h3>
+      <p>
+        Eligible account purchases can be delivered automatically.
+      </p>
+    </div>
+
+    <div class="feature">
+      💰
+      <h3>Wallet</h3>
+      <p>
+        Fund your wallet and use your balance for purchases.
+      </p>
+    </div>
+
+    <div class="feature">
+      💬
+      <h3>Direct Admin Support</h3>
+      <p>
+        Contact Benjo-SMS admin through WhatsApp for support.
+      </p>
+    </div>
+
   </div>
 </section>
+
 <footer>
   © 2026 Benjo-SMS. All rights reserved.
 </footer>
+
 <div class="cart" onclick="viewCart()">
   🛒
   <span id="cartCount">0</span>
 </div>
-<!-- LOGIN / REGISTER -->
+
+
+<!-- =====================================================
+     AUTH MODAL
+===================================================== -->
+
 <div class="modal" id="authModal">
+
   <div class="modal-box">
-<button class="close" onclick="closeAuth()">×</button>
-<h2 id="authTitle">Login</h2>
-<div class="message" id="authMessage"></div>
-<form id="authForm">
-  <input class="input" id="fullName"
-         placeholder="Full name" style="display:none">
-  <input class="input" id="email"
-         type="email"
-         placeholder="Email address"
-         required>
-  <input class="input" id="password"
-         type="password"
-         placeholder="Password"
-         minlength="6"
-         required>
-  <div class="forgot" id="forgotBox">
-    <span onclick="openForgotPassword()">
-      Forgot password?
-    </span>
+
+    <button class="close"
+            onclick="closeAuth()">
+      ×
+    </button>
+
+    <h2 id="authTitle">
+      Login
+    </h2>
+
+    <div class="message"
+         id="authMessage">
+    </div>
+
+    <form id="authForm">
+
+      <input class="input"
+             id="fullName"
+             placeholder="Full name"
+             style="display:none">
+
+      <input class="input"
+             id="email"
+             type="email"
+             placeholder="Email address"
+             required>
+
+      <input class="input"
+             id="password"
+             type="password"
+             placeholder="Password"
+             minlength="6"
+             required>
+
+      <div class="forgot"
+           id="forgotBox">
+
+        <span onclick="openForgotPassword()">
+          Forgot password?
+        </span>
+
+      </div>
+
+      <button class="auth-btn"
+              id="authSubmit">
+        Login
+      </button>
+
+    </form>
+
+    <div class="switch">
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
+
+      <span id="switchAction"
+            onclick="switchAuth()">
+        Register
+      </span>
+
+    </div>
+
   </div>
-  <button class="auth-btn" id="authSubmit">
-    Login
-  </button>
-</form>
-<div class="switch">
-  <span id="switchText">
-    Don't have an account?
-  </span>
-  <span id="switchAction" onclick="switchAuth()">
-    Register
-  </span>
 </div>
-  </div>
-</div>
-<!-- FUND WALLET -->
+
+
+<!-- =====================================================
+     FUND WALLET MODAL
+===================================================== -->
+
 <div class="modal" id="fundModal">
+
   <div class="modal-box">
-<button class="close" onclick="closeFund()">×</button>
-<h2>💳 Fund Wallet</h2>
-<div class="message" id="fundMessage"></div>
-<input class="input"
-       id="fundAmount"
-       type="number"
-       min="1"
-       step="0.01"
-       placeholder="Amount (₦)">
-<div id="paymentMethods">
-  <div class="empty">
-    Loading payment methods...
+
+    <button class="close"
+            onclick="closeFund()">
+      ×
+    </button>
+
+    <h2>💳 Fund Wallet</h2>
+
+    <div class="message"
+         id="fundMessage">
+    </div>
+
+    <input class="input"
+           id="fundAmount"
+           type="number"
+           min="1"
+           step="0.01"
+           placeholder="Amount (₦)">
+
+    <div id="paymentMethods">
+      <div class="empty">
+        Loading payment methods...
+      </div>
+    </div>
+
+    <div class="notice">
+      After making payment, upload your payment screenshot below.
+      The admin will review your payment before your wallet is credited.
+    </div>
+
+    <label style="display:block;margin-bottom:7px;color:#ccc;font-size:14px">
+      Payment Proof
+    </label>
+
+    <input class="file-input"
+           id="paymentProof"
+           type="file"
+           accept="image/*,.pdf">
+
+    <div class="file-name"
+         id="fileName">
+    </div>
+
+    <input class="input"
+           id="paymentReference"
+           placeholder="Payment reference (optional)">
+
+    <button class="auth-btn"
+            id="fundSubmitBtn"
+            onclick="submitFunding()">
+      Submit Funding Request
+    </button>
+
   </div>
 </div>
-<div class="notice">
-  After making payment, upload your payment screenshot below.
-  The admin will review your payment before your wallet is credited.
-</div>
-<label style="display:block;margin-bottom:7px;color:#ccc;font-size:14px">
-  Payment Proof
-</label>
-<input class="file-input"
-       id="paymentProof"
-       type="file"
-       accept="image/*,.pdf">
-<div class="file-name" id="fileName"></div>
-<input class="input"
-       id="paymentReference"
-       placeholder="Payment reference (optional)">
-<button class="auth-btn"
-        id="fundSubmitBtn"
-        onclick="submitFunding()">
-  Submit Funding Request
-</button>
-  </div>
-</div>
-<!-- DELIVERY -->
-<div class="modal" id="deliveryModal">
+
+
+<!-- =====================================================
+     DELIVERY MODAL
+===================================================== -->
+
+<div class="modal"
+     id="deliveryModal">
+
   <div class="modal-box">
-<button class="close" onclick="closeDelivery()">×</button>
-<h2>🎉 Purchase Successful</h2>
-<div class="message success">
-  Your account has been delivered.
-</div>
-<div class="delivery-box">
-  <p>
-    <strong>Username:</strong>
-    <span id="deliveredUsername"></span>
-  </p>
-  <p>
-    <strong>Password:</strong>
-    <span id="deliveredPassword"></span>
-  </p>
-</div>
-<div class="notice" style="margin-top:15px">
-  Keep these login details private. Your wallet has been charged.
-</div>
-<button class="auth-btn" onclick="closeDelivery()">
-  Done
-</button>
+
+    <button class="close"
+            onclick="closeDelivery()">
+      ×
+    </button>
+
+    <h2>
+      🎉 Purchase Successful
+    </h2>
+
+    <div class="message success">
+      Your account has been delivered.
+    </div>
+
+    <div class="delivery-box">
+
+      <p>
+        <strong>Username:</strong>
+      </p>
+
+      <div class="credential"
+           id="deliveredUsername">
+      </div>
+
+      <p>
+        <strong>Password:</strong>
+      </p>
+
+      <div class="credential"
+           id="deliveredPassword">
+      </div>
+
+      <div id="additionalInfoBox"
+           style="display:none">
+
+        <p>
+          <strong>Additional Information:</strong>
+        </p>
+
+        <div class="credential"
+             id="deliveredAdditional">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="notice"
+         style="margin-top:15px">
+      Keep these login details private. Your wallet has been charged.
+    </div>
+
+    <button class="auth-btn"
+            onclick="closeDelivery()">
+      Done
+    </button>
+
   </div>
 </div>
+
+
+<!-- =====================================================
+     SERVICE DELIVERY MODAL
+===================================================== -->
+
+<div class="modal"
+     id="serviceDeliveryModal">
+
+  <div class="modal-box">
+
+    <button class="close"
+            onclick="closeServiceDelivery()">
+      ×
+    </button>
+
+    <h2>
+      ✅ Service Order Successful
+    </h2>
+
+    <div class="message success">
+      Your service order has been created.
+    </div>
+
+    <div class="delivery-box">
+
+      <p>
+        <strong>Service:</strong>
+      </p>
+
+      <div class="credential"
+           id="serviceDeliveryName">
+      </div>
+
+      <p>
+        <strong>Delivery Information:</strong>
+      </p>
+
+      <div class="credential"
+           id="serviceDeliveryInfo">
+      </div>
+
+    </div>
+
+    <button class="auth-btn"
+            style="margin-top:15px"
+            onclick="closeServiceDelivery()">
+      Done
+    </button>
+
+  </div>
+</div>
+
+
 <script>
-/* =========================
+
+/* =====================================================
    SUPABASE
-========================= */
+===================================================== */
+
 const SUPABASE_URL =
   "https://zwefikwlxgphufilgcyc.supabase.co";
+
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_YysjWLqfGKgOQukpWalRQA_2jV3MsQM";
-const { createClient } = window.supabase;
+
+const {createClient} =
+  window.supabase;
+
 const supabaseClient =
   createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
-/* =========================
+
+
+/* =====================================================
    SETTINGS
-========================= */
+===================================================== */
+
 const ADMIN_WHATSAPP =
   "2348165405921";
+
 const PAYMENT_PROOF_BUCKET =
   "payment-proofs";
+
 let authMode = "login";
 let cart = [];
 let selectedPayment = null;
 let selectedPaymentDetails = null;
+
+window._payments = [];
+window._accounts = [];
+window._services = [];
+
+
 const $ = id =>
   document.getElementById(id);
-/* =========================
-   AUTH
-========================= */
-function openAuth(mode = "login") {
+
+
+/* =====================================================
+   SAFE TEXT
+===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   NAIRA
+===================================================== */
+
+function formatNaira(value){
+
+  return "₦" +
+    Number(value || 0)
+      .toLocaleString(
+        "en-NG",
+        {
+          minimumFractionDigits:0,
+          maximumFractionDigits:2
+        }
+      );
+
+}
+
+
+/* =====================================================
+   AUTH MODAL
+===================================================== */
+
+function openAuth(mode = "login"){
+
   authMode = mode;
-  $("authModal").style.display = "flex";
+
+  $("authModal").style.display =
+    "flex";
+
   updateAuthForm();
-  $("authMessage").textContent = "";
+
+  $("authMessage").textContent =
+    "";
+
 }
-function closeAuth() {
-  $("authModal").style.display = "none";
+
+
+function closeAuth(){
+
+  $("authModal").style.display =
+    "none";
+
   $("authForm").reset();
-  $("authMessage").textContent = "";
+
+  $("authMessage").textContent =
+    "";
+
 }
-function switchAuth() {
+
+
+function switchAuth(){
+
   authMode =
     authMode === "login"
       ? "register"
       : "login";
+
   updateAuthForm();
+
 }
-function updateAuthForm() {
-  const reg =
+
+
+function updateAuthForm(){
+
+  const register =
     authMode === "register";
+
   $("authTitle").textContent =
-    reg ? "Create Account" : "Login";
+    register
+      ? "Create Account"
+      : "Login";
+
   $("fullName").style.display =
-    reg ? "block" : "none";
-  $("fullName").required = reg;
+    register
+      ? "block"
+      : "none";
+
+  $("fullName").required =
+    register;
+
   $("authSubmit").textContent =
-    reg ? "Create Account" : "Login";
+    register
+      ? "Create Account"
+      : "Login";
+
   $("switchText").textContent =
-    reg
+    register
       ? "Already have an account?"
       : "Don't have an account?";
+
   $("switchAction").textContent =
-    reg ? "Login" : "Register";
+    register
+      ? "Login"
+      : "Register";
+
   $("forgotBox").style.display =
-    reg ? "none" : "block";
+    register
+      ? "none"
+      : "block";
+
 }
-/* =========================
+
+
+/* =====================================================
    AUTH SUBMIT
-========================= */
+===================================================== */
+
 $("authForm").addEventListener(
   "submit",
-  async e => {
-    e.preventDefault();
+  async function(event){
+
+    event.preventDefault();
+
     const email =
       $("email").value.trim();
+
     const password =
       $("password").value;
+
     const fullName =
       $("fullName").value.trim();
-    const msg =
+
+    const message =
       $("authMessage");
-    const btn =
+
+    const button =
       $("authSubmit");
-    btn.disabled = true;
-    btn.textContent = "Please wait...";
-    msg.textContent = "";
-    msg.className = "message";
-    try {
-      if (authMode === "register") {
-        if (!fullName)
-          throw Error("Please enter your full name.");
+
+    button.disabled = true;
+
+    button.textContent =
+      "Please wait...";
+
+    message.textContent =
+      "";
+
+    try{
+
+      if(authMode === "register"){
+
+        if(!fullName){
+
+          throw new Error(
+            "Please enter your full name."
+          );
+
+        }
+
         const {
           data,
           error
@@ -767,28 +1399,39 @@ $("authForm").addEventListener(
               }
             }
           });
-        if (error)
+
+        if(error)
           throw error;
-        if (
-          data.user &&
-          !data.session
-        ) {
-          msg.textContent =
-            "Account created. Check your email to confirm it.";
-          msg.className =
+
+        if(data.user && !data.session){
+
+          message.textContent =
+            "Account created. Check your email to confirm your account.";
+
+          message.className =
             "message success";
+
           return;
+
         }
-        if (data.user) {
+
+        if(data.user){
+
           await createProfile(
             data.user,
             fullName
           );
+
           closeAuth();
+
           await loadAccount();
+
           await loadWallet();
+
         }
-      } else {
+
+      }else{
+
         const {
           error
         } =
@@ -797,103 +1440,207 @@ $("authForm").addEventListener(
               email,
               password
             });
-        if (error)
+
+        if(error)
           throw error;
+
         closeAuth();
+
         await loadAccount();
+
         await loadWallet();
-        alert("Login successful!");
+
+        alert(
+          "Login successful!"
+        );
+
       }
-    } catch (err) {
-      msg.textContent =
-        err.message ||
-        "Something went wrong.";
-      msg.className =
+
+    }catch(error){
+
+      console.error(
+        "Authentication error:",
+        error
+      );
+
+      message.textContent =
+        error.message ||
+        "Authentication failed.";
+
+      message.className =
         "message error";
-    } finally {
-      btn.disabled = false;
-      btn.textContent =
+
+    }finally{
+
+      button.disabled =
+        false;
+
+      button.textContent =
         authMode === "register"
           ? "Create Account"
           : "Login";
+
     }
+
   }
 );
-/* =========================
-   PROFILE
-========================= */
-async function createProfile(user, fullName) {
+
+
+/* =====================================================
+   CREATE PROFILE
+===================================================== */
+
+async function createProfile(
+  user,
+  fullName
+){
+
   const {
     error
   } =
     await supabaseClient
       .from("profiles")
-      .upsert({
-        id:user.id,
-        full_name:
-          fullName ||
-          user.user_metadata?.full_name ||
-          "",
-        email:user.email
-      },{
-        onConflict:"id"
-      });
-  if (error)
-    console.error("Profile error:",error);
+      .upsert(
+        {
+          id:user.id,
+          full_name:
+            fullName ||
+            user.user_metadata?.full_name ||
+            "",
+          email:user.email
+        },
+        {
+          onConflict:"id"
+        }
+      );
+
+  if(error){
+
+    console.error(
+      "Profile creation error:",
+      error
+    );
+
+  }
+
 }
-/* =========================
-   ACCOUNT
-========================= */
-async function loadAccount() {
+
+
+/* =====================================================
+   LOAD ACCOUNT
+===================================================== */
+
+async function loadAccount(){
+
   const {
     data:{
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient.auth
+      .getUser();
+
+  const loggedIn =
+    !!user;
+
   $("loginNav").style.display =
-    user ? "none" : "block";
+    loggedIn
+      ? "none"
+      : "block";
+
   $("logoutNav").style.display =
-    user ? "block" : "none";
+    loggedIn
+      ? "block"
+      : "none";
+
   $("accountNav").style.display =
-    user ? "block" : "none";
+    loggedIn
+      ? "block"
+      : "none";
+
   $("walletNav").style.display =
-    user ? "block" : "none";
+    loggedIn
+      ? "block"
+      : "none";
+
   $("accountBox").style.display =
-    user ? "block" : "none";
+    loggedIn
+      ? "block"
+      : "none";
+
   $("createAccountBtn").style.display =
-    user ? "none" : "inline-block";
-  if (user) {
+    loggedIn
+      ? "none"
+      : "inline-block";
+
+  if(user){
+
+    const name =
+      user.user_metadata?.full_name ||
+      "Customer";
+
     $("accountName").textContent =
-      "Name: " +
-      (
-        user.user_metadata?.full_name ||
-        "Customer"
-      );
+      "Name: " + name;
+
     $("accountEmail").textContent =
       "Email: " +
       (user.email || "");
+
   }
+
 }
-/* =========================
+
+
+/* =====================================================
    LOGOUT
-========================= */
-async function logout() {
-  await supabaseClient.auth.signOut();
+===================================================== */
+
+async function logout(){
+
+  const {
+    error
+  } =
+    await supabaseClient.auth
+      .signOut();
+
+  if(error){
+
+    alert(error.message);
+    return;
+
+  }
+
+  $("walletBalance").textContent =
+    "₦0";
+
   await loadAccount();
-  $("walletBalance").textContent = "₦0";
-  alert("You have been logged out.");
+
+  alert(
+    "You have been logged out."
+  );
+
 }
-/* =========================
+
+
+/* =====================================================
    FORGOT PASSWORD
-========================= */
-async function openForgotPassword() {
+===================================================== */
+
+async function openForgotPassword(){
+
   const email =
     $("email").value.trim();
-  if (!email) {
-    alert("Enter your email address first.");
+
+  if(!email){
+
+    alert(
+      "Enter your email address first."
+    );
+
     return;
+
   }
+
   const {
     error
   } =
@@ -906,41 +1653,45 @@ async function openForgotPassword() {
             window.location.pathname
         }
       );
-  if (error)
+
+  if(error){
+
     alert(error.message);
-  else
+
+  }else{
+
     alert(
       "Password reset instructions have been sent to your email."
     );
+
+  }
+
 }
-/* =========================
-   NAIRA
-========================= */
-function formatNaira(n) {
-  return "₦" +
-    Number(n || 0)
-      .toLocaleString(
-        "en-NG",
-        {
-          minimumFractionDigits:0,
-          maximumFractionDigits:2
-        }
-      );
-}
-/* =========================
+
+
+/* =====================================================
    WALLET
-========================= */
-async function loadWallet() {
+===================================================== */
+
+async function loadWallet(){
+
   const {
     data:{
       user
     }
   } =
-    await supabaseClient.auth.getUser();
-  if (!user) {
-    $("walletBalance").textContent = "₦0";
+    await supabaseClient.auth
+      .getUser();
+
+  if(!user){
+
+    $("walletBalance").textContent =
+      "₦0";
+
     return;
+
   }
+
   const {
     data,
     error
@@ -948,59 +1699,107 @@ async function loadWallet() {
     await supabaseClient
       .from("wallets")
       .select("balance")
-      .eq("user_id",user.id)
+      .eq(
+        "user_id",
+        user.id
+      )
       .maybeSingle();
-  if (error) {
+
+  if(error){
+
     console.error(
       "Wallet error:",
       error
     );
+
     return;
+
   }
+
   $("walletBalance").textContent =
     formatNaira(
       data?.balance || 0
     );
+
 }
-/* =========================
+
+
+/* =====================================================
    FUND WALLET
-========================= */
-async function fundWallet() {
+===================================================== */
+
+async function fundWallet(){
+
   const {
     data:{
       user
     }
   } =
-    await supabaseClient.auth.getUser();
-  if (!user) {
-    alert("Please login first.");
+    await supabaseClient.auth
+      .getUser();
+
+  if(!user){
+
+    alert(
+      "Please login first."
+    );
+
     openAuth("login");
+
     return;
+
   }
+
   selectedPayment = null;
   selectedPaymentDetails = null;
-  $("fundAmount").value = "";
-  $("paymentReference").value = "";
-  $("paymentProof").value = "";
-  $("fileName").textContent = "";
-  $("fundMessage").textContent = "";
-  $("fundModal").style.display = "flex";
+
+  $("fundAmount").value =
+    "";
+
+  $("paymentReference").value =
+    "";
+
+  $("paymentProof").value =
+    "";
+
+  $("fileName").textContent =
+    "";
+
+  $("fundMessage").textContent =
+    "";
+
+  $("fundModal").style.display =
+    "flex";
+
   await loadPaymentMethods();
+
 }
-/* =========================
+
+
+/* =====================================================
    CLOSE FUND
-========================= */
-function closeFund() {
-  $("fundModal").style.display = "none";
+===================================================== */
+
+function closeFund(){
+
+  $("fundModal").style.display =
+    "none";
+
 }
-/* =========================
+
+
+/* =====================================================
    PAYMENT METHODS
-========================= */
-async function loadPaymentMethods() {
+===================================================== */
+
+async function loadPaymentMethods(){
+
   const box =
     $("paymentMethods");
+
   box.innerHTML =
     '<div class="empty">Loading payment methods...</div>';
+
   const {
     data,
     error
@@ -1020,242 +1819,356 @@ async function loadPaymentMethods() {
           ascending:false
         }
       );
-  if (error) {
+
+  if(error){
+
     console.error(
       "Payment method error:",
       error
     );
+
     box.innerHTML =
-      '<div class="message error">' +
-      escapeHtml(error.message) +
-      '</div>';
+      `<div class="message error">
+        ${escapeHtml(error.message)}
+      </div>`;
+
     return;
+
   }
-  if (!data || data.length === 0) {
+
+  if(!data || data.length === 0){
+
     box.innerHTML =
-      '<div class="empty">' +
-      'No payment method is available yet. Please contact admin.' +
-      '</div>';
+      `<div class="empty">
+        No payment method is available yet. Please contact admin.
+      </div>`;
+
     return;
+
   }
-  window._payments = data;
+
+  window._payments =
+    data;
+
   box.innerHTML =
     data.map(
-      p => `
-        <div
-          class="payment-card"
-          data-payment-id="${escapeHtml(p.id)}"
-          onclick="selectPayment('${escapeHtml(p.id)}',this)"
-        >
-          <b>
-            💳 ${escapeHtml(p.name)}
-          </b>
-          <small>
-            ${formatPaymentDetails(p.details)}
-          </small>
-        </div>
-      `
+      payment => {
+
+        return `
+          <div
+            class="payment-card"
+            data-payment-id="${escapeHtml(payment.id)}"
+            onclick="selectPayment('${escapeHtml(payment.id)}',this)"
+          >
+
+            <b>
+              💳 ${escapeHtml(payment.name)}
+            </b>
+
+            <small>
+              ${formatPaymentDetails(payment.details)}
+            </small>
+
+          </div>
+        `;
+
+      }
     ).join("");
+
 }
-/* =========================
+
+
+/* =====================================================
    PAYMENT DETAILS
-========================= */
-function formatPaymentDetails(details) {
+===================================================== */
+
+function formatPaymentDetails(details){
+
   const text =
     String(details || "");
+
   const escaped =
     escapeHtml(text);
-  const accountMatch =
+
+  const match =
     text.match(
       /(?:account\s*(?:number|no)?|acct)\s*[:#-]?\s*(\d{8,20})/i
     );
-  if (!accountMatch)
+
+  if(!match)
     return escaped;
+
   const number =
-    accountMatch[1];
+    match[1];
+
   const safeNumber =
     escapeHtml(number);
-  const replaced =
-    escaped.replace(
-      safeNumber,
-      `
-        <span class="payment-detail-row">
-          <span class="payment-detail-text">
-            ${safeNumber}
-          </span>
-          <button
-            type="button"
-            class="copy-btn"
-            onclick="copyAccountNumber(event,'${safeNumber}')"
-          >
-            COPY
-          </button>
+
+  return escaped.replace(
+    safeNumber,
+    `
+      <span class="payment-detail-row">
+
+        <span class="payment-detail-text">
+          ${safeNumber}
         </span>
-      `
-    );
-  return replaced;
+
+        <button
+          type="button"
+          class="copy-btn"
+          onclick="copyAccountNumber(event,'${safeNumber}')"
+        >
+          COPY
+        </button>
+
+      </span>
+    `
+  );
+
 }
-/* =========================
+
+
+/* =====================================================
    COPY ACCOUNT NUMBER
-========================= */
+===================================================== */
+
 async function copyAccountNumber(
   event,
   number
-) {
-  if (event)
+){
+
+  if(event)
     event.stopPropagation();
-  try {
-    await navigator.clipboard.writeText(
-      number
-    );
-    const btn =
+
+  try{
+
+    await navigator.clipboard
+      .writeText(number);
+
+    const button =
       event?.currentTarget;
-    if (btn) {
+
+    if(button){
+
       const old =
-        btn.textContent;
-      btn.textContent =
+        button.textContent;
+
+      button.textContent =
         "COPIED!";
+
       setTimeout(
         () => {
-          btn.textContent = old;
+          button.textContent =
+            old;
         },
         1500
       );
-    } else {
-      alert("Account number copied!");
+
     }
-  } catch {
+
+  }catch(error){
+
     alert(
       "Copy failed. Please copy the account number manually."
     );
+
   }
+
 }
-/* =========================
+
+
+/* =====================================================
    SELECT PAYMENT
-========================= */
+===================================================== */
+
 function selectPayment(
   id,
   element
-) {
+){
+
   selectedPayment =
-    (window._payments || [])
-      .find(
-        x => x.id === id
-      ) || null;
+    window._payments.find(
+      payment =>
+        payment.id === id
+    ) || null;
+
   selectedPaymentDetails =
     selectedPayment;
+
   document
     .querySelectorAll(
       ".payment-card"
     )
     .forEach(
-      x =>
-        x.classList.remove("active")
+      card =>
+        card.classList.remove(
+          "active"
+        )
     );
-  if (element)
-    element.classList.add("active");
+
+  if(element)
+    element.classList.add(
+      "active"
+    );
+
 }
-/* =========================
-   FILE NAME
-========================= */
-$("paymentProof").addEventListener(
-  "change",
-  () => {
-    const file =
-      $("paymentProof").files[0];
-    $("fileName").textContent =
-      file
-        ? "Selected: " + file.name
-        : "";
-  }
-);
-/* =========================
+
+
+/* =====================================================
+   PAYMENT PROOF FILE
+===================================================== */
+
+$("paymentProof")
+  .addEventListener(
+    "change",
+    function(){
+
+      const file =
+        $("paymentProof").files[0];
+
+      $("fileName").textContent =
+        file
+          ? "Selected: " + file.name
+          : "";
+
+    }
+  );
+
+
+/* =====================================================
    SUBMIT FUNDING
-========================= */
-async function submitFunding() {
+===================================================== */
+
+async function submitFunding(){
+
   const amount =
     Number(
       $("fundAmount").value
     );
+
   const reference =
     $("paymentReference")
       .value
       .trim();
+
   const file =
     $("paymentProof")
       .files[0];
-  const msg =
+
+  const message =
     $("fundMessage");
-  const btn =
+
+  const button =
     $("fundSubmitBtn");
+
   const {
     data:{
       user
     }
   } =
-    await supabaseClient.auth.getUser();
-  if (!user) {
-    alert("Please login first.");
+    await supabaseClient.auth
+      .getUser();
+
+  if(!user){
+
+    alert(
+      "Please login first."
+    );
+
     return;
+
   }
-  if (!amount || amount <= 0) {
-    alert("Enter a valid amount.");
+
+  if(!amount || amount <= 0){
+
+    alert(
+      "Enter a valid amount."
+    );
+
     return;
+
   }
-  if (!selectedPayment) {
+
+  if(!selectedPayment){
+
     alert(
       "Please select a payment method."
     );
+
     return;
+
   }
-  if (!file) {
+
+  if(!file){
+
     alert(
       "Please upload your payment proof screenshot."
     );
+
     return;
+
   }
-  const maxSize =
-    10 * 1024 * 1024;
-  if (file.size > maxSize) {
+
+  if(file.size > 10 * 1024 * 1024){
+
     alert(
       "Payment proof must be 10MB or smaller."
     );
+
     return;
+
   }
+
   const allowed =
     file.type.startsWith("image/") ||
     file.type === "application/pdf";
-  if (!allowed) {
+
+  if(!allowed){
+
     alert(
       "Please upload an image or PDF."
     );
+
     return;
+
   }
-  btn.disabled = true;
-  btn.textContent = "Uploading...";
-  msg.textContent = "";
-  msg.className = "message";
-  let uploadedPath = null;
-  try {
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Uploading...";
+
+  message.textContent =
+    "";
+
+  let path =
+    null;
+
+  try{
+
     const safeName =
-      file.name
-        .replace(
-          /[^a-zA-Z0-9._-]/g,
-          "_"
-        );
-    uploadedPath =
+      file.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+    path =
       user.id +
       "/" +
       Date.now() +
       "_" +
       safeName;
+
     const {
       error:uploadError
     } =
       await supabaseClient.storage
-        .from(PAYMENT_PROOF_BUCKET)
+        .from(
+          PAYMENT_PROOF_BUCKET
+        )
         .upload(
-          uploadedPath,
+          path,
           file,
           {
             cacheControl:"3600",
@@ -1263,10 +2176,13 @@ async function submitFunding() {
             contentType:file.type
           }
         );
-    if (uploadError)
+
+    if(uploadError)
       throw uploadError;
-    btn.textContent =
+
+    button.textContent =
       "Submitting...";
+
     const {
       data,
       error
@@ -1279,65 +2195,83 @@ async function submitFunding() {
             selectedPayment.name,
           p_payment_reference:
             reference || null,
-          p_proof_url:
-            uploadedPath
+          p_proof_url:path
         }
       );
-    if (error)
+
+    if(error)
       throw error;
-    if (
+
+    if(
       data &&
       data.success === false
-    ) {
-      throw Error(
+    ){
+
+      throw new Error(
         data.message ||
         "Funding request failed."
       );
+
     }
-    msg.textContent =
+
+    message.textContent =
       "Funding request submitted successfully.";
-    msg.className =
+
+    message.className =
       "message success";
+
     alert(
       "Funding request submitted successfully. Admin will review your payment."
     );
+
     closeFund();
-  } catch (err) {
+
+  }catch(error){
+
     console.error(
       "Funding error:",
-      err
+      error
     );
-    msg.textContent =
-      err.message ||
+
+    message.textContent =
+      error.message ||
       "Unable to submit funding request.";
-    msg.className =
+
+    message.className =
       "message error";
+
     alert(
-      err.message ||
+      error.message ||
       "Unable to submit funding request."
     );
-  } finally {
-    btn.disabled = false;
-    btn.textContent =
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
       "Submit Funding Request";
+
   }
+
 }
-/* =========================
-   LOAD ACCOUNTS
-========================= */
-async function loadAccounts() {
-  const c =
+
+
+/* =====================================================
+   ACCOUNTS
+===================================================== */
+
+async function loadAccounts(){
+
+  const container =
     $("accountProducts");
-  c.innerHTML =
-    `
-      <div class="card">
-        <div class="card-icon">
-          ⏳
-        </div>
-        <h3>Loading Accounts...</h3>
-        <p>Please wait.</p>
-      </div>
-    `;
+
+  container.innerHTML =
+    `<div class="empty">
+      Loading accounts...
+    </div>`;
+
   const {
     data,
     error
@@ -1345,116 +2279,171 @@ async function loadAccounts() {
     await supabaseClient.rpc(
       "get_available_accounts"
     );
-  if (error) {
+
+  if(error){
+
     console.error(
       "Accounts error:",
       error
     );
-    c.innerHTML =
-      `
-        <div class="card">
-          <div class="card-icon">⚠️</div>
-          <h3>
-            Unable to load accounts
-          </h3>
-          <p>
-            ${escapeHtml(error.message)}
-          </p>
-          <button
-            class="buy-btn"
-            onclick="loadAccounts()"
-          >
-            Try Again
-          </button>
+
+    container.innerHTML =
+      `<div class="card">
+
+        <div class="card-icon">
+          ⚠️
         </div>
-      `;
+
+        <h3>
+          Unable to load accounts
+        </h3>
+
+        <p>
+          ${escapeHtml(error.message)}
+        </p>
+
+        <button
+          class="buy-btn"
+          onclick="loadAccounts()">
+          Try Again
+        </button>
+
+      </div>`;
+
     return;
+
   }
-  if (!data || data.length === 0) {
-    c.innerHTML =
-      '<div class="empty">' +
-      'No accounts available for purchase yet.' +
-      '</div>';
+
+  if(!data || data.length === 0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No accounts available for purchase yet.
+      </div>`;
+
     return;
+
   }
-  window._accounts = data;
-  c.innerHTML =
+
+  window._accounts =
+    data;
+
+  container.innerHTML =
     data.map(
-      a => `
-        <div
-          class="card account-card"
-          data-name="${escapeHtml(
-            a.service_name ||
-            a.platform ||
-            "Account"
-          )}"
-        >
-          <div class="card-icon">
-            👤
-          </div>
-          <h3>
-            ${escapeHtml(
-              a.service_name ||
-              a.platform ||
-              "Social Account"
-            )}
-          </h3>
-          <p>
-            ${escapeHtml(
-              a.platform ||
-              a.description ||
-              "Available account"
-            )}
-          </p>
-          <div class="price">
-            ${formatNaira(a.price)}
-          </div>
-          <button
-            class="buy-btn"
-            onclick="buyAccount('${escapeHtml(a.id)}')"
+      account => {
+
+        const title =
+          account.service_name ||
+          account.platform ||
+          "Social Account";
+
+        return `
+          <div
+            class="card account-card"
+            data-name="${escapeHtml(title)}"
           >
-            Buy Now
-          </button>
-        </div>
-      `
+
+            <div class="card-icon">
+              👤
+            </div>
+
+            <span class="status">
+              AVAILABLE
+            </span>
+
+            <h3>
+              ${escapeHtml(title)}
+            </h3>
+
+            <p>
+              ${escapeHtml(
+                account.platform ||
+                account.description ||
+                "Available account"
+              )}
+            </p>
+
+            <div class="price">
+              ${formatNaira(account.price)}
+            </div>
+
+            <button
+              class="buy-btn"
+              onclick="buyAccount('${escapeHtml(account.id)}')"
+            >
+              Buy Now
+            </button>
+
+          </div>
+        `;
+
+      }
     ).join("");
+
 }
-/* =========================
+
+
+/* =====================================================
    BUY ACCOUNT
-========================= */
-async function buyAccount(id) {
+===================================================== */
+
+async function buyAccount(id){
+
   const {
     data:{
       user
     }
   } =
-    await supabaseClient.auth.getUser();
-  if (!user) {
-    alert("Please login first.");
-    openAuth("login");
-    return;
-  }
-  const account =
-    (window._accounts || [])
-      .find(
-        x => x.id === id
-      );
-  if (!account) {
+    await supabaseClient.auth
+      .getUser();
+
+  if(!user){
+
     alert(
-      "Account not found."
+      "Please login first."
     );
-    await loadAccounts();
+
+    openAuth("login");
+
     return;
+
   }
-  if (
+
+  const account =
+    window._accounts.find(
+      item =>
+        item.id === id
+    );
+
+  if(!account){
+
+    alert(
+      "Account not found. Refreshing..."
+    );
+
+    await loadAccounts();
+
+    return;
+
+  }
+
+  const name =
+    account.service_name ||
+    account.platform ||
+    "Account";
+
+  if(
     !confirm(
-      `${account.service_name || "Account"}
-Price: ${formatNaira(account.price)}
-Purchase using your wallet?`
+      name +
+      "\nPrice: " +
+      formatNaira(account.price) +
+      "\n\nPurchase using your wallet?"
     )
   )
     return;
-  try {
+
+  try{
+
     const {
       data,
       error
@@ -1468,75 +2457,148 @@ Purchase using your wallet?`
           }
         }
       );
-    if (error)
+
+    if(error)
       throw error;
-    if (
+
+    if(
       data &&
       data.success === false
-    ) {
-      alert(
+    ){
+
+      throw new Error(
         data.message ||
         "Purchase failed."
       );
-      return;
+
     }
-    alert(
-      data?.message ||
-      "Account purchased successfully."
-    );
+
+    if(!data){
+
+      throw new Error(
+        "Purchase completed but no delivery information was returned."
+      );
+
+    }
+
+    $("deliveredUsername").textContent =
+      data.username || "";
+
+    $("deliveredPassword").textContent =
+      data.password || "";
+
+    if(
+      data.additional_login_info
+    ){
+
+      $("additionalInfoBox")
+        .style.display =
+          "block";
+
+      $("deliveredAdditional")
+        .textContent =
+          data.additional_login_info;
+
+    }else{
+
+      $("additionalInfoBox")
+        .style.display =
+          "none";
+
+      $("deliveredAdditional")
+        .textContent =
+          "";
+
+    }
+
+    $("deliveryModal")
+      .style.display =
+        "flex";
+
     await loadWallet();
+
     await loadAccounts();
-    /*
-      The secure purchase RPC intentionally
-      does NOT expose the password.
-      The order can be used by the secure
-      credential retrieval function later.
-    */
-  } catch (err) {
+
+  }catch(error){
+
     console.error(
-      "Purchase error:",
-      err
+      "Account purchase error:",
+      error
     );
+
     alert(
-      err.message ||
-      "Purchase failed."
+      error.message ||
+      "Account purchase failed."
     );
+
   }
+
 }
-/* =========================
+
+
+/* =====================================================
    SEARCH ACCOUNTS
-========================= */
-function searchAccounts() {
-  const q =
+===================================================== */
+
+function searchAccounts(){
+
+  const query =
     $("accountSearch")
       .value
-      .toLowerCase();
+      .toLowerCase()
+      .trim();
+
   document
     .querySelectorAll(
       ".account-card"
     )
     .forEach(
       card => {
+
         const name =
           (
             card.dataset.name ||
             ""
           ).toLowerCase();
+
         card.style.display =
-          name.includes(q)
-            ? "block"
+          name.includes(query)
+            ? ""
             : "none";
+
       }
     );
+
 }
-/* =========================
+
+
+/* =====================================================
+   CLOSE DELIVERY
+===================================================== */
+
+function closeDelivery(){
+
+  $("deliveryModal")
+    .style.display =
+      "none";
+
+}
+
+
+/* =====================================================
    SERVICES
-========================= */
-async function loadServices() {
-  const c =
+===================================================== */
+
+async function loadServices(){
+
+  const container =
     $("serviceGrid");
-  c.innerHTML =
-    '<div class="empty">Loading services...</div>';
+
+  container.innerHTML =
+    `<div class="empty">
+      Loading services...
+    </div>`;
+
   const {
     data,
     error
@@ -1544,7 +2606,7 @@ async function loadServices() {
     await supabaseClient
       .from("services")
       .select(
-        "id,name,description,price,delivery_information,available,active,platform,category"
+        "id,name,description,price,delivery_information,available,active,platform,category,created_at"
       )
       .eq(
         "active",
@@ -1560,143 +2622,186 @@ async function loadServices() {
           ascending:false
         }
       );
-  if (error) {
+
+  if(error){
+
     console.error(
       "Services error:",
       error
     );
-    c.innerHTML =
-      `
-        <div class="empty">
-          Unable to load services.
-          <br><br>
-          ${escapeHtml(error.message)}
-        </div>
-      `;
+
+    container.innerHTML =
+      `<div class="empty">
+        Unable to load services.
+        <br><br>
+        ${escapeHtml(error.message)}
+      </div>`;
+
     return;
+
   }
-  if (!data || data.length === 0) {
-    c.innerHTML =
-      '<div class="empty">No services have been added yet.</div>';
+
+  if(!data || data.length === 0){
+
+    container.innerHTML =
+      `<div class="empty">
+        No services have been added yet.
+      </div>`;
+
     return;
+
   }
-  window._services = data;
-  c.innerHTML =
+
+  window._services =
+    data;
+
+  container.innerHTML =
     data.map(
-      s => `
-        <div
-          class="service-card"
-          onclick="handleService('${escapeHtml(s.id)}')"
-        >
-          <div class="service-icon">
-            ${getServiceIcon(s.name,s.platform)}
+      service => {
+
+        return `
+          <div class="service-card">
+
+            <div class="service-icon">
+              ${getServiceIcon(
+                service.name,
+                service.platform
+              )}
+            </div>
+
+            <h3>
+              ${escapeHtml(service.name)}
+            </h3>
+
+            <p>
+              ${escapeHtml(
+                service.description ||
+                "Service available from Benjo-SMS."
+              )}
+            </p>
+
+            <div class="price">
+              ${formatNaira(service.price)}
+            </div>
+
+            <button
+              class="buy-btn"
+              onclick="purchaseService('${escapeHtml(service.id)}')"
+            >
+              Buy Service
+            </button>
+
           </div>
-          <h3>
-            ${escapeHtml(s.name)}
-          </h3>
-          <p>
-            ${escapeHtml(
-              s.description ||
-              "Service available from Benjo-SMS."
-            )}
-          </p>
-          <div class="price">
-            ${formatNaira(s.price)}
-          </div>
-          <button
-            class="buy-btn"
-            onclick="event.stopPropagation();purchaseService('${escapeHtml(s.id)}')"
-          >
-            Buy Service
-          </button>
-        </div>
-      `
+        `;
+
+      }
     ).join("");
+
 }
-/* =========================
+
+
+/* =====================================================
    SERVICE ICON
-========================= */
+===================================================== */
+
 function getServiceIcon(
   name,
   platform
-) {
+){
+
   const value =
     (
       name ||
       platform ||
       ""
     ).toLowerCase();
-  if (value.includes("facebook"))
+
+  if(value.includes("facebook"))
     return "📘";
-  if (value.includes("instagram"))
+
+  if(value.includes("instagram"))
     return "📸";
-  if (value.includes("tiktok"))
+
+  if(value.includes("tiktok"))
     return "🎵";
-  if (
+
+  if(
     value.includes("twitter") ||
-    value.includes("x")
+    value.includes(" x")
   )
     return "𝕏";
-  if (value.includes("youtube"))
+
+  if(value.includes("youtube"))
     return "▶️";
+
+  if(value.includes("verification"))
+    return "📱";
+
   return "🛠️";
+
 }
-/* =========================
-   SERVICE HANDLER
-========================= */
-function handleService(id) {
-  const s =
-    (window._services || [])
-      .find(
-        x => x.id === id
-      );
-  if (!s)
-    return;
-  purchaseService(id);
-}
-/* =========================
+
+
+/* =====================================================
    SERVICE PURCHASE
-========================= */
-async function purchaseService(id) {
+===================================================== */
+
+async function purchaseService(id){
+
   const {
     data:{
       user
     }
   } =
-    await supabaseClient.auth.getUser();
-  if (!user) {
+    await supabaseClient.auth
+      .getUser();
+
+  if(!user){
+
     alert(
       "Please login first."
     );
+
     openAuth("login");
+
     return;
+
   }
+
   const service =
-    (window._services || [])
-      .find(
-        x => x.id === id
-      );
-  if (!service)
+    window._services.find(
+      item =>
+        item.id === id
+    );
+
+  if(!service){
+
+    alert(
+      "Service not found."
+    );
+
     return;
-  if (
+
+  }
+
+  if(
     !confirm(
-      `${service.name}
-Price: ${formatNaira(service.price)}
-Continue with this purchase?`
+      service.name +
+      "\nPrice: " +
+      formatNaira(service.price) +
+      "\n\nContinue with this purchase?"
     )
   )
     return;
-  /*
-    This uses the existing secure service-order
-    function currently available in your database.
-  */
-  try {
+
+  try{
+
     const {
       data,
       error
     } =
       await supabaseClient.rpc(
-        "create_wallet_order",
+        "purchase_service_secure",
         {
           p_service_id:id,
           p_order_details:{
@@ -1704,146 +2809,253 @@ Continue with this purchase?`
           }
         }
       );
-    if (error)
+
+    if(error)
       throw error;
-    alert(
-      "Service order created successfully."
-    );
+
+    if(
+      data &&
+      data.success === false
+    ){
+
+      throw new Error(
+        data.message ||
+        "Service purchase failed."
+      );
+
+    }
+
+    $("serviceDeliveryName")
+      .textContent =
+        data.service_name ||
+        service.name;
+
+    $("serviceDeliveryInfo")
+      .textContent =
+        data.delivery_information ||
+        "Your order has been received. Contact Benjo-SMS admin if you need assistance.";
+
+    $("serviceDeliveryModal")
+      .style.display =
+        "flex";
+
     await loadWallet();
+
     await loadServices();
-  } catch (err) {
+
+  }catch(error){
+
     console.error(
       "Service purchase error:",
-      err
+      error
     );
+
     alert(
-      err.message ||
+      error.message ||
       "Service purchase failed."
     );
+
   }
+
 }
-/* =========================
+
+
+/* =====================================================
+   CLOSE SERVICE DELIVERY
+===================================================== */
+
+function closeServiceDelivery(){
+
+  $("serviceDeliveryModal")
+    .style.display =
+      "none";
+
+}
+
+
+/* =====================================================
    BOOSTING
-========================= */
-function boostingChat(platform) {
+===================================================== */
+
+function boostingChat(platform){
+
   chatAdmin(
-    `Hello Benjo-SMS admin, I want ${platform} Boosting Service. Please send me the available options and price.`
+    "Hello Benjo-SMS admin, I want " +
+    platform +
+    " Boosting Service. Please send me the available options and price."
   );
+
 }
-/* =========================
+
+
+/* =====================================================
    VERIFICATION
-========================= */
-function requestVerification() {
+===================================================== */
+
+function requestVerification(){
+
   chatAdmin(
     "Hello Benjo-SMS admin, I need a Verification Number. Please assist me."
   );
+
 }
-/* =========================
+
+
+/* =====================================================
    WHATSAPP
-========================= */
-function chatAdmin(message) {
+===================================================== */
+
+function chatAdmin(message){
+
   const url =
     "https://wa.me/" +
     ADMIN_WHATSAPP +
     "?text=" +
     encodeURIComponent(message);
+
   window.open(
     url,
     "_blank"
   );
+
 }
-/* =========================
+
+
+/* =====================================================
    CART
-========================= */
-function addToCart(name,price) {
+===================================================== */
+
+function addToCart(
+  name,
+  price
+){
+
   cart.push({
     name,
     price
   });
+
   $("cartCount").textContent =
     cart.length;
+
   alert(
-    `${name} added to cart!`
+    name +
+    " added to cart!"
   );
+
 }
-function viewCart() {
-  if (!cart.length) {
+
+
+function viewCart(){
+
+  if(!cart.length){
+
     alert(
       "Your cart is empty."
     );
+
     return;
+
   }
+
   const total =
     cart.reduce(
       (sum,item) =>
         sum +
-        Number(
-          item.price || 0
-        ),
+        Number(item.price || 0),
       0
     );
+
   alert(
     cart
       .map(
-        (x,i) =>
-          `${i + 1}. ${x.name} - ${formatNaira(x.price)}`
+        (item,index) =>
+          (index + 1) +
+          ". " +
+          item.name +
+          " - " +
+          formatNaira(item.price)
       )
       .join("\n") +
-    "\n\nTotal: " +
-    formatNaira(total)
+      "\n\nTotal: " +
+      formatNaira(total)
   );
+
 }
-/* =========================
+
+
+/* =====================================================
    SCROLL
-========================= */
-function scrollToAccount() {
+===================================================== */
+
+function scrollToAccount(){
+
   $("accountBox")
     .scrollIntoView({
       behavior:"smooth",
       block:"center"
     });
+
 }
-function scrollToWallet() {
+
+
+function scrollToWallet(){
+
   $("wallet")
     .scrollIntoView({
       behavior:"smooth"
     });
+
 }
-/* =========================
-   ESCAPE HTML
-========================= */
-function escapeHtml(v) {
-  return String(
-    v ?? ""
-  )
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-/* =========================
+
+
+/* =====================================================
    AUTH STATE
-========================= */
+===================================================== */
+
 supabaseClient.auth
   .onAuthStateChange(
-    () => {
-      loadAccount();
-      loadWallet();
+    async function(){
+
+      await loadAccount();
+
+      await loadWallet();
+
     }
   );
-/* =========================
+
+
+/* =====================================================
    START
-========================= */
+===================================================== */
+
 document.addEventListener(
   "DOMContentLoaded",
-  async () => {
-    await loadAccount();
-    await loadWallet();
-    await loadAccounts();
-    await loadServices();
+  async function(){
+
+    try{
+
+      await loadAccount();
+
+      await loadWallet();
+
+      await loadAccounts();
+
+      await loadServices();
+
+    }catch(error){
+
+      console.error(
+        "Startup error:",
+        error
+      );
+
+    }
+
   }
 );
+
 </script>
+
 </body>
-</h
+</html>
