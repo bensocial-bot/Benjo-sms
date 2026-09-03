@@ -172,6 +172,11 @@ main{
   background:var(--primary2);
 }
 
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
 .btn-secondary{
   background:var(--card2);
   border:1px solid var(--border);
@@ -582,330 +587,323 @@ hr{
   </div>
 </header>
 
-
 <main class="container">
 
-  <!-- HOME -->
-  <section id="page-home" class="page">
+<section id="page-home" class="page">
 
-    <div class="hero">
+  <div class="hero">
 
-      <h1>
-        Welcome to <span>Benjo-SMS</span>
-      </h1>
+    <h1>
+      Welcome to <span>Benjo-SMS</span>
+    </h1>
 
-      <p>
-        Your digital marketplace for accounts and online services.
-        Login to access services, fund your wallet and manage your purchases.
-      </p>
+    <p>
+      Your digital marketplace for accounts and online services.
+      Login to access services, fund your wallet and manage your purchases.
+    </p>
 
-      <div class="hero-actions">
-
-        <button
-          id="homeLoginButton"
-          class="btn"
-          onclick="openAuth()">
-          Login / Register
-        </button>
-
-        <button
-          id="homeServicesButton"
-          class="btn btn-secondary hidden"
-          onclick="showPage('services')">
-          Browse Services
-        </button>
-
-        <button
-          id="homeFundButton"
-          class="btn btn-secondary hidden"
-          onclick="showPage('wallet')">
-          Fund Wallet
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="section-title">
-      <h2>Why Benjo-SMS?</h2>
-      <p>Simple digital marketplace experience.</p>
-    </div>
-
-    <div class="grid">
-
-      <div class="card">
-        <h3>⚡ Fast Delivery</h3>
-        <p>
-          Purchase available digital products directly from your wallet.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>🔐 Secure Wallet</h3>
-        <p>
-          Your purchases are processed through your wallet balance.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>📜 Purchase History</h3>
-        <p>
-          Keep track of your orders and wallet transactions.
-        </p>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- SERVICES -->
-  <section id="page-services" class="page hidden">
-
-    <div class="section-title">
-      <h2>Services</h2>
-      <p>
-        Choose a service to view its available stock.
-      </p>
-    </div>
-
-    <div id="servicesList" class="grid">
-      <div class="loading">Loading services...</div>
-    </div>
-
-  </section>
-
-
-  <!-- SERVICE ACCOUNTS -->
-  <section id="page-service-accounts" class="page hidden">
-
-    <div class="section-title">
-
-      <div class="actions">
-        <button
-          class="btn btn-secondary btn-small"
-          onclick="showPage('services')">
-          ← Back to Services
-        </button>
-      </div>
-
-      <h2 id="selectedServiceTitle">
-        Available Accounts
-      </h2>
-
-      <p id="selectedServiceDescription">
-        Choose an available account.
-      </p>
-
-    </div>
-
-    <div id="serviceAccountsList" class="grid">
-      <div class="loading">
-        Loading accounts...
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- WALLET -->
-  <section id="page-wallet" class="page hidden">
-
-    <div class="section-title">
-      <h2>Wallet</h2>
-      <p>Fund your wallet and view your wallet activity.</p>
-    </div>
-
-    <div class="card" style="margin-bottom:18px">
-
-      <h3>Current Balance</h3>
-
-      <div
-        id="walletBalanceLarge"
-        class="price">
-        ₦0.00
-      </div>
+    <div class="hero-actions">
 
       <button
+        id="homeLoginButton"
         class="btn"
-        onclick="openFunding()">
-        + Fund Wallet
+        onclick="openAuth()">
+        Login / Register
+      </button>
+
+      <button
+        id="homeServicesButton"
+        class="btn btn-secondary hidden"
+        onclick="showPage('services')">
+        Browse Services
+      </button>
+
+      <button
+        id="homeFundButton"
+        class="btn btn-secondary hidden"
+        onclick="showPage('wallet')">
+        Fund Wallet
       </button>
 
     </div>
 
-    <div class="section-title">
-      <h2>Wallet Transactions</h2>
-    </div>
+  </div>
 
-    <div id="walletTransactions">
-      <div class="loading">
-        Loading transactions...
-      </div>
-    </div>
+  <div class="section-title">
+    <h2>Why Benjo-SMS?</h2>
+    <p>Simple digital marketplace experience.</p>
+  </div>
 
-  </section>
-
-
-  <!-- HISTORY -->
-  <section id="page-history" class="page hidden">
-
-    <div class="section-title">
-      <h2>Purchase History</h2>
-      <p>
-        Your previous purchases and order details.
-      </p>
-    </div>
-
-    <div id="historyList">
-      <div class="loading">
-        Loading history...
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- ADMIN -->
-  <section id="page-admin" class="page hidden">
-
-    <div class="section-title">
-      <h2>Admin Panel</h2>
-      <p>Manage services, accounts, deposits and orders.</p>
-    </div>
-
-    <div class="stat-grid">
-
-      <div class="stat">
-        <small>Services</small>
-        <strong id="statServices">0</strong>
-      </div>
-
-      <div class="stat">
-        <small>Available Accounts</small>
-        <strong id="statAvailableAccounts">0</strong>
-      </div>
-
-      <div class="stat">
-        <small>Sold Accounts</small>
-        <strong id="statSoldAccounts">0</strong>
-      </div>
-
-      <div class="stat">
-        <small>Pending Funding</small>
-        <strong id="statPendingFunding">0</strong>
-      </div>
-
-    </div>
-
-
-    <div class="card" style="margin-bottom:18px">
-
-      <div class="section-title">
-        <h2>Service Management</h2>
-        <p>
-          Hide services without deleting them.
-        </p>
-      </div>
-
-      <button
-        class="btn"
-        onclick="openServiceModal()">
-        + Add Service
-      </button>
-
-      <div
-        id="adminServicesList"
-        style="margin-top:18px">
-        <div class="loading">
-          Loading services...
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="card" style="margin-bottom:18px">
-
-      <div class="section-title">
-        <h2>Account Stock</h2>
-        <p>
-          Accounts belong to a specific service.
-          Sold accounts remain recorded.
-        </p>
-      </div>
-
-      <button
-        class="btn"
-        onclick="openAccountModal()">
-        + Add Account
-      </button>
-
-      <div
-        id="adminAccountsList"
-        style="margin-top:18px">
-        <div class="loading">
-          Loading account stock...
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="card" style="margin-bottom:18px">
-
-      <div class="section-title">
-        <h2>Funding Requests</h2>
-        <p>
-          Approve or reject customer wallet funding.
-        </p>
-      </div>
-
-      <div id="adminFundingList">
-        <div class="loading">
-          Loading funding requests...
-        </div>
-      </div>
-
-    </div>
-
-
-    <div class="card" style="margin-bottom:18px">
-
-      <div class="section-title">
-        <h2>Orders</h2>
-        <p>
-          View customer purchases.
-        </p>
-      </div>
-
-      <div id="adminOrdersList">
-        <div class="loading">
-          Loading orders...
-        </div>
-      </div>
-
-    </div>
-
+  <div class="grid">
 
     <div class="card">
-
-      <div class="section-title">
-        <h2>Payment Method</h2>
-        <p>
-          Active payment method shown to customers when funding.
-        </p>
-      </div>
-
-      <div id="adminPaymentMethod">
-        <div class="loading">
-          Loading payment method...
-        </div>
-      </div>
-
+      <h3>⚡ Fast Delivery</h3>
+      <p>
+        Purchase available digital products directly from your wallet.
+      </p>
     </div>
 
-  </section>
+    <div class="card">
+      <h3>🔐 Secure Wallet</h3>
+      <p>
+        Your purchases are processed through your wallet balance.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>📜 Purchase History</h3>
+      <p>
+        Keep track of your orders and wallet transactions.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section id="page-services" class="page hidden">
+
+  <div class="section-title">
+    <h2>Services</h2>
+    <p>
+      Choose a service to view its available stock.
+    </p>
+  </div>
+
+  <div id="servicesList" class="grid">
+    <div class="loading">Loading services...</div>
+  </div>
+
+</section>
+
+
+<section id="page-service-accounts" class="page hidden">
+
+  <div class="section-title">
+
+    <div class="actions">
+      <button
+        class="btn btn-secondary btn-small"
+        onclick="showPage('services')">
+        ← Back to Services
+      </button>
+    </div>
+
+    <h2 id="selectedServiceTitle">
+      Available Accounts
+    </h2>
+
+    <p id="selectedServiceDescription">
+      Choose an available account.
+    </p>
+
+  </div>
+
+  <div id="serviceAccountsList" class="grid">
+    <div class="loading">
+      Loading accounts...
+    </div>
+  </div>
+
+</section>
+
+
+<section id="page-wallet" class="page hidden">
+
+  <div class="section-title">
+    <h2>Wallet</h2>
+    <p>Fund your wallet and view your wallet activity.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:18px">
+
+    <h3>Current Balance</h3>
+
+    <div
+      id="walletBalanceLarge"
+      class="price">
+      ₦0.00
+    </div>
+
+    <button
+      class="btn"
+      onclick="openFunding()">
+      + Fund Wallet
+    </button>
+
+  </div>
+
+  <div class="section-title">
+    <h2>Wallet Transactions</h2>
+  </div>
+
+  <div id="walletTransactions">
+    <div class="loading">
+      Loading transactions...
+    </div>
+  </div>
+
+</section>
+
+
+<section id="page-history" class="page hidden">
+
+  <div class="section-title">
+    <h2>Purchase History</h2>
+    <p>
+      Your previous purchases and order details.
+    </p>
+  </div>
+
+  <div id="historyList">
+    <div class="loading">
+      Loading history...
+    </div>
+  </div>
+
+</section>
+
+
+<section id="page-admin" class="page hidden">
+
+  <div class="section-title">
+    <h2>Admin Panel</h2>
+    <p>Manage services, accounts, deposits and orders.</p>
+  </div>
+
+  <div class="stat-grid">
+
+    <div class="stat">
+      <small>Services</small>
+      <strong id="statServices">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Available Accounts</small>
+      <strong id="statAvailableAccounts">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Sold Accounts</small>
+      <strong id="statSoldAccounts">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Pending Funding</small>
+      <strong id="statPendingFunding">0</strong>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-bottom:18px">
+
+    <div class="section-title">
+      <h2>Service Management</h2>
+      <p>
+        Hide services without deleting them.
+      </p>
+    </div>
+
+    <button
+      class="btn"
+      onclick="openServiceModal()">
+      + Add Service
+    </button>
+
+    <div
+      id="adminServicesList"
+      style="margin-top:18px">
+      <div class="loading">
+        Loading services...
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-bottom:18px">
+
+    <div class="section-title">
+      <h2>Account Stock</h2>
+      <p>
+        Accounts belong to a specific service.
+        Sold accounts remain recorded.
+      </p>
+    </div>
+
+    <button
+      class="btn"
+      onclick="openAccountModal()">
+      + Add Account
+    </button>
+
+    <div
+      id="adminAccountsList"
+      style="margin-top:18px">
+      <div class="loading">
+        Loading account stock...
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-bottom:18px">
+
+    <div class="section-title">
+      <h2>Funding Requests</h2>
+      <p>
+        Approve or reject customer wallet funding.
+      </p>
+    </div>
+
+    <div id="adminFundingList">
+      <div class="loading">
+        Loading funding requests...
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-bottom:18px">
+
+    <div class="section-title">
+      <h2>Orders</h2>
+      <p>
+        View customer purchases.
+      </p>
+    </div>
+
+    <div id="adminOrdersList">
+      <div class="loading">
+        Loading orders...
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="section-title">
+      <h2>Payment Method</h2>
+      <p>
+        Active payment method shown to customers when funding.
+      </p>
+    </div>
+
+    <div id="adminPaymentMethod">
+      <div class="loading">
+        Loading payment method...
+      </div>
+    </div>
+
+  </div>
+
+</section>
 
 </main>
 
@@ -924,7 +922,6 @@ hr{
 </footer>
 
 
-<!-- AUTH MODAL -->
 <div
   id="authModal"
   class="modal hidden">
@@ -1009,7 +1006,6 @@ hr{
 </div>
 
 
-<!-- FUNDING MODAL -->
 <div
   id="fundingModal"
   class="modal hidden">
@@ -1079,7 +1075,6 @@ hr{
 </div>
 
 
-<!-- ACCOUNT PURCHASE MODAL -->
 <div
   id="purchaseModal"
   class="modal hidden">
@@ -1119,7 +1114,6 @@ hr{
 </div>
 
 
-<!-- SERVICE MODAL -->
 <div
   id="serviceModal"
   class="modal hidden">
@@ -1211,7 +1205,6 @@ hr{
 </div>
 
 
-<!-- ACCOUNT MODAL -->
 <div
   id="accountModal"
   class="modal hidden">
@@ -1290,7 +1283,6 @@ hr{
 </div>
 
 
-<!-- PROOF MODAL -->
 <div
   id="proofModal"
   class="modal hidden">
@@ -1317,7 +1309,6 @@ hr{
 </div>
 
 
-<!-- ORDER MODAL -->
 <div
   id="orderModal"
   class="modal hidden">
@@ -1347,10 +1338,6 @@ hr{
 
 <script>
 
-/* =========================================================
-   SUPABASE CONFIG
-========================================================= */
-
 const SUPABASE_URL =
   "https://zwefikwlxgphufilgcyc.supabase.co";
 
@@ -1364,10 +1351,6 @@ const supabaseClient =
   );
 
 
-/* =========================================================
-   GLOBAL STATE
-========================================================= */
-
 let currentUser = null;
 let currentProfile = null;
 
@@ -1376,10 +1359,6 @@ let authMode = "login";
 let selectedService = null;
 let selectedAccount = null;
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
 
 function naira(value){
   return new Intl.NumberFormat(
@@ -1391,6 +1370,7 @@ function naira(value){
     }
   ).format(Number(value || 0));
 }
+
 
 function escapeHtml(value){
   if(value === null || value === undefined){
@@ -1405,6 +1385,7 @@ function escapeHtml(value){
     .replace(/'/g,"&#039;");
 }
 
+
 function formatDate(value){
   if(!value) return "-";
 
@@ -1417,11 +1398,14 @@ function formatDate(value){
   );
 }
 
+
 function showToast(message){
+
   const toast =
     document.getElementById("toast");
 
   toast.textContent = message;
+
   toast.classList.add("show");
 
   setTimeout(() => {
@@ -1429,17 +1413,20 @@ function showToast(message){
   },4000);
 }
 
+
 function closeModal(id){
   document
     .getElementById(id)
     ?.classList.add("hidden");
 }
 
+
 function openModal(id){
   document
     .getElementById(id)
     ?.classList.remove("hidden");
 }
+
 
 function isAdmin(){
   return !!(
@@ -1595,6 +1582,7 @@ function updateHeader(){
   updateHomeButtons();
 }
 
+
 function updateHomeButtons(){
 
   const login =
@@ -1634,6 +1622,7 @@ function updateHomeButtons(){
 function openAuth(){
   openModal("authModal");
 }
+
 
 function toggleAuthMode(){
 
@@ -1685,6 +1674,7 @@ function toggleAuthMode(){
     );
   }
 }
+
 
 async function submitAuth(event){
 
@@ -1785,6 +1775,7 @@ async function submitAuth(event){
   }
 }
 
+
 async function ensureProfile(
   user,
   fullName="",
@@ -1839,6 +1830,7 @@ async function ensureProfile(
   }
 }
 
+
 async function loadCurrentProfile(){
 
   if(!currentUser){
@@ -1870,6 +1862,7 @@ async function loadCurrentProfile(){
   updateHeader();
 }
 
+
 async function logout(){
 
   try{
@@ -1896,8 +1889,8 @@ async function logout(){
 
 /* =========================================================
    SERVICES - CUSTOMER
-   FIXED: Uses SECURITY DEFINER RPC instead of directly
-   reading account_products, which is protected by RLS.
+   FIXED: uses secure RPC instead of querying
+   account_products directly.
 ========================================================= */
 
 async function loadServices(){
@@ -1933,60 +1926,80 @@ async function loadServices(){
     }
 
     /*
-      IMPORTANT FIX:
+      IMPORTANT FIX
 
       Customers cannot directly SELECT from
       account_products because of RLS.
 
-      Therefore each service's available stock
-      is retrieved through the SECURITY DEFINER
-      function:
+      We therefore call the SECURITY DEFINER RPC
+      for each visible service.
 
-      get_available_accounts_for_service(uuid)
+      The RPC only returns safe customer-facing
+      account information.
     */
 
-    const serviceResults =
+    const servicesWithStock =
       await Promise.all(
         data.map(async service => {
 
-          const {data:accounts,error:accountError} =
-            await supabaseClient.rpc(
-              "get_available_accounts_for_service",
-              {
-                p_service_id:service.id
-              }
-            );
+          try{
 
-          if(accountError){
+            const {data:accounts,error:rpcError} =
+              await supabaseClient.rpc(
+                "get_available_accounts_for_service",
+                {
+                  p_service_id:service.id
+                }
+              );
+
+            if(rpcError){
+
+              console.error(
+                "Stock RPC error:",
+                service.name,
+                rpcError
+              );
+
+              return {
+                service,
+                count:0,
+                stockError:rpcError.message
+              };
+            }
+
+            return {
+              service,
+              count:Array.isArray(accounts)
+                ? accounts.length
+                : 0,
+              stockError:null
+            };
+
+          }catch(error){
 
             console.error(
-              "Stock count error for service:",
-              service.id,
-              accountError
+              "Stock loading error:",
+              service.name,
+              error
             );
 
             return {
               service,
               count:0,
-              error:accountError
+              stockError:error.message
             };
           }
-
-          return {
-            service,
-            count:(accounts || []).length
-          };
         })
       );
 
     container.innerHTML =
-      serviceResults.map(item => {
+      servicesWithStock.map(item => {
 
         const service =
           item.service;
 
         const count =
-          item.count || 0;
+          item.count;
 
         return `
           <div class="card">
@@ -2069,7 +2082,7 @@ async function loadServices(){
 
 /* =========================================================
    CUSTOMER SERVICE ACCOUNTS
-   FIXED: Uses SECURITY DEFINER RPC.
+   FIXED: uses get_available_accounts_for_service()
 ========================================================= */
 
 async function openServiceAccounts(service){
@@ -2095,6 +2108,7 @@ async function openServiceAccounts(service){
   );
 }
 
+
 async function loadServiceAccounts(
   serviceId
 ){
@@ -2116,9 +2130,19 @@ async function loadServiceAccounts(
 
       .from("account_products")
 
-      because normal customers are blocked by RLS.
+      here.
 
-      Instead use the secure function.
+      Customers are blocked by RLS.
+
+      The secure RPC returns:
+      id
+      service_id
+      service_name
+      login
+      created_at
+      price
+
+      Password is intentionally NOT returned.
     */
 
     const {data,error} =
@@ -2185,6 +2209,7 @@ async function loadServiceAccounts(
 
           </div>
         `;
+
       }).join("");
 
   }catch(error){
@@ -2293,6 +2318,7 @@ function openPurchase(account){
   openModal("purchaseModal");
 }
 
+
 async function confirmAccountPurchase(){
 
   if(!currentUser){
@@ -2320,6 +2346,13 @@ async function confirmAccountPurchase(){
     "Processing...";
 
   try{
+
+    /*
+      Secure database purchase.
+
+      This performs the wallet deduction,
+      order creation and stock update atomically.
+    */
 
     const {data,error} =
       await supabaseClient.rpc(
@@ -2386,6 +2419,7 @@ async function confirmAccountPurchase(){
       "Buy Account";
   }
 }
+
 
 function showPurchaseResult(result){
 
@@ -2488,6 +2522,7 @@ async function loadWallet(){
 
   await loadWalletTransactions();
 }
+
 
 async function loadWalletTransactions(){
 
@@ -2619,6 +2654,7 @@ async function openFunding(){
   openModal("fundingModal");
 }
 
+
 async function loadPaymentMethod(){
 
   const box =
@@ -2656,6 +2692,7 @@ async function loadPaymentMethod(){
   box.textContent =
     data.details;
 }
+
 
 async function submitFunding(event){
 
@@ -2777,6 +2814,7 @@ async function submitFunding(event){
     );
   }
 }
+
 
 async function loadMyFunding(){
 
@@ -2912,6 +2950,7 @@ async function loadHistory(){
       </div>`;
   }
 }
+
 
 async function viewOrder(order){
 
@@ -3222,6 +3261,7 @@ async function loadAdminServices(){
   }
 }
 
+
 function openServiceModal(){
 
   document.getElementById(
@@ -3259,6 +3299,7 @@ function openServiceModal(){
 
   openModal("serviceModal");
 }
+
 
 function editService(service){
 
@@ -3304,6 +3345,7 @@ function editService(service){
 
   openModal("serviceModal");
 }
+
 
 async function saveService(event){
 
@@ -3712,6 +3754,7 @@ async function loadAdminAccounts(){
   }
 }
 
+
 async function loadServiceOptions(){
 
   const select =
@@ -3742,6 +3785,7 @@ async function loadServiceOptions(){
       </option>
     `).join("");
 }
+
 
 async function openAccountModal(){
 
@@ -3774,6 +3818,7 @@ async function openAccountModal(){
 
   openModal("accountModal");
 }
+
 
 async function editAccount(account){
 
@@ -3811,6 +3856,7 @@ async function editAccount(account){
 
   openModal("accountModal");
 }
+
 
 async function saveAccount(event){
 
@@ -3896,6 +3942,7 @@ async function saveAccount(event){
     );
   }
 }
+
 
 async function deleteAccount(id){
 
@@ -4110,6 +4157,7 @@ async function loadAdminFunding(){
       </div>`;
   }
 }
+
 
 async function processFunding(
   requestId,
@@ -4386,6 +4434,7 @@ async function loadAdminOrders(){
       </div>`;
   }
 }
+
 
 function viewAdminOrder(order){
 
