@@ -521,12 +521,10 @@ hr{
 
     <div class="nav-links">
 
-      <!-- ALWAYS VISIBLE -->
       <button onclick="showPage('home')">
         Home
       </button>
 
-      <!-- LOGIN ONLY -->
       <button
         id="servicesNav"
         class="hidden"
@@ -548,7 +546,6 @@ hr{
         History
       </button>
 
-      <!-- ADMIN ONLY -->
       <button
         id="adminNav"
         class="hidden"
@@ -802,7 +799,6 @@ hr{
     </div>
 
 
-    <!-- ADMIN SERVICES -->
     <div class="card" style="margin-bottom:18px">
 
       <div class="section-title">
@@ -829,7 +825,6 @@ hr{
     </div>
 
 
-    <!-- ADMIN ACCOUNTS -->
     <div class="card" style="margin-bottom:18px">
 
       <div class="section-title">
@@ -857,7 +852,6 @@ hr{
     </div>
 
 
-    <!-- ADMIN FUNDING -->
     <div class="card" style="margin-bottom:18px">
 
       <div class="section-title">
@@ -876,7 +870,6 @@ hr{
     </div>
 
 
-    <!-- ADMIN ORDERS -->
     <div class="card" style="margin-bottom:18px">
 
       <div class="section-title">
@@ -895,7 +888,6 @@ hr{
     </div>
 
 
-    <!-- ADMIN PAYMENT METHODS -->
     <div class="card">
 
       <div class="section-title">
@@ -1354,6 +1346,7 @@ hr{
 
 
 <script>
+
 /* =========================================================
    SUPABASE CONFIG
 ========================================================= */
@@ -1903,6 +1896,8 @@ async function logout(){
 
 /* =========================================================
    SERVICES - CUSTOMER
+   FIXED: Uses SECURITY DEFINER RPC instead of directly
+   reading account_products, which is protected by RLS.
 ========================================================= */
 
 async function loadServices(){
@@ -1916,12 +1911,6 @@ async function loadServices(){
     '<div class="loading">Loading services...</div>';
 
   try{
-
-    /*
-      Only ACTIVE + AVAILABLE services
-      are visible to customers.
-      Hidden services remain in DB.
-    */
 
     const {data,error} =
       await supabaseClient
@@ -1943,32 +1932,61 @@ async function loadServices(){
       return;
     }
 
-    const serviceIds =
-      data.map(s => s.id);
+    /*
+      IMPORTANT FIX:
 
-    let accountCounts = {};
+      Customers cannot directly SELECT from
+      account_products because of RLS.
 
-    if(serviceIds.length){
+      Therefore each service's available stock
+      is retrieved through the SECURITY DEFINER
+      function:
 
-      const {data:accounts} =
-        await supabaseClient
-          .from("account_products")
-          .select("service_id,status")
-          .in("service_id",serviceIds)
-          .eq("status","available");
+      get_available_accounts_for_service(uuid)
+    */
 
-      (accounts || []).forEach(account => {
+    const serviceResults =
+      await Promise.all(
+        data.map(async service => {
 
-        accountCounts[account.service_id] =
-          (accountCounts[account.service_id] || 0) + 1;
-      });
-    }
+          const {data:accounts,error:accountError} =
+            await supabaseClient.rpc(
+              "get_available_accounts_for_service",
+              {
+                p_service_id:service.id
+              }
+            );
+
+          if(accountError){
+
+            console.error(
+              "Stock count error for service:",
+              service.id,
+              accountError
+            );
+
+            return {
+              service,
+              count:0,
+              error:accountError
+            };
+          }
+
+          return {
+            service,
+            count:(accounts || []).length
+          };
+        })
+      );
 
     container.innerHTML =
-      data.map(service => {
+      serviceResults.map(item => {
+
+        const service =
+          item.service;
 
         const count =
-          accountCounts[service.id] || 0;
+          item.count || 0;
 
         return `
           <div class="card">
@@ -1991,7 +2009,11 @@ async function loadServices(){
                   : ""
               }
 
-              <span class="badge badge-success">
+              <span class="badge ${
+                count > 0
+                  ? "badge-success"
+                  : "badge-danger"
+              }">
                 ${count} available
               </span>
 
@@ -2047,6 +2069,7 @@ async function loadServices(){
 
 /* =========================================================
    CUSTOMER SERVICE ACCOUNTS
+   FIXED: Uses SECURITY DEFINER RPC.
 ========================================================= */
 
 async function openServiceAccounts(service){
@@ -2086,21 +2109,25 @@ async function loadServiceAccounts(
 
   try{
 
+    /*
+      IMPORTANT FIX:
+
+      Do NOT do:
+
+      .from("account_products")
+
+      because normal customers are blocked by RLS.
+
+      Instead use the secure function.
+    */
+
     const {data,error} =
-      await supabaseClient
-        .from("account_products")
-        .select(`
-          id,
-          service_id,
-          login,
-          status,
-          created_at
-        `)
-        .eq("service_id",serviceId)
-        .eq("status","available")
-        .order("created_at",{
-          ascending:true
-        });
+      await supabaseClient.rpc(
+        "get_available_accounts_for_service",
+        {
+          p_service_id:serviceId
+        }
+      );
 
     if(error) throw error;
 
@@ -2140,7 +2167,10 @@ async function loadServiceAccounts(
             </p>
 
             <div class="price">
-              ${naira(selectedService?.price)}
+              ${naira(
+                account.price ??
+                selectedService?.price
+              )}
             </div>
 
             <button
@@ -2321,22 +2351,11 @@ async function confirmAccountPurchase(){
       );
     }
 
-    /*
-      Refresh profile so the NEW wallet balance
-      immediately appears in the header.
-    */
-
     await loadCurrentProfile();
 
     closeModal("purchaseModal");
 
     showPurchaseResult(result);
-
-    /*
-      Reload service stock.
-      The purchased account is now SOLD,
-      therefore it disappears from available stock.
-    */
 
     if(selectedService){
 
@@ -2705,7 +2724,6 @@ async function submitFunding(event){
     if(uploadError)
       throw uploadError;
 
-
     const {data:method} =
       await supabaseClient
         .from("payment_methods")
@@ -2716,7 +2734,6 @@ async function submitFunding(event){
         })
         .limit(1)
         .maybeSingle();
-
 
     const {error} =
       await supabaseClient
@@ -2765,10 +2782,6 @@ async function loadMyFunding(){
 
   if(!currentUser) return;
 
-  /*
-    This function intentionally doesn't show a giant
-    duplicate table. It confirms requests in Wallet.
-  */
 }
 
 
@@ -3445,12 +3458,6 @@ async function toggleService(service){
         ? "Service activated."
         : "Service hidden."
     );
-
-    /*
-      IMPORTANT:
-      Hide does NOT delete the service.
-      All accounts and order history remain.
-    */
 
     await loadAdminServices();
     await loadServices();
@@ -4155,11 +4162,6 @@ async function processFunding(
 
     if(error) throw error;
 
-    const result =
-      Array.isArray(data)
-        ? data[0]
-        : data;
-
     showToast(
       approve
         ? "Funding approved."
@@ -4691,11 +4693,6 @@ async function updateAdminStats(){
 supabaseClient.auth.onAuthStateChange(
   async (event,session) => {
 
-    /*
-      Delay profile query slightly so Supabase
-      auth state is settled.
-    */
-
     setTimeout(async () => {
 
       currentUser =
@@ -4746,10 +4743,6 @@ async function initialize(){
 
     updateHeader();
 
-    /*
-      Before login the ONLY page shown is Home.
-    */
-
     showPage("home");
 
   }catch(error){
@@ -4769,6 +4762,7 @@ async function initialize(){
 }
 
 initialize();
+
 </script>
 
 </body>
